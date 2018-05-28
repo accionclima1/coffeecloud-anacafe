@@ -1,0 +1,56 @@
+<script type="text/ng-template" id="/weather.html">
+			<div class="home-wrap weather">
+			 <div class="container">
+				   	<div class="row">
+				   		<div class="col-md-6 col-md-offset-3">
+				   		  
+	
+					      <div class="weather-module">
+					      	
+					      </div>
+	
+						</div>
+				   	</div>
+			   </div>
+	
+				
+	
+			</div>
+			
+			
+			<script>
+			$(document).ready(function() {
+			
+				var country = geoplugin_countryName();
+				var zone = geoplugin_region();
+				decoded = $("<textarea/>").html(zone).text();
+
+
+				if(decoded == "San José") {
+					decoded = "sanjose"
+				}
+				
+				$('.weather-module').EasyWeather({
+					language: 'sp',
+					providerId: 'wug',
+					providerSequence: true,
+					geoProviderId:'',
+					geoProviderSequence: false,
+					showDetails: true,
+					refreshLink: false,
+					todayLabel: 'Hoy',
+					detailLabels: {
+						humidity: 'Humedad: ',
+						precipitation: 'Precipitacion: ',
+						wind: 'Viento: ',
+						pressure: 'Presion: ',
+						visibility: 'Visibilidad: '
+					},
+					theme: 'ew-transparent'
+				});
+				
+			});
+			
+			
+		</script>
+		</script>

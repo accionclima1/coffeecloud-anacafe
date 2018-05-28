@@ -1,0 +1,25 @@
+<script type="text/ng-template" id="/location.html">
+	  		<div class="location-wrap">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 col-lg-offset-3">
+							<!-- Modal -->
+								<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								  <div class="modal-dialog" role="document">
+								    <div class="modal-content">
+								      <div class="modal-body">
+								        <p>"Café Clima" desea acceder a su ubicación actual</p>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-modal">Políticas</button>
+								        <button type="button" class="btn btn-modal" data-dismiss="modal" ng-click="testLocation()">Permitir</button>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+							<button type="button" class="btn btn-location" data-toggle="modal" data-target="#myModal">Test</button>
+						</div>
+					</div>
+				</div>
+			</div>
+	  </script>

@@ -1,0 +1,92 @@
+<script type="text/ng-template" id="/moon.html">
+			
+			<div class="home-wrap weather">
+			 <div class="container">
+				   	<div class="row">
+				   		<div class="col-md-6 col-md-offset-3">
+				   		 <div class="page-header">
+					        <h2>Astronomía</h2>
+					      </div>
+	
+					      <div class="astro">
+					      		<h6 class="textloader">Cargando Información Lunar <i class="fa fa-spinner fa-spin"></i> </h6>
+					      		<h6 class="texterror" style="display:none;">Error de conexión, intente de nuevo: <br/>
+						      		
+						      		<button class="btn"> <i class="fa fa-refresh" aria-hidden="true" style="font-size: 24px;"></i></button>
+						      		
+					      		</h6>
+
+					      </div>
+	
+						</div>
+				   	</div>
+			   </div>
+	
+				
+	
+			</div>
+			
+			
+			<script>
+					$(document).ready(function() {
+						var country = geoplugin_countryName();
+						var zone = geoplugin_region();
+						var decoded = $("<textarea/>").html(zone).text();
+				
+						if(decoded == "San José") {
+							 decoded = "sanjose"
+						}
+						
+						if(decoded == "Provincia de San Jose") {
+							 decoded = "sanjose"
+						}
+						
+						var moonFunction = function (){
+							$.ajax({
+									    url: "https://api.wunderground.com/api/72df18b7f213607b/astronomy/lang:SP/q/" + country + "/" + decoded + ".json",
+							    dataType: "jsonp",
+							    success: function(parsed_json) {
+										  $('.textloader').hide();
+										   $('.texterror').hide();
+									      var moon_phase = parsed_json['moon_phase'];
+									      var moonData = {};
+									      moonData['Luna Iluminada'] = moon_phase['percentIlluminated'] + '%',
+									      moonData['Edad lunar'] = moon_phase['ageOfMoon'],
+									      moonData['Fase lunar'] = moon_phase['phaseofMoon'],
+									      moonData['Tiempo Real'] = moon_phase['current_time']['hour'] + ":" + moon_phase['current_time']['minute'],
+									      moonData['Amanecer'] = moon_phase['sunrise']['hour'] + ":" + moon_phase['sunrise']['minute'],
+									      moonData['Atardecer'] = moon_phase['sunset']['hour'] + ":" + moon_phase['sunset']['minute'];
+									
+									      for (index in moonData) {
+									        if (moonData.hasOwnProperty(index)) {
+									          var newHourlyString = $('<span/>').text(index);
+									          var newHourlyParagraph = $('<p/>').text(moonData[index]);
+									          $(".astro").append(newHourlyString);
+									          $(".astro").append(newHourlyParagraph);
+									        }
+									      }
+									},
+							    error: function() {
+								    $('.textloader').hide();
+								    $('.texterror').show();
+							    }
+							  });	
+						};
+						
+						moonFunction();
+						
+						var reloadFunc = function() {
+							$('.textloader').show();
+							moonFunction();
+						};
+						
+						$('.btn').click(function() {
+							reloadFunc();
+						});
+						
+						console.log(country,decoded);
+										
+						  
+				});
+			</script>
+		</script>

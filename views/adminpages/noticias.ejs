@@ -1,0 +1,98 @@
+﻿<script type="text/ng-template" id="/noticias.html">
+	     <div class="container-fluid noticas-wrap">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Noticias
+                        </h1>
+                        <p class="lead col-md-4">Creación y Edicion </p><div class="col-md-8 text-right"><button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nueva Noticia</button></div>
+                    </div>
+                </div>
+              
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+	                   <div class="news-editor">
+		                   <div class="news-item" ng-repeat="post in posts | orderBy: '-createdAt'">
+			                   <span class="title">{{post.title}}</span> <span class="date">{{post.createdAt | date:'MM/dd/yyyy'}}</span>
+			                   <button class="btn btn-default"  ng-click="editPost(post)">Editar</button>
+			                   <button class="btn btn-danger">X</button>
+			                </div>
+			            </div>
+                    </div>
+                </div>
+  				<!-- Modal -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Nueva Noticia </h4>
+				      </div>
+				      <div class="modal-body">
+				        <form ng-submit="publish()">
+					         <div class="form-group">
+							    <label for="title">Titulo</label>
+							    <input type="text" class="form-control" id="title"  ng-model="newPost.title" required>
+							  </div>
+							  <textarea ui-tinymce="tinymceOptions" ng-model="newPost.content"></textarea>
+				        </form>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				        <button type="button" class="btn btn-primary" ng-click="publish()">Publicar</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+                
+				
+					<div class="modal fade" id="myModalPostEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Editar Noticia</h4>
+				      </div>
+				      <div class="modal-body">
+						        <div ng-show="error" class="alert alert-danger row">
+								    <span>{{ error.message }}</span>
+								  </div>
+				
+								  <form ng-submit="savePost()" name="editnewsForm" id="editnewsForm" data-toggle="validator">
+				
+								  <div class="form-group">
+							    <label for="title">Titulo</label>
+							    <input type="text" class="form-control" id="title"  ng-model="editPostO.title" required>
+							  </div>
+							  <textarea ui-tinymce="tinymceOptions" ng-model="editPostO.content"></textarea>
+											
+								   <div class="form-group">
+								  <div ng-show="message" class="bg-success ">
+					    				<span>{{ message }}</span>
+					  				</div>
+								 <div ng-show="error" class="alert alert-danger ">
+				  						<span>{{ error.message }}</span>
+				 				 </div>
+									</div>
+								  
+								  </form>
+								  
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <button type="button" class="btn btn-primary"  form="editnewsForm" ng-disabled="editnewsForm.$invalid" ng-click="savePost()" disabled>Guardar Noticia</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+            </div>
+			
+
+            </div>
+    </script>
+    

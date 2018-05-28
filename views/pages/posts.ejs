@@ -1,0 +1,21 @@
+<script type="text/ng-template" id="/posts.html">
+	  <div class="container blog-post">
+		  <div class="row">
+			  <div class="col-md-12">
+				  <div class="page-header">
+				    <h3>
+				      <a href="#/news">
+				        <i class="fa fa-chevron-left"></i>
+				      </a>
+				      {{post.title}}
+				    </h3>
+				  </div>
+			  </div>
+		  </div>
+		  <div class="row">
+			  <div class="col-md-12" ng-bind-html="post.content">
+				  
+			  </div>
+		  </div>
+	   </div>
+	</script>

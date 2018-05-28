@@ -1,0 +1,264 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('coffee-cloud:server');
+var http = require('http');
+var socketio = require('socket.io');
+var fs = require('fs');
+var multer = require('multer')
+var storage = multer.diskStorage({
+    destination: function (file, callback) {
+    	console.log("file mutler")
+    	console.log(file)
+        callback(null, './public/images');
+    },
+    filename: function (file, callback) {
+        callback(null, file.fieldname + '-' + Date.now());
+    }
+});
+//var upload = multer({ storage: storage }).single('attachement');
+var upload = multer({ dest: './public/images/' })
+
+/**
+ * Get port from environment and store in Express.
+ */
+var portnumssl = 443
+var portnum = 8090
+var port = normalizePort(process.env.PORT || portnum);
+app.set('port', port);
+var https = require('https');
+
+var keyPath = './ssl/key.pem';
+var certPath = './ssl/cert.pem';
+var hskey = fs.readFileSync(keyPath);
+var hscert = fs.readFileSync(certPath);
+var options = {
+    key: hskey,
+    cert: hscert
+};
+var ssl = {};
+ssl.options = options;
+/**
+ * Create HTTP server.
+ */
+//var server = https.createServer(ssl.options, app).listen(portnumssl);
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+console.log('frontend running at '+ portnum);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+// Attach Socket.io
+var io = socketio.listen(server);
+app.set('socketio', io);
+app.set('server', server);
+
+/*  initiate Socket connection  */
+io.on('connection',function(socket){ 
+	var mongoose = require('mongoose'); 
+	var Chat = mongoose.model('Chat');
+	var Message = mongoose.model('Message');
+
+    socket.on('get msg',function(data){
+      console.log('Socketazo Received');
+      sendMsg(data,function(result){
+        	io.emit('set msg',JSON.stringify({chat:result,to_user:data.to_user,from_id:data.from_id,bodyattachement: data.bodyattachement}));
+        	pushChats();
+      });
+      
+    });
+    socket.on('load msg',function(data){
+	  //console.log(data);
+	  Chat.findOne({sender: data.from_id},function (err, chat){ 
+		  //console.log(chat);
+		  if(chat){
+			  chat.populate('messages', function(err, chat) {
+	   	       if (err) { return next(err); }
+	   	       	io.emit('set msg only',JSON.stringify(chat));
+	   	     });
+		  }
+	   	  
+	   	})
+				
+	});
+	socket.on('dlt chat',function(data){
+		Chat.findOneAndRemove({chatid: data.chatid},function (err, chat){ 
+		  //console.log(chat);
+		  pushChats();
+	   	  
+	   	})
+	});
+	var pushChats = function() {
+		Chat.find(function(err, chats){
+		    if(err){ return next(err); }
+				io.emit('push chats',JSON.stringify(chats));
+		});
+	}
+      
+});
+var sendMsg = function (data,callback_result) {
+	var mongoose = require('mongoose'); 
+	var Chat = mongoose.model('Chat');
+	var Message = mongoose.model('Message');
+	var timestamp=new Date();
+	var from_id=data.from_id;
+	var to_user=data.to_user;
+	var peers = [data.from_id,data.to_user];
+	var peersort = peers.sort();
+	var peerbound = 'pre-'+peersort[0]+peersort[1];
+	var chatId = new Buffer(String(peerbound), 'ascii').toString('hex');
+	//console.log(peerbound,chatId);
+	Chat.count({chatid: chatId}, function (err, count){ 
+	    if(!count>0){
+	          var chat = new Chat();
+			  chat.timestamp = timestamp;
+			  chat.sender = from_id;
+			  chat.reciber = to_user;
+			  chat.chatid = chatId;
+			console.log("chat data if")
+						console.log(data)
+					 var attachment = typeof(data.bodyattachement) == "undefined" ? "null" : data.bodyattachement;
+				
+
+			  chat.save(function(err, chat){
+			    if(err){ return next(err); }
+			    	
+			    	getMessages(data.message,attachment,chat,function(conversation){
+						callback_result(conversation)
+					})
+			  });
+			  
+	    } else {
+		    	Chat.findOne({chatid: chatId},function (err, chat){ 
+			    	//console.log(chat._id);
+					
+					 var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
+				
+					getMessages(data.message,attachment,chat,function(conversation){
+						callback_result(conversation)
+						//console.log(conversation);
+					})
+				
+				  });
+			};
+		    
+	});
+	
+var getMessages = function(messageBody,attachment,chat,callback) {
+
+	 var message = new Message();
+	 message.chat = chat._id;
+	 message.timestamp = timestamp;
+	 message.sender = from_id;
+	 message.reciber = to_user;
+	 if(messageBody.bodyMsg == undefined) {
+	    message.bodyMsg = messageBody;
+	 }
+	 else {
+	    message.bodyMsg = messageBody.bodyMsg;
+		message.sender_id = messageBody.sender_id;
+	 }	
+	
+	 if(attachment == null) {
+	
+	 }
+	 else {
+	    message.Msgattachement = attachment;
+		message.sender_id = messageBody.sender_id;
+		   /* upload(attachment, function (err) {
+		        if (err) {
+		            return res.end("Error uploading file.");
+		        }
+		        res.end("File is uploaded");
+		    });*/
+		   var datasasd = upload.single(attachment)
+		   //var datasasd = attachment.toString('base64')
+		    console.log("strinf")
+		    console.log(datasasd)
+	 }			
+	 
+
+	 message.save(function(err, message){
+	   	if(err){ return next(err); }
+	   	
+	   	chat.messages.push(message);
+	       chat.save(function(err, chat) {
+	         if(err){ return next(err); }
+	         	chat.populate('messages', function(err, chat) {
+	   		    if (err) { return next(err); }
+	   		    	callback(chat);
+	   		  });
+	         	
+	       });
+	   });
+	};
+}
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

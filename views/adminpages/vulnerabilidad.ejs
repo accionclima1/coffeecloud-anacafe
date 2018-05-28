@@ -1,0 +1,104 @@
+<script type="text/ng-template" id="/vulnerabilidad.html">
+	<div class="container-fluid vulnerabilidad-wrap">
+
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">
+					Reportes de Vulnerabilidad
+				</h1>
+
+				<div class="col-lg-12">
+
+					<div class=" form-inline">
+						<label>Fecha:</label>
+						<input type="text" class="form-control date-field" placeholder="Fecha" ng-model="search.dateFrom"></input>
+					</div>
+				</div>                
+				<br/>
+				<br/>
+				<p class="lead col-md-4">resultados: </p>
+				<div class="col-md-8 text-right">
+
+					<button ng-click="exportData()" >Exportar</button>
+				</div>
+				<!-- /.row -->
+				<table class="table table-striped" style="display:none;" id='exportable'>
+					<thead>
+						<tr>
+							<th>{{head.departamento}}</th>
+							<th>{{head.comunidad}}</th>	
+							<th>{{head.productor}}</th>	
+							<th>{{head.carneAnacafe}}</th>	
+							<th>{{head.variedades}}</th>									
+							<th>{{head.calificacion}}</th>	
+							<th>{{head.createdAt}}</th>	
+							<th>{{head.user}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="row in testsList | orderBy : sort.column : sort.descending | myfilter:search">													
+							<td ng-click="loadTest(row);">{{row.departamento}}</td>
+							<td ng-click="loadTest(row);">{{row.comunidad}}</td> 						
+							<td ng-click="loadTest(row);">{{row.productor}}</td>
+							<td ng-click="loadTest(row);">{{row.carneAnacafe}}</td>		 				
+							<td ng-click="loadTest(row);">{{row.variedades}}</td>
+							<td ng-click="loadTest(row);">{{row.calificacion}}</td>							
+							<td ng-click="loadTest(row);">{{row.createdAt}}</td>
+							<td ng-click="loadTest(row);">{{row.user}}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="encuesta-editor">
+							<div id="tablaDatosEncuesta">
+								<table class="table table-striped">
+									<thead>									
+
+										<tr>
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.departamento}}</th>
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.comunidad}}</th>	
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.productor}}</th>	
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.carneAnacafe}}</th>	
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.variedades}}</th>									
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.calificacion}}</th>	
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.createdAt}}</th>	
+											<th ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{head.user}}</th>
+										</tr>
+
+									</thead>
+									<tbody>
+										<tr ng-repeat="row in testsList | orderBy : sort.column : sort.descending | myfilter:search | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+											
+											<td ng-click="loadTest(row);">{{row.departamento}}</td>
+											<td ng-click="loadTest(row);">{{row.comunidad}}</td> 						
+											<td ng-click="loadTest(row);">{{row.productor}}</td>
+											<td ng-click="loadTest(row);">{{row.carneAnacafe}}</td>		 				
+											<td ng-click="loadTest(row);">{{row.variedades}}</td>
+											<td ng-click="loadTest(row);">{{row.calificacion}}</td>							
+											<td ng-click="loadTest(row);">{{row.createdAt}}</td>
+											<td ng-click="loadTest(row);">{{row.user}}</td>
+
+
+											<td> <button class="btn btn-danger" ng-click="removeTest(row._id)">X</button></td> 
+										</tr>
+
+									</tbody>
+								</table>
+								<div class="text-center">
+									<pagination page="currentPage" max-size="noOfPages" previous-text="<" next-text=">" first-text="<<" last-text=">>" boundary-link-numbers="true" total-items="totalItems" items-per-page="pageSize"></pagination>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+</script>

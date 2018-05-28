@@ -1,0 +1,232 @@
+<html>
+<head>
+	<title>Coffee Cloud (Beta) </title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<link href="bower_components/angular-snap/angular-snap.min.css" rel="stylesheet">
+	<link href="stylesheets/easy-weather.css" rel="stylesheet">
+	<link href="stylesheets/style.css" rel="stylesheet">
+	<link href="stylesheets/default.css" rel="stylesheet">
+	<link href="stylesheets/default.date.css" rel="stylesheet">
+
+	<script src="javascripts/jquery-2.2.0.min.js"></script>
+	<script src="javascripts/bootstrap.min.js" ></script>
+	<script src="javascripts/angular.min.js"></script>
+	<script src="javascripts/angular-ui-router.js"></script>
+	<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+	<script src="bower_components/angular-scroll-glue/src/scrollglue.js"></script>
+	<script src="javascripts/jquery-ui.js"></script>
+	<script src="javascripts/picker.js"></script>
+	<script src="javascripts/picker.date.js"></script>
+	<script src="javascripts/validator.min.js"></script>
+	<script src="javascripts/muni14.min.js"></script>
+	<script src="javascripts/socket.io.js"></script>
+
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+	<script src="javascripts/plugins/offline.min.js"></script>-
+	<script src="bower_components/angular-socket-io/socket.min.js"></script>
+	<script src="bower_components/snapjs/snap.min.js"></script>
+	<script src="bower_components/angular-snap/angular-snap.min.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="javascripts/ng-file-upload.min.js"></script>
+	<script src="javascripts/angular-base64.min.js"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4UV7wDq9fK_rQsP8yZqYwW-mnnz0J1Lc"></script>
+	<script src="javascripts/pouchdb-6.1.2.min.js"></script>
+	<script src="javascripts/pouchdb.cordova-sqlite-2.0.2.js"></script>
+	<script src="javascripts/angularApp.js"></script>
+	<script src="javascripts/controllers/MainCtrl.js"></script>
+	<script src="javascripts/controllers/PostCtrl.js"></script>
+	<script src="javascripts/controllers/AuthCtrl.js"></script>
+	<script src="javascripts/controllers/UnitCtrl.js"></script>
+	<script src="javascripts/controllers/NavCtrl.js"></script>
+	<script src="javascripts/controllers/NewsCtrl.js"></script>
+	<script src="javascripts/controllers/LocationCtrl.js"></script>
+	<script src="javascripts/controllers/RoyaCtrl.js"></script>
+	<script src="javascripts/controllers/GalloCtrl.js"></script>
+	<script src="javascripts/controllers/DosageCtrl.js"></script>
+	<script src="javascripts/controllers/VisitaCtrl.js"></script>
+	<script src="javascripts/controllers/VulneCtrl.js"></script>
+	<script src="javascripts/controllers/SupportCtrl.js"></script>
+	<script src="javascripts/controllers/WeatherCtrl.js"></script>
+	<script src="javascripts/controllers/ProfileCtrl.js"></script>
+	<script src="javascripts/controllers/CampoCtrl.js"></script>
+	<script src="javascripts/controllers/shared/UnitManagerCtrl.js"></script>
+	<script src="javascripts/controllers/RegisterCtrl.js"></script>
+	<script src="javascripts/controllers/HomeinternalCtrl.js"></script>
+	<script src="javascripts/controllers/HomeloteinternalCtrl.js"></script>
+
+	<script src="javascripts/global.js"></script>
+
+	<link href="javascripts/plugins/SweetAlert/sweetalert.css" rel="stylesheet" type="text/css" />
+	<script src="javascripts/plugins/SweetAlert/sweetalert.min.js"></script>
+
+
+
+	<script type="text/javascript" src="javascripts/plugins/chartist/chartist.min.js"></script>
+	<script type="text/javascript" src="javascripts/plugins/chartist/chartist-plugin-tooltip.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/plugins/chartist.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/plugins/chartist-plugin-tooltip.css">
+
+
+
+
+
+	<!--
+	<script type="text/javascript">function setupGeo(o) {
+		console.log("data better acurracy ubicación");
+		console.log(o);
+
+		window.geoplugin_request = function() { console.log("Me llaman"); return o.query; };
+		window.geoplugin_status = function() { return '200'; };
+		window.geoplugin_city = function() { return o.city; };
+		window.geoplugin_region = function() {return o.regionName; };
+		window.geoplugin_countryCode = function() { return o.countryCode; };
+		window.geoplugin_countryName = function() { return o.country; };
+		window.geoplugin_latitude = function() { return o.lat; };
+		window.geoplugin_longitude = function() { return o.lon; };
+
+
+	}</script>
+	<script type="text/javascript" src="http://ip-api.com/json/?callback=setupGeo"></script>-->
+
+	<script type="text/javascript">
+        var aplicacionInicio=false;
+        var esPhonegap = false;
+        
+        function setupGeo(o) {
+
+
+		console.log("data better acurracy georeference");
+		console.log(o);
+
+
+        window.geoplugin_request = function() { return o.ip; };
+        window.geoplugin_status = function() { return '200'; };
+        window.geoplugin_city = function() { return o.city; };
+        window.geoplugin_region = function() {return o.region_name; };
+        window.geoplugin_countryCode = function() { return o.country_code; };
+        window.geoplugin_countryName = function() { return o.country_name; };
+        window.geoplugin_latitude = function() { return o.latitude; };
+        window.geoplugin_longitude = function() { return o.longitude; };
+
+}
+
+
+document.addEventListener('deviceready', onDeviceReady, false);
+
+
+var dbPouchExterna = null;
+
+document.addEventListener('deviceready', onDeviceReady, false);
+
+
+function onDeviceReady(){
+		document.addEventListener("backbutton", backKeyDown, true);
+    console.log("device ready");
+        dbPouchExterna = new PouchDB('dummyDb.db',{adapter: 'cordova-sqlite'})
+        var domElement = document.getElementById('bodyMainCtrl');
+    if(!aplicacionInicio){
+        angular.bootstrap(domElement, ["coffeeScript"]);
+        aplicacionInicio=true;
+    }
+
+}
+
+function backKeyDown(){
+		window.history.back();
+		return true;
+}
+        
+        $(document).ready(function(){
+            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+            if ( app ) {
+                esPhonegap=true;
+            } else {
+                esPhonegap=false;
+                if(!aplicacionInicio){
+                    angular.bootstrap(domElement, ["coffeeScript"]);
+                }
+                
+            }  
+        });
+
+</script>
+
+
+	<style> .glyphicon-thumbs-up { cursor:pointer; } </style>
+</head>
+<body ng-app="coffeeScript" ng-controller="MainCtrl">
+	<div class="loader">
+		<span>Cargando...</span>
+	</div>
+
+
+	<%- include partials/navigation.ejs %>
+
+	<div class="pushbox" snap-content snap-opt-disable="'right'" id="snapbox">
+		<div class="nav-switch" ng-controller="NavCtrl"><button ng-show="isLoggedIn()" class="switch glyphicon glyphicon-menu-hamburger" type="button" snap-toggle></button></div>
+		<ui-view></ui-view>
+	</div>
+
+
+	<%- include pages/home.ejs %>
+
+	<%- include pages/homeinternal.ejs %>
+
+	<%- include pages/homeloteinternal.ejs %>
+
+	<%- include pages/posts.ejs %>
+
+	<%- include pages/register.ejs %>
+
+	<%- include pages/register-profile.ejs %>
+
+	<%- include pages/login.ejs %>
+
+	<%- include pages/forgorpasswordscreen.ejs %>
+
+	<%- include pages/resetpassword.ejs %>
+
+	<%- include pages/otpscreen.ejs %>
+
+	<%- include pages/location.ejs %>
+
+	<%- include pages/roya.ejs %>
+
+	<%- include pages/gallo.ejs %>
+
+	<%- include pages/dosage.ejs %>
+
+	<%- include pages/vulnerability.ejs %>
+
+	<%- include pages/campo.ejs %>
+
+	<%- include pages/visita.ejs %>
+
+	<%- include pages/weather.ejs %>
+
+	<%- include pages/forecast.ejs %>
+
+	<%- include pages/moon.ejs %>
+
+	<%- include pages/support.ejs %>
+
+	<%- include pages/profile.ejs %>
+
+	<%- include pages/news.ejs %>
+
+	<!-- Latest compiled and minified JavaScript -->
+
+
+
+
+
+
+</body>
+</html>

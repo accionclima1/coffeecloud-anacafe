@@ -1,0 +1,61 @@
+﻿<script type="text/ng-template" id="/adaptacionGallo.html">
+	     <div class="container-fluid adaptacion-wrap">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Adaptación Climática (Ojo de Gallo)
+                        </h1>
+                        <p class="lead">Recomendaciones </p>
+                    </div>
+                </div>
+              
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+	                   <form ng-submit="saveTable()">
+	                    <div class="table-responsive">
+	                    <table class="table table-bordered">
+						  <tr>
+						    <th>Incidencia (%)</th>
+						    <th>abril - junio</th>
+						    <th>julio-setiembre</th>
+						    <th>octubre-diciembre</th>
+						  </tr>
+						  <tr>
+						    <td>&lt; 10</td>
+						    <td><textarea ng-model="table.caseInidence10.abrilJunio"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence10.julioSetiembre"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence10.octubreDiciembre"></textarea></td>
+						  </tr>
+						  <tr>
+						    <td>11 - 20</td>
+						    <td><textarea ng-model="table.caseInidence1120.abrilJunio"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence1120.julioSetiembre"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence1120.octubreDiciembre"></textarea></td>
+						  </tr>
+						  <tr>
+						    <td>21 - 50</td>
+						    <td><textarea ng-model="table.caseInidence2150.abrilJunio"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence2150.julioSetiembre"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence2150.octubreDiciembre"></textarea></td>
+						  </tr>
+						  <tr>
+						    <td>&gt; 50</td>
+						    <td><textarea ng-model="table.caseInidence50.abrilJunio"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence50.julioSetiembre"></textarea></td>
+						    <td><textarea ng-model="table.caseInidence50.octubreDiciembre"></textarea></td>
+						  </tr>
+						</table>
+	                    </div>
+	                    <button class="btn btn-primary">Guardar Camabios</button>
+	                   </form>
+                    </div>
+                </div>
+                
+
+            </div>
+    </script>
+    

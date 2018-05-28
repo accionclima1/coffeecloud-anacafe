@@ -1,0 +1,288 @@
+<script type="text/ng-template" id="/roya.html">
+	  		<div class="roya-wrap">
+	  			<h2 class="section-header">
+	  				CÁLCULO DE ROYA <small ng-show="test.advMode">(avanzado)</small>
+	  			</h2>
+				<div class="container">
+					<div class="row intro">
+						<div class="col-lg-6 col-lg-offset-3">
+							<p align="justify">Para llevar a cabo el cálculo de roya es necesario que elija un modo:</p>
+							<div class="radio">
+							  <input type="radio" id="optionsRadios1" ng-value="false" ng-model="test.advMode"><label for="optionsRadios1">Básico</label>
+							</div>
+							<div class="radio">
+							  <input type="radio" id="optionsRadios2" ng-value="true" ng-model="test.advMode"><label for="optionsRadios2">Avanzado <small>(Incluye cálculo de severidad)</small></label>
+							</div>
+                            <!-- <div>
+                            <p ng-show="!test.advMode">30 plantas (2 Bandolas)</p>
+                            <p ng-show="test.advMode">50 plantas (1 Bandola) al azar</p>
+                            </div> -->
+
+							<!-- <div class="unidades-wrap">
+
+								<h6 ng-hide="units" class="textloader">Cargando Unidades <i class="fa fa-spinner fa-spin"></i> </h6>
+
+					   			<div class="unidad-wrap" ng-repeat="unit in units" id="{{unit._id}}">
+					   				<h3 ng-hide="unit.lote.nombre">{{unit.nombre}}</h3>
+					   					<a class="unidad" ng-show="unit.lote == 0" href="#/home">
+						   					<span>Agregar Lotes</span>
+							   				<i class="glyphicon glyphicon-chevron-right"></i>
+					   					</a>
+					   					<div class="unidad" ng-repeat="lote in unit.lote" id="{{unit._id + $index}}" ng-click="startTest(unit.user, unit.lote[$index])">
+								   			<span>{{lote.nombre}} </span>
+							   				<i class="glyphicon glyphicon-chevron-right"></i>
+							   			</div>
+						   		</div>
+						    </div> -->
+						    <!-- <a href="#/home">Agregar Unidades</a> -->
+
+							<!-- <button class="btn btn-primary" ng-click="startTest($event)">Basico</button>
+							<button class="btn btn-primary adv" ng-click="startTest($event)">Avanzado</button> -->
+
+							<!-- Button Iniciar Test -->
+								<button id="startTest" type="button" class="btn btn-primary" ng-click="startTest(idUser, unitId,loteIndex)">
+								  Iniciar Cálculo
+								</button>
+
+							<!-- Button trigger history modal -->
+								<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#history" ng-click="historialLaunch()">
+								  Calculos anteriores
+								</button> -->
+
+								<!-- History Modal -->
+								<div class="modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								  <div class="modal-dialog" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								        <h4 class="modal-title" id="myModalLabel">Cálculos anteriores</h4>
+								      </div>
+								      <div class="modal-body">
+									      <h6 ng-show="royaHistory.length == 0">¡No hay cálculos todavía!</h6>
+								        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+								        <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
+
+									  <div class="panel panel-default" ng-repeat="roya in royaHistory">
+										    <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
+										      <h5 class="panel-title">
+										        <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+										         {{roya.unidad.nombre}} <small>{{ roya.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
+										        </a>
+										      </h5>
+										    </div>
+										    <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+										      <div class="panel-body">
+											      	<ul class="list-group">
+												      <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
+													  <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+													  <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
+													  <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
+
+													</ul>
+
+								<p><strong>Recomendación</strong><br>
+									<span ng-show="roya.incidencia < 11">{{methodsMonth.grade1}}</span>
+									<span ng-show="roya.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
+									<span ng-show="roya.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="roya.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+								</p>
+
+
+										      </div>
+										    </div>
+									  </div>
+
+
+
+
+									</div>
+								      </div>
+								      <div class="modal-footer">
+								       <button type="button" class="btn btn-default" ng-click="graficarHitorial()" >Gráfica</button>
+
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+								      </div>
+								    </div>
+								  </div>
+								</div>
+
+
+						</div>
+					</div>
+					<div class="row test">
+						<div class="col-lg-6 col-lg-offset-3">
+							<div class="plantContainer">
+								<h6>Unidad: {{ units[unitIndex].lote[loteIndex].nombre }}</h6>
+								<div class="bandolas" ng-click="bandolas()">
+									<p ng-hide="test.bandolas"><strong>1</strong> Bándola (<strong>50</strong> Plantas)</p>
+									<p ng-show="test.bandolas"><strong>2</strong> Bándolas (<strong>30</strong> Plantas)</p>
+								</div>
+								<div class="plantList">
+									<div class="plantListItem" ng-repeat="plantas in test.plantas">
+										<span>Planta {{ $index + 1 }}</span>
+										<div class="plantControls">
+											<button class="btn leaf" ng-hide="test.advMode" ng-click="editPlant($index)"> {{ plantas | sumLeafFilter }}x <i class="fa fa-leaf"></i></button>
+											<button class="btn leaf" ng-show="test.advMode" ng-click="editPlant($index)">{{ plantas | sumLeafFilter}}x <i class="fa fa-leaf"></i></button>
+
+											<button class="btn remove" ng-click="removePlant($index)">X</button>
+										</div>
+									</div>
+								</div>
+
+								<div class="testControls">
+								<div class="col-md-12 fullbutton nopadd">
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
+								</div>
+									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
+
+									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 30 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row results">
+						<div class="col-lg-6 col-lg-offset-3">
+							<div ng-show="test.advMode">
+								<h2>Resultados</h2>
+								<p><strong>Plantas:</strong><br> {{totalPlants}}</p>
+								<p><strong>Incidencia promedio</strong><br>{{(test.avgplnt).toFixed(2)}} / Planta ( {{(test.incidencia).toFixed(2)}}% )</p>
+								<p><strong>Severidad promedio</strong><br>{{(test.avgplntDmgPct).toFixed()}}%</p>
+								<p><strong>Recomendación</strong><br>
+									<span ng-show="test.incidencia < 11">{{methodsMonth.grade1}}</span>
+									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
+									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+								</p>
+								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
+								<a href="#/support" class="btn btn-primary">Solicitar Asesoría Técnica</a>
+							</div>
+
+							<div ng-hide="test.advMode">
+								<h2>Resultados</h2>
+								<p><strong>Plantas:</strong><br> {{totalPlantis}}</p>
+								<p><strong>Incidencia: </strong><br>{{ (test.incidencia).toFixed(2) }}% </p>
+								<p><strong>Recomendación</strong><br>
+
+									<span ng-show="test.incidencia < 11">{{methodsMonth.grade1}}</span>
+									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
+									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+								</p>
+								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
+								<a href="#/support" class="btn btn-primary">Solicitar Asesoría Técnica</a>
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="modal fade" id="plantModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">Planta {{plantname}}</h4>
+					      </div>
+					      <div class="modal-body">
+					        <div class="plant-editor">
+
+
+									<p ng-show="test.advMode">Divida las hojas de cada planta en grupos por severidad.</p>
+									<p ng-hide="test.advMode">Agregue la cantidad total de hojas. </p>
+									<div class="leaf-list">
+
+											<div ng-if="test.bandolas" class="leaf-item" ng-repeat="leaf in leafList">
+											<span>Hojas: {{leaf[0]}}</span>
+											<div class="leaf-control">
+												<span class="severity">{{leaf[1]}}</span>
+												<span class="remove" ng-click="removeLeaf($index)">X</span>
+												</div>
+											</div>
+
+											<div ng-if="!test.bandolas" class="leaf-item" ng-repeat="leaf in leafList">
+
+												<span>Hojas: {{leaf[0]}}</span>
+												<div class="leaf-control">
+													<span class="severity">{{leaf[1]}}</span>
+													<span class="remove" ng-click="removeLeaf($index)">X</span>
+													</div>
+
+											</div>
+
+										</div>
+										<div class="clearfix"></div>
+									<form name="frmRoyaAddPlanta">
+									<div ng-if="test.bandolas && !test.advMode" class="plant-editor-control" ng-hide="leafList.length > 1 && !test.advMode">
+										<span>Hojas: <input type="number" only-num ng-model="modal.number" min="1" minlength="1" maxlength="2" max="99" name="amount" value="1"> </span>
+										<button class="btn btn-primary" ng-click="initLeaf(modal.number)">Agregar </button>
+									</div>
+									<div ng-if="!test.bandolas && !test.advMode" class="plant-editor-control" ng-hide="leafList.length >= 1 && !test.advMode">
+										<span>Hojas: <input type="number" only-num ng-model="modal.number" min="1" minlength="1" maxlength="2" max="99" name="amount" value="1"> </span>
+										<button class="btn btn-primary" ng-click="initLeaf(modal.number)">Agregar </button>
+									</div>
+
+									<div ng-if="test.bandolas && test.advMode" class="plant-editor-control" ng-hide="leafList.length > 1">
+										<span>Hojas: <input type="number" only-num ng-model="modal.number" min="1" minlength="1" maxlength="2" max="99" name="amount" value="1"> </span>
+										<button class="btn btn-primary" ng-click="initLeaf(modal.number)">Agregar</button>
+									</div>
+									<div ng-if="!test.bandolas && test.advMode" class="plant-editor-control" ng-hide="leafList.length >= 1">
+										<span>Hojas: <input type="number" only-num ng-model="modal.number" min="1" minlength="1" maxlength="2" max="99" name="amount" value="1"> </span>
+										<button class="btn btn-primary" ng-click="initLeaf(modal.number)">Agregar </button>
+									</div>
+										<br/>
+										<div class="clearfix"></div>
+										<div class="">
+											<div class="alert-danger" ng-show="IsErrorInfrmRoyaAddPlanta==true">
+												<span class="" >El número total de hojas debe ser> = 1 y <= 99</span>
+											</div>
+										</div>
+											<div class="clearfix"></div>
+
+								<div class="pull-right" ng-disable="IsTotalPlantaAdded" ng-hide="IsTotalPlantaAdded">
+											<button type="button" id="btnCloseAndAddPlant" ng-hide="IsHideCloseAndAddPlantaButtonInPopup " class="btn btn-default" ng-click="CloseAndAddPlant()" >
+
+											<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta</button>
+									</div>
+
+										</form>
+
+									<ul class="severity-list" ng-show="test.advMode && modal.numberSubmitted">
+										<li>Seleccione la severidad para el grupo de hojas:</li>
+										<li ng-click="addLeaf('0%',false)" style="color:lime"><img src="images/escala1.png" /> <span>0%</span></li>
+										<li ng-click="addLeaf('10%',false)" style="color:green"><img src="images/escala2.png" /> 10%</span></li>
+										<li ng-click="addLeaf('20%',false)" style="color:yellow"><img src="images/escala3.png" /> <span>20%</span></li>
+										<li ng-click="addLeaf('30%',false)" style="color:rgba(192, 151, 29, 1)"><img src="images/escala4.png" /> <span>30%</span></li>
+										<li ng-click="addLeaf('40%',false)" style="color:orange"><img src="images/escala5.png" /> <span>40%</span></li>
+										<li ng-click="addLeaf('80%',false)" style="color:red"><img src="images/escala6.png" /> <span>80%</span></li>
+									</ul>
+
+									<div ng-hide="test.advMode" class="severity-list">
+									<form name="frmRoyaAddPlantaAffectedLeaf">
+									<ul>
+										<li>Indique el numero de hojas afectadas:</li>
+									    <li><span><input type="number" only-num ng-model="affect" min="0" minlength="1" maxlength="2" max="99" required > </span>
+											<button class="btn btn-primary" ng-click="addLeaf(affect,true)">Agregar</button></li>
+									</ul>
+									<div class="clearfix"></div>
+										<div class="">
+											<div class="alert-danger" ng-show="IsErrorInfrmRoyaAddPlantaLeaf==true">
+												<span  class="" >El número total de hojas debe ser> = 0 y <= 99</span>
+											</div>
+											<div class="alert-danger" ng-show="IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf==true">
+													<span  class="" >Las hojas afectadas no pueden ser más que el total de hojas</span>
+											</div>
+										</div>
+									</form>
+									</div>
+								</div>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+
+
+				</div>
+			</div>
+
+	  </script>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Bootstrap Admin Template</title>
+
+    <!-- Bootstrap Core CSS -->
+   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <!-- Custom CSS -->
+    <link href="stylesheets/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="stylesheets/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="/javascripts/validator.min.js"></script>
+	<script src="/javascripts/muni14.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.js"></script>
+	<script src="/bower_components/angular-socket-io/socket.min.js"></script>
+	<script type="text/javascript" src="bower_components/tinymce-dist/tinymce.js"></script>
+	 <script type="text/javascript" src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
+  integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+  crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
+  integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
+  crossorigin=""></script>
+	
+    <script src="/javascripts/jquery-ui.js"></script>
+    <script src="/javascripts/picker.js"></script>
+    <script src="/javascripts/picker.date.js"></script>
+
+
+	<script src="/javascripts/adminApp.js"></script>
+	<script src="/javascripts/admincontrollers/AdaptacionCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/AdaptacionGalloCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/AuthCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/CampoCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/MessengerCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/NavCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/NewsCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/RoyaCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/TechRecCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/UsersCtrl.js"></script>
+    <script src="/javascripts/admincontrollers/VarietyCtrl.js"></script>    
+    <script src="javascripts/admincontrollers/VulnerabilidadCtrl.js"></script>
+    
+	
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body ng-app="coffeeScriptAdmin" ng-controller="MainCtrl" class="loggedOff">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/admin#/"> <img src="http://centroclima.org/images/SICA-logo.png" alt="" class="login-img"> Coffee Cloud <small>Admin</small></a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav" >
+	            <li>
+	            	<div class="right-logo">
+				    <img src="http://centroclima.org/images/CRRH.png" alt="CRRH" class="img-responsive">
+			    </div>
+	            </li>
+               <!-- <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu message-dropdown">
+                        <li class="message-preview">
+                            <a>
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong>{{ currentUser() }}</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-preview">
+                            <a>
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-preview">
+                            <a>
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading"><strong>John Smith</strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-footer">
+                            <a href="#">Read All New Messages</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        <li>
+                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">View All</a>
+                        </li>
+                    </ul>
+                </li> -->
+                <li class="dropdown" ng-show="isLoggedIn()">
+                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ currentUser() }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                       <!-- <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li> -->
+                        <li>
+                            <a href="#" ng-click="logOut();"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <!-- Navbars -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav" ng-controller="NavCtrl" ng-show="curUserRole != 'Tecnico' && isLoggedIn()" ng-cloak>
+                    <li ng-class="{ active: isActive('/home') }">
+                        <a href="/admin#/"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
+                    </li>
+                    <li ng-class="{ active: isActive('/adaptacion') }">
+                        <a href="/admin#/adaptacion"><i class="fa fa-fw fa-shield"></i> Adaptación Climática (Roya)</a>
+                    </li>
+
+                    <li ng-class="{ active: isActive('/vulnerabilidad') }">
+                        <a href="/admin#/vulnerabilidad"><i class="fa fa-fw fa-shield"></i> Reportes Vulnerabilidad</a>
+                    </li>
+
+                    <li ng-class="{ active: isActive('/adaptacionGallo') }">
+                        <a href="/admin#/adaptacionGallo"><i class="fa fa-fw fa-shield"></i> Adaptación Climática(Ojo de Gallo) </a>
+                    </li>
+                    <li ng-hide="curUserRole == 'Extensionista'" ng-class="{ active: isActive('/users') }">
+                        <a href="/admin#/users"><i class="fa fa-fw fa-users"></i> Usuarios  {{ curUserRole }}</a>
+                    </li>
+                   <!--  <li>
+                        <a href="#"><i class="fa fa-fw fa-umbrella"></i> Perspectiva Climática</a>
+                    </li> -->
+                    <li ng-class="{ active: isActive('/roya') }">
+                        <a href="/admin#/roya"><i class="fa fa-fw fa-leaf"></i> Reportes Roya</a>
+                    </li>
+                    <li ng-class="{ active: isActive('/technical-recommendation') }">
+                        <a href="/admin#/technical-recommendation"><i class="fa fa-fw fa-compass"></i> Recomendación Técnica  </a>
+                    </li>
+                     <li ng-class="{ active: isActive('/campo') }">
+                        <a href="/admin#/campo"><i class="fa fa-fw fa-file-image-o"></i> Hoja de campo  </a>
+                    </li>
+                    <li ng-class="{ active: isActive('/reportesdecampo') }">
+                        <a href="/admin#/reportesdecampo"><i class="fa fa-fw fa-file-image-o"></i> Reportes de Campo  </a>
+                    </li>
+                     <li ng-class="{ active: isActive('/varieties') }">
+                        <a href="/admin#/varieties"><i class="fa fa-fw fa-lemon-o"></i> Variedades de Cafe</a>
+                    </li>
+                    <li ng-class="{ active: isActive('/noticias') }">
+                        <a href="/admin#/noticias"><i class="fa fa-fw fa-newspaper-o"></i> Noticias</a>
+                    </li>
+                    <li ng-class="{ active: isActive('/messenger') }">
+                        <a href="/admin#/messenger"><i class="fa fa-fw fa-comment"></i>  Consultas</a>
+                    </li>
+                    
+                </ul>
+
+                 <ul class="nav navbar-nav side-nav" ng-controller="NavCtrl" ng-show="isLoggedIn() && curUserRole == 'Tecnico'">
+                    <li ng-class="{ active: isActive('/home') }">
+                        <a href="/admin#/"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
+                    </li>
+                    
+                    <li ng-class="{ active: isActive('/technical-recommendation') }">
+                        <a href="/admin#/technical-recommendation"><i class="fa fa-fw fa-users"></i> Recomendación Técnica  </a>
+                    </li>
+
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+	        
+	        <ui-view></ui-view>
+           
+            <!-- /.container-fluid -->
+            
+            <footer id="colophon" ng-controller="NavCtrl" class="site-footer" role="contentinfo" ng-hide="isActive('/messenger')">
+	<div class="container">
+		<div class="row text-center">
+			<div class="site-footer-inner col-md-9">
+			
+			<h2>CENTRO CLIMA CUENTA CON EL APOYO TÉCNICO Y FINANCIERO DE:</h2>
+				
+			<img src="images/USAIDLOGO_new.png" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/06/xCATIE.png.pagespeed.ic.L70wLDKZif.png" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/06/UICN.svg" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLogo-CARE.png.pagespeed.ic.dbZiYO5x3e.png" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-TERRA.png.pagespeed.ic.dE9zG_baAD.png" alt="logo">	
+			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLogo-DAI.jpg.pagespeed.ic.kT4r0zPv_X.webp" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/06/xepa_seal_large_trim.png.pagespeed.ic.pR7AfJfuIv.png" alt="logo">
+			
+			</div>
+			<div class="site-footer-inner col-md-3">
+			
+			<h2>EN COORDINACIÓN CON:</h2>
+			
+			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-CCAD-HORIZONTAL-CON-SICA.png.pagespeed.ic.mlGYZrodRq.png" alt="logo">
+				
+
+			</div>
+		</div>
+	</div><!-- close .container -->
+	<div class="copyright">
+		<div class="right">
+			<p>Todos los derechos reservados. Centro Clima 2016</p>
+		</div>
+		<div class="left"><ul id="foot-menu" class="nav navbar-nav"><li id="menu-item-114" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-114"><a title="Politicas" href="#">Politicas</a></li>
+<li id="menu-item-151" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-151"><a title="Condiciones" href="#">Condiciones</a></li>
+<li id="menu-item-116" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-116"><a title="Mapa del sitio" href="#">Mapa del sitio</a></li>
+</ul></div>	</div>
+</footer>
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    
+	
+	<%- include adminpages/home.ejs %>   
+
+	<%- include adminpages/register.ejs %>   
+
+	<%- include adminpages/login.ejs %>   
+
+	<%- include adminpages/messenger.ejs %>   
+
+	<%- include adminpages/adaptacion.ejs %>   
+
+	<%- include adminpages/adaptacionGallo.ejs %>   
+
+	<%- include adminpages/users.ejs %>   
+
+	<%- include adminpages/noticias.ejs %>   
+
+   <%- include adminpages/tech_recom.ejs %>   
+
+	<%- include adminpages/roya.ejs %>   
+
+    <%- include adminpages/vulnerabilidad.ejs %>   
+   
+	<%- include adminpages/campo.ejs %>  
+
+    <%- include adminpages/reportesdecampo.ejs %>  
+
+	<%- include adminpages/varieties.ejs %>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    
+	
+    <!-- Morris Charts JavaScript -->
+    <script src = "bower_components/angular-scroll-glue/src/scrollglue.js"></script>
+    <!-- Morris Charts JavaScript
+    <script src="javascripts/plugins/morris/raphael.min.js"></script>
+    <script src="javascripts/plugins/morris/morris.min.js"></script>
+    <script src="javascripts/plugins/morris/morris-data.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.10.0.js" type="text/javascript"></script>
+</body>
+
+</html>

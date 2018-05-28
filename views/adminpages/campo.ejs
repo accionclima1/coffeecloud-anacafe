@@ -1,0 +1,196 @@
+﻿<script type="text/ng-template" id="/campo.html">
+	     <div class="container-fluid adaptacion-wrap">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="page-header">
+                           Hoja de campo
+                        </h1>
+                        <p class="lead">Formulario </p>
+                    </div>
+                </div>
+              
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+	                   <form ng-submit="saveTable()" name="hojaform" id="hojaform" data-toggle="validator">
+		                   <div class="form-group ">
+						      <label class="control-label requiredField" for="finca">
+						       Finca ID
+						       <span class="asteriskField">
+						        *
+						       </span>
+						      </label>
+						      <input class="form-control" id="finca" name="finca" type="text" ng-model="campodata.fincaid" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label requiredField" for="fecha">
+						       Fecha
+						       <span class="asteriskField">
+						        *
+						       </span>
+						      </label>
+						      <input class="form-control" id="fecha" name="fecha" placeholder="MM/DD/YYYY" type="text" ng-model="campodata.fecha" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="bandolas">
+						       Bandolas
+						      </label>
+						      <select class="select form-control" id="bandolas" name="bandolas" ng-model="campodata.bandolas" required="true" >
+						       <option value="1">
+						        1
+						       </option>
+						       <option value="2">
+						        2
+						       </option>
+						       <option value="3">
+						        3
+						       </option>
+						       <option value="4">
+						        4
+						       </option>
+						       <option value="5">
+						        5
+						       </option>
+						       <option value="6">
+						        6
+						       </option>
+						       <option value="7">
+						        7
+						       </option>
+						       <option value="8">
+						        8
+						       </option>
+						       <option value="9">
+						        9
+						       </option>
+						       <option value="10">
+						        10
+						       </option>
+						      </select>
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="hojas">
+						       Hojas totales
+						      </label>
+						      <input class="form-control" id="hojas" name="hojas" type="text" ng-model="campodata.hojastotales" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="roya">
+						       Roya
+						      </label>
+						      <input class="form-control" id="roya" name="roya" type="text" ng-model="campodata.roya" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="chasparria">
+						       Chasparria
+						      </label>
+						      <input class="form-control" id="chasparria" name="chasparria" type="text" ng-model="campodata.chasparria" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="antracnosis">
+						       Antracnosis
+						      </label>
+						      <input class="form-control" id="antracnosis" name="antracnosis" type="text" ng-model="campodata.antracnosis" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="derrite">
+						       Derrite
+						      </label>
+						      <input class="form-control" id="derrite" name="derrite" type="text" ng-model="campodata.derrite" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="ojogallo">
+						       Ojo de Gallo
+						      </label>
+						      <input class="form-control" id="ojogallo" name="ojogallo" type="text" ng-model="campodata.ojodegallo" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="hilachas">
+						       Mal de Hilachas
+						      </label>
+						      <input class="form-control" id="hilachas" name="hilachas" type="text" ng-model="campodata.maldehilachas" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="otro">
+						       Otro
+						      </label>
+						      <input class="form-control" id="otro" name="otro" type="text" ng-model="campodata.otro" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="nudos">
+						       Nudos viejos
+						      </label>
+						      <input class="form-control" id="nudos" name="nudos" type="text" ng-model="campodata.nudosviejos" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="nudosmedios">
+						       Nudos medios
+						      </label>
+						      <input class="form-control" id="nudosmedios" name="nudosmedios" type="text" ng-model="campodata.nudosmedios" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="nudosjovenes">
+						       Nudos jovenes
+						      </label>
+						      <input class="form-control" id="nudosjovenes" name="nudosjovenes" type="text" ng-model="campodata.nudosjovenes" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="frutosnudo5">
+						       Frutos nudo 5
+						      </label>
+						      <input class="form-control" id="frutosnudo5" name="frutosnudo5" type="text" ng-model="campodata.frutosnudo5" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="frutosnudo6">
+						       Frutos nudo 6
+						      </label>
+						      <input class="form-control" id="frutosnudo6" name="frutosnudo6" type="text" ng-model="campodata.frutosnudo6" required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <label class="control-label " for="brocatotal">
+						       Broca total nudos 5 y 6
+						      </label>
+						      <input class="form-control" id="brocatotal" name="brocatotal" type="text" ng-model="campodata.brocatotalnudos " required="true" />
+						     </div>
+						     <div class="form-group ">
+						      <div class=" ">
+						       <div class="checkbox">
+						        <label class="checkbox">
+						         <input name="optional" type="checkbox" value="Presencia cochinilla" ng-model="campodata.presenciacochinilla" />
+						         Presencia cochinilla
+						        </label>
+						       </div>
+						       <div class="checkbox">
+						        <label class="checkbox">
+						         <input name="optional" type="checkbox" value="Floral  Nueva" ng-model="campodata.floralnueva" />
+						         Floral  Nueva
+						        </label>
+						       </div>
+						       <div class="checkbox">
+						        <label class="checkbox">
+						         <input name="optional" type="checkbox" value="Vegetativa nueva" ng-model="campodata.vegetativanueva" />
+						         Vegetativa nueva
+						        </label>
+						       </div>
+						      </div>
+						     </div>
+						     <div class="form-group">
+						      <div>
+						       <button class="btn btn-primary " name="submit" type="submit">
+						        Guardar Camabios
+						       </button>
+						      </div>
+						     </div>
+	                    	
+	                    
+	                   </form>
+                    </div>
+                </div>
+                
+
+            </div>
+    </script>
+    

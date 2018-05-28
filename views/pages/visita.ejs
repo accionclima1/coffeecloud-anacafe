@@ -1,0 +1,125 @@
+	<script type="text/ng-template" id="/visita.html">
+			<div class="roya-wrap">
+						<h2 class="section-header">
+		  				Visita Tecnica
+		  			</h2>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<div class="visita-wrapper">
+									
+                 
+									<div class="visita-results">
+										<div class="list-group">
+                      <h6 class="textloader">{{CNTMSG}}</h6>
+                      <h6 ng-show="isSearching" class="textloader">
+                        Cargando Unidades <i class="fa fa-spinner fa-spin"></i>
+                      </h6>
+                      <button type="button" class="list-group-item" ng-click="openUnit(unit)"  data-toggle="modal" ng-repeat="unit in unitsToShow">{{unit.nombre}}</button>
+											  <!--<button type="button" class="list-group-item"  data-toggle="modal" data-target="#myModal">Another Unit Name</button>-->
+											</div>
+											
+											<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+											  <div class="modal-dialog" role="document">
+											    <div class="modal-content">
+											      <div class="modal-header">
+											        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											        <h4 class="modal-title" id="myModalLabel">{{currentUnit.nombre}}</h4>
+											      </div>
+											      <div class="modal-body">
+
+                              <h6 ng-show="isEmailing" class="textloader">
+Sending Recommendation                              </h6>
+                              
+												      <ul class="list-group">
+													      <li class="list-group-item">
+														   Nombre:  <span class="badge">{{currentUnit.nombre}}</span>
+														  </li>
+														  
+														  <li class="list-group-item">
+														   Municipio: <span class="badge">{{currentUnit.municipio}}</span>
+														  </li>
+														  
+														  <li class="list-group-item">
+														   Departamento: <span class="badge">{{currentUnit.departamento}}</span>
+														  </li>
+														</ul>
+												    
+														<h3>Recomendacion</h3>
+													
+													<textarea class="form-control" rows="3" ng-model="currentUnit.recommendation"></textarea>
+											      </div>
+											      <div class="modal-footer">
+											        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											        <button type="button" class="btn btn-default" ng-click="sentRecommendation()">Sent recommendation</button>
+											      </div>
+											    </div>
+											  </div>
+										</div>
+									</div>
+                  <button type="btn btn-default add-unit" ng-click="AddNewUnit()" ng-show="NoUserUnit">Create new unit</button>
+									<div class="visita-controls">
+										<form class="form" id="search-units">
+										<div class="input-group" style="border-bottom:none;background: rgba(80, 188, 249, 1);">
+                      <input type="text" class="form-control" placeholder="{{searchmode}}" id="searchtextbox"/>
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button" ng-click="searchUnit()">Buscar</button>
+                        </span>
+                     
+									    </div>
+									    
+									    
+										</form>
+                    <div class="col-xs-12" style="margin-top:10px;">
+										<div class="row visita-controls-opt col-xs-6">
+                      <div style="float:right">
+                        <input style="display:initial;" type="radio" name="inlineRadioOptions" id="inlineRadio1"  value="Search By Id" checked="" ng-model="searchmode"/>
+                        Por ID
+                      </div>
+                            <!--<label class="col-xs-6" for="inlineRadio1"/>-->
+                          </div>
+                    <div class="row visita-controls-opt col-xs-6">
+                      <div style="float:left">
+												<input style="display: initial;" type="radio" name="inlineRadioOptions" id="inlineRadio2" ng-model="searchmode" value="Search By UserName"/>
+                        Por Usuario
+                      </div>
+                          <!--<label class="col-xs-6" for="inlineRadio2"/>
+												   
+												</label>-->
+									    </div>
+                    </div>
+									</div>
+								</div>
+
+
+                <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">{{modalText}}</h4>
+                      </div>
+                      <div class="modal-body">
+
+                        <manage-Unit></manage-Unit>
+                        <!--//directive here-->
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                
+							</div>
+						</div>						
+					</div>
+				</div>
+
+
+
+    
+    
+    
+		  </script>
