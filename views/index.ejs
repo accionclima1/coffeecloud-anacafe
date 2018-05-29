@@ -98,7 +98,7 @@
 	<script type="text/javascript">
         var aplicacionInicio=false;
         var esPhonegap = false;
-        
+
         function setupGeo(o) {
 
 
@@ -142,7 +142,7 @@ function backKeyDown(){
 		window.history.back();
 		return true;
 }
-        
+
         $(document).ready(function(){
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if ( app ) {
@@ -152,8 +152,8 @@ function backKeyDown(){
                 if(!aplicacionInicio){
                     angular.bootstrap(domElement, ["coffeeScript"]);
                 }
-                
-            }  
+
+            }
         });
 
 </script>
@@ -176,6 +176,8 @@ function backKeyDown(){
 
 
 	<%- include pages/home.ejs %>
+
+	<%- include pages/clima.ejs %>
 
 	<%- include pages/homeinternal.ejs %>
 

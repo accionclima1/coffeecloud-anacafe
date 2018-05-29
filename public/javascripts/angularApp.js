@@ -2048,6 +2048,21 @@ function ($stateProvider, $urlRouterProvider) {
               }
           }]
       })//Dosage
+      .state('clima', {
+          url: '/clima',
+          templateUrl: '/clima.html',
+          controller: 'ClimaCtrl',
+          onEnter: ['$state', 'auth', function ($state, auth) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+          }],
+          /*resolve: {
+            postPromise: ['posts', function(posts){
+              return posts.getAll();
+            }]
+           }*/
+      })
       .state('vulnerability', {
           url: '/vulnerability/:idunidad',
           templateUrl: '/vulnerability.html',
