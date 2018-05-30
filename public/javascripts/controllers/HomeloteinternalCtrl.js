@@ -7,6 +7,7 @@ function ($http,$scope, $stateParams, auth, roya, methods, unit, varieties, user
         $scope.unitIndex = $stateParams.indexunidad;
         $scope.loteIndex = $stateParams.indexlote;
         $scope.royaHistoryByLote = [];
+        $scope.royaHistoryByLoteOffline = [];
         var map;
 
 
@@ -38,20 +39,40 @@ function ($http,$scope, $stateParams, auth, roya, methods, unit, varieties, user
 
                 roya.getUser(auth.userId()).then(function(userhistory){
                 $scope.royaHistory = userhistory.data;
+                $scope.royaHistoryOffline = localStorageService.get('dataOffline');
                 localStorageService.set('royaHistory',userhistory.data);
+                console.log("Historial Roya");
                 console.log($scope.royaHistory);
                 for (var i = 0; i < userhistory.data.length; i++) {
                         if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
                                 $scope.royaHistoryByLote.push($scope.royaHistory[i]);
                         }
-
                 }
-                });
 
+                });
+                localStorageService.remove('dataOffline');
                 } else {
                 console.log("No internet");
                 console.log($scope.user_Ided);
                 $scope.royaHistory = localStorageService.get('royaHistory');
+                console.log($scope.royaHistory);
+                $scope.royaHistoryOffline = localStorageService.get('dataOffline');
+                console.log($scope.royaHistoryOffline);
+
+                for (var i = 0; i < $scope.royaHistory.length; i++) {
+                        if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
+                                $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+                        }
+
+                }
+                if ($scope.royaHistoryOffline !== null) {
+                        for (var i = 0; i < $scope.royaHistoryOffline.length; i++) {
+                                if (($scope.royaHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.royaHistoryOffline[i].idunidad==$scope.unitId)) {
+                                        $scope.royaHistoryByLoteOffline.push($scope.royaHistoryOffline[i]);
+                                }
+
+                        }
+                }
                 }
 
 
