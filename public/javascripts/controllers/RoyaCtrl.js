@@ -30,7 +30,7 @@ app.controller('RoyaCtrl', [
 		$scope.noBandolas = 0;
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
-    $scope.unabandola50=5;
+    $scope.unabandola50=50;
 		$scope.arrOffline = [];
 
 		console.log($scope.idUser, $scope.unitIndex, $scope.loteIndex);
@@ -256,10 +256,10 @@ app.controller('RoyaCtrl', [
     	}
     	var requiredLength=0;
     	if($scope.test.bandolas==true){
-    		requiredLength=4; //KH - Modificación - 29 - 4
+    		requiredLength=29; //KH - Modificación - 29 - 4
     	}
     	else{
-    		requiredLength=4; //KH - Modificación - 49 - 4
+    		requiredLength=49; //KH - Modificación - 49 - 4
     	}
     	if($scope.test.plantas.length>requiredLength)
     	{
@@ -281,13 +281,13 @@ app.controller('RoyaCtrl', [
     	if($scope.test.bandolas==true){
 				console.log("Seleccioné 2 Bandolas");
 				$scope.noBandolas = 0;
-    		requiredLength=4; //KH - Modificación - 29 - 4
+    		requiredLength=29; //KH - Modificación - 29 - 4
 				//$scope.noBandolas = 2;
 
     	}
     	else{
 				console.log("Seleccioné 1 Bandola");
-    		requiredLength=4; //KH -Modificación - 49 - 4
+    		requiredLength=49; //KH -Modificación - 49 - 4
 				//$scope.noBandolas = 1;
     	}
     	if($scope.test.plantas.length>requiredLength)
@@ -302,7 +302,7 @@ app.controller('RoyaCtrl', [
     	var plantName = $scope.test.plantas.length;
     	console.log($scope.test.plantas.length);
     	if($scope.test.bandolas==true){
-    		if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+    		if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
     			$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
     		}else{
     			$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -322,7 +322,7 @@ app.controller('RoyaCtrl', [
     $scope.CloseAndAddPlant=function()
     {
     	console.log($scope.test.plantas.length);
-    	if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=5)){ //KH - Modificación - 30 - 5
+    	if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
     		$scope.closePlant();
     		console.log("Cerrramos planta");
     		$('#plantModal').modal('hide');
@@ -342,7 +342,7 @@ app.controller('RoyaCtrl', [
 
     $scope.editPlant = function($index) {
         if($scope.test.bandolas==true){
-            if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+            if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
                 $("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
             }else{
                 $("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -644,7 +644,7 @@ $scope.getHelp = function(currentUser) {
 		 localStorageService.remove('dataOffline');
 	 }
 }).error(function(){
-	
+
 	if (localStorageService.get('dataOffline') === null) {
 		localStorageService.set('dataOffline', $scope.arrOffline);
 		$scope.arrOffline.push($scope.test);

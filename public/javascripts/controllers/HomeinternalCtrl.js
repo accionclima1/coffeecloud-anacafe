@@ -5,8 +5,11 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
         $scope.currentId = auth.currentUser();
         $scope.unitId = $stateParams.idunidad;
         $scope.unitIndex = $stateParams.indexunidad;
-      $scope.encuestaHistory = [];
-      $scope.resumenDataHistorial = [];
+        $scope.encuestaHistory = [];
+        $scope.resumenDataHistorial = [];
+
+        $scope.encuestaHistoryByUnidad = [];
+        $scope.encuestaHistoryByUnidadOffline = [];
 
         $scope.$on('$viewContentLoaded', function readyToTrick() {
             setTimeout(function(){
@@ -563,13 +566,30 @@ $scope.historialVulLaunch = function() {
            $scope.encuestaHistory = userhistory.data;
            localStorageService.set('encuestaHistory',userhistory.data);
            console.log($scope.encuestaHistory);
-           $scope.chargeData();
+
+           for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                   if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                           $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+                   }
+
+           }
+           console.log($scope.encuestaHistoryByUnidad);
+           $scope.chargeData($scope.encuestaHistoryByUnidad);
        });
 
     } else {
         console.log("No internet");
         console.log(auth.userId());
         $scope.encuestaHistory = localStorageService.get('encuestaHistory');
+        console.log($scope.encuestaHistory);
+        for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                        $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistory[i]);
+                }
+
+        }
+        console.log($scope.encuestaHistoryByUnidadOffline);
+        $scope.chargeData($scope.encuestaHistoryByUnidadOffline);
     }
 
 
@@ -579,13 +599,13 @@ $scope.historialVulLaunch = function() {
     $scope.resumenDataHistorial = [];
 
 
-    $scope.chargeData = function (){
-          for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-
-             var idData = $scope.encuestaHistory[i]._id;
-             var entrevistadoData = $scope.buscarValor($scope.encuestaHistory[i].preguntas, 'entrevistado');
-             var valorData = $scope.buscarValor($scope.encuestaHistory[i].preguntas, 'puntajeNumData');
-             var fechaData = $scope.buscarValor($scope.encuestaHistory[i].preguntas, 'fecha');
+    $scope.chargeData = function (encuestaHistoryData){
+            console.log("Entre a Charge Data");
+          for (var i = 0; i < encuestaHistoryData.length; i++) {
+             var idData = encuestaHistoryData[i]._id;
+             var entrevistadoData = $scope.buscarValor(encuestaHistoryData[i].preguntas, 'entrevistado');
+             var valorData = $scope.buscarValor(encuestaHistoryData[i].preguntas, 'puntajeNumData');
+             var fechaData = $scope.buscarValor(encuestaHistoryData[i].preguntas, 'fecha');
              var rangoMin = 0;
              var rangoMax = 0;
              var titulo = "";
