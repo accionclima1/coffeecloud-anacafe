@@ -41,6 +41,7 @@
 	<script src="javascripts/pouchdb.cordova-sqlite-2.0.2.js"></script>
 	<script src="javascripts/angularApp.js"></script>
 	<script src="javascripts/controllers/MainCtrl.js"></script>
+	<script src="javascripts/controllers/ClimaCtrl.js"></script>
 	<script src="javascripts/controllers/PostCtrl.js"></script>
 	<script src="javascripts/controllers/AuthCtrl.js"></script>
 	<script src="javascripts/controllers/UnitCtrl.js"></script>
@@ -98,7 +99,7 @@
 	<script type="text/javascript">
         var aplicacionInicio=false;
         var esPhonegap = false;
-        
+
         function setupGeo(o) {
 
 
@@ -142,7 +143,7 @@ function backKeyDown(){
 		window.history.back();
 		return true;
 }
-        
+
         $(document).ready(function(){
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if ( app ) {
@@ -152,8 +153,8 @@ function backKeyDown(){
                 if(!aplicacionInicio){
                     angular.bootstrap(domElement, ["coffeeScript"]);
                 }
-                
-            }  
+
+            }
         });
 
 </script>
@@ -176,6 +177,14 @@ function backKeyDown(){
 
 
 	<%- include pages/home.ejs %>
+
+	<%- include pages/clima.ejs %>
+    
+	<%- include pages/pronostico.ejs %>
+    
+	<%- include pages/perspectiva.ejs %>
+
+	<%- include pages/elninio.ejs %>
 
 	<%- include pages/homeinternal.ejs %>
 

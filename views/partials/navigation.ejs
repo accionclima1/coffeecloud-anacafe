@@ -1,11 +1,44 @@
 <!-- views/partials/navigation.ejs -->
+<style>
+    #opcionesClima .list-group-item {
+        background-color:inherit;
+        color:#777;
+        text-align:right;
+    }
+    
+    .list-group-item a {
+        color:inherit;
+    }
+    
+</style>
 
 <nav class="navbar navbar-default pull-left" ng-controller="NavCtrl" snap-drawer>
 	    <ul class="nav navbar-nav" ng-show="isLoggedIn()">
 	     <!-- <li ng-class="{ active: isActive('/adaptacion') }"><a href="#" snap-toggle><i class="fa fa-search"></i> Buscador</a></li> -->
 	      <li ng-class="{ active: isActive('/home') }"><a href="#/home" snap-toggle><i class="fa fa-home"></i> Inicio </a></li>
-	      <!--li ng-class="{ active: isActive('/roya') }"><a href="#/roya" snap-toggle><i class="fa fa-leaf"></i> Cálculo de Roya</a></li>
-	      <li ng-class="{ active: isActive('/gallo') }"><a href="#/gallo" snap-toggle><i class="fa fa-leaf"></i> Cálculo de Ojo de Gallo</a></li-->
+	      <li>
+              <a role="button" data-toggle="collapse" data-target="#opcionesClima" aria-controls="opcionesClima">
+                  <i class="fa fa-cloud"></i> Información climática
+              </a>
+              <ul id="opcionesClima" class="list-group collapse">
+                  <li class="list-group-item">
+                    <a href="#/clima" snap-toggle>Tiempo actual</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a target="_blank" href="http://meteorologia.anacafe.org/">Estaciones Anacafé</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="#/pronostico" snap-toggle>Pronóstico</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="#/perspectiva" snap-toggle>Perspectiva trimestral</a>
+                  </li>
+                  <li class="list-group-item">
+                    <a href="#/climaelninio" snap-toggle>Fenómeno de "El niño"</a>
+                  </li>
+              </ul>
+            </li>
+	      <!--<li ng-class="{ active: isActive('/gallo') }"><a href="#/gallo" snap-toggle><i class="fa fa-leaf"></i> Cálculo de Ojo de Gallo</a></li-->
 	      <!-- <li ng-class="{ active: isActive('/dosage') }"><a href="#/dosage" snap-toggle><i class="fa fa-cog"></i> Cálculo de Dosificación</a></li> -->
 	      <!-- <li ng-class="{ active: isActive('/campo') }"><a href="#/campo" snap-toggle><i class="fa fa-cog"></i> Hoja de enfermedad </a></li> -->
 	      <!--li ng-class="{ active: isActive('/vulnerability') }"><a href="#/vulnerability" snap-toggle><i class="fa fa-cog"></i> Vulnerabilidad</a></li-->

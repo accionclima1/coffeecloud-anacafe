@@ -2048,6 +2048,26 @@ function ($stateProvider, $urlRouterProvider) {
               }
           }]
       })//Dosage
+      .state('clima', {
+          url: '/clima',
+          templateUrl: '/clima.html',
+          controller: 'ClimaCtrl',
+          /*resolve: {
+            postPromise: ['posts', function(posts){
+              return posts.getAll();
+            }]
+           }*/
+      })
+      .state('pronostico', {
+          url: '/pronostico',
+          templateUrl: '/pronostico.html',
+          controller: 'ClimaCtrl'
+          /*resolve: {
+            postPromise: ['posts', function(posts){
+              return posts.getAll();
+            }]
+           }*/
+      })
       .state('vulnerability', {
           url: '/vulnerability/:idunidad',
           templateUrl: '/vulnerability.html',
@@ -2143,7 +2163,16 @@ function ($stateProvider, $urlRouterProvider) {
                   return posts.getAll();
               }]
           }
+      }).state('perspectiva', {
+          url: '/perspectiva',
+          templateUrl: '/perspectiva.html',
+          controller: 'ClimaCtrl'
+      }).state('climaelninio', {
+          url: '/climaelninio',
+          templateUrl: '/elninio.html',
+          controller: 'ClimaCtrl'
       });
+    
 
     $urlRouterProvider.otherwise('home');
 }]);
