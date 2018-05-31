@@ -32,7 +32,9 @@
          </div>
        </div>
         <div class="row climacard">
+            <span ng-show="error">Error, imposible cargar información</span>
             <span id="txtCargandoClima">{{statusCargando}}</span>
+            <span ng-show="posDefault">GPS no disponible, se muestran datos generales</span>
             <div class="panel panel-default"  ng-show="actual != null">
               <div class="panel-body climawidget">
                 <div class="row nomargin" align="left" id="tarjetaclima">
@@ -124,18 +126,6 @@ MAX:{{almanac.temp_high.normal.C}}
           </div>
         </div>
 
-        <div class="panel panel-default">
-                  <div class="panel-heading">Lluvia acumulada</div>
-                  <div class="panel-body climawidget">
-        <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png" class="img-responsive"/></a>
-                  </div>
-                </div>
-        <div class="panel panel-default">
-                  <div class="panel-heading">Temperatura</div>
-                  <div class="panel-body climawidget">
-        <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png" class="img-responsive"/></a>
-                  </div>
-        </div>
             </div>
         </div>
 </script>

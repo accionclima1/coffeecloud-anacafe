@@ -2052,11 +2052,16 @@ function ($stateProvider, $urlRouterProvider) {
           url: '/clima',
           templateUrl: '/clima.html',
           controller: 'ClimaCtrl',
-          onEnter: ['$state', 'auth', function ($state, auth) {
-              if (!auth.isLoggedIn()) {
-                  $state.go('login');
-              }
-          }],
+          /*resolve: {
+            postPromise: ['posts', function(posts){
+              return posts.getAll();
+            }]
+           }*/
+      })
+      .state('pronostico', {
+          url: '/pronostico',
+          templateUrl: '/pronostico.html',
+          controller: 'ClimaCtrl'
           /*resolve: {
             postPromise: ['posts', function(posts){
               return posts.getAll();
@@ -2158,7 +2163,16 @@ function ($stateProvider, $urlRouterProvider) {
                   return posts.getAll();
               }]
           }
+      }).state('perspectiva', {
+          url: '/perspectiva',
+          templateUrl: '/perspectiva.html',
+          controller: 'ClimaCtrl'
+      }).state('climaelninio', {
+          url: '/climaelninio',
+          templateUrl: '/elninio.html',
+          controller: 'ClimaCtrl'
       });
+    
 
     $urlRouterProvider.otherwise('home');
 }]);
