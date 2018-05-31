@@ -606,6 +606,7 @@ $scope.historialVulLaunch = function() {
              var entrevistadoData = $scope.buscarValor(encuestaHistoryData[i].preguntas, 'entrevistado');
              var valorData = $scope.buscarValor(encuestaHistoryData[i].preguntas, 'puntajeNumData');
              var fechaData = $scope.buscarValor(encuestaHistoryData[i].preguntas, 'fecha');
+              if(fechaData==-1) fechaData = encuestaHistoryData[i].LastUpdatedDateTime;
              var rangoMin = 0;
              var rangoMax = 0;
              var titulo = "";
