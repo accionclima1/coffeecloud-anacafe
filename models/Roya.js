@@ -7,7 +7,7 @@ var RoyaSchema = new mongoose.Schema({
 	user:String,
 	plantas:[],
 	unidad:{},
-    loteIndex:Number,
+  loteIndex:Number,
 	incidencia: Number,
 	inideanciaPromedioPlanta: Number,
 	severidadPromedio: Number
@@ -17,4 +17,3 @@ var RoyaSchema = new mongoose.Schema({
 });
 
 mongoose.model('Roya', RoyaSchema);
-
