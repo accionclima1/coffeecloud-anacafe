@@ -30,8 +30,9 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   $scope.unitId = $stateParams.idunidad;
   $scope.loteIndex = $stateParams.indexlote;
   $scope.unabandola50=5;
-  $scope.arrGalloOffline = [];
+
   $scope.noBandolas = 0;
+  $scope.arrOfflineGallo = [];
 
 	console.log($scope.user_Ided, $scope.unitId, $scope.loteIndex);
 
@@ -172,7 +173,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
             //endregion
 
         });
-				localStorageService.remove('dataGalloOffline');
+				localStorageService.remove('dataOfflineGallo');
     } else {
 
     	console.log('app offline');
@@ -340,10 +341,10 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		 }
 		 var requiredLength=0;
 		 if($scope.test.bandolas==true){
-			 requiredLength=29; //KH - Modificación - 29 - 4
+			 requiredLength=4; //KH - Modificación - 29 - 4
 		 }
 		 else{
-			 requiredLength=49; //KH - Modificación - 49 - 4
+			 requiredLength=4; //KH - Modificación - 49 - 4
 		 }
 		 if($scope.test.plantas.length>requiredLength)
 		 {
@@ -392,13 +393,13 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		if($scope.test.bandolas==true){
 			console.log("Seleccioné 2 Bandolas");
 			$scope.noBandolas = 0;
-			requiredLength=29; //KH - Modificación - 29 - 4
+			requiredLength=4; //KH - Modificación - 29 - 4
 			//$scope.noBandolas = 2;
 
 		}
 		else{
 			console.log("Seleccioné 1 Bandola");
-			requiredLength=49; //KH -Modificación - 49 - 4
+			requiredLength=4; //KH -Modificación - 49 - 4
 			//$scope.noBandolas = 1;
 		}
 		if($scope.test.plantas.length>requiredLength)
@@ -413,7 +414,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		var plantName = $scope.test.plantas.length;
 		console.log($scope.test.plantas.length);
 		if($scope.test.bandolas==true){
-			if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
+			if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
 				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
 			}else{
 				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -473,7 +474,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
 	$scope.CloseAndAddPlant=function(){
 		console.log($scope.test.plantas.length);
-		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
+		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=5)){ //KH - Modificación - 30 - 5
 			$scope.closePlant();
 			console.log("Cerrramos planta");
 			$('#plantModal').modal('hide');
@@ -492,7 +493,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	// Editar Planta
 	$scope.editPlant = function($index) {
 		if($scope.test.bandolas==true){
-				if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
+				if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
 						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
 				}else{
 						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -862,7 +863,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
     // };
 
     $scope.getHelp = function(currentUser) {
-
+      console.log($scope.test);
 	    gallo.create($scope.test).success(function(data){
 				$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
 				console.log("data enviado");
@@ -877,24 +878,25 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	        };
 	        socket.emit('get msg',data_server);
 					localStorageService.remove('localTestgallo');
-					if (localStorageService.get('dataGalloOffline').length > 0) {
-						localStorageService.remove('dataGalloOffline');
-					}
+          console.log(localStorageService.get('dataOfflineGallo'));
+					// if (localStorageService.get('dataOfflineGallo').length > 0) {
+					// 	localStorageService.remove('dataOfflineGallo');
+					// }
         }).error(function(){
 
-					if (localStorageService.get('dataGalloOffline') === null) {
-						localStorageService.set('dataGalloOffline', $scope.arrGalloOffline);
-						$scope.arrGalloOffline.push($scope.test);
-						localStorageService.set('dataGalloOffline', $scope.arrGalloOffline);
+					if (localStorageService.get('dataOfflineGallo') === null) {
+						localStorageService.set('dataOfflineGallo', $scope.arrOfflineGallo);
+						$scope.arrOfflineGallo.push($scope.test);
+						localStorageService.set('dataOfflineGallo', $scope.arrOfflineGallo);
 					}else {
-						$scope.arrGalloOffline = localStorageService.get('dataGalloOffline');
-						$scope.arrGalloOffline.push($scope.test);
-						localStorageService.set('dataGalloOffline', $scope.arrGalloOffline);
+						$scope.arrOfflineGallo = localStorageService.get('dataOfflineGallo');
+						$scope.arrOfflineGallo.push($scope.test);
+						localStorageService.set('dataOfflineGallo', $scope.arrOfflineGallo);
 					}
 					$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
 
-					console.log($scope.arrGalloOffline);
-					console.log(localStorageService.get('dataGalloOffline'));
+					console.log($scope.arrOfflineGallo);
+					console.log(localStorageService.get('dataOfflineGallo'));
 				});
 
 
@@ -909,6 +911,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
 			  gallo.getUser($scope.user_Ided).then(function(userhistory){
 				  $scope.galloHistory = userhistory.data;
+          console.log(userhistory.data);
 				  localStorageService.set('galloHistory',userhistory.data);
 				  console.log($scope.galloHistory);
 			  });
