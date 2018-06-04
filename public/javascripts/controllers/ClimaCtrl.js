@@ -57,7 +57,9 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
             pos1 = article.indexOf('<tr>');
             pos2 = article.indexOf('</tr>');
             article = article.replace(article.substr(pos1,(pos2-pos1)+5),'');
-            
+            pos1 = article.lastIndexOf('<table');
+            pos2 = article.lastIndexOf('</table>');
+            article = article.replace(article.substr(pos1,(pos2-pos1)+8),'');
             $scope.htmlElninio = article;
         },function error(){
             $scope.error = "Imposible descargar información climática";

@@ -255,7 +255,7 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         {
 
         unit.SyncUserServerDataToLocalPouchDb(lastSynDateTimeSpan, auth.userId()).then(function (data) {
-
+            data = data.data;
             console.log("Entre a SyncUserServerDataToLocalPouchDb");
             if (data && data.dataList && data.dataList.length > 0) {
                 var totalElement = 0;
@@ -1281,7 +1281,10 @@ app.factory('widget', ['$http', function ($http) {
 app.filter('startFrom', function () {
     return function (input, start) {
         start = +start; //parse to int
-        return input.slice(start);
+        var result=null;
+        if(input!=null && input != undefined)
+        result=input.slice(start);
+        return result;
     }
 });
 

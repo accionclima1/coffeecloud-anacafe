@@ -11,6 +11,7 @@ function($scope, auth, $filter, $sce, posts){
   $scope.pageSize = 9;
   $scope.data = posts.posts;
   $scope.q = '';
+    console.log("noticias");
   console.log($scope.data);
   $scope.getData = function () {
       return $filter('filter')($scope.data, $scope.q)

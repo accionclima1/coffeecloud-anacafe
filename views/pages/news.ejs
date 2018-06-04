@@ -6,7 +6,7 @@
 				        <h2>Ultimas Noticias</h2>
 
 						<div class="news-wrapper">
-							<div class="panel panel-default news-item" ng-repeat="post in posts | orderBy: '-createdAt' | filter:q | startFrom:currentPage*pageSize | limitTo:pageSize">
+							<div class="panel panel-default news-item" ng-repeat="post in data | orderBy: '-createdAt' | filter:q | startFrom:currentPage*pageSize | limitTo:pageSize">
 							  <div class="panel-heading">
 							    <h3 class="panel-title"><a href="#/posts/{{post._id}}"> {{post.title}} <i class="glyphicon glyphicon-chevron-right"></i> </a></h3>
 							  </div>
