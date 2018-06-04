@@ -2,6 +2,7 @@ app.controller('GalloCtrl', [
 '$rootScope',
 '$scope',
 '$state',
+'$stateParams',
 'auth',
 'localStorageService',
 'socket',
@@ -11,7 +12,7 @@ app.controller('GalloCtrl', [
 'gallo',
 'PouchDB',
 'onlineStatus',
-function($rootScope, $scope, $state, auth, localStorageService, socket, unit, user, methodsGallo, gallo, PouchDB, onlineStatus){
+function($rootScope, $scope, $state, $stateParams, auth, localStorageService, socket, unit, user, methodsGallo, gallo, PouchDB, onlineStatus){
   $scope.currentUser = auth.currentUser;
   var currentId = auth.currentUser();
   var testInStore = localStorageService.get('localTestgallo');
@@ -25,32 +26,107 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 	$scope.modal={};
 	$scope.modal.number="";
 	$scope.modal.numberSubmitted=false;
-	
+
+  $scope.unitId = $stateParams.idunidad;
+  $scope.loteIndex = $stateParams.indexlote;
+  $scope.unabandola50=5;
+  $scope.arrGalloOffline = [];
+  $scope.noBandolas = 0;
+
+	console.log($scope.user_Ided, $scope.unitId, $scope.loteIndex);
+
 	$scope.$watch('onlineStatus.isOnline()', function(online) {
         $scope.online_status_string = online ? 'online' : 'offline';
         onlineStatus = $scope.online_status_string
-        
+
     });
 
-  $scope.ClearTest = function(){
-	  $scope.IsErrorInfrmGalloAddPlanta=false;
-		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
-		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
-		$scope.IsTotalPlantaAdded=false;
-		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-  	localStorageService.remove('localTestgallo');
-  	$state.go($state.current, {}, {reload: true})
-  }
-  var plantEditor = function(plant) {
-	  $scope.plantname = plant;
-	  $scope.leafList = $scope.test.plantas[plant - 1];
-	  $scope.modal.number="";
+    // Funcion SweetAlert para mensajes Success y Error
+	    $scope.SweetAlert = function (title, text, type){
+
+	      if (type == "success" || type == "error" || type == "warning" ) {
+	        swal({
+	              title: title,
+	              text: text,
+	              type: type,
+	              confirmButtonText: 'Aceptar'
+	            });
+	      }
+	      return
+	    }
+
+    // Limpiar Test
+    $scope.ClearTest = function(option){
+			if (option == true) {
+				console.log("Reinicar");
+        $scope.IsErrorInfrmGalloAddPlanta=false;
+    		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+    		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+    		$scope.IsTotalPlantaAdded=false;
+    		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+      	localStorageService.remove('localTestgallo');
+      	$state.go($state.current, {}, {reload: true});
+			}
+		}
+
+  // $scope.ClearTest = function(){
+	//   $scope.IsErrorInfrmGalloAddPlanta=false;
+	// 	$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+	// 	$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+	// 	$scope.IsTotalPlantaAdded=false;
+	// 	$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+  // 	localStorageService.remove('localTestgallo');
+  // 	$state.go($state.current, {}, {reload: true});
+  // }
+
+	// Función para salir al precionar Cancelar
+	$scope.exitAlert = function (){
+		if ($scope.test.plantas.length != 0) {
+			swal({
+					title: "¿Desea Salir?",
+					text: "Está seguro que desea salir.",
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Aceptar',
+					cancelButtonText:  'Cancelar',
+			},
+			function(isConfirm) {
+				console.log(isConfirm);
+				if (isConfirm == true) {
+					$scope.ClearTest(true);
+				} else {
+					return false;
+				}
+		});
+	}
+	else {
+		$scope.ClearTest(true);
+	}
+}
+
+	var plantEditor = function(plant) {
+		$scope.plantname = plant;
+		$scope.leafList = $scope.test.plantas[plant - 1];
+		$scope.modal.number="";
 		$scope.modal.numberSubmitted=false;
-		$scope.affect = 1;
-	  $('#plantModal').modal('show');
-  };
-  
-  
+		$scope.affect = "";
+		$('#plantModal').modal('show');
+	};
+
+  $scope.affect = "";
+
+  // var plantEditor = function(plant) {
+	//   $scope.plantname = plant;
+	//   $scope.leafList = $scope.test.plantas[plant - 1];
+	//   $scope.modal.number="";
+	// 	$scope.modal.numberSubmitted=false;
+	// 	$scope.affect = 1;
+	//   $('#plantModal').modal('show');
+  // };
+
+
     PouchDB.GetUserDataFromPouchDB(auth.userId()).then(function (result) {
         if (result.status == 'fail') {
             $scope.error = result.message;
@@ -61,24 +137,24 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
         }
     });
 
-    //console.log("Is INTERNET AVAILABLE=" + $rootScope.IsInternetOnline);
+		//console.log("Is INTERNET AVAILABLE=" + $rootScope.IsInternetOnline);
     if ($rootScope.IsInternetOnline) {
-	    
-	    console.log('app online');
-	    
-        user.get($scope.user_Ided).then(function (user) {
-            $scope.userO7 = user;
+
+    	console.log('app online');
+
+    	user.get($scope.user_Ided).then(function (user) {
+    		$scope.userO7 = user;
 
 
 
             //region to  get user unit from local PouchDB instead of server
             PouchDB.GetAllUserUnit(auth.userId()).then(function (result) {
-                if (result.status == 'fail') {
-                    $scope.error = result.message;
-                }
-                else if (result.status == 'success') {
+            	if (result.status == 'fail') {
+            		$scope.error = result.message;
+            	}
+            	else if (result.status == 'success') {
 
-                    $scope.units = result.data;
+            		$scope.units = result.data;
                     //if($scope.userO7.units.length === result.data.length){
 
                     //	$scope.units = result.data;
@@ -96,45 +172,110 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
             //endregion
 
         });
+				localStorageService.remove('dataGalloOffline');
     } else {
-	    
-	    console.log('app offline');
-	    
-	    
-	    
-        
+
+    	console.log('app offline');
+
+
+
+
         //region to  get user unit from local PouchDB instead of server
         PouchDB.GetAllUserUnit(auth.userId()).then(function (result) {
-            if (result.status == 'fail') {
-                $scope.error = result.message;
-            }
-            else if (result.status == 'success') {
+        	if (result.status == 'fail') {
+        		$scope.error = result.message;
+        	}
+        	else if (result.status == 'success') {
 
 
-                $scope.units = result.data;
-                console.log('local mode:', result.data);
+        		$scope.units = result.data;
+        		console.log('local mode:', result.data);
 
 
-            }
+        	}
         });
         //endregion
     }
 
-    
+    //console.log("Is INTERNET AVAILABLE=" + $rootScope.IsInternetOnline);
+    // if ($rootScope.IsInternetOnline) {
+		//
+	  //   console.log('app online');
+		//
+    //     user.get($scope.user_Ided).then(function (user) {
+    //         $scope.userO7 = user;
+		//
+		//
+		//
+    //         //region to  get user unit from local PouchDB instead of server
+    //         PouchDB.GetAllUserUnit(auth.userId()).then(function (result) {
+    //             if (result.status == 'fail') {
+    //                 $scope.error = result.message;
+    //             }
+    //             else if (result.status == 'success') {
+		//
+    //                 $scope.units = result.data;
+    //                 //if($scope.userO7.units.length === result.data.length){
+		//
+    //                 //	$scope.units = result.data;
+    //                 //	console.log('local mode:',result.data);
+		//
+    //                 //} else {
+    //                 //	console.log('server mode:', $scope.userO7.units);
+    //                 //	$scope.units = $scope.userO7.units;
+    //                 //	$scope.remoteMode = true;
+    //                 //}
+		//
+		//
+    //             }
+    //         });
+    //         //endregion
+		//
+    //     });
+    // } else {
+		//
+	  //   console.log('app offline');
+		//
+		//
+		//
+		//
+    //     //region to  get user unit from local PouchDB instead of server
+    //     PouchDB.GetAllUserUnit(auth.userId()).then(function (result) {
+    //         if (result.status == 'fail') {
+    //             $scope.error = result.message;
+    //         }
+    //         else if (result.status == 'success') {
+		//
+		//
+    //             $scope.units = result.data;
+    //             console.log('local mode:', result.data);
+		//
+		//
+    //         }
+    //     });
+    //     //endregion
+    // }
+
+
      $scope.test = testInStore || {
 	  	advMode : false,
 	  	bandolas : false,
 	  	resolved: false,
-	  	user : currentId,
+	  	user : $scope.currentId,
 	  	plantas: [],
-	  	unidad: {},
+	  	unidad: {"user":auth.userId()},
+			idunidad:"",
+      loteIndex:0,
 	  	incidencia: 0,
 	  	avgplnt : "",
-		avgplntDmgPct : 0,
-		incidencia : 0
+			avgplntDmgPct : 0,
+			incidencia : 0
 	  };
-	  
-	  
+
+		$scope.test.user = $scope.currentId;
+		console.log($scope.test.user);
+
+
 	methodsGallo.get().then(function(methodsGallo){
 		 var meth = methodsGallo.data[0];
 		 var date = new Date();
@@ -146,7 +287,7 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 		   methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
 		   methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
 		   $scope.methodsMonth = methodsAvail;
-		   
+
 		} else if(currentMonth > 5 && currentMonth < 9) {
 		   var methodsAvail = {};
 		   methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
@@ -164,62 +305,101 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 		}
     });
 
-  
+
    $scope.$watch('test', function () {
       localStorageService.set('localTestgallo', $scope.test);
     }, true);
- 
-  
-  if(testInStore && Object.keys(testInStore.unidad).length > 1) {
-	  $('.roya-wrap').addClass('initiated');
-  }
-  
+
+
+  // if(testInStore && Object.keys(testInStore.unidad).length > 1) {
+	//   $('.roya-wrap').addClass('initiated');
+  // }
+
+	if(testInStore && Object.keys(testInStore.unidad).length > 1) {
+		$('.roya-wrap').addClass('initiated');
+	}
+
   if(testInStore && testInStore.resolved) {
 	  $('.test').hide();
 	  $('.results').show();
   }
-	
-  $scope.startTest = function(userid, selectedUnit) {
-	  selectedUnit["user"] = userid;
-	  $scope.test.unidad = selectedUnit;
-	  $('.roya-wrap').addClass('initiated');
-   }
-   $scope.bandolas = function() {
-	   if($scope.test.bandolas) {
-		  $scope.test.bandolas = false;
-	  } else {
-		  $scope.test.bandolas = true;
-	  }
-		var requiredLength=0;
-		if($scope.test.bandolas==true){
-			requiredLength=29;
-		}
-		else{
-			requiredLength=49;
-		}
-		if($scope.test.plantas.length>requiredLength)
-		{
-			$scope.IsTotalPlantaAdded=true;
-		}
-		else{
-			$scope.IsTotalPlantaAdded=false;
-		}
 
-	}
+  $scope.startTest = function(userid,idunidad,loteindex) {
+		$scope.test.unidad = {"user":auth.userId()};
+			$scope.test.idunidad = idunidad;
+			$scope.test.loteIndex=loteindex;
+		$('.roya-wrap').addClass('initiated');
+   }
+
+	 // Sección de Bandolas
+	 $scope.bandolas = function() {
+		 if($scope.test.bandolas) {
+			 $scope.test.bandolas = false;
+		 } else {
+			 $scope.test.bandolas = true;
+		 }
+		 var requiredLength=0;
+		 if($scope.test.bandolas==true){
+			 requiredLength=29; //KH - Modificación - 29 - 4
+		 }
+		 else{
+			 requiredLength=49; //KH - Modificación - 49 - 4
+		 }
+		 if($scope.test.plantas.length>requiredLength)
+		 {
+			 $scope.IsTotalPlantaAdded=true;
+		 }
+		 else{
+			 $scope.IsTotalPlantaAdded=false;
+		 }
+
+	 }
+
+  //  $scope.bandolas = function() {
+	//    if($scope.test.bandolas) {
+	// 	  $scope.test.bandolas = false;
+	//   } else {
+	// 	  $scope.test.bandolas = true;
+	//   }
+	// 	var requiredLength=0;
+	// 	if($scope.test.bandolas==true){
+	// 		requiredLength=29;
+	// 	}
+	// 	else{
+	// 		requiredLength=49;
+	// 	}
+	// 	if($scope.test.plantas.length>requiredLength)
+	// 	{
+	// 		$scope.IsTotalPlantaAdded=true;
+	// 	}
+	// 	else{
+	// 		$scope.IsTotalPlantaAdded=false;
+	// 	}
+	//
+	// }
+
+
 	$scope.addPlant = function() {
-	
-		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+		$('.severity-list').removeClass('active');
+		$("#btnCloseAndAddPlant").attr('disabled', 'disabled'); //KH - Desabilitar boton - Siguiente
+
 		$scope.IsErrorInfrmGalloAddPlanta=false;
 		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
 		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
-		
-		$('.severity-list').removeClass('active');
+		$scope.IsErrorInfrmGalloAddPlantaLeafAffected=false;
+		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
 		var requiredLength=0;
 		if($scope.test.bandolas==true){
-			requiredLength=29;
+			console.log("Seleccioné 2 Bandolas");
+			$scope.noBandolas = 0;
+			requiredLength=29; //KH - Modificación - 29 - 4
+			//$scope.noBandolas = 2;
+
 		}
 		else{
-			requiredLength=49;
+			console.log("Seleccioné 1 Bandola");
+			requiredLength=49; //KH -Modificación - 49 - 4
+			//$scope.noBandolas = 1;
 		}
 		if($scope.test.plantas.length>requiredLength)
 		{
@@ -229,21 +409,101 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 		else{
 			$scope.IsTotalPlantaAdded=false;
 		}
-
 		$scope.test.plantas.push([]);
 		var plantName = $scope.test.plantas.length;
+		console.log($scope.test.plantas.length);
+		if($scope.test.bandolas==true){
+			if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
+				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
+			}else{
+				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
+			}
+		}else{
+			console.log("Estoy Acá");
+			if ($scope.test.plantas.length==$scope.unabandola50){ //KH - Modificación - 50 - 5
+				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
+			}else{
+				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
+			}
+		}
 		plantEditor(plantName);
 		setTimeout(function () { $('[name=amount]').val(''); }, 100);
 	};
-	$scope.CloseAndAddPlant=function()
-	{
-		$scope.IsErrorInfrmGalloAddPlanta=false;
-		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
-		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-	  $scope.addPlant();
+
+
+	// Añadir Planta
+	// $scope.addPlant = function() {
+	//
+	// 	$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+	// 	$scope.IsErrorInfrmGalloAddPlanta=false;
+	// 	$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+	// 	$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+	//
+	// 	$('.severity-list').removeClass('active');
+	// 	var requiredLength=0;
+	// 	if($scope.test.bandolas==true){
+	// 		requiredLength=29;
+	// 	}
+	// 	else{
+	// 		requiredLength=49;
+	// 	}
+	// 	if($scope.test.plantas.length>requiredLength)
+	// 	{
+	// 		$scope.IsTotalPlantaAdded=true;
+	// 		return false;
+	// 	}
+	// 	else{
+	// 		$scope.IsTotalPlantaAdded=false;
+	// 	}
+	//
+	// 	$scope.test.plantas.push([]);
+	// 	var plantName = $scope.test.plantas.length;
+	// 	plantEditor(plantName);
+	// 	setTimeout(function () { $('[name=amount]').val(''); }, 100);
+	// };
+
+
+	// $scope.CloseAndAddPlant=function()
+	// {
+	// 	$scope.IsErrorInfrmGalloAddPlanta=false;
+	// 	$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+	// 	$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+	//   $scope.addPlant();
+	// }
+
+	$scope.CloseAndAddPlant=function(){
+		console.log($scope.test.plantas.length);
+		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
+			$scope.closePlant();
+			console.log("Cerrramos planta");
+			$('#plantModal').modal('hide');
+		}else if (($scope.test.bandolas==false) && ($scope.test.plantas.length>=$scope.unabandola50)){ //KH - Modificación - 50 - 5
+			$scope.closePlant();
+			console.log("Cerrramos planta");
+			$('#plantModal').modal('hide');
+		}else{
+			$scope.IsErrorInfrmGalloAddPlanta=false;
+			$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+			$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+			$scope.addPlant();
+		}
 	}
-	
+
+	// Editar Planta
 	$scope.editPlant = function($index) {
+		if($scope.test.bandolas==true){
+				if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
+						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
+				}else{
+						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
+				}
+		}else{
+				if ($scope.test.plantas.length==$scope.unabandola50){ //KH - Modificación - 50 - 5
+						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
+				}else{
+						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
+				}
+		}
 		$('.severity-list').removeClass('active');
 		$scope.IsErrorInfrmGalloAddPlanta=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
@@ -252,7 +512,8 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 		plantEditor($index + 1);
 		$scope.leafList = $scope.test.plantas[$index];
 	}
-	
+
+	// Iniciar Leaf
 	$scope.initLeaf = function(number) {
 		if(!$scope.frmGalloAddPlanta.$valid || number==undefined || number<1 || number>99 ){
 			$scope.IsErrorInfrmGalloAddPlanta=true;
@@ -265,11 +526,12 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 		$('.severity-list').addClass('active');
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=true;
 	}
-	
+
+	// Cerrar Planta
 	$scope.closePlant = function() {
 		$('.plant-editor').removeClass('active');
 	}
-	
+
 	$scope.addLeaf = function(severity,isPrefixAddRequired) {
 		if(isPrefixAddRequired)
 		{
@@ -287,138 +549,326 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 		if(isPrefixAddRequired)
 		{
 				if(severity>amount){
-				$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=true;
-				return;
+					console.log("Entre Severidad Mayor a Hojas");
+					$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=true;
+					return;
 				}
 				else{
+					console.log("Entre Severidad Correcta");
+					console.log("Bandolas Seleccionadas: ", $scope.test.bandolas);
+					$scope.noBandolas += 1;
+					console.log("Bandolas al momento: ", $scope.noBandolas);
+
+
+					if ($scope.test.bandolas == false && $scope.noBandolas == 1){
+						$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
+						console.log("Habilité el botón");
+						$scope.noBandolas = 0;
+						// $scope.test.plantas.push([]);
+					}
+					else if ($scope.test.bandolas == true && $scope.noBandolas == 2) {
+						$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
+						console.log("Habilité el botón");
+						$scope.noBandolas = 0;
+						// $scope.test.plantas.push([]);
+					}
 					$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
 				}
 				severity='afectadas: ' + severity;
+				console.log(severity);
+		}else{
+			$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
 		}
-		var plantIndex = $scope.plantname - 1;
-	 
 
+		var plantIndex = $scope.plantname - 1;
 		$scope.test.plantas[plantIndex].push([amount,severity]);
 		$scope.leafList = $scope.test.plantas[plantIndex];
 		$('[name=amount]').val('');
-		$scope.affect = 1;
+		$scope.affect ="";
 		$('.severity-list').removeClass('active');
 		$scope.modal.number="";
 		$scope.modal.numberSubmitted=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
 	};
 
+		// Remover Planta
     $scope.removePlant = function (index) {
       $scope.test.plantas.splice(index, 1);
     };
-    
+
+		// Remover Leaf
     $scope.removeLeaf = function (index) {
-	  var plantIndex = $scope.plantname - 1;
+			if ($scope.test.bandolas == false && $scope.noBandolas == 0) {
+				$scope.noBandolas = 1;
+				$("#btnCloseAndAddPlant").attr('disabled', 'disabled');
+				$scope.noBandolas -= 1;
+			}
+			else if ($scope.test.bandolas == true && $scope.noBandolas == 0) {
+				$scope.noBandolas = 2;
+				$("#btnCloseAndAddPlant").attr('disabled', 'disabled');
+				$scope.noBandolas -= 1;
+			}
+			else{
+				$scope.noBandolas -= 1;
+				$("#btnCloseAndAddPlant").attr('disabled', 'disabled');
+			}
+
+	  	var plantIndex = $scope.plantname - 1;
       $scope.test.plantas[plantIndex].splice(index, 1);
-    };  
-    
-    $scope.calculateTest = function() {
-	    
-	    if ($scope.test.advMode) {
-		    $scope.totalPlants = $scope.test.plantas.length;
-			var totalPlantitas = $scope.totalPlants;	
-			var totalLeaf = 0;
-			var totalIncidencePlant = [];
-			var totalDamagePlant = [];
-			var avgInc = 0;
-			var avgPct = 0;
-			
-			for(var i = 0, len = $scope.totalPlants; i < len; i++) {
-				var affected = 0;
-				var avgDmg = 0;
-				var Dmg = [];
-				$.each($scope.test.plantas[i], function( index, value ) {
-					  totalLeaf += parseInt(value[0]);
-					  	if (value[1] !='0%') {
-						   affected += parseInt(value[0]);
-						   Dmg.push(parseInt(value[1]));
-					  	} 
-				});	
-				totalIncidencePlant.push(affected);
-				$.each(Dmg, function( index, value ) {
-					  
-					  avgDmg += parseInt(Dmg[index]);
-				});
-				var curAvgDmg = avgDmg / Dmg.length;
-				totalDamagePlant.push(curAvgDmg);
-				
-			}
-			var incidenceLength = totalIncidencePlant.length;
-			for(var i = 0; i < incidenceLength; i++) {
-			    avgInc += totalIncidencePlant[i];
-			}
-			var avg = avgInc / incidenceLength;
-			var damageLength = totalDamagePlant.length;
-			for(var i = 0; i < damageLength; i++) {
-			    avgPct += totalDamagePlant[i];
-			}
-			var avgDmgPct = avgPct / damageLength;
-			$scope.avgIncidence = (avgInc/totalLeaf)*100;
-			$scope.test.avgplnt = avg;
-			$scope.test.avgplntDmgPct = avgDmgPct;
-			$scope.test.resolved = true;
-			$scope.test.incidencia = $scope.avgIncidence;
-			$('.test').hide();
-			$('.results').show();
-	    } else {
-		   
-		  
-		   var plants = $scope.test.plantas,
-		   	   totalPlants = plants.length,
-		   	   affectedLeaf = [];
-		   	   affectedTotal = 0;
-		   	   allLeaf = [];
-		   	   totalLeaf = 0;
-		   	    $scope.totalPlantis = plants.length;
-		   
-		   	   $.each($scope.test.plantas, function( index, value ) {	
-		   	   		
-			   		var count = value[0][1].split(":"),
-			   			affectedCnt = parseInt(count[1]);
-			   			affectedLeaf.push(affectedCnt);
-				});
-				
-				$.each($scope.test.plantas, function( index, value ) {	
-			   		var totalCnt = parseInt(value[0][0]);
-			   			allLeaf.push(totalCnt);
-				});
-				
-			   for(var i = 0; i < affectedLeaf.length; i++) {
-				    affectedTotal += affectedLeaf[i];
-				}
-				
-				for(var i = 0; i < allLeaf.length; i++) {
-					
-				    totalLeaf += parseInt(allLeaf[i]);
-				}
-				
-			   var avgAffected = affectedTotal / affectedLeaf.length,
-			       avgLeaf = totalLeaf / totalPlants,
-			       percent = (avgAffected/avgLeaf)*100;
-			       
-			   $scope.test.incidencia = percent;
-			   $scope.test.resolved = true;
-			   $('.test').hide();
-			   $('.results').show();
-			  
-		   
-	    }
-		
-		
     };
-    
-    $scope.getHelp = function(currentUser) { 
-	    
-	    
-	    gallo.create(testInStore).success(function(data){
-		    
-		    
-		    
+
+		$scope.calculateTest = function() {
+        console.log("vamos a calcular");
+
+    	if ($scope.test.advMode) {
+
+				// var contItems = 0;
+				//
+				// for (var i = 0; i < $scope.test.plantas.length; i++) {
+				// 	console.log($scope.test.plantas[i]);
+				// 	if ($scope.test.plantas[i].length === 0) {
+				// 			alert("Error en Planta: " + (i + 1) +" No se puede calcular");
+				// 			console.log($scope.test.plantas[i]);
+				// 			break;
+				// 	}
+				// 	else {
+				// 		contItems += 1;
+				// 	}
+				// }
+
+    		$scope.totalPlants = $scope.test.plantas.length;
+				console.log("Total de Plantas - ", $scope.totalPlants); //KH Comentario
+    		var totalPlantitas = $scope.totalPlants;
+    		var totalLeaf = 0;
+    		var totalIncidencePlant = [];
+    		var totalDamagePlant = [];
+    		var avgInc = 0;
+    		var avgPct = 0;
+
+    		for(var i = 0, len = $scope.totalPlants; i < len; i++) {
+    			var affected = 0;
+    			var avgDmg = 0;
+    			var Dmg = [];
+    			$.each($scope.test.plantas[i], function( index, value ) {
+    				totalLeaf += parseInt(value[0]);
+    				// if (value[1] !='0%') {
+    					affected += parseInt(value[0]);
+    					Dmg.push(parseInt(value[1]));
+    				// }
+    			});
+    			totalIncidencePlant.push(affected);
+    			$.each(Dmg, function( index, value ) {
+
+    				avgDmg += parseInt(Dmg[index]);
+    			});
+    			var curAvgDmg = avgDmg / Dmg.length;
+    			totalDamagePlant.push(curAvgDmg);
+
+    		}
+    		var incidenceLength = totalIncidencePlant.length;
+    		for(var i = 0; i < incidenceLength; i++) {
+    			avgInc += totalIncidencePlant[i];
+    		}
+    		var avg = avgInc / incidenceLength;
+    		var damageLength = totalDamagePlant.length;
+    		for(var i = 0; i < damageLength; i++) {
+    			avgPct += totalDamagePlant[i];
+    		}
+    		var avgDmgPct = avgPct / damageLength;
+    		$scope.avgIncidence = (avgInc/totalLeaf)*100;
+    		$scope.test.avgplnt = avg;
+    		$scope.test.avgplntDmgPct = avgDmgPct;
+    		$scope.test.resolved = true;
+    		$scope.test.incidencia = $scope.avgIncidence;
+    	    $scope.test.unidad = {"user":auth.userId()};
+            $scope.test.idunidad = $scope.unitId;
+            $scope.test.loteIndex = $scope.loteIndex;
+            $scope.getHelp($scope.totalPlants,$scope.avgplnt,$scope.avgplntDmgPct,$scope.currentUser());
+            $('.test').hide();
+            $('.results').show();
+        } else {
+
+					var contItems = 0;
+					if ($scope.test.bandolas == false) {
+						for (var i = 0; i < $scope.test.plantas.length; i++) {
+							console.log($scope.test.plantas[i]);
+							if ($scope.test.plantas[i].length === 0) {
+									// alert("Error en Planta: " + (i + 1) +" No se puede calcular");
+									$scope.SweetAlert("¡No se puede Calcular!", "Error en Planta: " + (i + 1), "error");
+									console.log($scope.test.plantas[i]);
+									break;
+							}
+							else {
+								contItems += 1;
+							}
+						}
+					} else if ($scope.test.bandolas == true) {
+						console.log($scope.test.plantas);
+						for (var i = 0; i < $scope.test.plantas.length; i++) {
+							// console.log($scope.test.plantas[i].length);
+							for (var j = 0; j < $scope.test.plantas[i].length; j++) {
+								console.log($scope.test.plantas[i][j]);
+							}
+							if ($scope.test.plantas[i].length !== 2) {
+									// alert("Error en Planta: " + (i + 1) +" No se puede calcular");
+									$scope.SweetAlert("¡No se puede Calcular!", "Error en Planta: " + (i + 1), "error");
+									console.log($scope.test.plantas[i]);
+									break;
+							}
+							else {
+								contItems += 1;
+								console.log(contItems);
+							}
+						}
+					}
+
+
+
+					if (contItems === $scope.test.plantas.length ) {
+						var plants = $scope.test.plantas,
+						totalPlants = plants.length,
+						affectedLeaf = [];
+						affectedTotal = 0;
+						allLeaf = [];
+						totalLeaf = 0;
+						$scope.totalPlantis = plants.length;
+
+						$.each($scope.test.plantas, function( index, value ) {
+						 var count = value[0][1].split(":"),
+						 affectedCnt = parseInt(count[1]);
+						 affectedLeaf.push(affectedCnt);
+						});
+
+						$.each($scope.test.plantas, function( index, value ) {
+						 var totalCnt = parseInt(value[0][0]);
+						 allLeaf.push(totalCnt);
+						});
+
+						for(var i = 0; i < affectedLeaf.length; i++) {
+						 affectedTotal += affectedLeaf[i];
+						}
+
+					 for(var i = 0; i < allLeaf.length; i++) {
+
+							 totalLeaf += parseInt(allLeaf[i]);
+					 }
+
+					 var avgAffected = affectedTotal / affectedLeaf.length,
+					 avgLeaf = totalLeaf / totalPlants,
+					 percent = (avgAffected/avgLeaf)*100;
+
+					 $scope.test.incidencia = percent;
+					 $scope.test.resolved = true;
+					 $scope.getHelp($scope.currentUser());
+
+
+					 $('.test').hide();
+					 $('.results').show();
+					}
+   }
+};
+
+    // $scope.calculateTest = function() {
+		//
+	  //   if ($scope.test.advMode) {
+		//     $scope.totalPlants = $scope.test.plantas.length;
+		// 		var totalPlantitas = $scope.totalPlants;
+		// 		var totalLeaf = 0;
+		// 		var totalIncidencePlant = [];
+		// 		var totalDamagePlant = [];
+		// 		var avgInc = 0;
+		// 		var avgPct = 0;
+		//
+		// 	for(var i = 0, len = $scope.totalPlants; i < len; i++) {
+		// 		var affected = 0;
+		// 		var avgDmg = 0;
+		// 		var Dmg = [];
+		// 		$.each($scope.test.plantas[i], function( index, value ) {
+		// 			  totalLeaf += parseInt(value[0]);
+		// 			  	if (value[1] !='0%') {
+		// 				   affected += parseInt(value[0]);
+		// 				   Dmg.push(parseInt(value[1]));
+		// 			  	}
+		// 		});
+		// 		totalIncidencePlant.push(affected);
+		// 		$.each(Dmg, function( index, value ) {
+		//
+		// 			  avgDmg += parseInt(Dmg[index]);
+		// 		});
+		// 		var curAvgDmg = avgDmg / Dmg.length;
+		// 		totalDamagePlant.push(curAvgDmg);
+		//
+		// 	}
+		// 	var incidenceLength = totalIncidencePlant.length;
+		// 	for(var i = 0; i < incidenceLength; i++) {
+		// 	    avgInc += totalIncidencePlant[i];
+		// 	}
+		// 	var avg = avgInc / incidenceLength;
+		// 	var damageLength = totalDamagePlant.length;
+		// 	for(var i = 0; i < damageLength; i++) {
+		// 	    avgPct += totalDamagePlant[i];
+		// 	}
+		// 	var avgDmgPct = avgPct / damageLength;
+		// 	$scope.avgIncidence = (avgInc/totalLeaf)*100;
+		// 	$scope.test.avgplnt = avg;
+		// 	$scope.test.avgplntDmgPct = avgDmgPct;
+		// 	$scope.test.resolved = true;
+		// 	$scope.test.incidencia = $scope.avgIncidence;
+		// 	$('.test').hide();
+		// 	$('.results').show();
+	  //   } else {
+		//
+		//
+		//    var plants = $scope.test.plantas,
+		//    	   totalPlants = plants.length,
+		//    	   affectedLeaf = [];
+		//    	   affectedTotal = 0;
+		//    	   allLeaf = [];
+		//    	   totalLeaf = 0;
+		//    	    $scope.totalPlantis = plants.length;
+		//
+		//    	   $.each($scope.test.plantas, function( index, value ) {
+		//
+		// 	   		var count = value[0][1].split(":"),
+		// 	   			affectedCnt = parseInt(count[1]);
+		// 	   			affectedLeaf.push(affectedCnt);
+		// 		});
+		//
+		// 		$.each($scope.test.plantas, function( index, value ) {
+		// 	   		var totalCnt = parseInt(value[0][0]);
+		// 	   			allLeaf.push(totalCnt);
+		// 		});
+		//
+		// 	   for(var i = 0; i < affectedLeaf.length; i++) {
+		// 		    affectedTotal += affectedLeaf[i];
+		// 		}
+		//
+		// 		for(var i = 0; i < allLeaf.length; i++) {
+		//
+		// 		    totalLeaf += parseInt(allLeaf[i]);
+		// 		}
+		//
+		// 	   var avgAffected = affectedTotal / affectedLeaf.length,
+		// 	       avgLeaf = totalLeaf / totalPlants,
+		// 	       percent = (avgAffected/avgLeaf)*100;
+		//
+		// 	   $scope.test.incidencia = percent;
+		// 	   $scope.test.resolved = true;
+		// 	   $('.test').hide();
+		// 	   $('.results').show();
+		//
+		//
+	  //   }
+    // };
+
+    $scope.getHelp = function(currentUser) {
+
+	    gallo.create($scope.test).success(function(data){
+				$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+				console.log("data enviado");
+		    console.log(data);
+		    console.log(currentUser);
+
 		     var msg = 'Calculo De Gallo Enviado: ID: ' + data._id + '.' ;
 		  	 var data_server={
 	            message:msg,
@@ -426,32 +876,55 @@ function($rootScope, $scope, $state, auth, localStorageService, socket, unit, us
 	            from_id:currentUser
 	        };
 	        socket.emit('get msg',data_server);
-			localStorageService.remove('localTestgallo');
-        });
-	    
-	           
-        
-        
+					localStorageService.remove('localTestgallo');
+					if (localStorageService.get('dataGalloOffline').length > 0) {
+						localStorageService.remove('dataGalloOffline');
+					}
+        }).error(function(){
+
+					if (localStorageService.get('dataGalloOffline') === null) {
+						localStorageService.set('dataGalloOffline', $scope.arrGalloOffline);
+						$scope.arrGalloOffline.push($scope.test);
+						localStorageService.set('dataGalloOffline', $scope.arrGalloOffline);
+					}else {
+						$scope.arrGalloOffline = localStorageService.get('dataGalloOffline');
+						$scope.arrGalloOffline.push($scope.test);
+						localStorageService.set('dataGalloOffline', $scope.arrGalloOffline);
+					}
+					$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+
+					console.log($scope.arrGalloOffline);
+					console.log(localStorageService.get('dataGalloOffline'));
+				});
+
+
+
+
     };
-    
-    
+
+
     var historialLaunchFunc = function() {
-	    
+
 	    if ($rootScope.IsInternetOnline) {
-		    
+
 			  gallo.getUser($scope.user_Ided).then(function(userhistory){
 				  $scope.galloHistory = userhistory.data;
 				  localStorageService.set('galloHistory',userhistory.data);
 				  console.log($scope.galloHistory);
 			  });
-			  
+
 		} else {
-			$scope.galloHistory = localStorageService.get('galloHistory');	  
+			console.log("No internet");
+			console.log($scope.user_Ided);
+			$scope.galloHistory = localStorageService.get('galloHistory');
 		}
+
+		console.log("historial Gallo");
+    console.log($scope.galloHistory);
     };
-    historialLaunchFunc();
+    // historialLaunchFunc();
     $scope.historialLaunch = historialLaunchFunc();
-    
-    
-    
+
+
+
 }]);

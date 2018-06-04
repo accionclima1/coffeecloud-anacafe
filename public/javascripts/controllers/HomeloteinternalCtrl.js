@@ -1,13 +1,16 @@
-app.controller('HomeloteinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'roya', 'methods', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus',
-function ($http,$scope, $stateParams, auth, roya, methods, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus) {
+app.controller('HomeloteinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'gallo', 'roya', 'methods', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus',
+function ($http,$scope, $stateParams, auth, gallo, roya, methods, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus) {
         console.log("show time");
         $scope.currentUser = auth.currentUser;
         $scope.currentId = auth.currentUser();
+        $scope.user_Ided = auth.userId();
         $scope.unitId = $stateParams.idunidad;
         $scope.unitIndex = $stateParams.indexunidad;
         $scope.loteIndex = $stateParams.indexlote;
         $scope.royaHistoryByLote = [];
         $scope.royaHistoryByLoteOffline = [];
+        $scope.galloHistoryByLote = [];
+        $scope.galloHistoryByLoteOffline = [];
         var map;
 
 
@@ -50,12 +53,30 @@ function ($http,$scope, $stateParams, auth, roya, methods, unit, varieties, user
                 }
 
                 });
+
+                // Reporte de Ojo de Gallo
+                gallo.getUser(auth.userId()).then(function(userhistory){
+                  $scope.galloHistory = userhistory.data;
+                  localStorageService.set('galloHistory',userhistory.data);
+                  console.log("Historial Ojo de Gallo");
+                  console.log($scope.galloHistory);
+
+                  for (var i = 0; i < userhistory.data.length; i++) {
+                          if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
+                                  $scope.galloHistoryByLote.push($scope.royaHistory[i]);
+                          }
+                  }
+                });
+
                 localStorageService.remove('dataOffline');
+                localStorageService.remove('dataGalloOffline');
                 } else {
                 console.log("No internet");
                 console.log($scope.user_Ided);
                 $scope.royaHistory = localStorageService.get('royaHistory');
-                console.log($scope.royaHistory);
+                $scope.galloHistory = localStorageService.get('galloHistory');
+                console.log('Offline-Data Roya: ', $scope.royaHistory);
+                console.log('Offline-Data Gallo: ', $scope.galloHistory);
                 $scope.royaHistoryOffline = localStorageService.get('dataOffline');
                 console.log($scope.royaHistoryOffline);
 

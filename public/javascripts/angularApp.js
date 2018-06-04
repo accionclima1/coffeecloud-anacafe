@@ -2022,7 +2022,7 @@ function ($stateProvider, $urlRouterProvider) {
           }]
       })
       .state('gallo', {
-          url: '/gallo',
+          url: '/gallo/:idunidad/:indexlote',
           templateUrl: '/gallo.html',
           controller: 'GalloCtrl',
           onEnter: ['$state', 'auth', function ($state, auth) {

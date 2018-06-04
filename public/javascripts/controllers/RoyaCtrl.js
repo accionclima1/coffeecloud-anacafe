@@ -33,7 +33,7 @@ app.controller('RoyaCtrl', [
     $scope.unabandola50=50;
 		$scope.arrOffline = [];
 
-		console.log($scope.idUser, $scope.unitIndex, $scope.loteIndex);
+		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
 
 
 		$scope.onlineStatus = onlineStatus;
@@ -187,8 +187,8 @@ app.controller('RoyaCtrl', [
     	user : $scope.currentId,
     	plantas: [],
     	unidad: {"user":auth.userId()},
-        idunidad:"",
-        loteIndex:0,
+      idunidad:"",
+      loteIndex:0,
     	incidencia: 0,
     	avgplnt : "",
     	avgplntDmgPct : 0,
@@ -248,6 +248,8 @@ app.controller('RoyaCtrl', [
         $scope.test.loteIndex=loteindex;
     	$('.roya-wrap').addClass('initiated');
     }
+
+		// Sección de Bandolas
     $scope.bandolas = function() {
     	if($scope.test.bandolas) {
     		$scope.test.bandolas = false;
@@ -270,6 +272,9 @@ app.controller('RoyaCtrl', [
     	}
 
     }
+
+
+
     $scope.addPlant = function() {
     	$('.severity-list').removeClass('active');
 			$("#btnCloseAndAddPlant").attr('disabled', 'disabled'); //KH - Desabilitar boton - Siguiente
@@ -319,8 +324,7 @@ app.controller('RoyaCtrl', [
     	setTimeout(function () { $('[name=amount]').val(''); }, 100);
     };
 
-    $scope.CloseAndAddPlant=function()
-    {
+    $scope.CloseAndAddPlant=function(){
     	console.log($scope.test.plantas.length);
     	if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
     		$scope.closePlant();
@@ -336,8 +340,6 @@ app.controller('RoyaCtrl', [
     		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
     		$scope.addPlant();
     	}
-
-
     }
 
     $scope.editPlant = function($index) {
@@ -378,6 +380,8 @@ app.controller('RoyaCtrl', [
     	$scope.IsHideCloseAndAddPlantaButtonInPopup=true;
     }
 
+
+		// Cerrar Planta
     $scope.closePlant = function() {
     	$('.plant-editor').removeClass('active');
     }
@@ -444,6 +448,7 @@ app.controller('RoyaCtrl', [
     	$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
     };
 
+		// Remover Planta
     $scope.removePlant = function (index) {
     	$scope.test.plantas.splice(index, 1);
     };
