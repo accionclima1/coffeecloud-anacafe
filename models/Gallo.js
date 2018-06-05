@@ -7,6 +7,7 @@ var GalloSchema = new mongoose.Schema({
 	user:String,
 	plantas:[],
 	unidad:{},
+	idunidad: Number,
 	loteIndex:Number,
 	incidencia: Number,
 	inideanciaPromedioPlanta: Number,

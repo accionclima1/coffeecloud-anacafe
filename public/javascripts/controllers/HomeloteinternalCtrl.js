@@ -48,8 +48,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
             localStorageService.set('royaHistory',userhistory.data);
             console.log("Historial Roya");
             console.log($scope.royaHistory);
-            for (var i = 0; i < userhistory.data.length; i++) {
-                    if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
+            for (var i = 0; i < $scope.royaHistory.length; i++) {
+                    if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
                             $scope.royaHistoryByLote.push($scope.royaHistory[i]);
                     }
             }
@@ -95,10 +95,12 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                           console.log("Historial Ojo de Gallo");
                           console.log($scope.galloHistory);
 
-                          for (var i = 0; i < userhistory.data.length; i++) {
-                                  if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
-                                          $scope.galloHistoryByLote.push($scope.royaHistory[i]);
-                                  }
+                          for (var i = 0; i < $scope.galloHistory.length; i++) {
+                            console.log($scope.galloHistory[i].unidad.user, $scope.unitId);
+                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].unidad.user==$scope.unitId)) {
+                                    console.log($scope.galloHistory[i]);
+                                    $scope.galloHistoryByLote.push($scope.royaHistory[i]);
+                            }
                           }
                         });
 

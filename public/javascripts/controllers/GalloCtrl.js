@@ -14,7 +14,8 @@ app.controller('GalloCtrl', [
 'onlineStatus',
 function($rootScope, $scope, $state, $stateParams, auth, localStorageService, socket, unit, user, methodsGallo, gallo, PouchDB, onlineStatus){
   $scope.currentUser = auth.currentUser;
-  var currentId = auth.currentUser();
+  $scope.currentId = auth.currentUser();
+  console.log("Nombre de Usuario: ", $scope.currentId);
   var testInStore = localStorageService.get('localTestgallo');
 	$scope.IsErrorInfrmGalloAddPlanta=false;
 	$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
@@ -879,9 +880,9 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	        socket.emit('get msg',data_server);
 					localStorageService.remove('localTestgallo');
           console.log(localStorageService.get('dataOfflineGallo'));
-					// if (localStorageService.get('dataOfflineGallo').length > 0) {
-					// 	localStorageService.remove('dataOfflineGallo');
-					// }
+					if (localStorageService.get('dataOfflineGallo') !== null) {
+						localStorageService.remove('dataOfflineGallo');
+					}
         }).error(function(){
 
 					if (localStorageService.get('dataOfflineGallo') === null) {

@@ -8,6 +8,7 @@ var RoyaSchema = new mongoose.Schema({
 	plantas:[],
 	unidad:{},
   loteIndex:Number,
+	idunidad: Number,
 	incidencia: Number,
 	inideanciaPromedioPlanta: Number,
 	severidadPromedio: Number
