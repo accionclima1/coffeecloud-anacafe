@@ -279,7 +279,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
 res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
             });
 
-            
+
         }
     });
 });
@@ -391,7 +391,7 @@ router.post('/users/:user/encuesta', auth, function (req, res, next) {
             console.log(encuesta);
             res.json(encuesta);
         }
-        
+
     });
 
 });
@@ -407,7 +407,7 @@ router.delete('/encuesta/:test', auth, function (req, res) {
 
 
 router.post('/SyncUserLocalData/:user/encuesta', auth, function (req, res, next) {
-    
+
     req.body.forEach(function (item) {
         if (item.EntityType == 'Encuesta') {
             Encuesta.remove({ 'PouchDBId': item.PouchDBId })
@@ -430,16 +430,16 @@ router.post('/SyncUserLocalData/:user/encuesta', auth, function (req, res, next)
                 }
 
                 console.log("------------------");
-                console.log(encuesta.preguntas);                
+                console.log(encuesta.preguntas);
                 console.log("------------------");
 
                  console.log("------------------");
-                console.log(item.preguntas);                
+                console.log(item.preguntas);
                 console.log("------------------");
 
 
                 console.log("---------- data --------");
-                console.log(item);                
+                console.log(item);
                 console.log("------------------");
 
                 encuesta.save(function (err) {
@@ -447,7 +447,7 @@ router.post('/SyncUserLocalData/:user/encuesta', auth, function (req, res, next)
                         return res.status(500).json({ message: err });
                     }
                 });
-                
+
             })
             .catch(function (err) {
                 console.log(err);
@@ -727,7 +727,7 @@ router.post('/searchUserUnit', function (req, res, next) {
         whereFilter = { "cedula": searchObj.searchValue };
     else
         whereFilter = { "username": searchObj.searchValue };
-    //var query = 
+    //var query =
     User.findOne(whereFilter).populate('units').exec(function (err, user) {
         console.log(user);
         if (err) { return next(err); }
@@ -767,7 +767,7 @@ router.post('/mailer', function (req, res, next) {
         console.log(data);
         res.json(data);
     });
-    
+
 });
 
 
@@ -872,6 +872,8 @@ router.post('/gallo', auth, function (req, res, next) {
     gallo.incidencia = req.body.incidencia;
     gallo.inideanciaPromedioPlanta = req.body.avgplnt;
     gallo.severidadPromedio = req.body.avgplntDmgPct;
+    gallo.idunidad = req.body.idunidad;
+    gallo.loteIndex = req.body.loteIndex;
 
     gallo.save(function (err, gallo) {
         if (err) { return next(err); }
@@ -885,6 +887,14 @@ router.get('/gallo', function (req, res, next) {
         if (err) { return next(err); }
 
         res.json(gallo);
+    });
+});
+
+router.get('/gallo/:user', function (req, res, next) {
+    Gallo.find({ 'unidad.user': req.params.user }, function (err, galloUser) {
+        if (err) { return next(err); }
+
+        res.json(galloUser);
     });
 });
 
@@ -932,7 +942,7 @@ router.get('/getWidgets', function (req, res, next) {
 //    })
 //     var unit = new Unit(req.body);
 //  	 unit.nombre = req.body.nombre;
-//     unit.altitud = req.body.altitud; 
+//     unit.altitud = req.body.altitud;
 //     unit.departamento = req.body.departamento;
 //	   unit.municipio = req.body.municipio;
 //     unit.ubicacion = req.body.ubicacion;
@@ -987,9 +997,9 @@ router.get('/getWidgets', function (req, res, next) {
 //      unit.hexalon= req.body.hexalon ;
 //      unit.hexalondate= req.body.hexalondate ;
 //      unit.propicon= req.body.propicon ;
-//      unit.propicondate= req.body.propicondate ;  
+//      unit.propicondate= req.body.propicondate ;
 //      unit.hexil= req.body.hexil ;
-//      unit.hexildate= req.body.hexildate ;   
+//      unit.hexildate= req.body.hexildate ;
 //      unit.otros= req.body.otros ;
 //      unit.otrosdate= req.body.otrosdate ;
 //      unit.fungicidasmonth= req.body.fungicidasmonth ;
@@ -1009,7 +1019,7 @@ router.get('/getWidgets', function (req, res, next) {
 //          if(err){ return next(err); }
 //                console.log(unit);
 //           res.json(unit);
-//        });  
+//        });
 //	  });
 //});
 
@@ -1034,13 +1044,13 @@ router.post('/SyncUserServerData/:user/:lastSyncDateTime', function (req, res, n
                     return res.json({ dataList: dataList});
                 }
             });
-           
+
         }
     });
 });
 
 router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next) {
-    
+
     req.body.forEach(function (item) {
         if (item.EntityType == 'Unit') {
             Unit.remove({ 'PouchDBId': item.PouchDBId })
@@ -1128,7 +1138,7 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                         }
                     });
                 });
-                
+
             })
             .catch(function (err) {
                 console.log(err);
@@ -1190,20 +1200,3 @@ router.delete('/varieties', auth, function (req, res) {
 
 /* */
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

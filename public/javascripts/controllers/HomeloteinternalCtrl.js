@@ -1,5 +1,5 @@
-app.controller('HomeloteinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'gallo', 'roya', 'methods', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus',
-function ($http,$scope, $stateParams, auth, gallo, roya, methods, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus) {
+app.controller('HomeloteinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'gallo', 'roya', 'methods', 'methodsGallo', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus',
+function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus) {
         console.log("show time");
         $scope.currentUser = auth.currentUser;
         $scope.currentId = auth.currentUser();
@@ -160,5 +160,34 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, unit, varietie
                                 $scope.methodsMonth = methodsAvail;
                         }
                 });
+
+                methodsGallo.get().then(function(methodsGallo){
+              		 var meth = methodsGallo.data[0];
+              		 var date = new Date();
+              		 var currentMonth = date.getMonth();
+              		if(currentMonth < 6 ){
+              		   var methodsAvail = {};
+              		   methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+              		   methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+              		   methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+              		   methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+              		   $scope.methodsMonth = methodsAvail;
+
+              		} else if(currentMonth > 5 && currentMonth < 9) {
+              		   var methodsAvail = {};
+              		   methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+              		   methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+              		   methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+              		   methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+              		   $scope.methodsMonth = methodsAvail;
+              		} else if(currentMonth > 8) {
+              		   var methodsAvail = {};
+              		   methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+              		   methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+              		   methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+              		   methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+              		   $scope.methodsMonth = methodsAvail;
+              		}
+                  });
 
 }]);
