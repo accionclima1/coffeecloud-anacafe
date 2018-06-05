@@ -1,5 +1,5 @@
 <script type="text/ng-template" id="/gallo.html">
-	  		<div class="roya-wrap">
+	  		<div class="gallo-wrap">
 	  			<h2 class="section-header">
 	  				CÁLCULO DE OJO DE GALLO <small ng-show="test.advMode">(avanzado)</small>
 	  			</h2>
@@ -130,11 +130,11 @@
 
 								<div class="testControls">
 								<div class="col-md-12 fullbutton nopadd">
-									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 4 && test.bandolas || test.plantas.length > 4 && !test.bandolas">Agregar Planta</button>
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
 								</div>
 									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
 
-									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 5 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
+									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 30 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
 								</div>
 							</div>
 						</div>

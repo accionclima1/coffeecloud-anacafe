@@ -22,72 +22,73 @@
            <h4 class="titleUnit" style="padding-left:0">LOTE: {{loteseleccionado.nombre}}</h4>
          </div>
        </div>
-       <!-- Roya -->
-<div class="panel panel-default" style="color: #666666;">
-  <div class="panel-heading" style="height:40px !important;">
-    <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 style="text-align:left;color: #666666;">ROYA</h4></div>
-    <div class="col-xs-6 col-md-2" align="right">
-      <a class="btn btn-default btn-small btn-primario" style="margin-top:-1% !important;" href="#/roya/{{unitId}}/{{loteIndex}}">
-        <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Cálculo
-      </a>
-    </div>
-  </div>
-  <div class="panel-body">
 
-            <h6 ng-show="royaHistoryByLote.length == 0" style="color:#000">¡No hay cálculos todavía!</h6>
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-            <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
+      <!-- Roya -->
+      <div class="panel panel-default" style="color: #666666;">
+        <div class="panel-heading" style="height:40px !important;">
+          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 style="text-align:left;color: #666666;">ROYA</h4></div>
+          <div class="col-xs-6 col-md-2" align="right">
+            <a class="btn btn-default btn-small btn-primario" style="margin-top:-1% !important;" href="#/roya/{{unitId}}/{{loteIndex}}">
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Cálculo
+            </a>
+          </div>
+        </div>
+        <div class="panel-body">
 
-              <div class="panel panel-default" ng-repeat="roya in royaHistoryByLote">
-                <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
-                  <h5 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
-                      <small>{{ roya.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
-                    </a>
-                  </h5>
-                </div>
-                <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
-                  <div class="panel-body">
-                    <ul class="list-group">
-                      <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
-                      <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
-                      <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
-                      <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
-                    </ul>
+                  <h6 ng-show="royaHistoryByLote.length == 0" style="color:#000">¡No hay cálculos todavía!</h6>
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                  <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
 
-                    <p><strong>Recomendación</strong><br>
-                      <span ng-show="roya.incidencia < 11">{{methodsMonth.grade1}}</span>
-                      <span ng-show="roya.incidencia > 10 && roya.incidencia < 21 ">{{methodsMonth.grade2}}</span>
-                      <span ng-show="roya.incidencia > 20 && roya.incidencia < 51 ">{{methodsMonth.grade3}}</span>
-                      <span ng-show="roya.incidencia > 50 ">{{methodsMonth.grade3}}</span>
-                    </p>
+                    <div class="panel panel-default" ng-repeat="roya in royaHistoryByLote">
+                      <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
+                        <h5 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                            <small>{{ roya.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+                        <div class="panel-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
+                            <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
+                          </ul>
+
+                          <p><strong>Recomendación</strong><br>
+                            <span ng-show="roya.incidencia < 11">{{methodsMonth.grade1}}</span>
+                            <span ng-show="roya.incidencia > 10 && roya.incidencia < 21 ">{{methodsMonth.grade2}}</span>
+                            <span ng-show="roya.incidencia > 20 && roya.incidencia < 51 ">{{methodsMonth.grade3}}</span>
+                            <span ng-show="roya.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+                          </p>
 
 
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default" ng-repeat="roya in royaHistoryByLoteOffline">
+                      <div class="panel-heading" role="tab" id="{{ 'headingOffline-' + $index }}">
+                        <h5 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                           <small>Muestreo {{ $index + 1 }} (Offline)</small>
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseOffline-' + $index }}">
+                        <div class="panel-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
+                            <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="panel panel-default" ng-repeat="roya in royaHistoryByLoteOffline">
-                <div class="panel-heading" role="tab" id="{{ 'headingOffline-' + $index }}">
-                  <h5 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
-                     <small>Muestreo {{ $index + 1 }} (Offline)</small>
-                    </a>
-                  </h5>
-                </div>
-                <div id="{{ 'collapseOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseOffline-' + $index }}">
-                  <div class="panel-body">
-                    <ul class="list-group">
-                      <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
-                      <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
-                      <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
-                      <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-    </div>
-</div>
+          </div>
+      </div>
 
       <!-- Ojo de Gallo -->
       <div class="panel panel-default" style="color: #666666;">
@@ -101,19 +102,19 @@
         </div>
         <div class="panel-body">
 
-                  <h6 ng-show="galloHistoryByLote.length == 0" style="color:#000">¡No hay cálculos todavía!</h6>
+                  <h6 ng-show="galloHistoryByLote.length == 0" style="color:#666666">¡No hay cálculos todavía!</h6>
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                   <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
 
                     <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLote">
                       <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
                         <h5 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOnline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
                             <small>{{ gallo.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
                           </a>
                         </h5>
                       </div>
-                      <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+                      <div id="{{ 'collapseGalloOnline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
                         <div class="panel-body">
                           <ul class="list-group">
                             <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>
@@ -137,12 +138,12 @@
                     <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLoteOffline">
                       <div class="panel-heading" role="tab" id="{{ 'headingOffline-' + $index }}">
                         <h5 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
                            <small>Muestreo {{ $index + 1 }} (Offline)</small>
                           </a>
                         </h5>
                       </div>
-                      <div id="{{ 'collapseOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseOffline-' + $index }}">
+                      <div id="{{ 'collapseRoyaOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseGalloOffline-' + $index }}">
                         <div class="panel-body">
                           <ul class="list-group">
                             <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>

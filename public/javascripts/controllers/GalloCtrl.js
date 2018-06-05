@@ -30,7 +30,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
   $scope.unitId = $stateParams.idunidad;
   $scope.loteIndex = $stateParams.indexlote;
-  $scope.unabandola50=5;
+  $scope.unabandola50=50;
 
   $scope.noBandolas = 0;
   $scope.arrOfflineGallo = [];
@@ -266,7 +266,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	  	user : $scope.currentId,
 	  	plantas: [],
 	  	unidad: {"user":auth.userId()},
-			idunidad:"",
+			idunidad: $scope.unitId,
       loteIndex:0,
 	  	incidencia: 0,
 	  	avgplnt : "",
@@ -312,13 +312,8 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
       localStorageService.set('localTestgallo', $scope.test);
     }, true);
 
-
-  // if(testInStore && Object.keys(testInStore.unidad).length > 1) {
-	//   $('.roya-wrap').addClass('initiated');
-  // }
-
 	if(testInStore && Object.keys(testInStore.unidad).length > 1) {
-		$('.roya-wrap').addClass('initiated');
+		$('.gallo-wrap').addClass('initiated');
 	}
 
   if(testInStore && testInStore.resolved) {
@@ -328,9 +323,9 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
   $scope.startTest = function(userid,idunidad,loteindex) {
 		$scope.test.unidad = {"user":auth.userId()};
-			$scope.test.idunidad = idunidad;
+			// $scope.test.idunidad = idunidad;
 			$scope.test.loteIndex=loteindex;
-		$('.roya-wrap').addClass('initiated');
+		$('.gallo-wrap').addClass('initiated');
    }
 
 	 // Sección de Bandolas
@@ -342,10 +337,10 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		 }
 		 var requiredLength=0;
 		 if($scope.test.bandolas==true){
-			 requiredLength=4; //KH - Modificación - 29 - 4
+			 requiredLength=29; //KH - Modificación - 29 - 4
 		 }
 		 else{
-			 requiredLength=4; //KH - Modificación - 49 - 4
+			 requiredLength=49; //KH - Modificación - 49 - 4
 		 }
 		 if($scope.test.plantas.length>requiredLength)
 		 {
@@ -394,13 +389,13 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		if($scope.test.bandolas==true){
 			console.log("Seleccioné 2 Bandolas");
 			$scope.noBandolas = 0;
-			requiredLength=4; //KH - Modificación - 29 - 4
+			requiredLength=29; //KH - Modificación - 29 - 4
 			//$scope.noBandolas = 2;
 
 		}
 		else{
 			console.log("Seleccioné 1 Bandola");
-			requiredLength=4; //KH -Modificación - 49 - 4
+			requiredLength=49; //KH -Modificación - 49 - 4
 			//$scope.noBandolas = 1;
 		}
 		if($scope.test.plantas.length>requiredLength)
@@ -415,7 +410,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		var plantName = $scope.test.plantas.length;
 		console.log($scope.test.plantas.length);
 		if($scope.test.bandolas==true){
-			if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+			if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
 				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
 			}else{
 				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -475,7 +470,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
 	$scope.CloseAndAddPlant=function(){
 		console.log($scope.test.plantas.length);
-		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=5)){ //KH - Modificación - 30 - 5
+		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
 			$scope.closePlant();
 			console.log("Cerrramos planta");
 			$('#plantModal').modal('hide');
@@ -494,7 +489,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	// Editar Planta
 	$scope.editPlant = function($index) {
 		if($scope.test.bandolas==true){
-				if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+				if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
 						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
 				}else{
 						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');

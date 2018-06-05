@@ -96,10 +96,10 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                           console.log($scope.galloHistory);
 
                           for (var i = 0; i < $scope.galloHistory.length; i++) {
-                            console.log($scope.galloHistory[i].unidad.user, $scope.unitId);
-                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].unidad.user==$scope.unitId)) {
+                            console.log($scope.galloHistory[i].idunidad, $scope.unitId);
+                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
                                     console.log($scope.galloHistory[i]);
-                                    $scope.galloHistoryByLote.push($scope.royaHistory[i]);
+                                    $scope.galloHistoryByLote.push($scope.galloHistory[i]);
                             }
                           }
                         });

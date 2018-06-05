@@ -607,7 +607,8 @@ h5 {
   }
 
   .home-wrap .btn-primary,
-  .roya-wrap .btn-primary {
+  .roya-wrap .btn-primary,
+  .gallo-wrap .btn-primary {
     background-color: #3ebfff;
     color: #FFFFFF;
     border-color:  #3ebfff;
@@ -663,7 +664,8 @@ h5 {
  }
 
  .home-wrap .btn-primary:hover,
- .roya-wrap .btn-primary:hover {
+ .roya-wrap .btn-primary:hover,
+ .gallo-wrap .btn-primary:hover {
   background-color: #3498db;
   border-color:  #3498db;
 }
@@ -671,6 +673,7 @@ h5 {
 /* roya calculador */
 
 .roya-wrap,
+.gallo-wrap,
 .vul-wrap {
   background-color: #F0F3F2;
   min-height: 100%;
@@ -702,7 +705,8 @@ h5 {
   text-transform: capitalize;
 }
 
-.roya-wrap .container h2 {
+.roya-wrap .container h2,
+.gallo-wrap .container h2 {
   color: #21aaf7;
   font-size: 32px;
   line-height: 1;
@@ -710,41 +714,49 @@ h5 {
   font-weight: 700;
 }
 
-.roya-wrap .intro {
+.roya-wrap .intro,
+.gallo-wrap .intro {
   margin-bottom: 24px;
 }
 
+.roya-wrap .intro h4.clearfix,
 .roya-wrap .intro h4.clearfix {
   clear: both;
   padding: 24px 0 8px;
   font-size: 16px;
 }
 
-.roya-wrap .container h2 span {
+.roya-wrap .container h2 span,
+.gallo-wrap .container h2 span {
   display: block;
   text-transform: capitalize;
 }
 
-.roya-wrap img {
+.roya-wrap img,
+.gallo-wrap img {
   margin-bottom: 24px;
 }
 
-.roya-wrap p {
+.roya-wrap p,
+.gallo-wrap p {
   font-size: 18px;
 }
 
-.roya-wrap .modal-body p {
+.roya-wrap .modal-body p,
+.gallo-wrap .modal-body p {
   font-size: 14px;
 }
 
-.roya-wrap .radio {
+.roya-wrap .radio,
+.gallo-wrap .radio {
   float: left;
   width: 49%;
   margin: 0 1px 0;
   margin-bottom: 10px;
 }
 
-.roya-wrap .radio label {
+.roya-wrap .radio label,
+.gallo-wrap .radio label {
   padding: 12px 0;
   min-height: 55px;
   font-size: 12px;
@@ -753,28 +765,34 @@ h5 {
   width: 100%;
 }
 
-.roya-wrap .radio input:checked  + label {
+.roya-wrap .radio input:checked  + label,
+.gallo-wrap .radio input:checked + label {
   background-color: #FE852D;
 }
 
-.roya-wrap .radio input {
+.roya-wrap .radio input,
+.gallo-wrap .radio input {
   display: none;
 }
-.roya-wrap .radio small {
+.roya-wrap .radio small,
+.gallo-wrap .radio small {
   display: block;
 }
 
-.roya-wrap .unidades-wrap {
+.roya-wrap .unidades-wrap,
+.gallo-wrap .unidades-wrap {
   margin-bottom: 18px;
 }
 
-.roya-wrap .unidades-wrap .glyphicon {
+.roya-wrap .unidades-wrap .glyphicon,
+.gallo-wrap .unidades-wrap .glyphicon {
   float: right;
   font-size: 18px;
   color: #FE852D;
 }
 
-.roya-wrap .btn-primary {
+.roya-wrap .btn-primary,
+.gallo-wrap .btn-primary {
   margin-top: 48px;
   display: block;
   width: 100%;
@@ -789,7 +807,8 @@ input:checked + label + #otherArea {
   display: block;
 }
 
-.roya-wrap.initiated .intro {
+.roya-wrap.initiated .intro,
+.gallo-wrap.initiated .intro {
   display: none;
 }
 
@@ -871,11 +890,13 @@ input:checked + label + #otherArea {
 .testControls .btn[disabled] {
  opacity: 0.3;
 }
-.roya-wrap .modal-body {
+.roya-wrap .modal-body,
+.gallo-wrap .modal-body {
   position: static;
 }
 
-.roya-wrap .modal-content {
+.roya-wrap .modal-content,
+.gallo-wrap .modal-content {
   height: 96%;
   overflow: scroll;
   /* padding: 24px; */

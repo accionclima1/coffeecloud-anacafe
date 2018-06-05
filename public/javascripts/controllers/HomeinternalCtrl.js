@@ -283,7 +283,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
            var altitudLote = "#altitudLoteId" + $scope.unidadseleccionada.lote.length.toString();
            $scope.mensajeUbicacionLote = "#messageLocationLote" + $scope.unidadseleccionada.lote.length.toString();
            $scope.mensajeAltitudLote = "#messageAltitudLote" + $scope.unidadseleccionada.lote.length.toString();
-var idetime=(new Date).getTime();
+           var idetime=(new Date).getTime();
              var newItem = {
                  nombre: "",
                  loteIde: idetime
@@ -420,108 +420,214 @@ var idetime=(new Date).getTime();
        }
      }
    }
-      // Función para guardar nuevos Lotes
-     $scope.updateUnitForm = function () {
+   //    // Función para guardar nuevos Lotes
+   //   $scope.updateUnitForm = function () {
+   //
+   //     var index = $scope.unidadseleccionada.lote.length - 1;
+   //
+   //     console.log("Entre a la Funcion Lote - Index --> ", index);
+   //
+   //     //if (index >= 0) {
+   //
+   //         if ($scope.updateunitFormlote.$valid) {
+   //
+   //             //Añado el Id del Lote
+   //             $scope.unidadseleccionada.lote[index].idLote = $scope.unidadseleccionada._id + $scope.idLote;
+   //             console.log($scope.unidadseleccionada.lote[index].idLote);
+   //
+   //             //Commented out as we need to update data from pouchDB only,that will be sync to server
+   //             //if ($rootScope.IsInternetOnline) {
+   //             //    unit.update(id, auth.userId(), $scope.editUnit).then(function (unitN) {
+   //             //        user.get($scope.user_Ided).then(function (user) {
+   //             //            $scope.userO = user;
+   //             //            $scope.units = $scope.userO.units;
+   //             //        });
+   //             //        $scope.editUnit = {};
+   //             //        console.log("return  updated data=" + JSON.stringify(unitN.data));
+   //             //        $scope.editUnit = unitN.data;
+   //             //        $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+   //             //        if ($rootScope.IsInternetOnline) {
+   //             //            PouchDB.SynServerDataAndLocalData().then(function () {
+   //             //                console.log("sync successfully.");
+   //             //            }).catch(function (err) {
+   //             //                console.log("Not able to sync" + error);
+   //             //            });
+   //             //        }
+   //             //    });
+   //
+   //
+   //             //} else {
+   //             //    //region to update data in local PouchDB instead , that will be sync to server
+   //             //    PouchDB.EditUnit($scope.editUnit, auth.userId()).then(function (result) {
+   //             //        if (result.status == 'fail') {
+   //             //            $scope.error = result.message;
+   //             //        }
+   //             //        else if (result.status == 'success') {
+   //             //            $scope.editUnit = result.data;
+   //             //            $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+   //             //            console.log(result.data)
+   //             //            for (var i = 0 ; i < $scope.units.length; i++) {
+   //             //                if ($scope.units[i]._id == $scope.editUnit._id) {
+   //             //                    $scope.units[i] = $scope.editUnit;
+   //             //                    break;
+   //             //                }
+   //             //            }
+   //             //        }
+   //             //    });
+   //             //}
+   //             var clase = 'latLangLoteId' + index.toString();
+   //             console.log(clase);
+   //             console.log($scope.unidadseleccionada);
+   //             PouchDB.EditUnitLotes($scope.unidadseleccionada, auth.userId()).then(function (result) {
+   //                 console.log("Entre a Pouch");
+   //                 console.log(result);
+   //                 if (result.status == 'fail') {
+   //                     $scope.error = result.message;
+   //                 }
+   //                 else if (result.status == 'success') {
+   //                     $scope.unidadseleccionada = result.data;
+   //                     var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
+   //                     if (collapseLote == "Nuevo") {
+   //                       $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
+   //                     }else if (collapseLote == "Editado") {
+   //                       $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
+   //                     }
+   //                     $scope.nuevoLote = "";
+   //                     $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+   //
+   //                     // for (var i = 0 ; i < $scope.units.length; i++) {
+   //                     //     console.log('$Scope Units ' + i + ' = ',  $scope.units[i]);
+   //                     //     if ($scope.units[i]._id == $scope.editUnit._id) {
+   //                     //         $scope.units[i] = $scope.editUnit;
+   //                     //         break;
+   //                     //     }
+   //                     // }
+   //                     if ($rootScope.IsInternetOnline) {
+   //                         PouchDB.SynServerDataAndLocalData().then(function () {
+   //                             console.log("sync successfully.");
+   //                         }).catch(function (err) {
+   //                             console.log("Not able to sync" + error);
+   //                         });
+   //                     }
+   //                     $scope.nuevoLote = "";
+   //                     $('#nuevoLote').prop('disabled', false);
+   //                 }
+   //             });
+   //         }
+   //         else {
+   //             $scope.SweetAlert("Error", "Complete los campos", "error");
+   //         }
+   //     /*}
+   //     else{
+   //       $scope.SweetAlert("Error", "Lote Invalido", "error");
+   //     }*/
+   // }
 
-       var index = $scope.unidadseleccionada.lote.length - 1;
 
-       console.log("Entre a la Funcion Lote - Index --> ", index);
-
-       //if (index >= 0) {
-
-           if ($scope.updateunitFormlote.$valid) {
-
-               //Añado el Id del Lote
-               $scope.unidadseleccionada.lote[index].idLote = $scope.unidadseleccionada._id + $scope.idLote;
-               console.log($scope.unidadseleccionada.lote[index].idLote);
-
-               //Commented out as we need to update data from pouchDB only,that will be sync to server
-               //if ($rootScope.IsInternetOnline) {
-               //    unit.update(id, auth.userId(), $scope.editUnit).then(function (unitN) {
-               //        user.get($scope.user_Ided).then(function (user) {
-               //            $scope.userO = user;
-               //            $scope.units = $scope.userO.units;
-               //        });
-               //        $scope.editUnit = {};
-               //        console.log("return  updated data=" + JSON.stringify(unitN.data));
-               //        $scope.editUnit = unitN.data;
-               //        $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
-               //        if ($rootScope.IsInternetOnline) {
-               //            PouchDB.SynServerDataAndLocalData().then(function () {
-               //                console.log("sync successfully.");
-               //            }).catch(function (err) {
-               //                console.log("Not able to sync" + error);
-               //            });
-               //        }
-               //    });
+   // Función para guardar nuevos Lotes
+   $scope.updateUnitForm = function () {
 
 
-               //} else {
-               //    //region to update data in local PouchDB instead , that will be sync to server
-               //    PouchDB.EditUnit($scope.editUnit, auth.userId()).then(function (result) {
-               //        if (result.status == 'fail') {
-               //            $scope.error = result.message;
-               //        }
-               //        else if (result.status == 'success') {
-               //            $scope.editUnit = result.data;
-               //            $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
-               //            console.log(result.data)
-               //            for (var i = 0 ; i < $scope.units.length; i++) {
-               //                if ($scope.units[i]._id == $scope.editUnit._id) {
-               //                    $scope.units[i] = $scope.editUnit;
-               //                    break;
-               //                }
-               //            }
-               //        }
-               //    });
-               //}
-               var clase = 'latLangLoteId' + index.toString();
-               console.log(clase);
-               console.log($scope.unidadseleccionada);
-               PouchDB.EditUnitLotes($scope.unidadseleccionada, auth.userId()).then(function (result) {
-                   console.log("Entre a Pouch");
-                   console.log(result);
-                   if (result.status == 'fail') {
-                       $scope.error = result.message;
-                   }
-                   else if (result.status == 'success') {
-                       $scope.unidadseleccionada = result.data;
-                       var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
-                       if (collapseLote == "Nuevo") {
-                         $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
-                       }else if (collapseLote == "Editado") {
-                         $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
-                       }
-                       $scope.nuevoLote = "";
-                       $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+     var index = $scope.unidadseleccionada.lote.length - 1;
 
-                       // for (var i = 0 ; i < $scope.units.length; i++) {
-                       //     console.log('$Scope Units ' + i + ' = ',  $scope.units[i]);
-                       //     if ($scope.units[i]._id == $scope.editUnit._id) {
-                       //         $scope.units[i] = $scope.editUnit;
-                       //         break;
-                       //     }
-                       // }
-                       if ($rootScope.IsInternetOnline) {
-                           PouchDB.SynServerDataAndLocalData().then(function () {
-                               console.log("sync successfully.");
-                           }).catch(function (err) {
-                               console.log("Not able to sync" + error);
-                           });
-                       }
-                       $scope.nuevoLote = "";
-                       $('#nuevoLote').prop('disabled', false);
-                   }
-               });
-           }
-           else {
-               $scope.SweetAlert("Error", "Complete los campos", "error");
-           }
-       /*}
-       else{
-         $scope.SweetAlert("Error", "Lote Invalido", "error");
-       }*/
-   }
+     console.log("Entre a la Funcion Lote - Index --> ", index);
+     console.log(index);
+
+     //if (index >= 0) {
+
+         if ($scope.updateunitFormlote.$valid) {
+
+             console.log("Formulario de Lote Valido");
+
+             //Commented out as we need to update data from pouchDB only,that will be sync to server
+             //if ($rootScope.IsInternetOnline) {
+             //    unit.update(id, auth.userId(), $scope.editUnit).then(function (unitN) {
+             //        user.get($scope.user_Ided).then(function (user) {
+             //            $scope.userO = user;
+             //            $scope.units = $scope.userO.units;
+             //        });
+             //        $scope.editUnit = {};
+             //        console.log("return  updated data=" + JSON.stringify(unitN.data));
+             //        $scope.editUnit = unitN.data;
+             //        $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+             //        if ($rootScope.IsInternetOnline) {
+             //            PouchDB.SynServerDataAndLocalData().then(function () {
+             //                console.log("sync successfully.");
+             //            }).catch(function (err) {
+             //                console.log("Not able to sync" + error);
+             //            });
+             //        }
+             //    });
+
+
+             //} else {
+             //    //region to update data in local PouchDB instead , that will be sync to server
+             //    PouchDB.EditUnit($scope.editUnit, auth.userId()).then(function (result) {
+             //        if (result.status == 'fail') {
+             //            $scope.error = result.message;
+             //        }
+             //        else if (result.status == 'success') {
+             //            $scope.editUnit = result.data;
+             //            $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+             //            console.log(result.data)
+             //            for (var i = 0 ; i < $scope.units.length; i++) {
+             //                if ($scope.units[i]._id == $scope.editUnit._id) {
+             //                    $scope.units[i] = $scope.editUnit;
+             //                    break;
+             //                }
+             //            }
+             //        }
+             //    });
+             //}
+             var clase = 'latLangLoteId' + index.toString();
+             console.log(clase);
+             console.log($scope.unidadseleccionada);
+             PouchDB.EditUnitLotes($scope.unidadseleccionada, auth.userId()).then(function (result) {
+                 console.log("Entre a Pouch");
+                 console.log(result);
+                 if (result.status == 'fail') {
+                     $scope.error = result.message;
+                 }
+                 else if (result.status == 'success') {
+                     $scope.unidadseleccionada = result.data;
+                     var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
+                     if (collapseLote == "Nuevo") {
+                       $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
+                     }else if (collapseLote == "Editado") {
+                       $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
+                     }
+                     $scope.nuevoLote = "";
+                     $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+                     for (var i = 0 ; i < $scope.units.length; i++) {
+                         console.log('$Scope Units ' + i + ' = ',  $scope.units[i]);
+                         console.log($scope.units[i]._id);
+                         if ($scope.units[i]._id == $scope.unidadseleccionada._id) {
+                             $scope.units[i] = $scope.unidadseleccionada;
+                             break;
+                         }
+                     }
+                     if ($rootScope.IsInternetOnline) {
+                         PouchDB.SynServerDataAndLocalData().then(function () {
+                             console.log("sync successfully.");
+                         }).catch(function (err) {
+                             console.log("Not able to sync" + error);
+                         });
+                     }
+                     $scope.nuevoLote = "";
+                 }
+                 //$('#myModal3').modal('hide');
+                 //  $('#myModal3').modal('show');
+                 // $scope.nuevoLote = "";
+             });
+         }
+         else {
+             $scope.SweetAlert("Error", "Complete los campos", "error");
+         }
+     /*}
+     else{
+       $scope.SweetAlert("Error", "Lote Invalido", "error");
+     }*/
+ }
 
    // Funcion para eliminar lote
    $scope.eliminarLote = function (index){

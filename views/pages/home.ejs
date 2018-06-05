@@ -7,17 +7,6 @@
 				        <h2>¡Hola!</h2>
 				        <p>Bienvenido {{ currentUser() }}</p>
 				      </div>
-
-					  <!-- <div class="weather-wrapper">
-
-
-
-						</div> -->
-
-			      <!-- <div class="weather-module">
-
-
-			      </div> -->
 						<div class="row">
 						  <div class="col-md-12 ">
 						    <h4>Unidades Productivas</h4>
@@ -26,9 +15,10 @@
 						      <span>{{ unitopmessage }}</span>
 						    </div>
 
-						    <h6 ng-hide="units" class="textloader">Cargando Unidades <i class="fa fa-spinner fa-spin"></i> </h6>
-
+						    <h6 ng-hide="units" class="textloader">Cargando Unidades <i class="fa fa-spinner fa-spin"></i> </h6><hr style="width:50%">
+								<h6 ng-show="units.length > 0" style="color:#FFF;margin-bottom:5%;">Seleccione una unidad para ver detalles</h6>
 						    <div class="unidades-wrap">
+
 						      <div class="row unidad" ng-repeat="unit in units" id="{{unit._id}}">
 
 								<div class="col-xs-7 col-center nombreUnidad"><a href="#/homeinternal/{{unit._id}}/{{$index}}" class="lnkUnidad"><p>{{unit.nombre}}</p></a></div>
