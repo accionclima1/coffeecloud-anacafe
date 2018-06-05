@@ -37,64 +37,96 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, unit, varietie
 
         //Cálculos de ROYA
         if ($rootScope.IsInternetOnline) {
-                console.log("Con internet");
-                console.log($scope.user_Ided);
+          console.log("Con internet Roya");
+          console.log($scope.user_Ided);
 
-                roya.getUser(auth.userId()).then(function(userhistory){
-                $scope.royaHistory = userhistory.data;
-                $scope.royaHistoryOffline = localStorageService.get('dataOffline');
-                localStorageService.set('royaHistory',userhistory.data);
-                console.log("Historial Roya");
-                console.log($scope.royaHistory);
-                for (var i = 0; i < userhistory.data.length; i++) {
-                        if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
-                                $scope.royaHistoryByLote.push($scope.royaHistory[i]);
-                        }
+          // Reporte de Roya
+          roya.getUser(auth.userId()).then(function(userhistory){
+            console.log("Entré Datos Roya");
+            $scope.royaHistory = userhistory.data;
+            $scope.royaHistoryOffline = localStorageService.get('dataOffline');
+            localStorageService.set('royaHistory',userhistory.data);
+            console.log("Historial Roya");
+            console.log($scope.royaHistory);
+            for (var i = 0; i < userhistory.data.length; i++) {
+                    if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
+                            $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+                    }
+            }
+
+          });
+          localStorageService.remove('dataOffline');
+          } else {
+            console.log("No internet Roya");
+            console.log($scope.user_Ided);
+            $scope.royaHistory = localStorageService.get('royaHistory');
+            console.log('Offline-Data Roya: ', $scope.royaHistory);
+            $scope.royaHistoryOffline = localStorageService.get('dataOffline');
+            console.log($scope.royaHistoryOffline);
+
+            for (var i = 0; i < $scope.royaHistory.length; i++) {
+              if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
+                $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+              }
+            }
+
+            if ($scope.royaHistoryOffline !== null) {
+              for (var i = 0; i < $scope.royaHistoryOffline.length; i++) {
+                if (($scope.royaHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.royaHistoryOffline[i].idunidad==$scope.unitId)) {
+                  $scope.royaHistoryByLoteOffline.push($scope.royaHistoryOffline[i]);
                 }
+              }
+            }
 
-                });
+          }
 
-                // Reporte de Ojo de Gallo
-                gallo.getUser(auth.userId()).then(function(userhistory){
-                  $scope.galloHistory = userhistory.data;
-                  localStorageService.set('galloHistory',userhistory.data);
-                  console.log("Historial Ojo de Gallo");
-                  console.log($scope.galloHistory);
 
-                  for (var i = 0; i < userhistory.data.length; i++) {
-                          if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
-                                  $scope.galloHistoryByLote.push($scope.royaHistory[i]);
+
+                //Cálculos de Ojo de Gallo
+                if ($rootScope.IsInternetOnline) {
+                        console.log("Con internet Gallo");
+                        console.log($scope.user_Ided);
+
+                        // Reporte de Ojo de Gallo
+                        gallo.getUser(auth.userId()).then(function(userhistory){
+                          console.log('Entré Data Gallo');
+                          $scope.galloHistory = userhistory.data;
+                          localStorageService.set('galloHistory',userhistory.data);
+                          console.log("Historial Ojo de Gallo");
+                          console.log($scope.galloHistory);
+
+                          for (var i = 0; i < userhistory.data.length; i++) {
+                                  if ((userhistory.data[i].loteIndex == $scope.loteIndex)&&(userhistory.data[i].idunidad==$scope.unitId)) {
+                                          $scope.galloHistoryByLote.push($scope.royaHistory[i]);
+                                  }
                           }
-                  }
-                });
+                        });
 
-                localStorageService.remove('dataOffline');
-                localStorageService.remove('dataGalloOffline');
-                } else {
-                console.log("No internet");
-                console.log($scope.user_Ided);
-                $scope.royaHistory = localStorageService.get('royaHistory');
-                $scope.galloHistory = localStorageService.get('galloHistory');
-                console.log('Offline-Data Roya: ', $scope.royaHistory);
-                console.log('Offline-Data Gallo: ', $scope.galloHistory);
-                $scope.royaHistoryOffline = localStorageService.get('dataOffline');
-                console.log($scope.royaHistoryOffline);
 
-                for (var i = 0; i < $scope.royaHistory.length; i++) {
-                        if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
-                                $scope.royaHistoryByLote.push($scope.royaHistory[i]);
-                        }
+                        localStorageService.remove('dataOfflineGallo');
+                        } else {
+                        console.log("No internet Gallo");
+                        console.log($scope.user_Ided);
+                        $scope.galloHistory = localStorageService.get('galloHistory');
+                        console.log('Offline-Data Gallo: ', $scope.galloHistory);
+                        $scope.galloHistoryOffline = localStorageService.get('dataOfflineGallo');
+                        console.log($scope.galloHistoryOffline);
 
-                }
-                if ($scope.royaHistoryOffline !== null) {
-                        for (var i = 0; i < $scope.royaHistoryOffline.length; i++) {
-                                if (($scope.royaHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.royaHistoryOffline[i].idunidad==$scope.unitId)) {
-                                        $scope.royaHistoryByLoteOffline.push($scope.royaHistoryOffline[i]);
+                        for (var i = 0; i < $scope.galloHistory.length; i++) {
+                                if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
+                                        $scope.galloHistoryByLote.push($scope.galloHistory[i]);
                                 }
 
                         }
-                }
-                }
+                        if ($scope.galloHistoryOffline !== null) {
+                                for (var i = 0; i < $scope.galloHistoryOffline.length; i++) {
+                                        if (($scope.galloHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.galloHistoryOffline[i].idunidad==$scope.unitId)) {
+                                                $scope.galloHistoryByLoteOffline.push($scope.galloHistoryOffline[i]);
+                                        }
+
+                                }
+                        }
+                        }
 
 
                 console.log("historial");
