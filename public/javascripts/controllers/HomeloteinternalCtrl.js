@@ -34,6 +34,64 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
         	}
         });
 
+        methods.get().then(function(methods){
+                var meth = methods.data[0];
+                var date = new Date();
+                var currentMonth = date.getMonth();
+                if(currentMonth < 6 ){
+                        var methodsAvail = {};
+                        methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+                        methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+                        methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+                        methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+                        $scope.methodsMonth = methodsAvail;
+
+                } else if(currentMonth > 5 && currentMonth < 9) {
+                        var methodsAvail = {};
+                        methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+                        methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+                        methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+                        methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+                        $scope.methodsMonth = methodsAvail;
+                } else if(currentMonth > 8) {
+                        var methodsAvail = {};
+                        methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+                        methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+                        methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+                        methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+                        $scope.methodsMonth = methodsAvail;
+                }
+        });
+
+        methodsGallo.get().then(function(methodsGallo){
+           var meth = methodsGallo.data[0];
+           var date = new Date();
+           var currentMonth = date.getMonth();
+          if(currentMonth < 6 ){
+             var methodsAvail = {};
+             methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+             methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+             methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+             methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+             $scope.methodsMonth = methodsAvail;
+
+          } else if(currentMonth > 5 && currentMonth < 9) {
+             var methodsAvail = {};
+             methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+             methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+             methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+             methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+             $scope.methodsMonth = methodsAvail;
+          } else if(currentMonth > 8) {
+             var methodsAvail = {};
+             methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+             methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+             methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+             methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+             $scope.methodsMonth = methodsAvail;
+          }
+          });
+
 
         //Cálculos de ROYA
         if ($rootScope.IsInternetOnline) {
@@ -49,6 +107,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
             console.log("Historial Roya");
             console.log($scope.royaHistory);
             for (var i = 0; i < $scope.royaHistory.length; i++) {
+              console.log($scope.royaHistory[i].idunidad, $scope.unitId);
+              console.log($scope.royaHistory[i].loteIndex, $scope.loteIndex);
                     if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
                             $scope.royaHistoryByLote.push($scope.royaHistory[i]);
                     }
@@ -97,7 +157,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
                           for (var i = 0; i < $scope.galloHistory.length; i++) {
                             console.log($scope.galloHistory[i].idunidad, $scope.unitId);
-                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
+                            console.log($scope.galloHistory[i].loteIndex, $scope.loteIndex);
+                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad == $scope.unitId)) {
                                     console.log($scope.galloHistory[i]);
                                     $scope.galloHistoryByLote.push($scope.galloHistory[i]);
                             }
@@ -133,63 +194,5 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
                 console.log("historial");
                 console.log($scope.royaHistory);
-
-                methods.get().then(function(methods){
-                        var meth = methods.data[0];
-                        var date = new Date();
-                        var currentMonth = date.getMonth();
-                        if(currentMonth < 6 ){
-                                var methodsAvail = {};
-                                methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-                                methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-                                methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-                                methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-                                $scope.methodsMonth = methodsAvail;
-
-                        } else if(currentMonth > 5 && currentMonth < 9) {
-                                var methodsAvail = {};
-                                methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-                                methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-                                methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-                                methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-                                $scope.methodsMonth = methodsAvail;
-                        } else if(currentMonth > 8) {
-                                var methodsAvail = {};
-                                methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-                                methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-                                methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-                                methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-                                $scope.methodsMonth = methodsAvail;
-                        }
-                });
-
-                methodsGallo.get().then(function(methodsGallo){
-              		 var meth = methodsGallo.data[0];
-              		 var date = new Date();
-              		 var currentMonth = date.getMonth();
-              		if(currentMonth < 6 ){
-              		   var methodsAvail = {};
-              		   methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-              		   methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-              		   methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-              		   methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-              		   $scope.methodsMonth = methodsAvail;
-
-              		} else if(currentMonth > 5 && currentMonth < 9) {
-              		   var methodsAvail = {};
-              		   methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-              		   methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-              		   methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-              		   methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-              		   $scope.methodsMonth = methodsAvail;
-              		} else if(currentMonth > 8) {
-              		   var methodsAvail = {};
-              		   methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-              		   methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-              		   methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-              		   methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-              		   $scope.methodsMonth = methodsAvail;
-              		}
-                  });
 
 }]);

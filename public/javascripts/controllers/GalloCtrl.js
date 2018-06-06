@@ -266,7 +266,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	  	user : $scope.currentId,
 	  	plantas: [],
 	  	unidad: {"user":auth.userId()},
-			idunidad: $scope.unitId,
+			idunidad: $stateParams.idunidad,
       loteIndex:0,
 	  	incidencia: 0,
 	  	avgplnt : "",
@@ -312,6 +312,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
       localStorageService.set('localTestgallo', $scope.test);
     }, true);
 
+
 	if(testInStore && Object.keys(testInStore.unidad).length > 1) {
 		$('.gallo-wrap').addClass('initiated');
 	}
@@ -323,7 +324,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
   $scope.startTest = function(userid,idunidad,loteindex) {
 		$scope.test.unidad = {"user":auth.userId()};
-			// $scope.test.idunidad = idunidad;
+			$scope.test.idunidad = idunidad;
 			$scope.test.loteIndex=loteindex;
 		$('.gallo-wrap').addClass('initiated');
    }
