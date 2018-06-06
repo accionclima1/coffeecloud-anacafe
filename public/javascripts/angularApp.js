@@ -1044,14 +1044,10 @@ console.log("Dentro de Catch - $q.when");
         };
         var pouchPromise = localPouchDB.get(editUnit._id);
         return $q.when(pouchPromise).then(function (doc) {
-          console.log(doc);
-          console.log(doc.lote, editUnit.lote);
             doc.lote = editUnit.lote;
             var dt = new Date();
             doc.LastUpdatedDateTime = Number(dt);
-            console.log(doc.LastUpdatedDateTime);
             var UpdatePouchPromise = localPouchDB.put(doc);
-            console.log(UpdatePouchPromise);
             return $q.when(UpdatePouchPromise).then(function (res) {
                 if (res && res.ok == true) {
                     result.status = 'success';

@@ -44,7 +44,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                         methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
                         methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
                         methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-                        $scope.methodsMonth = methodsAvail;
+                        $scope.methodsMonthRoya = methodsAvail;
 
                 } else if(currentMonth > 5 && currentMonth < 9) {
                         var methodsAvail = {};
@@ -52,14 +52,14 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                         methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
                         methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
                         methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-                        $scope.methodsMonth = methodsAvail;
+                        $scope.methodsMonthRoya = methodsAvail;
                 } else if(currentMonth > 8) {
                         var methodsAvail = {};
                         methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
                         methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
                         methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
                         methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-                        $scope.methodsMonth = methodsAvail;
+                        $scope.methodsMonthRoya = methodsAvail;
                 }
         });
 
@@ -73,7 +73,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
              methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
              methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
              methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-             $scope.methodsMonth = methodsAvail;
+             $scope.methodsMonthGallo = methodsAvail;
+             console.log($scope.methodsMonth);
 
           } else if(currentMonth > 5 && currentMonth < 9) {
              var methodsAvail = {};
@@ -81,14 +82,16 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
              methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
              methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
              methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-             $scope.methodsMonth = methodsAvail;
+             $scope.methodsMonthGallo = methodsAvail;
+             console.log($scope.methodsMonth);
           } else if(currentMonth > 8) {
              var methodsAvail = {};
              methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
              methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
              methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
              methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-             $scope.methodsMonth = methodsAvail;
+             $scope.methodsMonthGallo = methodsAvail;
+             console.log($scope.methodsMonthGallo);
           }
           });
 
