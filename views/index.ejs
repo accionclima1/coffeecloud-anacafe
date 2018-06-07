@@ -131,9 +131,8 @@ function onDeviceReady(){
 		document.addEventListener("backbutton", backKeyDown, true);
     console.log("device ready");
         dbPouchExterna = new PouchDB('dummyDb.db',{adapter: 'cordova-sqlite'})
-        var domElement = document.getElementById('bodyMainCtrl');
     if(!aplicacionInicio){
-        angular.bootstrap(domElement, ["coffeeScript"]);
+        angular.bootstrap(document, ["coffeeScript"]);
         aplicacionInicio=true;
     }
 
@@ -151,7 +150,7 @@ function backKeyDown(){
             } else {
                 esPhonegap=false;
                 if(!aplicacionInicio){
-                    angular.bootstrap(domElement, ["coffeeScript"]);
+                    angular.bootstrap(document, ["coffeeScript"]);
                 }
 
             }
@@ -162,7 +161,7 @@ function backKeyDown(){
 
 	<style> .glyphicon-thumbs-up { cursor:pointer; } </style>
 </head>
-<body ng-app="coffeeScript" ng-controller="MainCtrl">
+<body  ng-controller="MainCtrl">
 	<div class="loader">
 		<span>Cargando...</span>
 	</div>
