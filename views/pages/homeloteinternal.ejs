@@ -26,7 +26,7 @@
       <!-- Roya -->
       <div class="panel panel-default" style="color: #666666;">
         <div class="panel-heading" style="height:40px !important;">
-          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 style="text-align:left;color: #666666;">ROYA</h4></div>
+          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 class="tituloMuestreo" style="text-align:left;color: #666666;">ROYA</h4></div>
           <div class="col-xs-6 col-md-2" align="right">
             <a class="btn btn-default btn-small btn-primario nuevoCalculo" style="margin-top:-1% !important;" href="#/roya/{{unitId}}/{{loteIndex}}">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Cálculo
@@ -93,7 +93,7 @@
       <!-- Ojo de Gallo -->
       <div class="panel panel-default" style="color: #666666;">
         <div class="panel-heading" style="height:40px !important;">
-          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 style="text-align:left;color: #666666;">OJO DE GALLO</h4></div>
+          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 class="tituloMuestreo" style="text-align:left;color: #666666;">OJO DE GALLO</h4></div>
           <div class="col-xs-6 col-md-2" align="right">
             <a class="btn btn-default btn-small btn-primario nuevoCalculo" style="margin-top:-1% !important;" href="#/gallo/{{unitId}}/{{loteIndex}}">
               <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Cálculo
@@ -123,12 +123,12 @@
                             <li class="list-group-item" ng-show="gallo.advMode">Incidencia promedio por planta <span class="badge">{{gallo.inideanciaPromedioPlanta}}</span></li>
                           </ul>
 
-                          <p><strong>Recomendación</strong><br>
+                          <!-- <p><strong>Recomendación</strong><br>
                             <span ng-show="gallo.incidencia < 11">{{methodsMonthGallo.grade1}}</span>
                             <span ng-show="gallo.incidencia > 10 && gallo.incidencia < 21 ">{{methodsMonthGallo.grade2}}</span>
                             <span ng-show="gallo.incidencia > 20 && gallo.incidencia < 51 ">{{methodsMonthGallo.grade3}}</span>
                             <span ng-show="gallo.incidencia > 50 ">{{methodsMonthGallo.grade3}}</span>
-                          </p>
+                          </p> -->
 
 
                         </div>

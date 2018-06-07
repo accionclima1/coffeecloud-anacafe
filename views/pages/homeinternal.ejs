@@ -33,14 +33,14 @@
                  <div class="clearfix"></div>
 
                  <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
-                   <div class="col-md-8 col-xs-6">
+                   <div class="col-md-8 col-xs-7">
                      <h4 class="panel-title">
                        <a role="button" id="{{ 'opLote-' + $index }}" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}" class="tituloLote collapse">
                          <span ng-bind="lote.nombre"></span>
                        </a>
                      </h4>
                    </div>
-                   <div class="col-md-2 col-xs-4 areaCalculo">
+                   <div class="col-md-2 col-xs-3 areaCalculo">
                      <button id="{{ 'calculo-' + $index }}" type="button" class="btn btn-danger" style="background-color:#FE8515;"><a href="#/homeloteinternal/{{unidadseleccionada._id}}/{{unitIndex}}/{{$index}}" class="lnkLote"><i class="fa fa-leaf" style="font-size:16px;"></i></a></button>
                    </div>
                    <div class="col-md-2 col-xs-2 areaBorrarLote" style="padding-right: 14%;">

@@ -1589,6 +1589,14 @@ a.unidad {
      margin-left: -14%;
    }
 
+   .tituloMuestreo{
+     font-size: 14px !important;
+   }
+
+   .areaBorrarLote{
+   }
+   padding-right: 16% !important;
+
  }
 
  .lnkUnidad {

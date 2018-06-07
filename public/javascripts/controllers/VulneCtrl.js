@@ -22,6 +22,10 @@ app.controller('VulneCtrl', [
       $scope.encuestaHistory = [];
       $scope.resumenDataHistorial = [];
 
+      $scope.unitId = $stateParams.idunidad;
+
+      console.log($scope.unitId);
+
       $scope.arrData = [];
 
       $scope.encuestanueva = true;
@@ -460,7 +464,7 @@ $scope.dataImprimir = function(){
                 var ListaEncuesta = JSON.parse($window.localStorage.getItem('encuestas'));
                 $scope.listaPreguntas = ListaEncuesta[0].preguntas;
                 $window.localStorage.removeItem('encuestas');
-                $scope.newEncuesta.unidad = ListaEncuesta[0].unidad;
+                $scope.newEncuesta.unidad = $scope.unitId;
                 $scope.newEncuesta.preguntas = $scope.listaPreguntas;
 
 
@@ -470,8 +474,9 @@ $scope.dataImprimir = function(){
                 PouchDB.AddEncuesta($scope.newEncuesta, auth.userId()).then(function (result) {
                     console.log("Esto es lo que devuelve al guardar");
                     console.log(result);
-                    PouchDB.SynLocalDataToServerDbEncuesta();                    
+                    PouchDB.SynLocalDataToServerDbEncuesta();
                     $scope.idEncuesta = result.data._id;
+                    console.log(result.data);
                     $scope.listaPreguntas.push(result.data);
 
                     if (result.status == 'fail') {
