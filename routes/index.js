@@ -384,6 +384,7 @@ router.post('/users/:user/encuesta', auth, function (req, res, next) {
     encuesta.user = req.user;
     encuesta.isDeleted = req.body.isDeleted;
     encuesta.preguntas = req.body.preguntas;
+    encuesta.unidad = req.body.unidad;
 
     encuesta.save(function (err) {
         if (err) { return res.status(500).json({ message: err }); }
@@ -423,6 +424,7 @@ router.post('/SyncUserLocalData/:user/encuesta', auth, function (req, res, next)
                 encuesta.user = item.user;
                 encuesta.isDeleted = item.isDeleted;
                 encuesta.preguntas = item.preguntas;
+                encuesta.unidad = item.unidad;
 
                 console.log("------------------");
                 for (var i = 0; i < encuesta.preguntas.length; i++) {
