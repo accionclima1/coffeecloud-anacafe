@@ -309,18 +309,20 @@ $scope.dataImprimir = function(){
         function guardarDatosCore(){
             $scope.resultado=0;
             var objPreguntas = jQuery('#frmPreguntas').serializeArray();
+
             var objEncuesta = {
-                "unidad":$stateParams.idunidad,
                 "preguntas":objPreguntas
             };
 
             if($scope.encuestanueva){
                 $scope.arrData.push(objEncuesta);
+                console.log($scope.arrData);
                 $scope.encuestanueva=false;
             }else{
                 $scope.arrData[$scope.arrData.length-1]=objEncuesta;
             }
             var info = JSON.stringify($scope.arrData);
+            console.log(info);
             localStorage.setItem('encuestas',info);
             $scope.listaPreguntas = info;
         }
@@ -462,14 +464,13 @@ $scope.dataImprimir = function(){
             $scope.saveEncuesta = function () {
 
                 var ListaEncuesta = JSON.parse($window.localStorage.getItem('encuestas'));
+                console.log(ListaEncuesta);
                 $scope.listaPreguntas = ListaEncuesta[0].preguntas;
                 $window.localStorage.removeItem('encuestas');
-                $scope.newEncuesta.unidad = $scope.unitId;
+                $scope.newEncuesta.unidad = $stateParams.idunidad;
                 $scope.newEncuesta.preguntas = $scope.listaPreguntas;
 
-
                 console.log('savelocal');
-                console.log($scope.newEncuesta);
                 //region to create unit in local PouchDB instead of server
                 PouchDB.AddEncuesta($scope.newEncuesta, auth.userId()).then(function (result) {
                     console.log("Esto es lo que devuelve al guardar");
@@ -478,7 +479,7 @@ $scope.dataImprimir = function(){
                     $scope.idEncuesta = result.data._id;
                     console.log(result.data);
                     $scope.listaPreguntas.push(result.data);
-
+                    console.log($scope.listaPreguntas);
                     if (result.status == 'fail') {
                         $scope.error = result.message;
                     }
@@ -493,6 +494,22 @@ $scope.dataImprimir = function(){
             $('#Preguntas').css('display','none');
             $('#resultados').css('display','block');
         }
+
+        if ($rootScope.IsInternetOnline) {
+           console.log("Con internet");
+           console.log(auth.userId());
+           vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
+             console.log(userhistory.data);
+              $scope.encuestaHistory = userhistory.data;
+              localStorageService.set('encuestaHistory',userhistory.data);
+              console.log($scope.encuestaHistory);
+          });
+
+       } else {
+           console.log("No internet");
+           console.log(auth.userId());
+           $scope.encuestaHistory = localStorageService.get('encuestaHistory');
+       }
 
 
 

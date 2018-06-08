@@ -1045,6 +1045,56 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
             $('.picker__day').removeAttr('aria-selected');
             $('.picker__day').removeAttr('aria-activedescendant');
 
+            $('#menssageLocation').css("display", "inline");
+            $('#menssageAltitud').css("display", "inline");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        alt: position.coords.altitude
+                    };
+
+
+                    myLat = position.coords.latitude;
+                    myLng = position.coords.longitude;
+                    myAlt = position.coords.altitude;
+                    // myAlt = 1254.365;
+
+                    console.log(myAlt);
+                    // console.log(elevator);
+
+                    coordenadas = '('+ myLat +','+ myLng+')';
+                    console.log("Coordenadas", coordenadas);
+
+                    // Mostrando Altitud y Ubicación en el Formulario unidades
+                    if (myAlt === null) {
+                      $('#altitudId').val("");
+                    }
+                    else {
+                      if ($("#altitudId").val() == "") {
+                        altitud = myAlt.toString();
+                        $scope.newUnit.altitud = altitud;
+                        console.log($scope.newUnit);
+                        $('#altitudId').val($scope.newUnit.altitud);
+                      }
+                    }
+
+                    // Mostramos la Geolocalizacion
+                    $scope.newUnit.ubicacion = coordenadas;
+                    console.log($scope.newUnit);
+                    $('#latlongid').val($scope.newUnit.ubicacion);
+
+                    // Ocultando Mensajes
+                    $('#menssageLocation').css("display", "none");
+                    $('#menssageAltitud').css("display", "none");
+                },function () {
+                    $scope.SweetAlert('¡Error!', 'No es posible obtener la ubicación', 'warning');
+                });
+            } else {
+                $scope.SweetAlert('¡Error!', 'El dispositivo no soporta geolocalización', 'warinig');
+            }
 
         } else {
             var ariaLabel = "";
@@ -1056,54 +1106,6 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
             $scope.newunitForm.nombreInput.$setUntouched();
             $scope.Mode = "EDIT";
             $scope.initializeEditUnit(unitId);
-        }
-
-        $('#menssageLocation').css("display", "inline");
-        $('#menssageAltitud').css("display", "inline");
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                    alt: position.coords.altitude
-                };
-
-
-                myLat = position.coords.latitude;
-                myLng = position.coords.longitude;
-                myAlt = position.coords.altitude;
-                // myAlt = 1254.365;
-
-                console.log(myAlt);
-                // console.log(elevator);
-
-                coordenadas = '('+ myLat +','+ myLng+')';
-                console.log("Coordenadas", coordenadas);
-
-                // Mostrando Altitud y Ubicación en el Formulario unidades
-                if (myAlt === null) {
-                  $('#altitudId').val("");
-                }
-                else {
-                  altitud = myAlt.toString();
-                  $scope.newUnit.altitud = altitud;
-                  console.log($scope.newUnit);
-                  $('#altitudId').val($scope.newUnit.altitud);
-                }
-
-                // Mostramos la Geolocalizacion
-                $scope.newUnit.ubicacion = coordenadas;
-                console.log($scope.newUnit);
-                $('#latlongid').val($scope.newUnit.ubicacion);
-
-                // Ocultando Mensajes
-                $('#menssageLocation').css("display", "none");
-                $('#menssageAltitud').css("display", "none");
-            },function () {
-                $scope.SweetAlert('¡Error!', 'No es posible obtener la ubicación', 'warning');
-            });
-        } else {
-            $scope.SweetAlert('¡Error!', 'El dispositivo no soporta geolocalización', 'warinig');
         }
     });
 
