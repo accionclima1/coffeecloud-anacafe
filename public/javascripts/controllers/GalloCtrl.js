@@ -278,34 +278,72 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		console.log($scope.test.user);
 
 
-	methodsGallo.get().then(function(methodsGallo){
-		 var meth = methodsGallo.data[0];
-		 var date = new Date();
-		 var currentMonth = date.getMonth();
-		if(currentMonth < 6 ){
-		   var methodsAvail = {};
-		   methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-		   methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-		   methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-		   methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-		   $scope.methodsMonth = methodsAvail;
+    if ($rootScope.IsInternetOnline) {
 
-		} else if(currentMonth > 5 && currentMonth < 9) {
-		   var methodsAvail = {};
-		   methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-		   methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-		   methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-		   methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-		   $scope.methodsMonth = methodsAvail;
-		} else if(currentMonth > 8) {
-		   var methodsAvail = {};
-		   methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-		   methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-		   methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-		   methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-		   $scope.methodsMonth = methodsAvail;
-		}
-    });
+      // Metodos Gallo - Recomendaciones Gallo
+      methodsGallo.get().then(function(methodsGallo){
+         var meth = methodsGallo.data[0];
+         var date = new Date();
+         var currentMonth = date.getMonth();
+        if(currentMonth < 6 ){
+           var methodsAvail = {};
+           methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+           methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+           methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+           methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+           $scope.methodsMonthGallo = methodsAvail;
+           console.log($scope.methodsMonth);
+
+        } else if(currentMonth > 5 && currentMonth < 9) {
+           var methodsAvail = {};
+           methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+           methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+           methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+           methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+           $scope.methodsMonthGallo = methodsAvail;
+           console.log($scope.methodsMonth);
+        } else if(currentMonth > 8) {
+           var methodsAvail = {};
+           methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+           methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+           methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+           methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+           $scope.methodsMonthGallo = methodsAvail;
+           console.log($scope.methodsMonthGallo);
+        }
+        });
+
+    }
+    else{
+
+      // Metodos Gallo - Recomendación Gallo Offline
+      var methGallo = localStorageService.get("methodsGallo");
+      var date = new Date();
+      var currentMonth = date.getMonth();
+      if(currentMonth < 6 ){
+              var methodsAvail = {};
+              methodsAvail.grade1 = methGallo.caseInidence10.abrilJunio;
+              methodsAvail.grade2 = methGallo.caseInidence1120.abrilJunio;
+              methodsAvail.grade3 = methGallo.caseInidence2150.abrilJunio;
+              methodsAvail.grade4 = methGallo.caseInidence50.abrilJunio;
+              $scope.methodsMonthGallo = methodsAvail;
+
+      } else if(currentMonth > 5 && currentMonth < 9) {
+              var methodsAvail = {};
+              methodsAvail.grade1 = methGallo.caseInidence10.julioSetiembre;
+              methodsAvail.grade2 = methGallo.caseInidence1120.julioSetiembre;
+              methodsAvail.grade3 = methGallo.caseInidence2150.julioSetiembre;
+              methodsAvail.grade4 = methGallo.caseInidence50.julioSetiembre;
+              $scope.methodsMonthGallo = methodsAvail;
+      } else if(currentMonth > 8) {
+              var methodsAvail = {};
+              methodsAvail.grade1 = methGallo.caseInidence10.octubreDiciembre;
+              methodsAvail.grade2 = methGallo.caseInidence1120.octubreDiciembre;
+              methodsAvail.grade3 = methGallo.caseInidence2150.octubreDiciembre;
+              methodsAvail.grade4 = methGallo.caseInidence50.octubreDiciembre;
+              $scope.methodsMonthGallo = methodsAvail;
+      }
+    }
 
 
    $scope.$watch('test', function () {

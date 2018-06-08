@@ -1,5 +1,5 @@
-app.controller('MainCtrl',['$scope', '$http', 'posts', 'auth', 'unit', 'varieties', '$rootScope', 'localStorageService', 'onlineStatus', 'widget', 'PouchDB',
-function($scope, $http, posts, auth, unit, varieties, $rootScope, localStorageService, onlineStatus, widget, PouchDB){
+app.controller('MainCtrl',['$scope', '$http', 'posts', 'auth', 'unit', 'varieties', 'methods', 'methodsGallo', '$rootScope', 'localStorageService', 'onlineStatus', 'widget', 'PouchDB',
+function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $rootScope, localStorageService, onlineStatus, widget, PouchDB){
 
   // Variables de Inicio
   var map;
@@ -47,6 +47,16 @@ function($scope, $http, posts, auth, unit, varieties, $rootScope, localStorageSe
             PouchDB.SaveVarietiesToPouchDB(variedades);
             // $("#txtPrueba").val("Data cargado!");
 
+        });
+
+        methodsGallo.get().then(function(methodsGallo){
+           var methGallo = methodsGallo.data[0];
+           localStorageService.set("methodsGallo", methGallo)
+        });
+
+        methods.get().then(function(methods){
+          var methRoya = methods.data[0];
+          localStorageService.set("methodsRoya", methRoya)
         });
     }
     else {

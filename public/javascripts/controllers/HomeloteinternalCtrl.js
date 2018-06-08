@@ -34,66 +34,131 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
         	}
         });
 
-        methods.get().then(function(methods){
-                var meth = methods.data[0];
-                var date = new Date();
-                var currentMonth = date.getMonth();
-                if(currentMonth < 6 ){
-                        var methodsAvail = {};
-                        methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-                        methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-                        methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-                        methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-                        $scope.methodsMonthRoya = methodsAvail;
+        if ($rootScope.IsInternetOnline) {
 
-                } else if(currentMonth > 5 && currentMonth < 9) {
-                        var methodsAvail = {};
-                        methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-                        methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-                        methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-                        methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-                        $scope.methodsMonthRoya = methodsAvail;
-                } else if(currentMonth > 8) {
-                        var methodsAvail = {};
-                        methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-                        methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-                        methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-                        methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-                        $scope.methodsMonthRoya = methodsAvail;
-                }
-        });
+          // Metodos Roya - Recomendaciones Roya
+          methods.get().then(function(methods){
+            var meth = methods.data[0];
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            if(currentMonth < 6 ){
+                    var methodsAvail = {};
+                    methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+                    methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+                    methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+                    methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+                    $scope.methodsMonthRoya = methodsAvail;
 
-        methodsGallo.get().then(function(methodsGallo){
-           var meth = methodsGallo.data[0];
-           var date = new Date();
-           var currentMonth = date.getMonth();
+            } else if(currentMonth > 5 && currentMonth < 9) {
+                    var methodsAvail = {};
+                    methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+                    methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+                    methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+                    methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+                    $scope.methodsMonthRoya = methodsAvail;
+            } else if(currentMonth > 8) {
+                    var methodsAvail = {};
+                    methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+                    methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+                    methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+                    methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+                    $scope.methodsMonthRoya = methodsAvail;
+            }
+          });
+
+          // Metodos Gallo - Recomendaciones Gallo
+          methodsGallo.get().then(function(methodsGallo){
+             var meth = methodsGallo.data[0];
+             var date = new Date();
+             var currentMonth = date.getMonth();
+            if(currentMonth < 6 ){
+               var methodsAvail = {};
+               methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+               methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+               methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+               methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+               $scope.methodsMonthGallo = methodsAvail;
+               console.log($scope.methodsMonth);
+
+            } else if(currentMonth > 5 && currentMonth < 9) {
+               var methodsAvail = {};
+               methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+               methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+               methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+               methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+               $scope.methodsMonthGallo = methodsAvail;
+               console.log($scope.methodsMonth);
+            } else if(currentMonth > 8) {
+               var methodsAvail = {};
+               methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+               methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+               methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+               methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+               $scope.methodsMonthGallo = methodsAvail;
+               console.log($scope.methodsMonthGallo);
+            }
+            });
+
+        }
+        else{
+          // Metodos Roya - Recomendación Roya Offline
+          var methRoya = localStorageService.get("methodsRoya");
+          var date = new Date();
+          var currentMonth = date.getMonth();
           if(currentMonth < 6 ){
-             var methodsAvail = {};
-             methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-             methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-             methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-             methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-             $scope.methodsMonthGallo = methodsAvail;
-             console.log($scope.methodsMonth);
+                  var methodsAvail = {};
+                  methodsAvail.grade1 = methRoya.caseInidence10.abrilJunio;
+                  methodsAvail.grade2 = methRoya.caseInidence1120.abrilJunio;
+                  methodsAvail.grade3 = methRoya.caseInidence2150.abrilJunio;
+                  methodsAvail.grade4 = methRoya.caseInidence50.abrilJunio;
+                  $scope.methodsMonthRoya = methodsAvail;
 
           } else if(currentMonth > 5 && currentMonth < 9) {
-             var methodsAvail = {};
-             methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-             methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-             methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-             methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-             $scope.methodsMonthGallo = methodsAvail;
-             console.log($scope.methodsMonth);
+                  var methodsAvail = {};
+                  methodsAvail.grade1 = methRoya.caseInidence10.julioSetiembre;
+                  methodsAvail.grade2 = methRoya.caseInidence1120.julioSetiembre;
+                  methodsAvail.grade3 = methRoya.caseInidence2150.julioSetiembre;
+                  methodsAvail.grade4 = methRoya.caseInidence50.julioSetiembre;
+                  $scope.methodsMonthRoya = methodsAvail;
           } else if(currentMonth > 8) {
-             var methodsAvail = {};
-             methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-             methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-             methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-             methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-             $scope.methodsMonthGallo = methodsAvail;
-             console.log($scope.methodsMonthGallo);
+                  var methodsAvail = {};
+                  methodsAvail.grade1 = methRoya.caseInidence10.octubreDiciembre;
+                  methodsAvail.grade2 = methRoya.caseInidence1120.octubreDiciembre;
+                  methodsAvail.grade3 = methRoya.caseInidence2150.octubreDiciembre;
+                  methodsAvail.grade4 = methRoya.caseInidence50.octubreDiciembre;
+                  $scope.methodsMonthRoya = methodsAvail;
           }
-          });
+
+
+          // Metodos Gallo - Recomendación Gallo Offline
+          var methGallo = localStorageService.get("methodsGallo");
+          var date = new Date();
+          var currentMonth = date.getMonth();
+          if(currentMonth < 6 ){
+                  var methodsAvail = {};
+                  methodsAvail.grade1 = methGallo.caseInidence10.abrilJunio;
+                  methodsAvail.grade2 = methGallo.caseInidence1120.abrilJunio;
+                  methodsAvail.grade3 = methGallo.caseInidence2150.abrilJunio;
+                  methodsAvail.grade4 = methGallo.caseInidence50.abrilJunio;
+                  $scope.methodsMonthGallo = methodsAvail;
+
+          } else if(currentMonth > 5 && currentMonth < 9) {
+                  var methodsAvail = {};
+                  methodsAvail.grade1 = methGallo.caseInidence10.julioSetiembre;
+                  methodsAvail.grade2 = methGallo.caseInidence1120.julioSetiembre;
+                  methodsAvail.grade3 = methGallo.caseInidence2150.julioSetiembre;
+                  methodsAvail.grade4 = methGallo.caseInidence50.julioSetiembre;
+                  $scope.methodsMonthGallo = methodsAvail;
+          } else if(currentMonth > 8) {
+                  var methodsAvail = {};
+                  methodsAvail.grade1 = methGallo.caseInidence10.octubreDiciembre;
+                  methodsAvail.grade2 = methGallo.caseInidence1120.octubreDiciembre;
+                  methodsAvail.grade3 = methGallo.caseInidence2150.octubreDiciembre;
+                  methodsAvail.grade4 = methGallo.caseInidence50.octubreDiciembre;
+                  $scope.methodsMonthGallo = methodsAvail;
+          }
+        }
+
 
 
         //Cálculos de ROYA

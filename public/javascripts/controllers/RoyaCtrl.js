@@ -198,34 +198,68 @@ app.controller('RoyaCtrl', [
 		$scope.test.user = $scope.currentId;
 		console.log($scope.test.user);
 
-    methods.get().then(function(methods){
-    	var meth = methods.data[0];
-    	var date = new Date();
-    	var currentMonth = date.getMonth();
-    	if(currentMonth < 6 ){
-    		var methodsAvail = {};
-    		methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-    		methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-    		methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-    		methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
-    		$scope.methodsMonth = methodsAvail;
+		if ($rootScope.IsInternetOnline) {
 
-    	} else if(currentMonth > 5 && currentMonth < 9) {
-    		var methodsAvail = {};
-    		methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-    		methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-    		methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-    		methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
-    		$scope.methodsMonth = methodsAvail;
-    	} else if(currentMonth > 8) {
-    		var methodsAvail = {};
-    		methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-    		methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-    		methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-    		methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
-    		$scope.methodsMonth = methodsAvail;
-    	}
-    });
+			// Metodos Roya - Recomendaciones Roya
+			methods.get().then(function(methods){
+				var meth = methods.data[0];
+				var date = new Date();
+				var currentMonth = date.getMonth();
+				if(currentMonth < 6 ){
+								var methodsAvail = {};
+								methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
+								methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
+								methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
+								methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+								$scope.methodsMonthRoya = methodsAvail;
+
+				} else if(currentMonth > 5 && currentMonth < 9) {
+								var methodsAvail = {};
+								methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
+								methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
+								methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
+								methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+								$scope.methodsMonthRoya = methodsAvail;
+				} else if(currentMonth > 8) {
+								var methodsAvail = {};
+								methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
+								methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
+								methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
+								methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+								$scope.methodsMonthRoya = methodsAvail;
+				}
+			});
+
+		}
+		else{
+			// Metodos Roya - Recomendación Roya Offline
+			var methRoya = localStorageService.get("methodsRoya");
+			var date = new Date();
+			var currentMonth = date.getMonth();
+			if(currentMonth < 6 ){
+							var methodsAvail = {};
+							methodsAvail.grade1 = methRoya.caseInidence10.abrilJunio;
+							methodsAvail.grade2 = methRoya.caseInidence1120.abrilJunio;
+							methodsAvail.grade3 = methRoya.caseInidence2150.abrilJunio;
+							methodsAvail.grade4 = methRoya.caseInidence50.abrilJunio;
+							$scope.methodsMonthRoya = methodsAvail;
+
+			} else if(currentMonth > 5 && currentMonth < 9) {
+							var methodsAvail = {};
+							methodsAvail.grade1 = methRoya.caseInidence10.julioSetiembre;
+							methodsAvail.grade2 = methRoya.caseInidence1120.julioSetiembre;
+							methodsAvail.grade3 = methRoya.caseInidence2150.julioSetiembre;
+							methodsAvail.grade4 = methRoya.caseInidence50.julioSetiembre;
+							$scope.methodsMonthRoya = methodsAvail;
+			} else if(currentMonth > 8) {
+							var methodsAvail = {};
+							methodsAvail.grade1 = methRoya.caseInidence10.octubreDiciembre;
+							methodsAvail.grade2 = methRoya.caseInidence1120.octubreDiciembre;
+							methodsAvail.grade3 = methRoya.caseInidence2150.octubreDiciembre;
+							methodsAvail.grade4 = methRoya.caseInidence50.octubreDiciembre;
+							$scope.methodsMonthRoya = methodsAvail;
+			}
+		}
 
 
     $scope.$watch('test', function () {
