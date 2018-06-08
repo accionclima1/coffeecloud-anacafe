@@ -424,6 +424,7 @@ router.post('/SyncUserLocalData/:user/encuesta', auth, function (req, res, next)
                 encuesta.user = item.user;
                 encuesta.isDeleted = item.isDeleted;
                 encuesta.preguntas = item.preguntas;
+                encuesta.unidad = item.unidad;
 
                 console.log("------------------");
                 for (var i = 0; i < encuesta.preguntas.length; i++) {
