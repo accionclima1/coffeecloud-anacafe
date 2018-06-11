@@ -427,15 +427,17 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
 
        var index = $scope.unidadseleccionada.lote.length - 1;
 
-       console.log("Entre a la Funcion Lote - Index --> ", index);
 
        //if (index >= 0) {
 
        if ($scope.updateunitFormlote.$valid) {
 
            //Añado el Id del Lote
-           $scope.unidadseleccionada.lote[index].idLote = $scope.unidadseleccionada._id + $scope.idLote;
-           console.log($scope.unidadseleccionada.lote[index].idLote);
+           if(index>=0){
+               if($scope.unidadseleccionada.lote[index]){
+            $scope.unidadseleccionada.lote[index].idLote = $scope.unidadseleccionada._id + $scope.idLote;
+               }
+           }
 
            //Commented out as we need to update data from pouchDB only,that will be sync to server
            //if ($rootScope.IsInternetOnline) {
@@ -478,9 +480,6 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
            //    });
            //}
            var clase = 'latLangLoteId' + index.toString();
-           console.log(clase);
-           console.log($scope.unidadseleccionada);
-           console.log(auth.userId());
            PouchDB.EditUnitLotes($scope.unidadseleccionada, auth.userId()).then(function (result) {
                console.log("Entre a Pouch");
                console.log(result);
@@ -490,13 +489,15 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
                else if (result.status == 'success') {
                    $scope.unidadseleccionada = result.data;
                    console.log($scope.unidadseleccionada);
-
-                   var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
-                   if (collapseLote == "Nuevo") {
-                     $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
-                   }else if (collapseLote == "Editado") {
-                     $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
-                   }
+                   
+                    if(index>=0){
+                       var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
+                       if (collapseLote == "Nuevo") {
+                         $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
+                       }else if (collapseLote == "Editado") {
+                         $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
+                       }
+                    }
                    $scope.nuevoLote = "";
                    $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
 

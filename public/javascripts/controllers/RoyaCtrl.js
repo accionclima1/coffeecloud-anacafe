@@ -30,7 +30,7 @@ app.controller('RoyaCtrl', [
 		$scope.noBandolas = 0;
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
-    $scope.unabandola50=50;
+        $scope.unabandola50=5;
 		$scope.arrOffline = [];
 
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
@@ -679,7 +679,7 @@ $scope.getHelp = function(currentUser) {
 
 
    localStorageService.remove('localTest');
-	 if (localStorageService.get('dataOffline').length > 0) {
+	 if ((localStorageService.get('dataOffline'))&&(localStorageService.get('dataOffline').length > 0)) {
 		 localStorageService.remove('dataOffline');
 	 }
 }).error(function(){

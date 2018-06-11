@@ -81,10 +81,10 @@
 													</ul>
 
 								<p><strong>Recomendación</strong><br>
-									<span ng-show="roya.incidencia < 11">{{methodsMonth.grade1}}</span>
-									<span ng-show="roya.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
-									<span ng-show="roya.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
-									<span ng-show="roya.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="roya.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
+									<span ng-show="roya.incidencia > 10 && test.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
+									<span ng-show="roya.incidencia > 20 && test.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
+									<span ng-show="roya.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 
 
@@ -149,13 +149,13 @@
 								<p><strong>Incidencia promedio</strong><br>{{(test.avgplnt).toFixed(2)}} / Planta ( {{(test.incidencia).toFixed(2)}}% )</p>
 								<p><strong>Severidad promedio</strong><br>{{(test.avgplntDmgPct).toFixed()}}%</p>
 								<p><strong>Recomendación</strong><br>
-									<span ng-show="test.incidencia < 11">{{methodsMonth.grade1}}</span>
-									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
-									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
-									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="test.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
+									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
+									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
+									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<!-- <a href="#/support" class="btn btn-primary">Solicitar Asesoría Técnica</a> -->
+								
 							</div>
 
 							<div ng-hide="test.advMode">
@@ -164,13 +164,13 @@
 								<p><strong>Incidencia: </strong><br>{{ (test.incidencia).toFixed(2) }}% </p>
 								<p><strong>Recomendación</strong><br>
 
-									<span ng-show="test.incidencia < 11">{{methodsMonth.grade1}}</span>
-									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
-									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
-									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="test.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
+									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
+									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
+									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<a href="#/support" class="btn btn-primary">Solicitar Asesoría Técnica</a>
+								
 							</div>
 
 						</div>
