@@ -175,12 +175,11 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
             console.log("Historial Roya");
             console.log($scope.royaHistory);
             for (var i = 0; i < $scope.royaHistory.length; i++) {
-              console.log($scope.royaHistory[i].idunidad, $scope.unitId);
-              console.log($scope.royaHistory[i].loteIndex, $scope.loteIndex);
                     if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
                             $scope.royaHistoryByLote.push($scope.royaHistory[i]);
                     }
             }
+            console.log($scope.royaHistoryByLote);
 
           });
           localStorageService.remove('dataOffline');
@@ -224,13 +223,11 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                           console.log($scope.galloHistory);
 
                           for (var i = 0; i < $scope.galloHistory.length; i++) {
-                            console.log($scope.galloHistory[i].idunidad, $scope.unitId);
-                            console.log($scope.galloHistory[i].loteIndex, $scope.loteIndex);
                             if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad == $scope.unitId)) {
-                                    console.log($scope.galloHistory[i]);
                                     $scope.galloHistoryByLote.push($scope.galloHistory[i]);
                             }
                           }
+                          console.log($scope.galloHistoryByLote);
                         });
 
 

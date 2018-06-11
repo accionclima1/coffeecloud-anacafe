@@ -74,15 +74,15 @@
 										      <div class="panel-body">
 										      	<ul class="list-group">
 												      <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>
-														  <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+														  <li class="list-group-item" >bandolas <span ng-show="gallo.bandolas" class="badge">2</span><span ng-hide="gallo.bandolas" class="badge">1</span></li>
 														  <li class="list-group-item" ng-show="gallo.advMode">Severidad Promedio <span class="badge">{{(gallo.severidadPromedio).toFixed()}}%</span></li>
 														  <li class="list-group-item" ng-show="gallo.advMode">Incidencia promedio por planta <span class="badge">{{gallo.inideanciaPromedioPlanta}}</span></li>
 														</ul>
 
 														<p style="display:none;"><strong>Recomendación</strong><br>
 															<!-- <span ng-show="gallo.incidencia < 11">{{methodsMonth.grade1}}</span>
-															<span ng-show="gallo.incidencia > 10 && test.incidencia < 21 ">{{methodsMonth.grade2}}</span>
-															<span ng-show="gallo.incidencia > 20 && test.incidencia < 51 ">{{methodsMonth.grade3}}</span>
+															<span ng-show="gallo.incidencia > 10 && gallo.incidencia < 21 ">{{methodsMonth.grade2}}</span>
+															<span ng-show="gallo.incidencia > 20 && gallo.incidencia < 51 ">{{methodsMonth.grade3}}</span>
 															<span ng-show="gallo.incidencia > 50 ">{{methodsMonth.grade3}}</span> -->
 														</p>
 
