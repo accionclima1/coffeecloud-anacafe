@@ -425,24 +425,7 @@ router.post('/SyncUserLocalData/:user/encuesta', auth, function (req, res, next)
                 encuesta.isDeleted = item.isDeleted;
                 encuesta.preguntas = item.preguntas;
                 encuesta.unidad = item.unidad;
-
-                console.log("------------------");
-                for (var i = 0; i < encuesta.preguntas.length; i++) {
-                    console.log(encuesta.preguntas[i]);
-                }
-
-                console.log("------------------");
-                console.log(encuesta.preguntas);
-                console.log("------------------");
-
-                 console.log("------------------");
-                console.log(item.preguntas);
-                console.log("------------------");
-
-
-                console.log("---------- data --------");
-                console.log(item);
-                console.log("------------------");
+                encuesta.resumenVulne = item.resumenVulne;
 
                 encuesta.save(function (err) {
                     if (err) {
