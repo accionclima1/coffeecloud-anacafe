@@ -57,7 +57,8 @@ app.controller('VulneCtrl', [
         EntityType: 'Encuesta',
         LastUpdatedDateTime: '',
         preguntas: $scope.listaPreguntas,
-        unidad: ''
+        unidad: '',
+        resumenVulne: {}
     }
 
     // Funcion SweetAlert para mensajes Success y Error
@@ -72,6 +73,55 @@ app.controller('VulneCtrl', [
             });
       }
       return
+    }
+
+    $scope.calculoEncuesta = function (valorData) {
+      $scope.newEncuesta.resumenVulne.entrevistado = valorData;
+      if((valorData>=20)&&(valorData<=25)){
+          $scope.newEncuesta.resumenVulne.rangoMin = 20;
+          $scope.newEncuesta.resumenVulne.rangoMax = 25;
+          $scope.newEncuesta.resumenVulne.titulo = "bueno";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad prácticamente ausente. Excelente capacidad adaptativa.";
+        }else if((valorData>=15)&&(valorData<20)){
+          $scope.newEncuesta.resumenVulne.rangoMin = 15;
+          $scope.newEncuesta.resumenVulne.rangoMax = 19;
+          $scope.newEncuesta.resumenVulne.titulo = "bueno";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad baja. Alta capacidad adaptativa.";
+        }else if((valorData>=8)&&(valorData<15)){
+          $scope.newEncuesta.resumenVulne.rangoMin = 8;
+          $scope.newEncuesta.resumenVulne.rangoMax = 14;
+          $scope.newEncuesta.resumenVulne.titulo = "medioalto";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad y capacidad adaptativa moderadas.";
+        }else if((valorData>=1)&&(valorData<8)){
+          $scope.newEncuesta.resumenVulne.rangoMin = 1;
+          $scope.newEncuesta.resumenVulne.rangoMax = 7;
+          $scope.newEncuesta.resumenVulne.titulo = "medioalto";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad y capacidad adaptativa regulares.";
+        }else if((valorData>=-6)&&(valorData<1)){
+          $scope.newEncuesta.resumenVulne.rangoMin = -6;
+          $scope.newEncuesta.resumenVulne.rangoMax = 0;
+          $scope.newEncuesta.resumenVulne.titulo = "mediobajo";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad y capacidad adaptativa medianamente críticas.";
+        }else if((valorData>=-13)&&(valorData<-6)){
+          $scope.newEncuesta.resumenVulne.rangoMin = -13;
+          $scope.newEncuesta.resumenVulne.rangoMax = -7;
+          $scope.newEncuesta.resumenVulne.titulo = "mediobajo";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad y capacidad adaptativa críticas.";
+        }else if((valorData>=-20)&&(valorData<-13)){
+          $scope.newEncuesta.resumenVulne.rangoMin = -20;
+          $scope.newEncuesta.resumenVulne.rangoMax = -14;
+          $scope.newEncuesta.resumenVulne.titulo = "malo";
+          $scope.newEncuesta.resumenVulne.textoData = "Vulnerabilidad y capacidad adaptativa muy críticas.";
+        }else if((valorData>=-25)&&(valorData<-20)){
+          $scope.newEncuesta.resumenVulne.rangoMin = -25;
+          $scope.newEncuesta.resumenVulne.rangoMax = -21;
+          $scope.newEncuesta.resumenVulne.titulo = "malo";
+          $scope.newEncuesta.resumenVulne.textoData = "Totalmente vulnerable y sin ninguna capacidad adaptativa.";
+        }
+        var dateVulne = new Date();
+        $scope.newEncuesta.resumenVulne.fecha = dateVulne;
+        console.log($scope.newEncuesta);
+        return
     }
 
     $scope.historialVulLaunch = function() {
@@ -166,6 +216,8 @@ app.controller('VulneCtrl', [
         title: titulo,
         texto: textoData
     });
+
+    console.log($scope.resumenDataHistorial);
 
     }
     console.log("Inicio historial Resumen--------------------------");
@@ -339,7 +391,7 @@ $scope.dataImprimir = function(){
                 jQuery('.oprespuesta[value="si"]:checked').each(function(value){
                     var numpregunta=jQuery(this).attr('rel');
                     jQuery('#recomienda'+ numpregunta).css('display','block');
-                    $scope.resultado= $scope.resultado-1;
+                    $scope.resultado = $scope.resultado-1;
                 });
                 jQuery('#cantrecomienda').html($scope.resultado*-1);
                 jQuery('.oprespuesta[value="medio"]:checked').each(function(value){
@@ -370,6 +422,8 @@ $scope.dataImprimir = function(){
                     clase='rango8';
                 }
                 jQuery('#'+clase).children('td').removeClass('inactivo');
+                // $scope.val
+                console.log("Puntaje Encuesta", $scope.resultado);
                 // alert('Boleta Guardada');
                 $scope.SweetAlert("¡Excelente!", "Boleta Guardada", "success");
         			//jQuery('input[type="radio"]').prop('checked',false);
@@ -378,6 +432,7 @@ $scope.dataImprimir = function(){
                    /*jQuery('#Preguntas').css('display','none');
                    jQuery('#resultados').css('display','block');*/
                     //window.location.hash='#resultados';
+                $scope.calculoEncuesta($scope.resultado);
                 guardarDatosCore();
                 $scope.saveEncuesta();
                 window.scrollTo(0,0);

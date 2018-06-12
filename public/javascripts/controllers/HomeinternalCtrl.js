@@ -489,7 +489,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
                else if (result.status == 'success') {
                    $scope.unidadseleccionada = result.data;
                    console.log($scope.unidadseleccionada);
-                   
+
                     if(index>=0){
                        var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
                        if (collapseLote == "Nuevo") {
@@ -672,6 +672,7 @@ $scope.historialVulLaunch = function() {
           });
 
           }
+          console.log($scope.resumenDataHistorial);
    }
 
     console.log("Inicio historial Resumen--------------------------");
