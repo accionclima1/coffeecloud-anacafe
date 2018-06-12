@@ -12,7 +12,7 @@ app.config(function ($httpProvider) {
 
 
 var _tmpUserId = null;
-app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$rootScope', '$window', function ($http, unit, vulnerabilidades, auth, $q, $rootScope, $window) {
+app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$rootScope', '$window', 'localStorageService', function ($http, unit, vulnerabilidades, auth, $q, $rootScope, $window, localStorageService) {
     var pouchDbFactory = {};
     var localPouchDB = undefined;
     pouchDbFactory.CreatePouchDB = function () {
@@ -495,12 +495,28 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
 
                     deferred.resolve(result);
                 }).catch(function (err) {
+                    var resumenVulneOffline = [];
+                    console.log(dataList);
                     console.log("vulnerability.SyncUserLocalPouchDbToServerEncuesta catch");
                     console.log(err);
                     result.status = 'fail';
                     result.data = [];
                     result.message = 'Error while Sync' + err.Message;
                     deferred.resolve(result);
+
+                    if (localStorageService.get('dataVulneOffline') == null) {
+                  		localStorageService.set('dataVulneOffline', resumenVulneOffline);
+                  		resumenVulneOffline.push(dataList);
+                  		localStorageService.set('dataVulneOffline', resumenVulneOffline);
+                  	}else {
+                  		resumenVulneOffline = localStorageService.get('dataVulneOffline');
+                  		resumenVulneOffline.push(dataList);
+                  		localStorageService.set('dataVulneOffline', resumenVulneOffline);
+                  	}
+                  	// $scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+
+                  	console.log(resumenVulneOffline);
+                  	console.log(localStorageService.get('dataVulneOffline'));
                 });
 
             }

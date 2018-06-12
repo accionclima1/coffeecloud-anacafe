@@ -30,7 +30,7 @@ app.controller('RoyaCtrl', [
 		$scope.noBandolas = 0;
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
-        $scope.unabandola50=50;
+    $scope.unabandola50=50;
 		$scope.arrOffline = [];
 
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);

@@ -6,6 +6,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, PouchDB, $root
         $scope.unitId = $stateParams.idunidad;
         $scope.unitIndex = $stateParams.indexunidad;
         $scope.encuestaHistory = [];
+        $scope.encuestaHistoryOffline = [];
         $scope.resumenDataHistorial = [];
 
         $scope.encuestaHistoryByUnidad = [];
@@ -566,6 +567,7 @@ $scope.historialVulLaunch = function() {
         console.log(auth.userId());
         vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
            $scope.encuestaHistory = userhistory.data;
+           $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
            localStorageService.set('encuestaHistory',userhistory.data);
            console.log($scope.encuestaHistory);
 
@@ -576,22 +578,36 @@ $scope.historialVulLaunch = function() {
 
            }
            console.log($scope.encuestaHistoryByUnidad);
-           $scope.chargeData($scope.encuestaHistoryByUnidad);
+           // $scope.chargeData($scope.encuestaHistoryByUnidad);
        });
+       localStorageService.remove('dataVulneOffline');
 
     } else {
         console.log("No internet");
         console.log(auth.userId());
         $scope.encuestaHistory = localStorageService.get('encuestaHistory');
-        console.log($scope.encuestaHistory);
+        console.log('Offline-Data Vulnerabilidad: ', $scope.encuestaHistory);
+        $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
+        console.log($scope.encuestaHistoryOffline);
+
         for (var i = 0; i < $scope.encuestaHistory.length; i++) {
                 if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
-                        $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistory[i]);
+                        $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
                 }
 
         }
+
+        if ($scope.encuestaHistoryOffline != null) {
+          for (var i = 0; i < $scope.encuestaHistoryOffline[0].length; i++) {
+                  if ($scope.encuestaHistoryOffline[0][i].unidad === $scope.unitId) {
+                          $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[0][i]);
+                  }
+
+          }
+        }
+
         console.log($scope.encuestaHistoryByUnidadOffline);
-        $scope.chargeData($scope.encuestaHistoryByUnidadOffline);
+        // $scope.chargeData($scope.encuestaHistoryByUnidadOffline);
     }
 
 

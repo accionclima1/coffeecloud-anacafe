@@ -23,6 +23,7 @@ app.controller('VulneCtrl', [
       $scope.resumenDataHistorial = [];
 
       $scope.unitId = $stateParams.idunidad;
+      $scope.resumenVulneOffline = [];
 
       console.log($scope.unitId);
 
@@ -120,6 +121,7 @@ app.controller('VulneCtrl', [
         }
         var dateVulne = new Date();
         $scope.newEncuesta.resumenVulne.fecha = dateVulne;
+        $scope.newEncuesta.resumenVulne.valor = valorData;
         console.log($scope.newEncuesta);
         return
     }
@@ -534,14 +536,33 @@ $scope.dataImprimir = function(){
                     $scope.idEncuesta = result.data._id;
                     console.log(result.data);
                     $scope.listaPreguntas.push(result.data);
-                    console.log($scope.listaPreguntas);
                     if (result.status == 'fail') {
                         $scope.error = result.message;
                     }
                     else if (result.status == 'success') {
                         delete result.data["type"];
                     }
+
+                    if ((localStorageService.get('dataVulneOffline'))&&(localStorageService.get('dataVulneOffline').length > 0)) {
+                 		 localStorageService.remove('dataVulneOffline');
+                 	 }
                 });
+                // .catch (function(){
+                //     if (localStorageService.get('dataVulneOffline') === null) {
+                //   		localStorageService.set('dataVulneOffline', $scope.resumenVulneOffline);
+                //   		$scope.resumenVulneOffline.push($scope.newEncuesta);
+                //   		localStorageService.set('dataVulneOffline', $scope.resumenVulneOffline);
+                //   	}else {
+                //   		$scope.resumenVulneOffline = localStorageService.get('dataVulneOffline');
+                //   		$scope.resumenVulneOffline.push($scope.newEncuesta);
+                //   		localStorageService.set('dataVulneOffline', $scope.resumenVulneOffline);
+                //   	}
+                //   	$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+                //
+                //   	console.log($scope.resumenVulneOffline);
+                //   	console.log(localStorageService.get('dataVulneOffline'));
+                //
+                // });
 
             };
 

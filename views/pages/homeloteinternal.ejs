@@ -83,6 +83,12 @@
                             <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
                             <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
                           </ul>
+                          <p><strong>Recomendación</strong><br>
+                            <span ng-show="roya.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
+                            <span ng-show="roya.incidencia > 10 && roya.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
+                            <span ng-show="roya.incidencia > 20 && roya.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
+                            <span ng-show="roya.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
+                          </p>
                         </div>
                       </div>
                     </div>
