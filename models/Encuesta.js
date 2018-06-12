@@ -8,7 +8,7 @@ var EncuestaSchema = new mongoose.Schema({
     isDeleted: Boolean,
     unidad: String,
     preguntas: { type: Array, "default": [] },
-    resumenVulne: {type: Array}
+    resumenVulne: {type: Array},
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
