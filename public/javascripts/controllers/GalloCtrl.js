@@ -34,6 +34,8 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
   $scope.noBandolas = 0;
   $scope.arrOfflineGallo = [];
+  $scope.nombreUnidad = "";
+  $scope.nombreLote = "";
 
 	console.log($scope.user_Ided, $scope.unitId, $scope.loteIndex);
 
@@ -157,6 +159,15 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
             	else if (result.status == 'success') {
 
             		$scope.units = result.data;
+
+                for (var i = 0; i < $scope.units.length; i++) {
+									if ($scope.units[i]._id == $scope.unitId) {
+											$scope.nombreUnidad = $scope.units[i].nombre;
+											$scope.nombreLote = $scope.units[i].lote[$scope.loteIndex].nombre;
+									}
+								}
+
+
                     //if($scope.userO7.units.length === result.data.length){
 
                     //	$scope.units = result.data;
@@ -168,7 +179,8 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
                     //	$scope.remoteMode = true;
                     //}
 
-
+                    console.log("Nombre Unidad", $scope.nombreUnidad);
+    								console.log("Nombre Lote", $scope.nombreLote);
                 }
             });
             //endregion
@@ -178,9 +190,6 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
     } else {
 
     	console.log('app offline');
-
-
-
 
         //region to  get user unit from local PouchDB instead of server
         PouchDB.GetAllUserUnit(auth.userId()).then(function (result) {
@@ -193,6 +202,15 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
         		$scope.units = result.data;
         		console.log('local mode:', result.data);
 
+            for (var i = 0; i < $scope.units.length; i++) {
+              if ($scope.units[i]._id == $scope.unitId) {
+                  $scope.nombreUnidad = $scope.units[i].nombre;
+                  $scope.nombreLote = $scope.units[i].lote[$scope.loteIndex].nombre;
+              }
+            }
+
+            console.log("Nombre Unidad", $scope.nombreUnidad);
+            console.log("Nombre Lote", $scope.nombreLote);
 
         	}
         });

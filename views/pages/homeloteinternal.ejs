@@ -35,19 +35,19 @@
         </div>
         <div class="panel-body">
 
-                  <h6 ng-show="royaHistoryByLote.length == 0" style="color:#000">¡No hay cálculos todavía!</h6>
+                  <h6 ng-show="royaHistoryByLote.length == 0" style="color:#666666">¡No hay cálculos todavía!</h6>
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                   <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
 
                     <div class="panel panel-default" ng-repeat="roya in royaHistoryByLote">
                       <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
                         <h5 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseRoyaOnline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseRoyaOnline-' + $index }}">
                             <small>{{ roya.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
                           </a>
                         </h5>
                       </div>
-                      <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+                      <div id="{{ 'collapseRoyaOnline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseRoyaOnline-' + $index }}">
                         <div class="panel-body">
                           <ul class="list-group">
                             <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
@@ -67,15 +67,16 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="panel panel-default" ng-repeat="roya in royaHistoryByLoteOffline">
                       <div class="panel-heading" role="tab" id="{{ 'headingOffline-' + $index }}">
                         <h5 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseRoyaOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseRoyaOffline-' + $index }}">
                            <small>Muestreo {{ $index + 1 }} (Offline)</small>
                           </a>
                         </h5>
                       </div>
-                      <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseOffline-' + $index }}">
+                      <div id="{{ 'collapseRoyaOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseRoyaOffline-' + $index }}">
                         <div class="panel-body">
                           <ul class="list-group">
                             <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
@@ -113,14 +114,14 @@
                   <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
 
                     <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLote">
-                      <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
+                      <div class="panel-heading" role="tab" id="{{ 'headingGalloOnline-' + $index }}">
                         <h5 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOnline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOnline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseGalloOnline-' + $index }}">
                             <small>{{ gallo.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
                           </a>
                         </h5>
                       </div>
-                      <div id="{{ 'collapseGalloOnline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+                      <div id="{{ 'collapseGalloOnline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseGalloOnline-' + $index }}">
                         <div class="panel-body">
                           <ul class="list-group">
                             <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>
@@ -142,14 +143,14 @@
                     </div>
                     <!-- Cálculos Ojo de Gallo Offline -->
                     <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLoteOffline">
-                      <div class="panel-heading" role="tab" id="{{ 'headingOffline-' + $index }}">
+                      <div class="panel-heading" role="tab" id="{{ 'headingGalloOffline-' + $index }}">
                         <h5 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseGalloOffline-' + $index }}">
                            <small>Muestreo {{ $index + 1 }} (Offline)</small>
                           </a>
                         </h5>
                       </div>
-                      <div id="{{ 'collapseRoyaOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseGalloOffline-' + $index }}">
+                      <div id="{{ 'collapseGalloOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseGalloOffline-' + $index }}">
                         <div class="panel-body">
                           <ul class="list-group">
                             <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>
@@ -157,6 +158,13 @@
                             <li class="list-group-item" ng-show="gallo.advMode">Severidad Promedio <span class="badge">{{(gallo.severidadPromedio).toFixed()}}%</span></li>
                             <li class="list-group-item" ng-show="gallo.advMode">Incidencia promedio por planta <span class="badge">{{gallo.inideanciaPromedioPlanta}}</span></li>
                           </ul>
+
+                          <p style="display:none;"><strong>Recomendación</strong><br>
+                            <!-- <span ng-show="gallo.incidencia < 11">{{methodsMonthGallo.grade1}}</span>
+                            <span ng-show="gallo.incidencia > 10 && gallo.incidencia < 21 ">{{methodsMonthGallo.grade2}}</span>
+                            <span ng-show="gallo.incidencia > 20 && gallo.incidencia < 51 ">{{methodsMonthGallo.grade3}}</span>
+                            <span ng-show="gallo.incidencia > 50 ">{{methodsMonthGallo.grade3}}</span>
+                          </p> -->
                         </div>
                       </div>
                     </div>

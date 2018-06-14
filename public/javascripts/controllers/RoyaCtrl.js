@@ -32,6 +32,8 @@ app.controller('RoyaCtrl', [
 		$scope.loteIndex = $stateParams.indexlote;
     $scope.unabandola50=50;
 		$scope.arrOffline = [];
+		$scope.nombreUnidad = "";
+		$scope.nombreLote = "";
 
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
 
@@ -138,6 +140,14 @@ app.controller('RoyaCtrl', [
             	else if (result.status == 'success') {
 
             		$scope.units = result.data;
+								console.log($scope.units);
+
+								for (var i = 0; i < $scope.units.length; i++) {
+									if ($scope.units[i]._id == $scope.unitId) {
+											$scope.nombreUnidad = $scope.units[i].nombre;
+											$scope.nombreLote = $scope.units[i].lote[$scope.loteIndex].nombre;
+									}
+								}
                     //if($scope.userO7.units.length === result.data.length){
 
                     //	$scope.units = result.data;
@@ -148,8 +158,8 @@ app.controller('RoyaCtrl', [
                     //	$scope.units = $scope.userO7.units;
                     //	$scope.remoteMode = true;
                     //}
-
-
+								console.log("Nombre Unidad", $scope.nombreUnidad);
+								console.log("Nombre Lote", $scope.nombreLote);
                 }
             });
             //endregion
@@ -159,8 +169,6 @@ app.controller('RoyaCtrl', [
     } else {
 
     	console.log('app offline');
-
-
 
 
         //region to  get user unit from local PouchDB instead of server
@@ -174,6 +182,14 @@ app.controller('RoyaCtrl', [
         		$scope.units = result.data;
         		console.log('local mode:', result.data);
 
+						for (var i = 0; i < $scope.units.length; i++) {
+							if ($scope.units[i]._id == $scope.unitId) {
+									$scope.nombreUnidad = $scope.units[i].nombre;
+									$scope.nombreLote = $scope.units[i].lote[$scope.loteIndex].nombre;
+							}
+						}
+						console.log("Nombre Unidad", $scope.nombreUnidad);
+						console.log("Nombre Lote", $scope.nombreLote);
 
         	}
         });

@@ -113,7 +113,8 @@
 					<div class="row test">
 						<div class="col-lg-6 col-lg-offset-3">
 							<div class="plantContainer">
-								<h6>Unidad: {{ units[unitIndex].lote[loteIndex].nombre }}</h6>
+								<h6>Unidad: {{ nombreUnidad }}</h6>
+								<h6>Lote: {{ nombreLote}}</h6>
 								<div class="bandolas" ng-click="bandolas()">
 									<p ng-hide="test.bandolas"><strong>1</strong> Bándola (<strong>50</strong> Plantas)</p>
 									<p ng-show="test.bandolas"><strong>2</strong> Bándolas (<strong>30</strong> Plantas)</p>
@@ -155,7 +156,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								
+
 							</div>
 
 							<div ng-hide="test.advMode">
@@ -170,7 +171,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								
+
 							</div>
 
 						</div>
