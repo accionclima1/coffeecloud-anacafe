@@ -21,8 +21,8 @@
 
 						      <div class="row unidad" ng-repeat="unit in units" id="{{unit._id}}">
 
-								<div class="col-xs-7 col-center nombreUnidad"><a href="#/homeinternal/{{unit._id}}/{{$index}}" class="lnkUnidad"><p>{{unit.nombre}}</p></a></div>
-								<div class="col-xs-5 col-center buttonsUnidad" style="padding-right: 5px;padding-left: 5px;">
+								<div class="col-xs-10 col-md-10 col-lg-10 col-center nombreUnidad"><a href="#/homeinternal/{{unit._id}}/{{$index}}" class="lnkUnidad"><p>{{unit.nombre}}</p></a></div>
+								<div class="col-xs-2 col-md-2 col-lg-2 col-center buttonsUnidad" style="padding-right: 5px;padding-left: 5px;">
 
 										<button class="btn btn-danger" ng-click="deleteUnit($event, unit._id, $index)"><i class="fa fa-trash" style="font-size:20px;"></i></button>
 										<button class="btn btn-default" style="margin-left: 12px;" ng-click="EditOldUnit(unit)" data-toggle="modal"><i class="fa fa-edit" style="font-size:20px;"></i></button>

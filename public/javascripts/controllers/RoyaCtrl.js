@@ -30,6 +30,7 @@ app.controller('RoyaCtrl', [
 		$scope.noBandolas = 0;
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
+		$scope.unitIndex = $stateParams.indexunidad;
     $scope.unabandola50=50;
 		$scope.arrOffline = [];
 		$scope.nombreUnidad = "";
@@ -70,6 +71,20 @@ app.controller('RoyaCtrl', [
 				$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
 				localStorageService.remove('localTest');
 				$state.go($state.current, {}, {reload: true});
+			}
+		}
+
+		// Función Historial de Muestreos Roya
+		$scope.backHistorial = function(option){
+			if (option == true) {
+				console.log("Reinicar");
+				$scope.IsErrorInfrmRoyaAddPlanta=false;
+				$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+				$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+				$scope.IsTotalPlantaAdded=false;
+				$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+				localStorageService.remove('localTest');
+				$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
 			}
 		}
 

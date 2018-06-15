@@ -2031,7 +2031,7 @@ function ($stateProvider, $urlRouterProvider) {
           }]
       })
       .state('roya', {
-          url: '/roya/:idunidad/:indexlote',
+          url: '/roya/:idunidad/:indexunidad/:indexlote',
           templateUrl: '/roya.html',
           controller: 'RoyaCtrl',
           onEnter: ['$state', 'auth', function ($state, auth) {
@@ -2041,7 +2041,7 @@ function ($stateProvider, $urlRouterProvider) {
           }]
       })
       .state('gallo', {
-          url: '/gallo/:idunidad/:indexlote',
+          url: '/gallo/:idunidad/:indexunidad/:indexlote',
           templateUrl: '/gallo.html',
           controller: 'GalloCtrl',
           onEnter: ['$state', 'auth', function ($state, auth) {
@@ -2091,7 +2091,7 @@ function ($stateProvider, $urlRouterProvider) {
            }*/
       })
       .state('vulnerability', {
-          url: '/vulnerability/:idunidad',
+          url: '/vulnerability/:idunidad/:indexunidad',
           templateUrl: '/vulnerability.html',
           controller: 'VulneCtrl',
           onEnter: ['$state', 'auth', function ($state, auth) {

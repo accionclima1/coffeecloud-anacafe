@@ -1564,10 +1564,10 @@ a.unidad {
 
  @media (max-width: 375px) {
 
-   .nombreUnidad{
+   /* .nombreUnidad{
      width: 45%;
 
-   }
+   } */
 
    .buttonsUnidad{
      width: 70%;
@@ -1577,9 +1577,9 @@ a.unidad {
 
  @media (max-width: 320px) {
 
-   .nombreUnidad{
+   /* .nombreUnidad{
      width: 28%;
-   }
+   } */
 
    .buttonsUnidad{
      width: 72%;
@@ -1594,8 +1594,8 @@ a.unidad {
    }
 
    .areaBorrarLote{
+     padding-right: 16% !important;
    }
-   padding-right: 16% !important;
 
  }
 

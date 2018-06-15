@@ -29,9 +29,11 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	$scope.modal.numberSubmitted=false;
 
   $scope.unitId = $stateParams.idunidad;
+  $scope.unitIndex = $stateParams.indexunidad;
   $scope.loteIndex = $stateParams.indexlote;
-  $scope.unabandola50=50;
 
+
+  $scope.unabandola50=50;
   $scope.noBandolas = 0;
   $scope.arrOfflineGallo = [];
   $scope.nombreUnidad = "";
@@ -73,15 +75,18 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 			}
 		}
 
-  // $scope.ClearTest = function(){
-	//   $scope.IsErrorInfrmGalloAddPlanta=false;
-	// 	$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
-	// 	$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
-	// 	$scope.IsTotalPlantaAdded=false;
-	// 	$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-  // 	localStorageService.remove('localTestgallo');
-  // 	$state.go($state.current, {}, {reload: true});
-  // }
+    $scope.backHistorial = function(option){
+			if (option == true) {
+				console.log("Reinicar");
+				$scope.IsErrorInfrmRoyaAddPlanta=false;
+				$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+				$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+				$scope.IsTotalPlantaAdded=false;
+				$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+				localStorageService.remove('localTest');
+				$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+			}
+		}
 
 	// Función para salir al precionar Cancelar
 	$scope.exitAlert = function (){

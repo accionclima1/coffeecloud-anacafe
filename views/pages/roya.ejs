@@ -1,6 +1,10 @@
 <script type="text/ng-template" id="/roya.html">
 	  		<div class="roya-wrap">
+
 	  			<h2 class="section-header">
+						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backHistorial(true)">
+							<i style="font-size: 20px;" class="fa fa-chevron-left"></i>
+					  </a>
 	  				CÁLCULO DE ROYA <small ng-show="test.advMode">(avanzado)</small>
 	  			</h2>
 				<div class="container">
@@ -156,6 +160,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
+								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
 
 							</div>
 
@@ -171,6 +176,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
+								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
 
 							</div>
 

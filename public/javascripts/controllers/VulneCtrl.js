@@ -23,6 +23,7 @@ app.controller('VulneCtrl', [
       $scope.resumenDataHistorial = [];
 
       $scope.unitId = $stateParams.idunidad;
+      $scope.unitIndex = $stateParams.indexunidad;
       $scope.resumenVulneOffline = [];
 
       console.log($scope.unitId);
