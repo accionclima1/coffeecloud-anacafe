@@ -1,5 +1,5 @@
-app.controller('HomeloteinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'gallo', 'roya', 'methods', 'methodsGallo', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus',
-function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus) {
+app.controller('HomeloteinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'gallo', 'roya', 'methods', 'methodsGallo', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus', '$state',
+function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus, $state) {
         console.log("show time");
         $scope.currentUser = auth.currentUser;
         $scope.currentId = auth.currentUser();
@@ -33,6 +33,20 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
         	}
         });
+
+        //Ir a los Muestreos
+        $scope.irMuestreo = function(option){
+          console.log(option);
+          if (option == "roya") {
+            localStorageService.remove('localTest');
+            $state.go("roya", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+          }
+          else if (option == "gallo"){
+            localStorageService.remove('localTestgallo');
+            $state.go("gallo", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+          }
+
+        }
 
         if ($rootScope.IsInternetOnline) {
 

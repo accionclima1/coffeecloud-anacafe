@@ -74,6 +74,7 @@ app.controller('RoyaCtrl', [
 			}
 		}
 
+
 		// Función Historial de Muestreos Roya
 		$scope.backHistorial = function(option){
 			if (option == true) {
@@ -114,7 +115,6 @@ app.controller('RoyaCtrl', [
 			$scope.ClearTest(true);
 		}
 	}
-
 
 		var plantEditor = function(plant) {
 			$scope.plantname = plant;

@@ -1615,6 +1615,10 @@ a.unidad {
     padding-left:0px;
 }
 
+.roya-wrap .switch{
+  display:none;
+}
+
  /* Mensaje de Geolocalización Lote */
  /* .cargandoUbicacionLote{
    display: none;
