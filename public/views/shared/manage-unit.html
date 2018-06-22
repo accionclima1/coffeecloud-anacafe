@@ -173,11 +173,14 @@
                     <label id="lblAdd" class="addBtn pull-left" ng-click="addVariedad()">
                         <span class="glyphicon glyphicon-plus"></span> Añadir variedad
                     </label>
-                    <div id="contenedorNueva" class="col-xs-6" style="padding-left: 0px; margin-bottom: 10px; display: none">
+                    <div id="contenedorNueva" class="col-xs-10" style="padding-left: 0px; margin-bottom: 10px; display: none">
                      <div class="input-group">
                        <input class="form-control" type="text" name="nuevaVariedad" id="nuevaVariedad" placeholder="ingrese nombre"/>
                         <span class="input-group-addon">
                             <span ng-click="addNewvariedad()" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </span>
+                        <span class="input-group-addon">
+                            <span ng-click="cancelNewvariedad()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </span>
                     </div><!-- /input-group -->
                     </div>

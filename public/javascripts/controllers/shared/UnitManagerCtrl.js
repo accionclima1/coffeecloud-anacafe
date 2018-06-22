@@ -1,5 +1,5 @@
-app.controller('UnitManagerCtrl', ['$http', '$scope', 'auth', 'unit', 'varieties', 'user', 'PouchDB', 'localStorageService', '$rootScope', 'onlineStatus','mailer',
-function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageService, $rootScope, onlineStatus, mailer) {
+app.controller('UnitManagerCtrl', ['$http', '$scope', 'auth', 'unit', 'varieties', 'user', 'PouchDB', 'localStorageService', '$rootScope', 'onlineStatus','mailer','$state',
+function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageService, $rootScope, onlineStatus, mailer, $state) {
 
     console.log("Loading UnitManagerCtrl")
 
@@ -11,6 +11,9 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
     $scope.userId = auth.userId;
     $scope.user_Ided = auth.userId();
     var userO = {};
+    $scope.varietysOffline = [];
+    $scope.newVarietys = [];
+
     $scope.oficinaregionallst = [{ id: -1, name: "Select Oficina Regional" },
            { id: 1, name: "Los Santos" },
            { id: 2, name: "Pérez Zeledón" },
@@ -71,23 +74,43 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
     if ($rootScope.IsInternetOnline) {
         console.log("app online");
 
-        varieties.getAll().then(function (varids) {
-            variedades = varids.data;
-            //variedades.push({ name: "otro" }, { name: "cual?" });
-            $scope.variedades = variedades;
+        $scope.getVarietys = function(){
+          varieties.getAll().then(function (varids) {
+              variedades = varids.data;
+              //variedades.push({ name: "otro" }, { name: "cual?" });
+              $scope.variedades = variedades;
 
-            //Guardamos con localStorage
-            localStorageService.set('localVarieties',variedades);
+              //Guardamos con localStorage
+              localStorageService.set('localVarieties',variedades);
 
-            //Guardamos a nivel local
-            PouchDB.SaveVarietiesToPouchDB(variedades);
-            console.log("Data --->");
-            console.log($scope.variedades);
+              //Guardamos a nivel local
+              PouchDB.SaveVarietiesToPouchDB(variedades);
+              console.log("Data --->");
+              console.log($scope.variedades);
+   //            $("#txtPrueba").val("Data cargado!");
+
+          });
+        }
+
+        if (localStorageService.get('dataNewVarietysOffline') != null) {
+          var syncVariety = [];
+          $scope.newVarietys = localStorageService.get('dataNewVarietysOffline');
+          for (var i = 0; i < $scope.newVarietys.length; i++) {
+            console.log($scope.newVarietys[i]);
+            varieties.create($scope.newVarietys[i]).then(function (newVar) {
+                syncVariety.push(newVar.data);
+                console.log(syncVariety);
+            });
+            // $scope.addNewVariety($scope.newVarietys[i]);
+          }
+          localStorageService.remove('dataNewVarietysOffline');
+          $scope.getVarietys();
+        }
+        else {
+          $scope.getVarietys();
+        }
 
 
- //            $("#txtPrueba").val("Data cargado!");
-
-        });
 
         //$("#txtPrueba").val("data online  " + $scope.variedades);
 
@@ -585,9 +608,60 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
 
     }
 
+    $scope.addNewVariety = function (newVariety) {
+        console.log(newVariety);
+        var currentvarieties = [];
+        if ($rootScope.IsInternetOnline) {
+
+            varieties.create(newVariety).then(function (newVar) {
+                currentvarieties.push(newVar.data);
+                $scope.varieties = currentvarieties;
+
+                console.log($scope.varieties);
+
+                //Busco la variedad Local que acabo de crear
+                for (var i = 0; i < $scope.variedades.length; i++) {
+                  if ($scope.variedades[i].name == newVariety.name) {
+                    console.log("Nueva Variedad: ", $scope.variedades[i]);
+                    // La reemplazo por la del servidor
+                    $scope.variedades[i] = $scope.varieties[0];
+                    console.log($scope.variedades);
+                    break;
+                  }
+                }
+            });
+        }
+        else{
+          console.log("Guardamos en Local Storage");
+          var busqueda = "";
+          if (localStorageService.get('dataNewVarietysOffline') === null) {
+        		localStorageService.set('dataNewVarietysOffline', $scope.varietysOffline);
+        		$scope.varietysOffline.push(newVariety);
+        		localStorageService.set('dataNewVarietysOffline', $scope.varietysOffline);
+        	}else {
+        		$scope.varietysOffline = localStorageService.get('dataNewVarietysOffline');
+            for (var i = 0; i < $scope.varietysOffline.length; i++) {
+              if ($scope.varietysOffline[i].name == newVariety.name) {
+                busqueda = "existente";
+                break;
+              }
+            }
+            if (busqueda != "existente") {
+              $scope.varietysOffline.push(newVariety);
+          		localStorageService.set('dataNewVarietysOffline', $scope.varietysOffline);
+            }
+
+        	}
+
+        	console.log($scope.varietysOffline);
+        	console.log(localStorageService.get('dataNewVarietysOffline'));
+        }
+    };
+
 
     // FUNCION PARA EDITAR UNA UNIDAD
     $scope.saveEditUnitForm = function () {
+        console.log("Entré editar unidad");
         console.log($scope.newunitForm.$valid);
         if ($scope.newunitForm.$valid) {
 
@@ -598,6 +672,7 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
             $scope.newUnit.lng = $('[name="lng"]').val();
 
             $scope.newUnit.variedad = [];
+            // Al ejecutar este código si hay variedades nuevas deben de aparecer
             for (var vcounter = 0; vcounter < $scope.variedades.length; vcounter++) {
                 if ($scope.variedades[vcounter].isSelected)
                     $scope.newUnit.variedad.push($scope.variedades[vcounter]._id);
@@ -622,10 +697,13 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
                         $scope.SweetAlert("¡Excelente!", "Unidad Actualizada", "success");
                         $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
                         $scope.$emit('UNITEDITED', { unit: result.data });
+
+                        console.log("Volví de Crear Nueva Variedad");
                         $("#departamentos option").removeAttr("selected"); //-- KH - Borra el atributo selected
                         $("#departamentos .optionVacio").remove();
                         $('#myModal2').modal('hide');
                         console.log("Datos Actualizados: ", result.data);
+                        // $state.go($state.current, {reload: true});
                     }
                 });
             }
@@ -671,6 +749,15 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
                     else if (result.status == 'success') {
                         delete result.data["type"];
                         $scope.$emit('UNITADDED', { unit: result.data });
+
+                        // // Buscar Nuevas Variedades y Añadirlas
+                        // for (var i = 0; i < $scope.variedades.length; i++) {
+                        //   if ($scope.variedades[i]._id == null) {
+                        //     console.log("Nueva Variedad: ", $scope.variedades[i]);
+                        //     $scope.addNewVariety($scope.variedades[i]);
+                        //   }
+                        // }
+
                         $scope.ResetNewUnit();
                         $scope.SweetAlert("¡Excelente!", "Unidad Añadida", "success");
                         $('#myModal2').modal('hide');
@@ -712,15 +799,35 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
     }
 
     $scope.addNewvariedad = function(){
+      if ($("#nuevaVariedad").val() != "") {
         var nombreVariedad = $("#nuevaVariedad").val();
         $("#nuevaVariedad").val("");
         $scope.variedades.push({ name:  nombreVariedad });
-
+        // $scope.addNewVariety({name: nombreVariedad});
         console.log("************************************************");
         console.log($scope.variedades);
 
+        // Buscar Nuevas Variedades y Añadirlas
+        for (var i = 0; i < $scope.variedades.length; i++) {
+          if ($scope.variedades[i]._id == null) {
+            console.log("Nueva Variedad: ", $scope.variedades[i]);
+            $scope.addNewVariety($scope.variedades[i]);
+          }
+        }
+
         $("#contenedorNueva").hide();
         $("#lblAdd").show();
+      }
+      else{
+        $scope.SweetAlert('¡Error!', 'Nombre de variedad incorrecta.', 'error');
+      }
+
+    }
+
+    $scope.cancelNewvariedad = function(){
+      $("#nuevaVariedad").val("");
+      $("#contenedorNueva").hide();
+      $("#lblAdd").show();
     }
 
     // Función Aceptar cierre
