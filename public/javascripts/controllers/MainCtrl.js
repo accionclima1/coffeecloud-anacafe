@@ -34,20 +34,6 @@ function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $ro
 
     if ($rootScope.IsInternetOnline) {
         console.log("app online...");
-        varieties.getAll().then(function (varids) {
-            variedades = varids.data;
-            //variedades.push({ name: "otro" }, { name: "cual?" });
-            $scope.variedades = variedades;
-            localStorageService.set('localVarieties',variedades);
-
-            console.log("data mostrar");
-            console.log(variedades);
-
-              //Guardamos a nivel local
-            PouchDB.SaveVarietiesToPouchDB(variedades);
-            // $("#txtPrueba").val("Data cargado!");
-
-        });
 
         methodsGallo.get().then(function(methodsGallo){
            var methGallo = methodsGallo.data[0];
@@ -769,6 +755,7 @@ function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $ro
 
     // Funcion Editar Unidad
     $scope.EditOldUnit = function (unit) {
+
         // $('.map').collapse('hide');
         console.log("Edito Unidad: " + unit.nombre);
         $scope.unitopmessage = null

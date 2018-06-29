@@ -4,7 +4,7 @@ var smtpTransport =  require('nodemailer-smtp-transport');
 var configuration = {
     smtp_host: "smtp.gmail.com",
     smtp_user: "centroclimaorg@gmail.com", // your gmail id
-    smtp_password: "Clima3!$", // your gmail password
+    smtp_password: "Locodelcoco123!", // your gmail password
     mailadmin: 'centroclimaorg@gmail.com',
     display_name: 'Coffe Cloud Team'
   };
@@ -34,7 +34,7 @@ exports.sendEmail = function (mailRequest, cb) {
     };
     if(mailRequest.FROM)
     mailOptions.from = mailRequest.FROM;
-    
+
     return transporter.sendMail(mailOptions, function (error, info) {
         console.log("in mal request answer");
         if (error) {
@@ -47,4 +47,3 @@ exports.sendEmail = function (mailRequest, cb) {
     });
 
 }
-

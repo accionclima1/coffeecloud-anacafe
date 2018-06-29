@@ -26,44 +26,16 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
         if ($rootScope.IsInternetOnline) {
             console.log("app online");
 
-              varieties.getAll().then(function (varids) {
-                  variedades = varids.data;
-                  //variedades.push({ name: "otro" }, { name: "cual?" });
-                  $scope.variedades = variedades;
-                  console.log($scope.variedades);
-                  //Guardamos con localStorage
-                  localStorageService.set('localVarieties',variedades);
+            varieties.getAll().then(function (varids) {
+                variedades = varids.data;
+                $scope.variedades = variedades;
+                console.log($scope.variedades);
+                //Guardamos con localStorage
+                localStorageService.set('localVarieties',variedades);
 
-                  //Guardamos a nivel local
-                  PouchDB.SaveVarietiesToPouchDB(variedades);
-                  console.log("Data --->");
-                  console.log($scope.variedades);
-       //            $("#txtPrueba").val("Data cargado!");
-
-              });
-
-            // if (localStorageService.get('dataNewVarietysOffline') != null) {
-            //   var syncVariety = [];
-            //   $scope.newVarietys = localStorageService.get('dataNewVarietysOffline');
-            //   for (var i = 0; i < $scope.newVarietys.length; i++) {
-            //     console.log($scope.newVarietys[i]);
-            //     varieties.create($scope.newVarietys[i]).then(function (newVar) {
-            //         syncVariety.push(newVar.data);
-            //         console.log(syncVariety);
-            //     });
-            //     // $scope.addNewVariety($scope.newVarietys[i]);
-            //   }
-            //   localStorageService.remove('dataNewVarietysOffline');
-            //   $scope.getVarietys();
-            // }
-            // else {
-            //   $scope.getVarietys();
-            // }
-
-
-
-            //$("#txtPrueba").val("data online  " + $scope.variedades);
-
+                console.log("Data --->");
+                console.log($scope.variedades);
+            });
         }
         else {
             console.log("app offline **");

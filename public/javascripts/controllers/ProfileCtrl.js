@@ -23,46 +23,6 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, $rootScope, local
     //$rootScope.IsInternetOnline = false;
     console.log("online: ");
     console.log($rootScope.IsInternetOnline);
-    if ($rootScope.IsInternetOnline) {
-        console.log("app online...");
-        varieties.getAll().then(function (varids) {
-            variedades = varids.data;
-            //variedades.push({ name: "otro" }, { name: "cual?" });
-            $scope.variedades = variedades;
-            localStorageService.set('localVarieties',variedades);
-
-            console.log("data mostrar");
-            console.log(variedades);
-
-              //Guardamos a nivel local
-            PouchDB.SaveVarietiesToPouchDB(variedades);
-            // $("#txtPrueba").val("Data cargado!");
-
-        });
-    }
-    else {
-        console.log("app offline");
-        console.log("Versión prueba de fallos");
-
-        PouchDB.GetVarietiesFromPouchDB().then(function (result) {
-            if (result.status == 'fail') {
-                $scope.error = result.message;
-            }
-            else if (result.status == 'success') {
-                var doc = result.data.rows[0].doc;
-                if (result.data.rows.length > 0) {
-                    var variedadesArray = [];
-                    for (var i = 0; i < doc.list.length; i++) {
-                        variedadesArray.push(doc.list[i]);
-                    }
-                    variedadesArray.push({ name: "otro" }, { name: "cual?" });
-                    $scope.variedades = variedadesArray;
-                    console.log("Arrya: - ");
-                    console.log(variedadesArray);
-                }
-            }
-        });
-    }
 
     $scope.yesNoSelectionChange = function (type) {
         (type == "newUnit") ? $scope.newUnit.fungicidas.contacto = false : $scope.editUnit.fungicidas.contacto = false;

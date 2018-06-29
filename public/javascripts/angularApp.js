@@ -380,6 +380,8 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         lastSynDateTimeSpan = pouchDbFactory.GetLastSyncDateTime();
 
 
+
+
         function mapFunctionTypeUnit(doc) {
             if ((doc.EntityType == "Unit" && doc.user == _tmpUserId)) {
                 emit([doc._id]);
@@ -388,7 +390,9 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
 
         var deferred = $q.defer();
         var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { include_docs: true });
+
         $q.when(pouchPromise).then(function (recordList) {
+
             if (recordList && recordList.rows && recordList.rows.length > 0) {
                 var dataList = [];
                 for (i = 0; i < recordList.rows.length; i++) {
