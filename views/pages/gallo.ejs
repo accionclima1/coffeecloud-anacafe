@@ -9,13 +9,13 @@
 				<div class="container">
 					<div class="row intro">
 						<div class="col-lg-6 col-lg-offset-3">
-							<p align="justify">Para llevar a cabo el cálculo de ojo de gallo es necesario que elija un modo:</p>
-							<div class="radio">
+							<p align="justify">Para llevar a cabo el cálculo de ojo de gallo presione el botón Iniciar Cálculo:</p>
+							<!-- <div class="radio">
 							  <input type="radio" id="optionsRadios1" ng-value="false" ng-model="test.advMode"><label for="optionsRadios1">Básico</label>
 							</div>
 							<div class="radio">
 							  <input type="radio" id="optionsRadios2" ng-value="true" ng-model="test.advMode"><label for="optionsRadios2">Avanzado <small>(Incluye cálculo de severidad)</small></label>
-							</div>
+							</div> -->
                             <!-- <div>
                             <p ng-show="!test.advMode">30 plantas (2 Bandolas)</p>
                             <p ng-show="test.advMode">50 plantas (1 Bandola) al azar</p>
@@ -134,7 +134,7 @@
 
 								<div class="testControls">
 								<div class="col-md-12 fullbutton nopadd">
-									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 5 && !test.bandolas">Agregar Planta</button>
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
 								</div>
 									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
 

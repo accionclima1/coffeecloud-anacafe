@@ -4,7 +4,7 @@
       font-weight:normal;
       color:#000;
     }
-    </style>    
+    </style>
 <div class="home-wrap profile-wrap">
     <div class="container">
       <div class="row">
@@ -15,19 +15,22 @@
          </div>
        </div>
         <div class="row">
+          <!-- Mapa Lluvia Diaria -->
             <div class="panel panel-default">
-                      <div class="panel-heading">Lluvia acumulada</div>
-                      <div class="panel-body climawidget" align="center">
-            <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png" class="img-responsive"/></a>
-            <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
-                      </div>
-                    </div>
+              <div class="panel-heading">Lluvia diaria</div>
+              <div class="panel-body climawidget" align="center">
+                <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png" class="img-responsive"/></a>
+                <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
+            </div>
+
+            <!-- Mapa de Temperatura -->
             <div class="panel panel-default">
-                      <div class="panel-heading">Temperatura</div>
-                      <div class="panel-body climawidget" align="center">
-            <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png" class="img-responsive"/></a>
-            <span class="bg-warning"  ng-show="!online">Necesita estar conectado a Internet</span>
-                      </div>
+              <div class="panel-heading">Temperatura</div>
+              <div class="panel-body climawidget" align="center">
+                <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png" class="img-responsive"/></a>
+                <span class="bg-warning"  ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
             </div>
         </div>
     </div>
