@@ -168,6 +168,7 @@ router.put('/posts/:post/comments/:comment/upvote', auth, function (req, res, ne
 });
 
 router.post('/register', function (req, res, next) {
+    console.log("Contenido de registro: ", req.body);
     if (!req.body.username || !req.body.password || !req.body.email) {
         return res.status(400).json({ message: 'Por favor, llene todos los campos' });
     }
@@ -190,9 +191,31 @@ router.post('/register', function (req, res, next) {
 
     user.role = req.body.role;
 
+    // Contenedor del Email
+    var mailcontent = {
+        FROM: '"Coffee Cloud" <centroclimaorg@gmail>', // sender address
+        TO: user.email, // list of receivers
+        SUBJECT: 'Registro de Usuario', // Subject line
+        HTML: `<p>Hola ${user.username} <p>
+                        <p>Bienvenido a Coffee Cloud.<br />
+                        Tus datos de registro son los siguientes:<br />
+                        Nombre de usuario: ${user.username} <br />
+                        Contraseña: ${req.body.password}<br />
+                        Saludos,<br />
+                        Coffee Cloud</p>
+                          ` // html body
+    }
+
 
     user.save(function (err) {
-        if (err) { return res.status(500).json({ message: 'Usuario o Correo ya han sido registrados' }) }
+
+      if (err) {
+        return res.status(500).json({ message: 'Usuario o Correo ya han sido registrados' })
+      }else{
+        Mail.sendEmail(mailcontent,function(){
+          res.json({ "success": true, data: { username:user.username, password: req.body.password }});
+        });
+      }
 
         return res.json({ token: user.generateJWT() })
     });
@@ -276,7 +299,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                   ` // html body
             }
             Mail.sendEmail(mailcontent,function(){
-res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
+              res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
             });
 
 
