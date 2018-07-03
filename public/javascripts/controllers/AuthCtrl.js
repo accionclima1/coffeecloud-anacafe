@@ -128,6 +128,7 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
             }
             else if (data.data.success == true) {
                 $scope.error = false
+                console.log(data.data.data);
                 window.localStorage['otp-pasw-token'] = JSON.stringify(data.data.data);
                 $state.go('authenticateotp');
 
