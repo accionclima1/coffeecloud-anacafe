@@ -10,7 +10,7 @@
       <div class="row">
          <div class="col-lg-12 col-md-12 col-xs-12">
            <div class="page-header">
-             <h2>Pronóstico</span></h2>
+             <h2>Pronóstico INSIVUMEH</span></h2>
            </div>
          </div>
        </div>
@@ -38,6 +38,15 @@
               <div class="panel-heading">Temperatura</div>
               <div class="panel-body climawidget" align="center">
                 <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png" class="img-responsive"/></a>
+                <span class="bg-warning"  ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
+            </div>
+
+            <!-- Humedad de Suelo -->
+            <div class="panel panel-default">
+              <div class="panel-heading">Humedad del Suelo</div>
+              <div class="panel-body climawidget" align="center">
+                <a href="http://www.insivumeh.gob.gt/hidrologia/humedad.jpg"><img src="http://www.insivumeh.gob.gt/hidrologia/humedad.jpg" class="img-responsive"/></a>
                 <span class="bg-warning"  ng-show="!online">Necesita estar conectado a Internet</span>
               </div>
             </div>
