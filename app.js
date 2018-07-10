@@ -24,7 +24,7 @@ require('./models/Variety');
 require('./models/Vulnerability');
 require('./models/Encuesta');
 
-require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@coffeecloud.centroclima.org/dummyDB', {
+require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@163.172.154.223/dummyDB', {
   server: {
     socketOptions: {
       socketTimeoutMS: 0,
