@@ -137,11 +137,11 @@
 
 								<div class="testControls">
 								<div class="col-md-12 fullbutton nopadd">
-									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 4 && test.bandolas || test.plantas.length > 4 && !test.bandolas">Agregar Planta</button>
 								</div>
 									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
 
-									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 30 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
+									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 5 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
 								</div>
 							</div>
 						</div>
@@ -256,13 +256,33 @@
 
 									<ul class="severity-list" ng-show="test.advMode && modal.numberSubmitted">
 										<li>Seleccione la severidad para el grupo de hojas:</li>
-										<li ng-click="addLeaf('0%',false)" style="color:lime"><img src="images/escala1.png" /> <span>0%</span></li>
-										<li ng-click="addLeaf('10%',false)" style="color:green"><img src="images/escala2.png" /> 10%</span></li>
-										<li ng-click="addLeaf('20%',false)" style="color:yellow"><img src="images/escala3.png" /> <span>20%</span></li>
-										<li ng-click="addLeaf('30%',false)" style="color:rgba(192, 151, 29, 1)"><img src="images/escala4.png" /> <span>30%</span></li>
-										<li ng-click="addLeaf('40%',false)" style="color:orange"><img src="images/escala5.png" /> <span>40%</span></li>
-										<li ng-click="addLeaf('80%',false)" style="color:red"><img src="images/escala6.png" /> <span>80%</span></li>
+										<li><img src="images/escala1.png" /> <span style="color:lime">0%</span>
+											<input class="sev0" type="number" only-num  required >
+										</li>
+										<li><img src="images/escala2.png"/><span style="color:green">10%</span>
+											<input class="sev1" type="number" only-num required >
+										</li>
+										<li><img src="images/escala3.png"/><span style="color:yellow">20%</span>
+											<input class="sev2" type="number" only-num required >
+										</li>
+										<li><img src="images/escala4.png"/><span style="color:rgba(192, 151, 29, 1)">30%</span>
+											<input class="sev3" type="number" only-num required >
+										</li>
+										<li><img src="images/escala5.png"/><span style="color:orange">40%</span>
+											<input class="sev4" type="number" only-num required >
+										</li>
+										<li><img src="images/escala6.png"/><span style="color:red">80%</span>
+											<input class="sev5" type="number" only-num required >
+										</li>
+
+										<div class="row">
+											<div class="col-xs-12 col-md-12">
+												<button class="btn btn-primary" ng-click="promedioPlanta()">Agregar</button>
+											</div>
+										</div>
+
 									</ul>
+
 
 									<div ng-hide="test.advMode" class="severity-list">
 									<form name="frmRoyaAddPlantaAffectedLeaf">
