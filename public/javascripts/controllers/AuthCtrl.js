@@ -15,7 +15,7 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
             $scope.user._id = auth.userId();
             PouchDB.SaveUserToPouchDB($scope.user, auth.userId()).then(function (result) {
                 console.log("user updated");
-                $state.go('home');
+                $state.go('home', {reload: true});
             });
         });
     };

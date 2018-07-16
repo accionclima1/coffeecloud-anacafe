@@ -33,6 +33,20 @@ function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $ro
     console.log($rootScope.IsInternetOnline);
 
     if ($rootScope.IsInternetOnline) {
+
+        // varieties.getAll().then(function (varids) {
+        //     variedades = varids.data;
+        //     $scope.variedades = variedades;
+        //     console.log($scope.variedades);
+        //     //Guardamos con localStorage
+        //     localStorageService.set('localVarieties',variedades);
+        //
+        //     //Guardamos a nivel local
+        //     PouchDB.SaveVarietiesToPouchDB(variedades);
+        //     console.log("Data --->");
+        //     console.log($scope.variedades);
+        // });
+
         console.log("app online...");
 
         methodsGallo.get().then(function(methodsGallo){
@@ -780,6 +794,8 @@ function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $ro
 
     // Metodo Añadir Unidad
     $scope.$on('UNITADDED', function (e, args) {
+      console.log($scope.units);
+      console.log(args.unit);
         $scope.units.push(args.unit);
         if ($rootScope.IsInternetOnline) {
             PouchDB.SynServerDataAndLocalData().then(function () {

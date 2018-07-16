@@ -455,7 +455,10 @@ app.controller('RoyaCtrl', [
     	$('.plant-editor').removeClass('active');
     }
 
-    $scope.addLeaf = function(severity,isPrefixAddRequired) {
+    $scope.addLeaf = function(severity,isPrefixAddRequired, hojasPorPlanta) {
+
+			console.log(severity);
+			console.log(isPrefixAddRequired);
     	if(isPrefixAddRequired)
     	{
     		if(!$scope.frmRoyaAddPlantaAffectedLeaf.$valid){
@@ -507,7 +510,8 @@ app.controller('RoyaCtrl', [
 			}
 
 			var plantIndex = $scope.plantname - 1;
-			$scope.test.plantas[plantIndex].push([amount,severity]);
+			$scope.test.plantas[plantIndex].push([amount,severity,hojasPorPlanta]);
+			console.log($scope.test.plantas);
     	$scope.leafList = $scope.test.plantas[plantIndex];
     	$('[name=amount]').val('');
     	$scope.affect ="";
@@ -578,12 +582,18 @@ app.controller('RoyaCtrl', [
 			else{
 				$scope.promedio = ($scope.hojasPorPlanta[0] * 0) + ($scope.hojasPorPlanta[1] * 0.10) + ($scope.hojasPorPlanta[2] * 0.20) + ($scope.hojasPorPlanta[3] * 0.30) + ($scope.hojasPorPlanta[4] * 0.40) + ($scope.hojasPorPlanta[5] * 0.80);
 				$scope.promedio = $scope.promedio / $scope.numeroDeHojas;
-				// $scope.promedio = $scope.promedio *
+				// $scope.promedio = $scope.promedio.toFixed(2);
+				$scope.promedio = ($scope.promedio * 100) / 1;
 				$scope.promedio = $scope.promedio.toString() + "%";
 				console.log("Array", $scope.severidad);
 				console.log("Promedio: ", $scope.promedio.toString());
 
-				$scope.addLeaf($scope.prmedio,false)
+				// Limpiamos los inputs
+				for (var i = 0; i < 6; i++) {
+					$(".sev"+i).val("");
+				}
+
+				$scope.addLeaf($scope.promedio,false, $scope.severidad)
 			}
 
 			// console.log();
