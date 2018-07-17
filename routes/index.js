@@ -224,7 +224,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="https://ci6.googleusercontent.com/proxy/8joSNvS_AwnQ8-RyJ8K59WGxzybkvUi4GvsgxzngwEG4d2VH7vYDyJtkORUZHR1Xe1TCCoYyjUe7VtBOXEcozpD7we5SOzSLGH02oiuoGWfGtCchr3JiKRNkECpSWQpqMfpqRkFYShv7S4iNbsIPhrSSARFg_SvQU_3SrN8=s0-d-e1-ft#https://gallery.mailchimp.com/d22781e804849efcc76a3b1d7/images/a633f164-2d10-450e-8006-0132babc0f10.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
+                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/Anacafe-logo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
 
 
                                     </td>
@@ -245,7 +245,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:0px;padding-left:0px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="https://ci3.googleusercontent.com/proxy/TQtC-bMH3QsP1rVH9JBr1NfwlzJKK2VtSCAVDNnXCFlSoNU7mYZVEpo4ylDr8rW6apO1pz-ztIEdhZkqdboSXGWQ-h8sdDUHc4AWK-y4gf_PQjqkZ36R40fC_c_D3snverLUtQlPtCCdNR2mf_z2HJmLdgm3EytRrPlwLKM=s0-d-e1-ft#https://gallery.mailchimp.com/d22781e804849efcc76a3b1d7/images/fad03d15-f254-4743-ad39-b62b61ba851a.png" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0"><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
+                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0"><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
 
 
                                     </td>
@@ -263,7 +263,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="https://ci4.googleusercontent.com/proxy/VU5oJVH4KDKs-erWDdSCASZUhe01Rzezx3Zct3G1LS49eBeZM5J6HnYoVrHWkPO7swG_j4V0emYhrVKxjWU4b83ujOytEdV8Ra5JBFu2osXIkyyXk-1j4P-uZj7iHOt_YTl6AnF88TAhyHHVBuRIVFI7WlhmK-VNI84rL5w=s0-d-e1-ft#https://gallery.mailchimp.com/d22781e804849efcc76a3b1d7/images/99fd1ee1-5bca-448d-97f0-bf8b61aa24e1.png" width="54" style="max-width:108px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnRetinaImage CToWUd">
+                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/pages-logo-light.png" width="54" style="max-width:108px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnRetinaImage CToWUd">
 
 
                                     </td>
@@ -477,7 +477,8 @@ router.post('/register', function (req, res, next) {
           return res.status(500).json({ message: 'Usuario o Correo ya han sido registrados' })
         }else{
           Mail.sendEmail(mailcontent,function(){
-            res.json({ "success": true, data: { username:user.username, password: req.body.password }});
+            console.log("Datos enviados.");
+            // res.json({ "success": true, data: { username:user.username, password: req.body.password }});
           });
         }
 
@@ -563,7 +564,8 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                   ` // html body
             }
             Mail.sendEmail(mailcontent,function(){
-              res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
+              console.log("Contraseña código OTP envíado.");
+              // res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
             });
 
 

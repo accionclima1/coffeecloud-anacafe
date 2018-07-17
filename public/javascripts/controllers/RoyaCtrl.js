@@ -552,7 +552,7 @@ app.controller('RoyaCtrl', [
 			$scope.sumaDeHojas = 0;
 			$scope.promedio = 0;
 			console.log($scope.numeroDeHojas);
-			for (var i = 0; i < 6; i++) {
+			for (var i = 0; i < 7; i++) {
 				if ($(".sev"+i).val() == "") {
 					// $scope.hojasPorPlanta.severidad[i] = 0;
 					$scope.hojasPorPlanta[i] = 0;
@@ -566,12 +566,13 @@ app.controller('RoyaCtrl', [
 				console.log("input", $(".sev"+i).val());
 			}
 
-			$scope.severidad.severidad0 = $scope.hojasPorPlanta[0];
-			$scope.severidad.severidad10 = $scope.hojasPorPlanta[1];
-			$scope.severidad.severidad20 = $scope.hojasPorPlanta[2];
-			$scope.severidad.severidad30 = $scope.hojasPorPlanta[3];
-			$scope.severidad.severidad40 = $scope.hojasPorPlanta[4];
-			$scope.severidad.severidad80 = $scope.hojasPorPlanta[5];
+			$scope.severidad.severidad_0 = $scope.hojasPorPlanta[0];
+			$scope.severidad.severidad_1 = $scope.hojasPorPlanta[1]
+			$scope.severidad.severidad_2 = $scope.hojasPorPlanta[2];
+			$scope.severidad.severidad_7 = $scope.hojasPorPlanta[3];
+			$scope.severidad.severidad_20 = $scope.hojasPorPlanta[4];
+			$scope.severidad.severidad_45 = $scope.hojasPorPlanta[5];
+			$scope.severidad.severidad_70 = $scope.hojasPorPlanta[6];
 
 			console.log($scope.sumaDeHojas);
 			console.log($scope.hojasPorPlanta);
@@ -580,16 +581,16 @@ app.controller('RoyaCtrl', [
 				$scope.SweetAlert('¡Error!', 'Cantidad de hojas incorrecta', 'error');
 			}
 			else{
-				$scope.promedio = ($scope.hojasPorPlanta[0] * 0) + ($scope.hojasPorPlanta[1] * 0.10) + ($scope.hojasPorPlanta[2] * 0.20) + ($scope.hojasPorPlanta[3] * 0.30) + ($scope.hojasPorPlanta[4] * 0.40) + ($scope.hojasPorPlanta[5] * 0.80);
-				$scope.promedio = $scope.promedio / $scope.numeroDeHojas;
-				// $scope.promedio = $scope.promedio.toFixed(2);
+				$scope.promedio = ($scope.hojasPorPlanta[0] * 0) + ($scope.hojasPorPlanta[1] * 0.01) + ($scope.hojasPorPlanta[2] * 0.02) + ($scope.hojasPorPlanta[3] * 0.07) + ($scope.hojasPorPlanta[4] * 0.20) + ($scope.hojasPorPlanta[5] * 0.45);
+				$scope.promedio = ($scope.promedio + $scope.hojasPorPlanta[6] * 0.70) / $scope.numeroDeHojas;
+				$scope.promedio = $scope.promedio.toFixed(2);
 				$scope.promedio = ($scope.promedio * 100) / 1;
 				$scope.promedio = $scope.promedio.toString() + "%";
 				console.log("Array", $scope.severidad);
 				console.log("Promedio: ", $scope.promedio.toString());
 
 				// Limpiamos los inputs
-				for (var i = 0; i < 6; i++) {
+				for (var i = 0; i < 7; i++) {
 					$(".sev"+i).val("");
 				}
 
