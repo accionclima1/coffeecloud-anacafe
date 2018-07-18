@@ -581,7 +581,6 @@ app.controller('RoyaCtrl', [
 				$scope.SweetAlert('¡Error!', 'Cantidad de hojas incorrecta', 'error');
 			}
 			else{
-				$scope.hojasPorPlanta = [];
 				$scope.promedio = ($scope.hojasPorPlanta[0] * 0) + ($scope.hojasPorPlanta[1] * 1) + ($scope.hojasPorPlanta[2] * 2) + ($scope.hojasPorPlanta[3] * 3) + ($scope.hojasPorPlanta[4] * 4) + ($scope.hojasPorPlanta[5] * 5);
 				$scope.promedio = ($scope.promedio + $scope.hojasPorPlanta[6] * 6) / ($scope.numeroDeHojas * 6);
 				// $scope.promedio = $scope.promedio.toFixed(2);
