@@ -549,6 +549,7 @@ app.controller('RoyaCtrl', [
 
 		// Promedio de Plantas por Hojas según Severidad
 		$scope.promedioPlanta = function(){
+			$scope.severidad = [];
 			$scope.sumaDeHojas = 0;
 			$scope.promedio = 0;
 			console.log($scope.numeroDeHojas);
@@ -582,10 +583,10 @@ app.controller('RoyaCtrl', [
 			}
 			else{
 				$scope.promedio = ($scope.hojasPorPlanta[0] * 0) + ($scope.hojasPorPlanta[1] * 1) + ($scope.hojasPorPlanta[2] * 2) + ($scope.hojasPorPlanta[3] * 3) + ($scope.hojasPorPlanta[4] * 4) + ($scope.hojasPorPlanta[5] * 5);
-				$scope.promedio = ($scope.promedio + $scope.hojasPorPlanta[6] * 6) / $scope.numeroDeHojas;
-				$scope.promedio = $scope.promedio.toFixed(2);
+				$scope.promedio = ($scope.promedio + $scope.hojasPorPlanta[6] * 6) / ($scope.numeroDeHojas * 6);
+				// $scope.promedio = $scope.promedio.toFixed(2);
 				$scope.promedio = ($scope.promedio * 100) / 1;
-				$scope.promedio = $scope.promedio.toFixed(2);
+				$scope.promedio = Math.round($scope.promedio.toFixed(2));
 				$scope.promedio = $scope.promedio.toString() + "%";
 				console.log("Array", $scope.severidad);
 				console.log("Promedio: ", $scope.promedio.toString());
