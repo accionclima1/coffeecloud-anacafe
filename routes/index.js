@@ -285,7 +285,7 @@ router.post('/register', function (req, res, next) {
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                     &nbsp;
-        <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">Bienvenido a Coffee Cloud!</h1>
+        <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud!</h1>
         &nbsp;
 
         <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
@@ -437,11 +437,10 @@ router.post('/register', function (req, res, next) {
 
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                    <em>Copyright © Centro Clima, All rights reserved.</em><br>
-        <a href="http://centro.clima.org" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=es&amp;q=http://centro.clima.org&amp;source=gmail&amp;ust=1531609635040000&amp;usg=AFQjCNEwlasDis2peA8qeo1_Jl1IttQUNg">centro.clima.org</a><br>
+                                    <em>Copyright © Centro Clima - Coffee Cloud, Todos los derechos reservados.</em><br>
         <br>
-        <strong>Our mailing address is:</strong><br>
-        *|HTML:LIST_ADDRESS_HTML|*
+        <strong>Nuestro correo electrónico es:</strong><br>
+        <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
                                 </td>
                             </tr>
                         </tbody></table>
@@ -478,6 +477,12 @@ router.post('/register', function (req, res, next) {
         }else{
           Mail.sendEmail(mailcontent,function(){
             console.log("Datos enviados.");
+            swal({
+                  title: "Registro de Usuario",
+                  text: "Usuario registrado exitosamente",
+                  type: "success",
+                  confirmButtonText: 'Aceptar'
+                });
             // res.json({ "success": true, data: { username:user.username, password: req.body.password }});
           });
         }
@@ -554,17 +559,284 @@ router.post('/requestpasswordchange', function (req, res, next) {
                 FROM: '"Coffee Cloud" <centroclimaorg@gmail>', // sender address
                 TO: req.body.Email, // list of receivers
                 SUBJECT: 'Contraseña Temporal', // Subject line
-                HTML: `<p>Hi ${user.username} <p>
-                                <p>Aqui esta su contraseña temporal.<br />
+                HTML: `<div class=""><div class="aHl"></div><div id=":4p" tabindex="-1"></div><div id=":50" class="ii gt"><div id=":51" class="a3s aXjCH m1648148168d86fbc"><u></u>
 
-                                    OTP: ${token},<br />
+                <div style="height:100%;margin:0;padding:0;width:100%;background-color:#ffffff">
 
-                                    Saludos,<br />
-                                    Coffee Cloud</p>
-                                  ` // html body
+                    <center>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="m_7597259537403923093bodyTable" style="border-collapse:collapse;height:100%;margin:0;padding:0;width:100%;background-color:#ffffff">
+                            <tbody><tr>
+                                <td align="center" valign="top" id="m_7597259537403923093bodyCell" style="height:100%;margin:0;padding:10px;width:100%;border-top:0">
+
+
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093templateContainer" style="border-collapse:collapse;border:0;max-width:600px!important">
+                                        <tbody><tr>
+                                            <td valign="top" id="m_7597259537403923093templatePreheader" style="background-color:#ffffff;border-top:0;border-bottom:0;padding-top:9px;padding-bottom:9px"></td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" id="m_7597259537403923093templateHeader" style="background-color:#ffffff;border-top:0;border-bottom:0;padding-top:0;padding-bottom:9px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                <tbody class="m_7597259537403923093mcnImageBlockOuter">
+                        <tr>
+                            <td valign="top" style="padding:9px" class="m_7597259537403923093mcnImageBlockInner">
+                                <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="m_7597259537403923093mcnImageContentContainer" style="min-width:100%;border-collapse:collapse">
+                                    <tbody><tr>
+                                        <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
+
+
+                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/Anacafe-logo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
+
+
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                </tbody>
+            </table></td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#f24934;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                <tbody class="m_7597259537403923093mcnImageBlockOuter">
+                        <tr>
+                            <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
+                                <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="m_7597259537403923093mcnImageContentContainer" style="min-width:100%;border-collapse:collapse">
+                                    <tbody><tr>
+                                        <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:0px;padding-left:0px;padding-top:0;padding-bottom:0;text-align:center">
+
+
+                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0"><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
+
+
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                </tbody>
+            </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                <tbody class="m_7597259537403923093mcnImageBlockOuter">
+                        <tr>
+                            <td valign="top" style="padding:9px" class="m_7597259537403923093mcnImageBlockInner">
+                                <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="m_7597259537403923093mcnImageContentContainer" style="min-width:100%;border-collapse:collapse">
+                                    <tbody><tr>
+                                        <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
+
+
+                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/pages-logo-light.png" width="54" style="max-width:108px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnRetinaImage CToWUd">
+
+
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                </tbody>
+            </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnTextBlock" style="min-width:100%;border-collapse:collapse">
+                <tbody class="m_7597259537403923093mcnTextBlockOuter">
+                    <tr>
+                        <td valign="top" class="m_7597259537403923093mcnTextBlockInner" style="padding-top:9px">
+
+
+
+                            <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%" class="m_7597259537403923093mcnTextContentContainer">
+                                <tbody><tr>
+
+                                    <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+
+                                        &nbsp;
+            <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Coffee Cloud!</h1>
+            &nbsp;
+
+            <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tu código para restablecer tu contraseña:<br>
+            <br>
+            Tu código OTP es: ${token} <br/>
+            <br>
+            Saludos.</h4>
+
+                                    </td>
+                                </tr>
+                            </tbody></table>
+
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table></td>
+                                        </tr>
+            							<tr>
+            								<td align="center" valign="top">
+            									<img src="https://ci5.googleusercontent.com/proxy/kZjvwZILbs2VMWSZHIKzE1L7u86W3yDLoyxUdTkdaN7vh2UEcdIUyfmlHDT2BMRkMaDM2nr1JvZNEITBHtXFdqrnd4NdevRw_Te3RW-9GUuvrGUlPv7MO69mevbim1HQCdDkwX_BCndcbitZso6fLuxVbRMO6_YIxN1ZQgg=s0-d-e1-ft#https://gallery.mailchimp.com/87ce8f25ff95a7f203c76c0ab/images/8a7030a1-3d71-45ca-aa5d-e244b31efdf5.png" width="100%" height="auto" style="display:block;margin:0;padding:0;border:0;height:auto;outline:none;text-decoration:none" class="CToWUd">
+            								</td>
+            							</tr>
+                                        <tr>
+                                            <td valign="top" id="m_7597259537403923093templateFooter" style="background-color:#ffffff;border-top:0;border-bottom:0;padding-top:9px;padding-bottom:9px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowBlock" style="min-width:100%;border-collapse:collapse">
+                <tbody class="m_7597259537403923093mcnFollowBlockOuter">
+                    <tr>
+                        <td align="center" valign="top" style="padding:9px" class="m_7597259537403923093mcnFollowBlockInner">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentContainer" style="min-width:100%;border-collapse:collapse">
+                <tbody><tr>
+                    <td align="center" style="padding-left:9px;padding-right:9px">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse" class="m_7597259537403923093mcnFollowContent">
+                            <tbody><tr>
+                                <td align="center" valign="top" style="padding-top:9px;padding-right:9px;padding-left:9px">
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                                        <tbody><tr>
+                                            <td align="center" valign="top">
+
+
+
+
+
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                            <tbody><tr>
+                                                                <td valign="top" style="padding-right:10px;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
+                                                                        <tbody><tr>
+                                                                            <td align="left" valign="middle" style="padding-top:5px;padding-right:10px;padding-bottom:5px;padding-left:9px">
+                                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" width="" style="border-collapse:collapse">
+                                                                                    <tbody><tr>
+
+                                                                                            <td align="center" valign="middle" width="24" class="m_7597259537403923093mcnFollowIconContent">
+                                                                                                <a href="https://twitter.com/cafedeguatemala?lang=es" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=es&amp;q=https://twitter.com/cafedeguatemala?lang%3Des&amp;source=gmail&amp;ust=1531609635040000&amp;usg=AFQjCNGI67Xu9LvozB5B91_Tex7FV49mwQ"><img src="https://ci4.googleusercontent.com/proxy/uApKaoPlCYOYXVT8sS0_mkIkNM4Q5vauv1oaDiARopaL9vVaZI6o2RGAqeKUEf9TivGAkS8JW3yhjZ9XIk8-H_mItq_5lW6mKT0Ug0OZALWvlBypdkrYzWGIKlhctBhZ_w=s0-d-e1-ft#https://cdn-images.mailchimp.com/icons/social-block-v2/light-twitter-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" class="CToWUd"></a>
+                                                                                            </td>
+
+
+                                                                                    </tr>
+                                                                                </tbody></table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+
+
+
+
+
+
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                            <tbody><tr>
+                                                                <td valign="top" style="padding-right:10px;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
+                                                                        <tbody><tr>
+                                                                            <td align="left" valign="middle" style="padding-top:5px;padding-right:10px;padding-bottom:5px;padding-left:9px">
+                                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" width="" style="border-collapse:collapse">
+                                                                                    <tbody><tr>
+
+                                                                                            <td align="center" valign="middle" width="24" class="m_7597259537403923093mcnFollowIconContent">
+                                                                                                <a href="https://www.facebook.com/anacafe/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=es&amp;q=https://www.facebook.com/anacafe/&amp;source=gmail&amp;ust=1531609635040000&amp;usg=AFQjCNE_pG9SMB7OjyKy7jYJmkWObJchDw"><img src="https://ci4.googleusercontent.com/proxy/LWkr9DyYvFpHIeSydlleghMZDtPPHLDIrbV5pctVV8VMdsNhAHrzXjmrOflkx6k78EOlIvlhfa2SLwFG_PfUoBWLBYTy890STL8K-v0veJqHjPjxWO3lkKREVqEBzdsn_v8=s0-d-e1-ft#https://cdn-images.mailchimp.com/icons/social-block-v2/light-facebook-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" class="CToWUd"></a>
+                                                                                            </td>
+
+
+                                                                                    </tr>
+                                                                                </tbody></table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+
+
+
+
+
+
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                            <tbody><tr>
+                                                                <td valign="top" style="padding-right:0;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
+                                                                        <tbody><tr>
+                                                                            <td align="left" valign="middle" style="padding-top:5px;padding-right:10px;padding-bottom:5px;padding-left:9px">
+                                                                                <table align="left" border="0" cellpadding="0" cellspacing="0" width="" style="border-collapse:collapse">
+                                                                                    <tbody><tr>
+
+                                                                                            <td align="center" valign="middle" width="24" class="m_7597259537403923093mcnFollowIconContent">
+                                                                                                <a href="https://www.anacafe.org/glifos/index.php/P%C3%A1gina_principal" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=es&amp;q=https://www.anacafe.org/glifos/index.php/P%25C3%25A1gina_principal&amp;source=gmail&amp;ust=1531609635040000&amp;usg=AFQjCNFjsEl8hJS_13gJPQ71vHpLnA9Uxw"><img src="https://ci6.googleusercontent.com/proxy/j1hD8tgUcYxyuQBy3KlTOeky2sGXFFxtuig8JGTnECu5PyzP-AE3d9y2ZWtOrCyDF0sqrKInkCaDRAQNkbS-lYgCcsenONGHBDXODDhcnaRMym45_klvjnK-mHRMnQ=s0-d-e1-ft#https://cdn-images.mailchimp.com/icons/social-block-v2/light-link-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" class="CToWUd"></a>
+                                                                                            </td>
+
+
+                                                                                    </tr>
+                                                                                </tbody></table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+
+
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+            </tbody></table>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnTextBlock" style="min-width:100%;border-collapse:collapse">
+                <tbody class="m_7597259537403923093mcnTextBlockOuter">
+                    <tr>
+                        <td valign="top" class="m_7597259537403923093mcnTextBlockInner" style="padding-top:9px">
+
+
+
+                            <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%" class="m_7597259537403923093mcnTextContentContainer">
+                                <tbody><tr>
+
+                                    <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
+
+                                        <em>Copyright © Centro Clima - Coffee Cloud, Todos los derechos reservados.</em><br>
+            <br>
+            <strong>Nuestro correo electrónico es:</strong><br>
+            <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+
+
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table></td>
+                                        </tr>
+                                    </tbody></table>
+
+
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </center><div class="yj6qo"></div><div class="adL">
+                </div></div><div class="adL">
+
+            </div></div></div><div id=":4l" class="ii gt" style="display:none"><div id=":5p" class="a3s aXjCH undefined"></div></div><div class="hi"></div></div>`
+
+                // `<p>Hi ${user.username} <p>
+                //                 <p>Aqui esta su contraseña temporal.<br />
+                //
+                //                     OTP: ${token},<br />
+                //
+                //                     Saludos,<br />
+                //                     Coffee Cloud</p>` // html body
             }
             Mail.sendEmail(mailcontent,function(){
               console.log("Contraseña código OTP envíado.");
+              swal({
+                    title: "Restablecer Contraseña",
+                    text: "Código OTP enviado.",
+                    type: "success",
+                    confirmButtonText: 'Aceptar'
+                  });
               // res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
             });
 

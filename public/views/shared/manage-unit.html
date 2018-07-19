@@ -868,7 +868,7 @@
                     <div ng-if="newUnit.fungicidas.biologicalOptions.verticiliumlecanii">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii" value="{{newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii}}" ng-selected="(newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii)">
                                 <option>Enero</option>
                                 <option>Febrero</option>
                                 <option>Marzo</option>

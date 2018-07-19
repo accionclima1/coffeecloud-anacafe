@@ -137,11 +137,11 @@
 
 								<div class="testControls">
 								<div class="col-md-12 fullbutton nopadd">
-									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 4 && test.bandolas || test.plantas.length > 4 && !test.bandolas">Agregar Planta</button>
 								</div>
 									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
 
-									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 30 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
+									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 5 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
 								</div>
 							</div>
 						</div>
@@ -195,8 +195,8 @@
 					        <div class="plant-editor">
 
 
-									<p ng-show="test.advMode">Divida las hojas de cada planta en grupos por severidad.</p>
-									<p ng-hide="test.advMode">Agregue la cantidad total de hojas. </p>
+									<p ng-show="test.advMode">Agregue la cantidad total de hojas.</p>
+									<p ng-hide="test.advMode">Agregue la cantidad total de hojas.</p>
 									<div class="leaf-list">
 
 											<div ng-if="test.bandolas" class="leaf-item" ng-repeat="leaf in leafList">
@@ -255,7 +255,7 @@
 										</form>
 
 									<ul class="severity-list" ng-show="test.advMode && modal.numberSubmitted">
-										<li>Seleccione la severidad para el grupo de hojas:</li>
+										<li>Divida el total de hojas en grupos por severidad:</li>
 										<li><img src="images/escala-0.png" /> <span style="color:lime">0%</span>
 											<input class="sev0" type="number" only-num  required >
 										</li>
@@ -280,7 +280,7 @@
 
 										<div class="row">
 											<div class="col-xs-12 col-md-12">
-												<button class="btn btn-primary" ng-click="promedioPlanta()">Agregar</button>
+												<button class="btn btn-primary" style="width: 90%;margin-top: 5%;margin-bottom: 5%;" ng-click="promedioPlanta()">Siguiente</button>
 											</div>
 										</div>
 

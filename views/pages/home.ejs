@@ -475,7 +475,7 @@
 																			</label>
 																			<div class="form-group" ng-if="editUnit.fungicidas.contactoOptions.caldovicosa" >
 																				<label>¿Cuando lo aplica?</label>
-																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.caldovicosa">
+																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.caldovicosa" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																					<option>Enero</option>
 																					<option>Febrero</option>
 																					<option>Marzo</option>
@@ -497,7 +497,7 @@
 																			</label>
 																			<div class="form-group" ng-if="editUnit.fungicidas.contactoOptions.caldobordeles" >
 																				<label>¿Cuando lo aplica?</label>
-																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.caldobordeles">
+																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.caldobordeles" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																					<option>Enero</option>
 																					<option>Febrero</option>
 																					<option>Marzo</option>
@@ -524,7 +524,7 @@
 
 																			<div class="form-group" ng-if="editUnit.fungicidas.contactoOptions.otrocual">
 																				<label>¿Cuando lo aplica?</label>
-																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.otrocual">
+																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.otrocual" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																					<option>Enero</option>
 																					<option>Febrero</option>
 																					<option>Marzo</option>
@@ -557,7 +557,7 @@
 																			<div ng-if="editUnit.fungicidas.sistemicoOptions.opus">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.opus">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.opus" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -581,7 +581,7 @@
 																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.opera">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.opera">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.opera" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -606,7 +606,7 @@
 																			<div ng-if="editUnit.fungicidas.sistemicoOptions.esferamax">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.esferamax">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.esferamax" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -631,7 +631,7 @@
 																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.amistarxtra">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.amistarxtra">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.amistarxtra" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -656,7 +656,7 @@
 																			<div ng-if="editUnit.fungicidas.sistemicoOptions.alto10">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.alto10">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.alto10" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -684,7 +684,7 @@
 																			<div ng-if="editUnit.fungicidas.sistemicoOptions.verdadero">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.verdadero">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.verdadero" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -713,7 +713,7 @@
 																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.caporal">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.caporal">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.caporal" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -740,7 +740,7 @@
 																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.estrobirulina">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.estrobirulina">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.estrobirulina" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -769,7 +769,7 @@
 																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.otro">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.otro">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.otro" ng-selected="(editUnit.fungicidas.contactoOptionsMonths.caldovicosa >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -801,7 +801,7 @@
 																			<div  ng-if="editUnit.fungicidas.biologicalOptions.verticiliumlecanii">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii" value="{{editUnit.fungicidas.biologicalOptionsMonths[verticiliumlecanii]}}" ng-selected="(editUnit.fungicidas.biologicalOptionsMonths[verticiliumlecanii])">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -827,7 +827,7 @@
 																			<div  ng-if="editUnit.fungicidas.biologicalOptions.bacilussutillis">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.bacilussutillis">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.bacilussutillis" ng-selected="(editUnit.fungicidas.biologicalOptionsMonths.bacilussutillis >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
@@ -856,7 +856,7 @@
 																			<div  ng-if="editUnit.fungicidas.biologicalOptions.otrocual">
 																				<div class="form-group" >
 																					<label>¿Cuando lo aplica?</label>
-																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.otrocual">
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.otrocual" ng-selected="(editUnit.fungicidas.biologicalOptionsMonths.otrocual >= 0)">
 																						<option>Enero</option>
 																						<option>Febrero</option>
 																						<option>Marzo</option>
