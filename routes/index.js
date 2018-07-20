@@ -837,11 +837,12 @@ router.post('/requestpasswordchange', function (req, res, next) {
                     type: "success",
                     confirmButtonText: 'Aceptar'
                   });
-              // res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
+              res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
             });
 
 
         }
+        // return res.json({ token: user.generateJWT() })
     });
 });
 
