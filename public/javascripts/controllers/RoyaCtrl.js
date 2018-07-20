@@ -31,7 +31,7 @@ app.controller('RoyaCtrl', [
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
 		$scope.unitIndex = $stateParams.indexunidad;
-    $scope.unabandola50=5;
+    $scope.unabandola50=50;
 		$scope.arrOffline = [];
 		$scope.nombreUnidad = "";
 		$scope.nombreLote = "";
@@ -326,10 +326,10 @@ app.controller('RoyaCtrl', [
     	}
     	var requiredLength=0;
     	if($scope.test.bandolas==true){
-    		requiredLength=4; //KH - Modificación - 29 - 4
+    		requiredLength=29; //KH - Modificación - 29 - 4
     	}
     	else{
-    		requiredLength=4; //KH - Modificación - 49 - 4
+    		requiredLength=49; //KH - Modificación - 49 - 4
     	}
     	if($scope.test.plantas.length>requiredLength)
     	{
@@ -354,13 +354,13 @@ app.controller('RoyaCtrl', [
     	if($scope.test.bandolas==true){
 				console.log("Seleccioné 2 Bandolas");
 				$scope.noBandolas = 0;
-    		requiredLength=4; //KH - Modificación - 29 - 4
+    		requiredLength=29; //KH - Modificación - 29 - 4
 				//$scope.noBandolas = 2;
 
     	}
     	else{
 				console.log("Seleccioné 1 Bandola");
-    		requiredLength=4; //KH -Modificación - 49 - 4
+    		requiredLength=49; //KH -Modificación - 49 - 4
 				//$scope.noBandolas = 1;
     	}
     	if($scope.test.plantas.length>requiredLength)
@@ -375,7 +375,7 @@ app.controller('RoyaCtrl', [
     	var plantName = $scope.test.plantas.length;
     	console.log($scope.test.plantas.length);
     	if($scope.test.bandolas==true){
-    		if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+    		if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
     			$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
     		}else{
     			$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -394,7 +394,7 @@ app.controller('RoyaCtrl', [
 
     $scope.CloseAndAddPlant=function(){
     	console.log($scope.test.plantas.length);
-    	if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=5)){ //KH - Modificación - 30 - 5
+    	if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
     		$scope.closePlant();
     		console.log("Cerrramos planta");
     		$('#plantModal').modal('hide');
@@ -412,7 +412,7 @@ app.controller('RoyaCtrl', [
 
     $scope.editPlant = function($index) {
         if($scope.test.bandolas==true){
-            if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+            if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
                 $("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
             }else{
                 $("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -481,7 +481,7 @@ app.controller('RoyaCtrl', [
     			return;
     		}
     		else{
-					console.log("Entre Severidad Correcta");
+					console.log("Entre Severidad Modo Básico");
 					console.log("Bandolas Seleccionadas: ", $scope.test.bandolas);
 					$scope.noBandolas += 1;
 					console.log("Bandolas al momento: ", $scope.noBandolas);
@@ -497,7 +497,6 @@ app.controller('RoyaCtrl', [
 						$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
 						console.log("Habilité el botón");
 						$scope.noBandolas = 0;
-						// $scope.test.plantas.push([]);
 					}
     			$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
     		}
@@ -506,7 +505,21 @@ app.controller('RoyaCtrl', [
 
     	}
 			else{
-				$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
+				console.log("Entre Severidad Modo Avanzado");
+				console.log("Bandolas Seleccionadas: ", $scope.test.bandolas);
+				$scope.noBandolas += 1;
+				console.log("Bandolas al momento: ", $scope.noBandolas);
+
+				if ($scope.test.bandolas == false && $scope.noBandolas == 1) {
+					$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
+					console.log("Habilité el botón");
+					$scope.noBandolas = 0;
+				}
+				else if ($scope.test.bandolas == true && $scope.noBandolas == 2) {
+					$("#btnCloseAndAddPlant").removeAttr('disabled', 'disabled');
+					console.log("Habilité el botón");
+					$scope.noBandolas = 0;
+				}
 			}
 
 			var plantIndex = $scope.plantname - 1;
@@ -554,12 +567,9 @@ app.controller('RoyaCtrl', [
 			console.log($scope.numeroDeHojas);
 			for (var i = 0; i < 7; i++) {
 				if ($(".sev"+i).val() == "") {
-					// $scope.hojasPorPlanta.severidad[i] = 0;
 					$scope.hojasPorPlanta[i] = 0;
-					// $scope.sumaDeHojas += 0;
  				}
 				else {
-					// $scope.hojasPorPlanta.severidad[i] = $(".sev"+i).val();
 					$scope.hojasPorPlanta[i] = parseInt($(".sev"+i).val());
 					$scope.sumaDeHojas += parseInt($(".sev"+i).val());
 				}
@@ -576,7 +586,6 @@ app.controller('RoyaCtrl', [
 
 			console.log($scope.sumaDeHojas);
 			console.log($scope.hojasPorPlanta);
-			// console.log($scope.severidad);
 			if ($scope.sumaDeHojas !== $scope.numeroDeHojas) {
 				$scope.SweetAlert('¡Error!', 'Cantidad de hojas incorrecta', 'error');
 			}
@@ -589,7 +598,7 @@ app.controller('RoyaCtrl', [
 				$scope.promedio = $scope.promedio.toString() + "%";
 				console.log("Array", $scope.severidad);
 				console.log("Promedio: ", $scope.promedio.toString());
-				
+
 
 				// Limpiamos los inputs
 				for (var i = 0; i < 7; i++) {
@@ -608,70 +617,92 @@ app.controller('RoyaCtrl', [
 
     	if ($scope.test.advMode) {
 
-				// var contItems = 0;
-				//
-				// for (var i = 0; i < $scope.test.plantas.length; i++) {
-				// 	console.log($scope.test.plantas[i]);
-				// 	if ($scope.test.plantas[i].length === 0) {
-				// 			alert("Error en Planta: " + (i + 1) +" No se puede calcular");
-				// 			console.log($scope.test.plantas[i]);
-				// 			break;
-				// 	}
-				// 	else {
-				// 		contItems += 1;
-				// 	}
-				// }
+				var contItems = 0;
+				if ($scope.test.bandolas == false) {
+					for (var i = 0; i < $scope.test.plantas.length; i++) {
+						console.log($scope.test.plantas[i]);
+						if ($scope.test.plantas[i].length === 0) {
+								// alert("Error en Planta: " + (i + 1) +" No se puede calcular");
+								$scope.SweetAlert("¡No se puede Calcular!", "Error en Planta: " + (i + 1), "error");
+								console.log($scope.test.plantas[i]);
+								break;
+						}
+						else {
+							contItems += 1;
+						}
+					}
+				} else if ($scope.test.bandolas == true) {
+					console.log($scope.test.plantas);
+					for (var i = 0; i < $scope.test.plantas.length; i++) {
+						// console.log($scope.test.plantas[i].length);
+						for (var j = 0; j < $scope.test.plantas[i].length; j++) {
+							console.log($scope.test.plantas[i][j]);
+						}
+						if ($scope.test.plantas[i].length !== 2) {
+								// alert("Error en Planta: " + (i + 1) +" No se puede calcular");
+								$scope.SweetAlert("¡No se puede Calcular!", "Error en Planta: " + (i + 1), "error");
+								console.log($scope.test.plantas[i]);
+								break;
+						}
+						else {
+							contItems += 1;
+							console.log(contItems);
+						}
+					}
+				}
 
-    		$scope.totalPlants = $scope.test.plantas.length;
-				console.log("Total de Plantas - ", $scope.totalPlants); //KH Comentario
-    		var totalPlantitas = $scope.totalPlants;
-    		var totalLeaf = 0;
-    		var totalIncidencePlant = [];
-    		var totalDamagePlant = [];
-    		var avgInc = 0;
-    		var avgPct = 0;
+				if (contItems === $scope.test.plantas.length ) {
+		    		$scope.totalPlants = $scope.test.plantas.length;
+						console.log("Total de Plantas - ", $scope.totalPlants); //KH Comentario
+		    		var totalPlantitas = $scope.totalPlants;
+		    		var totalLeaf = 0;
+		    		var totalIncidencePlant = [];
+		    		var totalDamagePlant = [];
+		    		var avgInc = 0;
+		    		var avgPct = 0;
 
-    		for(var i = 0, len = $scope.totalPlants; i < len; i++) {
-    			var affected = 0;
-    			var avgDmg = 0;
-    			var Dmg = [];
-    			$.each($scope.test.plantas[i], function( index, value ) {
-    				totalLeaf += parseInt(value[0]);
-    				// if (value[1] !='0%') {
-    					affected += parseInt(value[0]);
-    					Dmg.push(parseInt(value[1]));
-    				// }
-    			});
-    			totalIncidencePlant.push(affected);
-    			$.each(Dmg, function( index, value ) {
+		    		for(var i = 0, len = $scope.totalPlants; i < len; i++) {
+		    			var affected = 0;
+		    			var avgDmg = 0;
+		    			var Dmg = [];
+		    			$.each($scope.test.plantas[i], function( index, value ) {
+		    				totalLeaf += parseInt(value[0]);
+		    				// if (value[1] !='0%') {
+		    					affected += parseInt(value[0]);
+		    					Dmg.push(parseInt(value[1]));
+		    				// }
+		    			});
+		    			totalIncidencePlant.push(affected);
+		    			$.each(Dmg, function( index, value ) {
 
-    				avgDmg += parseInt(Dmg[index]);
-    			});
-    			var curAvgDmg = avgDmg / Dmg.length;
-    			totalDamagePlant.push(curAvgDmg);
+		    				avgDmg += parseInt(Dmg[index]);
+		    			});
+		    			var curAvgDmg = avgDmg / Dmg.length;
+		    			totalDamagePlant.push(curAvgDmg);
 
-    		}
-    		var incidenceLength = totalIncidencePlant.length;
-    		for(var i = 0; i < incidenceLength; i++) {
-    			avgInc += totalIncidencePlant[i];
-    		}
-    		var avg = avgInc / incidenceLength;
-    		var damageLength = totalDamagePlant.length;
-    		for(var i = 0; i < damageLength; i++) {
-    			avgPct += totalDamagePlant[i];
-    		}
-    		var avgDmgPct = avgPct / damageLength;
-    		$scope.avgIncidence = (avgInc/totalLeaf)*100;
-    		$scope.test.avgplnt = avg;
-    		$scope.test.avgplntDmgPct = avgDmgPct;
-    		$scope.test.resolved = true;
-    		$scope.test.incidencia = $scope.avgIncidence;
-    	    $scope.test.unidad = {"user":auth.userId()};
-            $scope.test.idunidad = $scope.unitId;
-            $scope.test.loteIndex = $scope.loteIndex;
-            $scope.getHelp($scope.totalPlants,$scope.avgplnt,$scope.avgplntDmgPct,$scope.currentUser());
-            $('.test').hide();
-            $('.results').show();
+		    		}
+		    		var incidenceLength = totalIncidencePlant.length;
+		    		for(var i = 0; i < incidenceLength; i++) {
+		    			avgInc += totalIncidencePlant[i];
+		    		}
+		    		var avg = avgInc / incidenceLength;
+		    		var damageLength = totalDamagePlant.length;
+		    		for(var i = 0; i < damageLength; i++) {
+		    			avgPct += totalDamagePlant[i];
+		    		}
+		    		var avgDmgPct = avgPct / damageLength;
+		    		$scope.avgIncidence = (avgInc/totalLeaf)*100;
+		    		$scope.test.avgplnt = avg;
+		    		$scope.test.avgplntDmgPct = avgDmgPct;
+		    		$scope.test.resolved = true;
+		    		$scope.test.incidencia = $scope.avgIncidence;
+		    	  $scope.test.unidad = {"user":auth.userId()};
+		        $scope.test.idunidad = $scope.unitId;
+		        $scope.test.loteIndex = $scope.loteIndex;
+		        $scope.getHelp($scope.totalPlants,$scope.avgplnt,$scope.avgplntDmgPct,$scope.currentUser());
+		        $('.test').hide();
+		        $('.results').show();
+					}
         } else {
 
 					var contItems = 0;
