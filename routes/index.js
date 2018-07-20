@@ -477,12 +477,6 @@ router.post('/register', function (req, res, next) {
         }else{
           Mail.sendEmail(mailcontent,function(){
             console.log("Datos enviados.");
-            swal({
-                  title: "Registro de Usuario",
-                  text: "Usuario registrado exitosamente",
-                  type: "success",
-                  confirmButtonText: 'Aceptar'
-                });
             // res.json({ "success": true, data: { username:user.username, password: req.body.password }});
           });
         }
@@ -831,12 +825,6 @@ router.post('/requestpasswordchange', function (req, res, next) {
             }
             Mail.sendEmail(mailcontent,function(){
               console.log("Contraseña código OTP envíado.");
-              swal({
-                    title: "Restablecer Contraseña",
-                    text: "Código OTP enviado.",
-                    type: "success",
-                    confirmButtonText: 'Aceptar'
-                  });
               res.json({ "success": true, data: { sec: secret.base32, use: userIde } });
             });
 

@@ -130,6 +130,12 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
                 $scope.error = false
                 console.log(data.data.data);
                 window.localStorage['otp-pasw-token'] = JSON.stringify(data.data.data);
+                swal({
+                      title: "Restablecer Contraseña",
+                      text: "Código OTP enviado.",
+                      type: "success",
+                      confirmButtonText: 'Aceptar'
+                    });
                 $state.go('authenticateotp');
 
                 $scope.success = { "message": "Un Otp fue enviado a tu correo electrónico" }
