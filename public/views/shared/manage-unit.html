@@ -521,7 +521,7 @@
                     </label>
                     <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.caldobordeles">
                         <label>¿Cuando lo aplica?</label>
-                        <select class="form-control" ng-model="newUnit.fungicidas.contactoOptionsMonths.caldobordeles">
+                        <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.caldobordeles">
                           <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.caldobordeles == Month.name}}">{{Month.name}}</option>
                         </select>
                     </div>
@@ -535,7 +535,7 @@
                     </label>
                     <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.otrocual">
                         <label>¿Cuando lo aplica?</label>
-                        <select class="form-control" ng-model="newUnit.fungicidas.contactoOptionsMonths.otrocual">
+                        <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.otrocual">
                           <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.otrocual == Month.name}}">{{Month.name}}</option>
                         </select>
                     </div>
@@ -557,7 +557,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.opus">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.opus">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.opus">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.opus == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -570,7 +570,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.opera">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.opera">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.opera">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.opera == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -584,7 +584,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.esferamax">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.esferamax">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.esferamax">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.esferamax == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -598,7 +598,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.amistarxtra">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.amistarxtra">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.amistarxtra">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.amistarxtra == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -612,7 +612,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.alto10">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.alto10">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.alto10">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.alto10 == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -627,7 +627,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.silvacur">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.silvacur">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.silvacur">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.silvacur == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -641,7 +641,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.verdadero">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.verdadero">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.verdadero">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.verdadero == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -660,7 +660,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.caporal">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.caporal">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.caporal">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.caporal == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -681,7 +681,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.estrobirulina">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.estrobirulina">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.estrobirulina">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.estrobirulina == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -701,7 +701,7 @@
                     <div ng-if="newUnit.fungicidas.sistemicoOptions.otro">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.otro">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.otro">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.otro == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -725,7 +725,7 @@
                     <div ng-if="newUnit.fungicidas.biologicalOptions.verticiliumlecanii">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -741,7 +741,7 @@
                     <div ng-if="newUnit.fungicidas.biologicalOptions.bacilussutillis">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.biologicalOptionsMonths.bacilussutillis">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.bacilussutillis">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.biologicalOptionsMonths.bacilussutillis == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
@@ -757,7 +757,7 @@
                     <div ng-if="newUnit.fungicidas.biologicalOptions.otrocual">
                         <div class="form-group">
                             <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" ng-model="newUnit.fungicidas.biologicalOptionsMonths.otrocual">
+                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.otrocual">
                               <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.biologicalOptionsMonths.otrocual == Month.name}}">{{Month.name}}</option>
                             </select>
                         </div>
