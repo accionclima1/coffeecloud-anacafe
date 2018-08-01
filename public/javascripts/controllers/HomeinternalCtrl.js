@@ -344,6 +344,22 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                  loteIde: idetime
              }
 
+             if($("#optionsRadios2A").is(':checked')) {
+                console.log("Está activado");
+              }else {
+                $("#optionsRadios2A").attr('checked', true);
+                console.log("Está activado");
+              }
+
+              if($("#optionsRadios2").is(':checked')) {
+                 console.log("Está activado");
+               }else {
+                 $("#optionsRadios2").attr('checked', true);
+                 console.log("Está activado");
+               }
+
+
+
               // $('#menssageLocationLote').css("display", "block");
              if (navigator.geolocation) {
                 console.log($scope.mensajeUbicacionLote);
@@ -447,6 +463,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          $(elemento2).removeClass("in");
          $(elemento2).addClass('panel-collapse collapse');
          $(elemento2).css("height", "0px");
+
          return "Nuevo";
        }else if ($scope.nuevoLote == "") {
 
@@ -468,6 +485,13 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
              $(elemento2).removeClass("in");
              $(elemento2).addClass('panel-collapse collapse');
              $(elemento2).css("height", "0px");
+
+             if($("#optionsRadios2A").is(':checked')) {
+                console.log("Está activado");
+                $("#porcentajeSombra").val("");
+                console.log($('#porcentajeSombra').val());
+              }
+
              return "Editado";
            }
            elemento1 = "#opLote-";

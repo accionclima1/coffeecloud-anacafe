@@ -904,6 +904,79 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, localStorageServi
 
     }
 
+    // + Añadir fungicidas
+    $scope.addFungicida = function(tipoFungicida){
+      console.log(tipoFungicida);
+      if (tipoFungicida == "contacto") {
+        $("#fcAdd").hide();
+        $("#fungicidaContactoNuevo").show();
+      }
+    }
+
+    // > Añadir Fungicidas
+    $scope.addNewFungicida = function(){
+      var existeVariedad = false
+      if ($("#nuevoFungicidaContacto").val() != "") {
+        // for (var i = 0; i < $scope.variedades.length; i++) {
+        //   if ($("#nuevaVariedad").val() == $scope.variedades[i].name){
+        //     $scope.SweetAlert('¡Error!', 'Ya existe la variedad.', 'error');
+        //     existeVariedad = true;
+        //   }
+        // }
+
+        // if (existeVariedad != true) {
+          var nombreFungicidaContacto = $("#nuevoFungicidaContacto").val();
+          $("#nuevoFungicidaContacto").val("");
+
+          console.log(nombreFungicidaContacto);
+          var ngIf = "newUnit.fungicidas.contactoOptions."+nombreFungicidaContacto;
+          var ngModel = "newUnit.fungicidas.contactoOptionsMonths."+nombreFungicidaContacto;
+          var valueNgRepeat = "{{Month.name}}";
+          var ngRepeat = "Month in MonthDropDownOptions";
+          var ngSelected = "{{"+ ngModel +" == Month.name}}"
+          console.log(ngModel);
+          console.log(ngIf);
+          $(".fungicidasContacto").append('<!-- Contacto '+ nombreFungicidaContacto +' -->'+
+            '<div class="col-xs-6">'+
+                '<label>'+
+                    '<input type="checkbox" ng-change="CheckboxBasedMonthChange("newUnit",contactoOptions.'+ nombreFungicidaContacto.toString() +')" value="'+ nombreFungicidaContacto.toString() +'" ng-model="'+ ngModel +'"> '+ nombreFungicidaContacto.toString() +''+
+                '</label>'+
+                '<div class="form-group" ng-if="'+ ngIf +'">'+
+                    '<label>¿Cuando lo aplica?</label>'+
+                    '<select class="form-control" multiple="true" ng-model="'+ ngModel +'">'+
+                      '<option ng-repeat="'+ ngRepeat +'" ng-selected="'+ ngSelected +'">'+ valueNgRepeat +'</option>'+
+                    '</select>'+
+                '</div>'+
+            '</div>');
+
+          // $scope.variedades.push({ name:  nombreVariedad });
+          // console.log("************************************************");
+          // console.log($scope.variedades);
+
+          // Buscar Nuevas Variedades y Añadirlas
+          // for (var i = 0; i < $scope.variedades.length; i++) {
+          //   if ($scope.variedades[i]._id == null) {
+          //     console.log("Nueva Variedad: ", $scope.variedades[i]);
+          //     $scope.addNewVariety($scope.variedades[i]);
+          //   }
+          // }
+
+          $("#fungicidaContactoNuevo").hide();
+          $("#fcAdd").show();
+
+      }
+      else{
+        $scope.SweetAlert('¡Error!', 'Nombre de fungicida incorrecto.', 'error');
+      }
+    }
+
+    // x cancelar nuevo fungicida
+    $scope.cancelNewFungicida = function(){
+      $("#nuevoFungicidaContacto").val("");
+      $("#fungicidaContactoNuevo").hide();
+      $("#fcAdd").show();
+    }
+
 
     $scope.CancleForm = function ($event) {
 

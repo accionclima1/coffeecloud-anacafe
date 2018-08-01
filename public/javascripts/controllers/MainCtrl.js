@@ -64,8 +64,14 @@ function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $ro
         console.log("Versión prueba de fallos");
 
         PouchDB.GetVarietiesFromPouchDB().then(function (result) {
+            console.log("Respuesta: ");
+            console.log(result);
+            console.log("entramos a PouchDB");
             if (result.status == 'fail') {
+
                 $scope.error = result.message;
+                //$("#txtPrueba").val("error get Var");
+
             }
             else if (result.status == 'success') {
                 var doc = result.data.rows[0].doc;
@@ -74,12 +80,19 @@ function($scope, $http, posts, auth, unit, varieties, methods, methodsGallo, $ro
                     for (var i = 0; i < doc.list.length; i++) {
                         variedadesArray.push(doc.list[i]);
                     }
-                    variedadesArray.push({ name: "otro" }, { name: "cual?" });
+                    //variedadesArray.push({ name: "otro" }, { name: "cual?" });
                     $scope.variedades = variedadesArray;
-                    console.log("Arrya: - ");
-                    console.log(variedadesArray);
+                    // $scope.variedadLocalesPouchDB = variedadesArray;
+                    //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
+                    console.log("Data-- ");
+                    console.log($scope.variedades);
+
                 }
             }
+        }).catch(function(err) {
+            console.log("error al obtener datos");
+            console.log(err);
+           // $("#txtPrueba").val("error en data");
         });
     }
 

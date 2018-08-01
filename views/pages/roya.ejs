@@ -153,12 +153,12 @@
 								<p><strong>Plantas:</strong><br> {{totalPlants}}</p>
 								<p><strong>Incidencia promedio</strong><br>{{(test.avgplnt).toFixed(2)}} / Planta ( {{(test.incidencia).toFixed(2)}}% )</p>
 								<p><strong>Severidad promedio</strong><br>{{(test.avgplntDmgPct).toFixed()}}%</p>
-								<p><strong>Recomendación</strong><br>
+								<!-- <p><strong>Recomendación</strong><br>
 									<span ng-show="test.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
 									<span ng-show="test.incidencia > 10 && test.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
 									<span ng-show="test.incidencia > 20 && test.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
-								</p>
+								</p> -->
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
 								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
 
