@@ -478,13 +478,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
              $(elemento2).addClass('panel-collapse collapse');
              $(elemento2).css("height", "0px");
 
-             if($(sombra).is(':checked')) {
-                console.log("Está activado");
-                $(porcentajeInput).val(0);
-                $scope.unidadseleccionada.lote[i].porcentajeDeSombra = 0;
-                console.log($scope.unidadseleccionada.lote);
-              }
-
              return "Editado";
            }
            elemento1 = "#opLote-";
@@ -552,6 +545,19 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            //    });
            //}
            var clase = 'latLangLoteId' + index.toString();
+
+           //Sombra
+           sombra = ".sombraNoId" + index.toString();
+           porcentajeInput = ".porcentajeSombraId" + index.toString();
+
+           if($(sombra).is(':checked')) {
+              console.log("Está activado");
+              $(porcentajeInput).val(0);
+              delete $scope.unidadseleccionada.lote[index].porcentajeDeSombra;
+              // $scope.unidadseleccionada.lote[i].porcentajeDeSombra = 0;
+              console.log($scope.unidadseleccionada.lote);
+            }
+
            PouchDB.EditUnitLotes($scope.unidadseleccionada, auth.userId()).then(function (result) {
                console.log("Entre a Pouch");
                console.log(result);
@@ -570,8 +576,16 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                          $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
                        }
                     }
+
+                    if ($scope.deleteLote == "Eliminar") {
+                      $scope.deleteLote = "";
+                      $scope.SweetAlert("¡Excelente!", "Lote Eliminado", "success");
+
+                    }
+
                    $scope.nuevoLote = "";
                    $scope.sucMsg = '¡Unidad Actualizada exitosamente!';
+                   console.log($scope.unidadseleccionada.lote);
 
                    // for (var i = 0 ; i < $scope.units.length; i++) {
                    //     console.log('$Scope Units ' + i + ' = ',  $scope.units[i]);
@@ -602,6 +616,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          var noLotes = $scope.unidadseleccionada.lote.length - 1;
          console.log(index, " - ", noLotes );
          console.log($scope.nuevoLote);
+         $scope.deleteLote = "Eliminar";
 
       if($scope.unidadseleccionada.lote!=undefined){
             if (index === noLotes && $scope.nuevoLote === "Activado") {
