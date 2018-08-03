@@ -147,13 +147,13 @@
                            <p>¿Tiene sombra?</p>
                            <div class="radio" style="display: inline;">
                              <label>
-                               <input type="radio" id="optionsRadios1A" ng-value="true" ng-model="lote.sombra">
+                               <input type="radio" id="optionsRadios1A" class="{{ 'sombraSiId' + $index }}" ng-value="true" name="sombra" ng-model="lote.sombra" ng-checked="valueRadio">
                                Si
                              </label>
                            </div>
                            <div class="radio" style="display: inline;">
                              <label>
-                               <input type="radio" id="optionsRadios2A" ng-value="false" ng-model="lote.sombra" checked>
+                               <input type="radio" id="optionsRadios2A" class="{{ 'sombraNoId' + $index }}" ng-value="false" name="sombra" ng-model="lote.sombra" ng-checked="!valueRadio">
                                No
                              </label>
                            </div>
@@ -162,7 +162,7 @@
                              <label>¿Qué porcentaje?</label>
                              <input type="number"
                              id="porcentajeSombra"
-                             class="form-control"
+                             class="form-control {{ 'porcentajeSombraId' + $index }}"
                              placeholder="Porcentaje 0-100%"
                              ng-model="lote.porcentajeDeSombra"
                              min="0" max="100"
@@ -175,13 +175,13 @@
                            <p>¿Tiene cobertura de suelo?</p>
                            <div class="radio" style="display: inline;">
                              <label>
-                               <input type="radio" id="optionsRadios1" name="cobertura" ng-value="true" ng-model="lote.cobertura">
+                               <input type="radio" id="optionsRadios1" class="{{ 'coberturaSiId' + $index }}" ng-value="true" ng-model="lote.cobertura" ng-checked="lote.cobertura">
                                Si
                              </label>
                            </div>
                            <div class="radio" style="display: inline;">
                              <label>
-                               <input type="radio" id="optionsRadios2" name="cobertura" ng-value="false" ng-model="lote.cobertura" checked>
+                               <input type="radio" id="optionsRadios2" class="{{ 'coberturaNoId' + $index }}" ng-value="false" ng-model="lote.cobertura" ng-checked="!lote.cobertura">
                                No
                              </label>
                            </div>

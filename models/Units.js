@@ -98,6 +98,7 @@ var UnitSchema = new mongoose.Schema({
             cual: String,
         }
     },
+    newFungicidas: { type: Object, "default": {} },
     fungicidasFechas: String,
     verificaAgua: Boolean,
     verificaAguaTipo: {

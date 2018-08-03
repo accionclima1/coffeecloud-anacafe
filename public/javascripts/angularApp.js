@@ -1628,6 +1628,33 @@ app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $wi
 }]);
 
 
+app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $window) {
+    var o = {};
+    o.getAll = function () {
+        return $http.get('http://coffeecloud.centroclima.org/fungicidas').success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (varieties) {
+        //localhost unit
+        return $http.post('http://coffeecloud.centroclima.org/varieties', varieties, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+
+    o.deleteVariety = function (Ided) {
+        return $http.delete('http://coffeecloud.centroclima.org/varieties', {
+            headers: { Authorization: 'Bearer ' + auth.getToken(), variid: Ided.varId }
+        }).success(function (data) {
+            return Ided;
+        });
+    };
+    return o;
+}]);
+
+
 app.factory('vulnerability', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {

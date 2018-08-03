@@ -325,8 +325,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
         // Función que añade nuevos lotes
         $scope.prependItem = function () {
-          // $(".cargandoUbicacionLote").css("display", "inline");
-          // $(".cargandoAltitudLote").css("display", "inline");
           console.log($scope.unidadseleccionada._id);
           $scope.idLote = new Date();
           $scope.idLote = ($scope.idLote.getMilliseconds()).toString();
@@ -336,29 +334,17 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            var altitud = "";
            var ubicacionLote = ".latLongLoteId" + $scope.unidadseleccionada.lote.length.toString();
            var altitudLote = "#altitudLoteId" + $scope.unidadseleccionada.lote.length.toString();
+           var sombraNo = ".sombraNoId" + $scope.unidadseleccionada.lote.length.toString();
+           var coberturaNo = ".coberturaNoId" + $scope.unidadseleccionada.lote.length.toString();
            $scope.mensajeUbicacionLote = "#messageLocationLote" + $scope.unidadseleccionada.lote.length.toString();
            $scope.mensajeAltitudLote = "#messageAltitudLote" + $scope.unidadseleccionada.lote.length.toString();
            var idetime=(new Date).getTime();
              var newItem = {
                  nombre: "",
-                 loteIde: idetime
+                 loteIde: idetime,
+                 sombra:false,
+                 cobertura:false
              }
-
-             if($("#optionsRadios2A").is(':checked')) {
-                console.log("Está activado");
-              }else {
-                $("#optionsRadios2A").attr('checked', true);
-                console.log("Está activado");
-              }
-
-              if($("#optionsRadios2").is(':checked')) {
-                 console.log("Está activado");
-               }else {
-                 $("#optionsRadios2").attr('checked', true);
-                 console.log("Está activado");
-               }
-
-
 
               // $('#menssageLocationLote').css("display", "block");
              if (navigator.geolocation) {
@@ -446,6 +432,10 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
      // Elemento 2
      elemento2='#collapse-';
 
+     //Sombra
+     sombra = ".sombraNoId";
+     porcentajeInput = ".porcentajeSombraId";
+
      if(!isNaN(index)){
 
        if ($scope.nuevoLote == "Activado") {
@@ -474,6 +464,8 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            if (($(elemento1).attr("aria-expanded") === 'true')) {
              // Modifico elemento 2
              elemento2 = elemento2 + i;
+             sombra = sombra + i;
+             porcentajeInput = porcentajeInput + i;
              console.log($(elemento1).attr("aria-expanded"));
 
              // Cambios Elemento 1
@@ -486,10 +478,11 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
              $(elemento2).addClass('panel-collapse collapse');
              $(elemento2).css("height", "0px");
 
-             if($("#optionsRadios2A").is(':checked')) {
+             if($(sombra).is(':checked')) {
                 console.log("Está activado");
-                $("#porcentajeSombra").val("");
-                console.log($('#porcentajeSombra').val());
+                $(porcentajeInput).val(0);
+                $scope.unidadseleccionada.lote[i].porcentajeDeSombra = 0;
+                console.log($scope.unidadseleccionada.lote);
               }
 
              return "Editado";

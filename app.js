@@ -21,6 +21,7 @@ require('./models/Roya');
 require('./models/Gallo');
 require('./models/Widget');
 require('./models/Variety');
+require('./models/Fungicida');
 require('./models/Vulnerability');
 require('./models/Encuesta');
 

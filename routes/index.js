@@ -18,6 +18,7 @@ var Campo = mongoose.model('Campo');
 var Roya = mongoose.model('Roya');
 var Gallo = mongoose.model('Gallo');
 var Variety = mongoose.model('Variety');
+var Fungicida = mongoose.model('Fungicida');
 var Vulnerability = mongoose.model('Vulnerability');
 var Encuesta = mongoose.model('Encuesta');
 // Load widget model
@@ -285,10 +286,10 @@ router.post('/register', function (req, res, next) {
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                     &nbsp;
-        <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud!</h1>
+        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud!</h1>
         &nbsp;
 
-        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
+        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff !important;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
         <br>
         Usuario: ${user.username} <br/>
         Contraseña: ${req.body.password}<br/>
@@ -1730,6 +1731,16 @@ router.delete('/varieties', auth, function (req, res) {
         res.json({ messageUnit: "variedad eliminada!" });
     });
 
+});
+
+// Fungicidas
+
+router.get('/fungicidas', function (req, res, next) {
+    Fungicida.find(function (err, fungicidas) {
+        if (err) { return next(err); }
+
+        res.json(fungicidas);
+    });
 });
 
 
