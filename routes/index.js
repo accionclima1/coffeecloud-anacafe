@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var https = require('https');
 var speakeasy = require('speakeasy');
 var crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
@@ -25,6 +26,52 @@ var Encuesta = mongoose.model('Encuesta');
 var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
 var auth = jwt({ secret: 'SECRET', userProperty: 'payload' });
+
+const {google} = require('googleapis');
+
+function createNotification(token,post){
+    console.log("creara push");
+    const options = {
+        hostname: 'fcm.googleapis.com',
+        port: 443,
+        path: '/v1/projects/coffeecloudgt/messages:send',
+        method: 'post',
+        headers:{
+            'Content-type':'application/json',
+            'Authorization':'Bearer '+token
+        }
+    };
+
+    var contenido = post.content.replace(/<(?:.|\n)*?>/gm, '');
+
+    var postData = JSON.stringify({message:{
+        topic:"coffeecloudnews",
+        notification:{
+            title:post.title,
+            body:contenido
+        }
+    }});
+
+    const req = https.request(options, (res) => {
+        var strData = "";
+        res.on('error',function(data){
+            console.log('error en push');
+        });
+        res.on('data',function(data){
+            strData+=data;
+        })
+        res.on('end',function(){
+            console.log("termino la push");
+            console.log(strData);
+        });
+    });
+    req.on('error', (e) => {
+        console.error(e);
+    });
+    req.write(postData);
+    req.end();
+    
+}
 
 var multer = require('multer')
 var storage = multer.diskStorage({
@@ -66,6 +113,27 @@ router.get('/posts', function (req, res, next) {
     });
 });
 
+function getAccessToken() {
+    console.log("buscara token");
+    return new Promise(function(resolve, reject) {
+      var key = require('../coffeecloudgt-firebase-adminsdk-ho7hv-21b8e93736.json');
+      var jwtClient = new google.auth.JWT(
+        key.client_email,
+        null,
+        key.private_key,
+        ['https://www.googleapis.com/auth/firebase.messaging'],
+        null
+      );
+      jwtClient.authorize(function(err, tokens) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(tokens.access_token);
+      });
+    });
+  }
+
 router.post('/posts', auth, function (req, res, next) {
     var post = new Post(req.body);
     post.title = req.body.title;
@@ -73,6 +141,12 @@ router.post('/posts', auth, function (req, res, next) {
 
     post.save(function (err, post) {
         if (err) { return next(err); }
+        //enviando PUSH
+        getAccessToken().then(function(data){
+            console.log("obtuvo token");
+            createNotification(data,post);
+        });
+        //termino PUSH
         console.log(post);
         res.json(post);
     });
