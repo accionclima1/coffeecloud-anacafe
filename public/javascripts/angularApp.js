@@ -156,6 +156,83 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
     }
 
 
+    //for saving Fungicidas to pouchDB
+    // pouchDbFactory.SaveFungicidasToPouchDB = function (fungicidasData) {
+    //     var result = {
+    //         status: '',
+    //         data: {},
+    //         message: ''
+    //     };
+    //     var deferred = $q.defer();
+    //     if (fungicidasData != undefined && fungicidasData.length > 0) {
+    //         var fungicidas = {
+    //             list: [],
+    //             EntityType: 'Fungicidas',
+    //         };
+    //         for (var x = 0; x < fungicidasData.length; x++) {
+    //             fungicidas.list.push(fungicidasData[x])
+    //         }
+    //         function mapFunctionTypeUnit(doc) {
+    //             if ((doc.EntityType == "Fungicidas")) {
+    //                 emit(doc);
+    //             }
+    //         }
+    //         var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+    //          $q.when(pouchPromise).then(function (result) {
+    //             if (result.rows.length > 0) {
+    //                 var tmp = result.rows[0].doc;
+    //                 doc = varieties;
+    //                 doc._id = tmp._id;
+    //                 doc._rev = tmp._rev;
+    //                 var UpdatePouchPromise = localPouchDB.put(doc);
+    //                 $q.when(UpdatePouchPromise).then(function (res) {
+    //                     if (res && res.ok == true) {
+    //                         console.log("fungicidas updated to local pouchDb");
+    //                         result.status = 'success';
+    //                         deferred.resolve(result);
+    //                     }
+    //                 },function(err){
+    //                     console.log(err);
+    //                     result.status = 'fail';
+    //                     result.message = err;
+    //                     deferred.resolve(result);
+    //                 }).catch(function (err) {
+    //                     console.log(err);
+    //                     result.status = 'fail';
+    //                     result.message = err;
+    //                     deferred.resolve(result);
+    //                 });
+    //             }
+    //             else {
+    //                 var dt = new Date();
+    //                 var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+    //                 fungicidas._id = documentId;
+    //                 return localPouchDB.put(fungicidas).then(function () {
+    //                     console.log("fungicidas inserted in pouchDb");
+    //                     result.status = 'success';
+    //                     deferred.resolve(result);
+    //                 },function(err){
+    //                     result.status = 'fail';
+    //                     result.message = err;
+    //                     deferred.resolve(result);
+    //                 }).catch(function (err) {
+    //                     result.status = 'fail';
+    //                     result.message = err;
+    //                     deferred.resolve(result);
+    //                 });
+    //             }
+    //
+    //         });
+    //     }
+    //     else {
+    //         result.status = 'success';
+    //         result.message = 'No fungicidasData to sync';
+    //         deferred.resolve(result);
+    //     }
+    //     return deferred.promise;
+    // }
+
+
     pouchDbFactory.SynServerLoginReturnedDataToLocalDb = function (userData) {
         console.log("Dentro de: SynServerLoginReturnedDataToLocalDb");
         var result = {
@@ -1635,18 +1712,18 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
             return data;
         });
     };
-    o.create = function (varieties) {
+    o.create = function (fungicidas) {
         //localhost unit
-        return $http.post('http://coffeecloud.centroclima.org/varieties', varieties, {
+        return $http.post('http://coffeecloud.centroclima.org/fungicidas', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
 
-    o.deleteVariety = function (Ided) {
-        return $http.delete('http://coffeecloud.centroclima.org/varieties', {
-            headers: { Authorization: 'Bearer ' + auth.getToken(), variid: Ided.varId }
+    o.deleteFungicida = function (Ided) {
+        return $http.delete('http://coffeecloud.centroclima.org/fungicidas', {
+            headers: { Authorization: 'Bearer ' + auth.getToken(), fungiid: Ided.fungId }
         }).success(function (data) {
             return Ided;
         });

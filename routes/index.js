@@ -70,7 +70,7 @@ function createNotification(token,post){
     });
     req.write(postData);
     req.end();
-    
+
 }
 
 var multer = require('multer')
@@ -1126,6 +1126,7 @@ router.post('/users/:user/units', auth, function (req, res, next) {
     unit.manejoTejido = req.body.manejoTejido;
     unit.manejoTejidoMes = req.body.manejoTejidoMes;
     unit.fungicidasRoya = req.body.fungicidasRoya;
+    unit.newFungicidas = req.body.newFungicidas;
     unit.fungicidas = req.body.fungicidas;
     unit.fungicidasFechas = req.body.fungicidasFechas;
     unit.verificaAguaTipo = req.body.verificaAguaTipo;
