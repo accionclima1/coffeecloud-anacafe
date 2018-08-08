@@ -1,0 +1,190 @@
+<script type="text/ng-template" id="/homeloteinternal.html">
+
+<style>
+    .btn-primario {
+      color:#fff;
+      border-color:#FE8515;
+      background-color:#FE8515;
+    }
+    </style>
+  <div class="home-wrap profile-wrap">
+    <div class="container">
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-xs-12">
+           <div class="page-header">
+             <h2>
+               <a class="back-homeloteint" style="position: fixed;left: 20px;color: #FFF;" href="#/homeinternal/{{unitId}}/{{unitIndex}}">
+   							<i style="font-size: 20px;" class="fa fa-chevron-left"></i>
+   					   </a>
+               Información de Lote</span>
+             </h2>
+           </div>
+         </div>
+       </div>
+
+       <div class="row">
+         <div class="col-xs-12 grup-lotes">
+           <h4 class="titleUnit" style="padding-left:0">LOTE: {{loteseleccionado.nombre}}</h4>
+         </div>
+       </div>
+
+      <!-- Roya -->
+      <div class="panel panel-default" style="color: #666666;">
+        <div class="panel-heading" style="height:40px !important;">
+          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 class="tituloMuestreo" style="text-align:left;color: #666666;">ROYA</h4></div>
+          <div class="col-xs-6 col-md-2" align="right">
+            <a class="btn btn-default btn-small btn-primario nuevoCalculo" style="margin-top:-1% !important;" ng-click="irMuestreo('roya')">
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Cálculo
+            </a>
+          </div>
+        </div>
+        <div class="panel-body">
+
+                  <h6 ng-show="royaHistoryByLote.length == 0" style="color:#666666">¡No hay cálculos todavía!</h6>
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                  <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
+
+                    <div class="panel panel-default" ng-repeat="roya in royaHistoryByLote">
+                      <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
+                        <h5 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseRoyaOnline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseRoyaOnline-' + $index }}">
+                            <small>{{ roya.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="{{ 'collapseRoyaOnline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseRoyaOnline-' + $index }}">
+                        <div class="panel-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
+                            <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
+                          </ul>
+
+                          <p ng-hide="roya.advMode"><strong>Recomendación</strong><br>
+                            <span ng-show="roya.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
+                            <span ng-show="roya.incidencia > 10 && roya.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
+                            <span ng-show="roya.incidencia > 20 && roya.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
+                            <span ng-show="roya.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
+                          </p>
+
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel panel-default" ng-repeat="roya in royaHistoryByLoteOffline">
+                      <div class="panel-heading" role="tab" id="{{ 'headingOffline-' + $index }}">
+                        <h5 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseRoyaOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseRoyaOffline-' + $index }}">
+                           <small>Muestreo {{ $index + 1 }} (Offline)</small>
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="{{ 'collapseRoyaOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseRoyaOffline-' + $index }}">
+                        <div class="panel-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (roya.incidencia).toFixed(2) }}%</span></li>
+                            <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(roya.severidadPromedio).toFixed()}}%</span></li>
+                            <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{roya.inideanciaPromedioPlanta}}</span></li>
+                          </ul>
+                          <p><strong>Recomendación</strong><br>
+                            <span ng-show="roya.incidencia < 11">{{methodsMonthRoya.grade1}}</span>
+                            <span ng-show="roya.incidencia > 10 && roya.incidencia < 21 ">{{methodsMonthRoya.grade2}}</span>
+                            <span ng-show="roya.incidencia > 20 && roya.incidencia < 51 ">{{methodsMonthRoya.grade3}}</span>
+                            <span ng-show="roya.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+      </div>
+
+      <!-- Ojo de Gallo -->
+      <div class="panel panel-default" style="color: #666666;">
+        <div class="panel-heading" style="height:40px !important;">
+          <div class="col-xs-6 col-md-10" align="left" style="color:#000"><h4 class="tituloMuestreo" style="text-align:left;color: #666666;">OJO DE GALLO</h4></div>
+          <div class="col-xs-6 col-md-2" align="right">
+            <a class="btn btn-default btn-small btn-primario nuevoCalculo" style="margin-top:-1% !important;" ng-click="irMuestreo('gallo')">
+              <span class="glyphicon glyphicon-plus"></span>&nbsp;Nuevo Cálculo
+            </a>
+          </div>
+        </div>
+        <div class="panel-body">
+
+                  <h6 ng-show="galloHistoryByLote.length == 0" style="color:#666666">¡No hay cálculos todavía!</h6>
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                  <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
+
+                    <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLote">
+                      <div class="panel-heading" role="tab" id="{{ 'headingGalloOnline-' + $index }}">
+                        <h5 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOnline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseGalloOnline-' + $index }}">
+                            <small>{{ gallo.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="{{ 'collapseGalloOnline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseGalloOnline-' + $index }}">
+                        <div class="panel-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>
+                            <li class="list-group-item" >bandolas <span ng-show="gallo.bandolas" class="badge">2</span><span ng-hide="gallo.bandolas" class="badge">1</span></li>
+                            <li class="list-group-item" ng-show="gallo.advMode">Severidad Promedio <span class="badge">{{(gallo.severidadPromedio).toFixed()}}%</span></li>
+                            <li class="list-group-item" ng-show="gallo.advMode">Incidencia promedio por planta <span class="badge">{{gallo.inideanciaPromedioPlanta}}</span></li>
+                          </ul>
+
+                          <p style="display:none;"><strong>Recomendación</strong><br>
+                            <!-- <span ng-show="gallo.incidencia < 11">{{methodsMonthGallo.grade1}}</span>
+                            <span ng-show="gallo.incidencia > 10 && gallo.incidencia < 21 ">{{methodsMonthGallo.grade2}}</span>
+                            <span ng-show="gallo.incidencia > 20 && gallo.incidencia < 51 ">{{methodsMonthGallo.grade3}}</span>
+                            <span ng-show="gallo.incidencia > 50 ">{{methodsMonthGallo.grade3}}</span>
+                          </p> -->
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Cálculos Ojo de Gallo Offline -->
+                    <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLoteOffline">
+                      <div class="panel-heading" role="tab" id="{{ 'headingGalloOffline-' + $index }}">
+                        <h5 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapseGalloOffline-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapseGalloOffline-' + $index }}">
+                           <small>Muestreo {{ $index + 1 }} (Offline)</small>
+                          </a>
+                        </h5>
+                      </div>
+                      <div id="{{ 'collapseGalloOffline-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapseGalloOffline-' + $index }}">
+                        <div class="panel-body">
+                          <ul class="list-group">
+                            <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (gallo.incidencia).toFixed(2) }}%</span></li>
+                            <li class="list-group-item" >bandolas <span ng-show="gallo.bandolas" class="badge">2</span><span ng-hide="gallo.bandolas" class="badge">1</span></li>
+                            <li class="list-group-item" ng-show="gallo.advMode">Severidad Promedio <span class="badge">{{(gallo.severidadPromedio).toFixed()}}%</span></li>
+                            <li class="list-group-item" ng-show="gallo.advMode">Incidencia promedio por planta <span class="badge">{{gallo.inideanciaPromedioPlanta}}</span></li>
+                          </ul>
+
+                          <p style="display:none;"><strong>Recomendación</strong><br>
+                            <!-- <span ng-show="gallo.incidencia < 11">{{methodsMonthGallo.grade1}}</span>
+                            <span ng-show="gallo.incidencia > 10 && gallo.incidencia < 21 ">{{methodsMonthGallo.grade2}}</span>
+                            <span ng-show="gallo.incidencia > 20 && gallo.incidencia < 51 ">{{methodsMonthGallo.grade3}}</span>
+                            <span ng-show="gallo.incidencia > 50 ">{{methodsMonthGallo.grade3}}</span>
+                          </p> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          </div>
+      </div>
+
+
+      <!-- <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+              <a href="#/roya">Cálculo de roya</a>
+              <a href="#/vulnerability">Cálculo de Vulnerabilidad</a>
+          </div>
+      </div> -->
+
+    </div>
+  </div>
+</script>

@@ -1,0 +1,80 @@
+<script type="text/ng-template" id="/dosage.html">
+			<div class="roya-wrap dosage-wrap">
+						<h2 class="section-header">
+		  				CÁLCULO DE DOSIFICACION ADECUADA
+		  			</h2>
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-6 col-lg-offset-3">
+								<p></p>
+									
+<div class="well">
+		<h6 style="margin-top:0;">Resultado</h6>
+									<strong> (cc/litros): <span class="badge" ng-bind="dosage.resultado"></span> </strong>	<br>
+								<strong	ng-show="dosage.resultadoS">Cepex (cc/litros): <span class="badge" ng-bind="dosage.resultadoS"></span> </strong>
+</div>	
+								
+								<form data-toggle="validator" name="dosageForm" novalidate class="form" role="form" ng-submit="calculateDosage()">
+									<span><strong>Tipo de Producto</strong></span>
+									<select ng-model="dosage.productType"  id="productType" class="form-control" ng-change="typeChange()">
+										<option value="Broca" >Broca</option>
+										<option value="Roya" >Roya</option>
+										<option value="Ojo de gallo" >Ojo de gallo</option>
+										<option value="Derrite" >Derrite</option>
+										<option value="Derrite" >Mal de hilachas</option>
+									</select>
+
+									<strong>Nombre del Producto:</strong> 
+									
+									<select ng-model="dosage.productName" class="form-control" required>
+										<option ng-show="dosage.productType == 'Broca'" value="2000" selected >Clorpirifos 48%</option>
+										<option ng-show="dosage.productType == 'Broca'" value="800" >Imidacloprid 35%</option>
+										<option ng-show="dosage.productType == 'Roya'" value="1000" >Opera 18,30 SE Roya</option>
+										<option ng-show="dosage.productType == 'Roya'" value="400" >Esfera 26,75 EC Roya</option>
+										<option ng-show="dosage.productType == 'Roya'" value="500" >Soprano 12,5 SC</option>
+										<option ng-show="dosage.productType == 'Roya'" value="400" >Atemi 10 SL</option>
+										
+										<option ng-show="dosage.productType == 'Roya'" value="400" >Cyprosol 10 SL</option>
+										<option ng-show="dosage.productType == 'Roya'" value="500" >Opus 12,5 SC</option>
+										
+										<option ng-show="dosage.productType == 'Roya'" value="500" >Propicon 25 SC</option>
+										<option ng-show="dosage.productType == 'Ojo de gallo'" value="500" >Atemi 10 SL</option>
+										<option ng-show="dosage.productType == 'Ojo de gallo'" value="500" >Cyprosol 10 SL</option>
+										<option ng-show="dosage.productType == 'Ojo de gallo'" value="750" >Silvacur 30 EC</option>
+										<option ng-show="dosage.productType == 'Ojo de gallo'" value="750" >Tebutriacell 30 EC</option>
+										
+										<option ng-show="dosage.productType == 'Derrite'" value="1000" >Opera 18,30 SE </option>
+										<option ng-show="dosage.productType == 'Derrite'" value="400" >Esfera 26,75 EC </option>
+										<option ng-show="dosage.productType == 'Mal de hilachas'" value="1000" >Opera 18,30 SE</option>
+										<option ng-show="dosage.productType == 'Mal de hilachas'" value="600" >Esfera 26,75 EC</option>
+									</select>
+									
+									
+									<div class="form-group" ng-show="dosage.productType == 'Ojo de gallo'">
+									      <div class="checkbox">
+									        <label>
+									          <input type="checkbox" ng-model="dosage.producto2"> Cepex 10 SL
+									        </label>
+									      </div>
+									  </div>
+									
+								
+									
+									<span>
+										<strong>Plantas Atomizadas:</strong> 
+										<input type="number" ng-model="dosage.plantsAtomised" class="form-control"  value="1" required> 
+									</span>
+
+									<span>
+										<strong>Litros Gastados:</strong> 
+										<input type="number" ng-model="dosage.litersWornOut" class="form-control"  value="1" required>
+									</span>
+
+									<button type="submit" class="btn btn-primary" ng-disabled="!dosageForm.$valid">Calcular</button>
+									<button type="button" class="btn" ng-click="clear()" ng-disabled="!dosageForm.$valid">Limpiar</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+		  </script>

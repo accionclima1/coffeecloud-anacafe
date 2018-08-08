@@ -1,0 +1,131 @@
+<script type="text/ng-template" id="/clima.html">
+  <style>
+    h4 {
+      font-weight:normal;
+      color:#000;
+    }
+    .climacard {
+      background-color:white;
+      padding:10px;
+    }
+    .climawidget {
+      padding:5px;
+    }
+    .nomargin {
+      padding:0px;
+      margin:0px;
+    }
+    .climacard {
+      color:#000;
+    }
+    .fa {
+      margin-right:5px;
+    }
+    </style>
+<div class="home-wrap profile-wrap">
+    <div class="container">
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-xs-12">
+           <div class="page-header">
+             <h2>Tiempo actual</span></h2>
+           </div>
+         </div>
+       </div>
+        <div class="row climacard">
+            <span ng-show="error">Error, imposible cargar información</span>
+            <span id="txtCargandoClima">{{statusCargando}}</span>
+            <span ng-show="posDefault">GPS no disponible, se muestran datos generales</span>
+            <div class="panel panel-default"  ng-show="actual != null">
+              <div class="panel-body climawidget">
+                <div class="row nomargin" align="left" id="tarjetaclima">
+                  <h4>Ahora</h4>
+                </div>  
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-xs-6">
+                    <h2>{{actual.temp_c}}&deg;</h2>
+                  </div>
+                  <div class="col-md-6 col-sm-6 col-xs-6">
+                    <img ng-src="{{actual.icon_url}}"/>
+                    <p>{{actual.weather}}</p>
+                    <p>Se siente: {{actual.feelslike_c}}&deg;</p>
+                    <p>UV: {{actual.UV}}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+<i class="fa fa-tint"></i>{{actual.relative_humidity}}
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+<img src="img/speed.svg" width="20px"/>{{actual.wind_kph}}
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+<i class="fa fa-eye"></i>{{actual.visibility_km}}
+                  </div>
+                </div>
+                <div class="row" style="margin-top:5px;">
+                  <div class="col-md-4 col-ls-4 col-xs-4">
+MIN:{{almanac.temp_low.normal.C}}
+                  </div>
+                  <div class="col-md-4 col-ls-4 col-xs-4">
+MAX:{{almanac.temp_high.normal.C}}
+                  </div>
+                  <div class="col-md-4 col-ls-4 col-xs-4">
+<i class="fa fa-umbrella"></i>{{actual.precip_today_metric}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+<div class="panel panel-default" style="margin-top:15px"  ng-show="pronosticohorario != null">
+          <div class="panel-heading">Pronóstico por hora</div>
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+                <tr>
+                <th>hora</th>
+                <th><i class="fa fa-thermometer-half"></i></th>
+                <th><i class="fa fa-tint"></i></th>
+                <th><i img src="img/speed.svg" width="20px"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="hora in pronosticohorario">
+                  <td>{{hora.FCTTIME.civil}}</td>
+                  <td>{{hora.temp.metric}}</td>
+                  <td>{{hora.humidity}}</td>
+                  <td><img ng-src="{{hora.icon_url}}" width="20px"/></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel panel-default"  ng-show="pronosticodiario != null">
+          <div class="panel-heading">Pronóstico diario</div>
+          <div class="panel-body">
+            <table class="table">
+              <thead>
+                <tr>
+                <th><i class="fa fa-calendar"></i></th>
+                <th>UV</th>
+                <th>MIN</i></th>
+                <th>MAX</th>
+                <th><i class="fa fa-umbrella"></i></th>
+                <th><i img src="img/speed.svg" width="20px"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="dia in pronosticodiario">
+                  <td>{{dia.date.monthname_short}} {{dia.date.day}}</td>
+                  <td>{{dia.UV}}</td>
+                  <td>{{dia.low.celsius}}</td>
+                  <td>{{dia.high.celsius}}</td>
+                  <td><img ng-src="{{dia.icon_url}}" width="20px"/></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+            </div>
+        </div>
+</script>

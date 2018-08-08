@@ -1,0 +1,240 @@
+<script type="text/ng-template" id="/roya.html">
+	     <div class="container-fluid roya-wrap">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Reportes de Roya
+                        </h1>
+                        
+						<div class="col-md-12">
+
+						<div class=" form-inline">
+							<label>Fecha inicio:</label>
+							<input type="text" class="form-control date-field" placeholder="Fecha inicio" ng-model="search.dateFrom"></input>
+						    
+							<label>fecha final</label>
+							<input type="text" class="form-control date-field" placeholder="Fecha final" ng-model="search.dateTo"></input>
+						</div>
+						</div>
+						<div class="col-md-12">
+						<div class="form-inline">
+						<br/>	
+							<label>Buscar por ID:</label> 
+							<input type="text"  class="form-control" ng-model="search._id" placeholder="Buscar por ID" />
+						</div>
+						</div>                
+						<br/>
+						<br/>
+						<p class="lead col-md-4">resultados: </p>
+							<div class="col-md-8 text-right">
+								<button ng-click="mostrarMapa()" >{{lblBtnMapa}}</button>
+								<button ng-click="exportData()" >Exportar</button>
+							</div>
+                <!-- /.row -->
+			<table class="table table-striped" style="display:none;" id='exportable'>
+				<thead>
+					<tr>
+						<th ng-repeat="(i,th) in head" >{{th}}</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="row in testsList | orderBy : sort.column : sort.descending | myfilter:search">
+						<td ng-click="loadTest(row);">{{row.createdAt}}</td>
+						<td ng-click="loadTest(row);">{{row.departamento}}</td> 
+						<td ng-click="loadTest(row);">{{row.incidencia}}%</td>
+						<td ng-click="loadTest(row);">{{row.nombre}}</td> 
+						<td ng-click="loadTest(row);">{{row.tipoCafe}}</td> 
+						<td ng-click="loadTest(row);">{{row.user}}</td>
+						</tr>
+					</tr>
+				</tbody>
+			</table>
+                <div class="row">
+                    <div class="col-md-12">
+	                   <div class="roya-editor">
+                       <div id="mapaDatosRoya" style="display:none">
+                            <div id="mapid" style="height:350px"></div>
+                            </div>
+                            <div id="tablaDatosRoya">
+		                   <table class="table table-striped">
+							    <thead>
+							        <tr>
+							            <th ng-repeat="(i,th) in head" ng-class="selectedCls(i)" ng-click="changeSorting(i)">{{th}}</th>
+							            <th></th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <tr ng-repeat="row in testsList | orderBy : sort.column : sort.descending | myfilter:search | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+							            <td ng-click="loadTest(row);">{{row.createdAt}}</td>
+							            <td ng-click="loadTest(row);">{{row.departamento}}</td> 
+							            <td ng-click="loadTest(row);">{{row.incidencia}}%</td>
+							            <td ng-click="loadTest(row);">{{row.nombre}}</td> 
+							            <td ng-click="loadTest(row);">{{row.tipoCafe}}</td> 
+							            <td ng-click="loadTest(row);">{{row.user}}</td>
+							            <td> <button class="btn btn-danger" ng-click="removeTest(row._id)">X</button></td> 
+								        </tr>
+							        </tr>
+							    </tbody>
+							</table>
+							<div class="text-center">
+								<pagination page="currentPage" max-size="noOfPages" previous-text="<" next-text=">" first-text="<<" last-text=">>" boundary-link-numbers="true" total-items="totalItems" items-per-page="pageSize"></pagination>
+							</div>
+                            </div>
+							<!-- Modal -->
+								<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								  <div class="modal-dialog" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								        <h4 class="modal-title" id="myModalLabel">Detalle de Reporte</h4>
+								      </div>
+								      <div class="modal-body">
+									      <dl>
+											  <dt>ID:</dt>
+											  <dd>{{detail._id}}</dd>
+										  	  <dt>User:</dt>
+											  <dd>{{detail.user}}</dd>
+											  <dt>Creación:</dt>
+											  <dd>{{detail.createdAt}}</dd>
+											  <dt>Modo:</dt>
+											  <dd><span ng-show="detail.advMode">avanzado</span><span ng-hide="detail.advMode">Basico</span></dd>
+											  <dt>Bandolas:</dt>
+											  <dd><span ng-show="detail.bandolas">2</span><span ng-hide="detail.bandolas">1</span></dd>
+											  <dt>Plantas:</dt>
+											  <dd>{{detail.plantas.length}}</dd>
+											  <dt>Incidencia:</dt>
+											  <dd>{{ (detail.incidencia).toFixed(2) }}%</dd>
+											  <dt>incideancia Promedio por Planta:</dt>
+											  <dd>{{ (detail.inideanciaPromedioPlanta).toFixed(2) }}%</dd>
+											  <dt>Severidad Promedio:</dt>
+											  <dd>{{ (detail.severidadPromedio).toFixed(2) }}%</dd>
+											  <dt>Municipio:</dt>
+											  <dd>{{ detail.unidad.departamento }}</dd>
+											  <dt>Detalle Unidad:</dt>
+											  <dd>
+											  {{detail.unidad.nombre}}<br/>
+											  {{detail.unidad._id}}<br/>
+											  Actualizado: {{detail.unidad.updatedAt}} <br>
+											  Creado: {{detail.unidad.createdAt}}<br>
+											  <span ng-show="detail.unidad.sombra">Tiene Sombra</span><br>
+											  Altitud: {{detail.unidad.altitud}}<br>
+											  Area de Cafe: {{detail.unidad.areaCafe}}<br>
+											  Area total: {{detail.unidad.areaTotal}}<br>
+											  Distanciamiento: {{detail.unidad.distanciamiento}}<br>
+											  lote: {{detail.unidad.lote}}<br>
+											  Edad: {{detail.unidad.edadLote}}<br>
+											  Departamento: {{detail.unidad.departamento}}<br>
+											  Municipio: {{detail.unidad.municipio}}<br>
+											  rendimiento: {{detail.unidad.rendimiento}}<br>
+											  <span ng-show="detail.unidad.enmiendasSuelo">Enmiendas de Suelo</span><br>
+											  <span ng-show="detail.unidad.fertilizaFollaje">Fertiliza Follaje</span><br>
+											  <span ng-show="detail.unidad.fertilizaSuelo">Fertiliza Suelo: {{detail.unidad.fertilizaSueloMes}}</span><br>
+											  Inicia Cosecha: {{detail.unidad.inicioCosecha}}<br>
+											  Final Cosecha: {{detail.unidad.finalCosecha}}<br>
+											  Epoca lluviosa: {{detail.unidad.epocalluviosa}}<br>
+											  Fin Epoca lluviosa: {{detail.unidad.FinEpocalluviosa}}<br>
+											  <span ng-show="detail.unidad.fertilizaSuelo">Fertiliza Suelo</span><br>
+											  <span ng-show="detail.unidad.fungicidasRoya">Fungicidas de Roya: <span ng-show="detail.unidad.fungicidas.contacto">Contacto</span></span>, <span ng-show="detail.unidad.fungicidas.sistemico">Sistemico</span>; Fechas: {{detail.unidad.fungicidasFechas}}</span><br>
+											  <span ng-show="detail.unidad.manejoTejido">Manejo de Tejido: {{detail.unidad.manejoTejidoMes}}</span><br>
+											  <span ng-show="detail.unidad.muestreo">Muestreo: {{detail.unidad.muestreoMes}}</span><br>
+											  <span> Tipo de Cafe: <span ng-show="detail.unidad.tipoCafe.duro">duro</span> <span ng-show="detail.unidad.tipoCafe.estrictamenteDuro
+">estrictamenteDuro</span> <span ng-show="detail.unidad.tipoCafe.extraprime
+">extraprime</span> <span ng-show="detail.unidad.tipoCafe.prime
+">prime</span> <span ng-show="detail.unidad.tipoCafe.semiduro
+">semiduro</span></span><br>
+											  <span> Variedad: <span ng-show="detail.unidad.variedad.bourbon">bourbon</span> <span ng-show="detail.unidad.variedad.catuai
+">catuai</span> <span ng-show="detail.unidad.variedad.caturra
+">caturra</span> <span ng-show="detail.unidad.variedad.maragogype
+">maragogype</span> </span><br>
+											  <span ng-show="detail.unidad.verificaAgua">Tipo de verificacion de Agua: <span ng-show="detail.unidad.verificaAguaTipo.dureza">Contacto,</span></span> <span ng-show="detail.unidad.verificaAguaTipo.ph">Sistemico</span></span>; Fechas: {{detail.unidad.fungicidasFechas}}<br>
+											  
+											  
+											  </dd>
+											</dl>
+								       
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+			            </div>
+                    </div>
+                </div>
+
+				<!-- Modal -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Crear Usuario</h4>
+				      </div>
+				      <div class="modal-body">
+						        <div ng-show="error" class="alert alert-danger row">
+								    <span>{{ error.message }}</span>
+								  </div>
+				
+								  <form ng-submit="createUser()" name="newuserForm" id="newserForm" data-toggle="validator">
+				
+								    <div class="form-group">
+								      <input type="text"
+								      class="form-control"
+								      placeholder="Nombre de usuario"
+								      ng-model="newUser.username" required></input>
+								    </div>
+								    <div class="form-group">
+								      <input type="text"
+								      class="form-control"
+								      placeholder="Numero Telefonico"
+								      ng-model="newUser.phone" required></input>
+								    </div>
+								    <div class="form-group">
+								      <label>Rol:</label>
+								      <select class="form-control" ng-model="newUser.role">
+										  <option>Cliente</option>
+										  <option>Extensionista</option>
+										  <option>Admin</option>
+										</select>
+								    </div>
+								    <div class="form-group">
+								      <label>Departamento/Municipio:</label>
+								      <select id="departamentos" class="form-control" required>
+										</select>
+								    </div>
+								    <div class="form-group">
+								      <input type="email"
+								      class="form-control"
+								      placeholder="Correo Electrónico"
+								      ng-model="newUser.email" required></input>
+								    </div>
+								   <div class="form-group">
+											    <div class="form-group">
+											      <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Contraseña" required>
+											    </div>
+											    <div class="form-group">
+											      <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="No coinciden! " placeholder="Confirmar Contraseña" ng-model="newUser.password" required>
+											      <div class="help-block with-errors"></div>
+											    </div>
+											</div>
+								    
+								  
+								  </form>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <button type="button" class="btn btn-primary"  form="newuserForm" ng-disabled="newuserForm.$invalid" ng-click="createUser()">Guardar Usuario</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+            </div>
+                </div>
+        </div>
+    </script>
+    

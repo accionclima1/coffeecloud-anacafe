@@ -1,0 +1,57 @@
+<script type="text/ng-template" id="/pronostico.html">
+  <style>
+    h4 {
+      font-weight:normal;
+      color:#000;
+    }
+    </style>
+<div class="home-wrap profile-wrap">
+    <div class="container">
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-xs-12">
+           <div class="page-header">
+             <h2>Pronóstico INSIVUMEH</span></h2>
+           </div>
+         </div>
+       </div>
+        <div class="row">
+          <!-- Mapa Lluvia Diaria -->
+            <div class="panel panel-default">
+              <div class="panel-heading">Lluvia Diaria</div>
+              <div class="panel-body climawidget" align="center">
+                <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/ppd_1.png" class="img-responsive"/></a>
+                <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
+            </div>
+
+            <!-- Mapa de Temperatura -->
+            <div class="panel panel-default">
+              <div class="panel-heading">Temperatura Diaria</div>
+              <div class="panel-body climawidget" align="center">
+                <a href="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png"><img src="http://www.insivumeh.gob.gt/meteorologia/prod_wrf/Tmedd_1.png" class="img-responsive"/></a>
+                <span class="bg-warning"  ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
+            </div>
+
+            <!-- Humedad de Suelo -->
+            <div class="panel panel-default">
+              <div class="panel-heading">Humedad del Suelo</div>
+              <div class="panel-body climawidget" align="center">
+                <a href="http://www.insivumeh.gob.gt/hidrologia/humedad.jpg"><img src="http://www.insivumeh.gob.gt/hidrologia/humedad.jpg" class="img-responsive"/></a>
+                <span class="bg-warning"  ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
+            </div>
+
+            <!-- Mapa Lluvia Acumulada -->
+              <div class="panel panel-default">
+                <div class="panel-heading">Lluvia Acumulada</div>
+                <div class="panel-body climawidget" align="center">
+                  <a href="http://www.insivumeh.gob.gt/meteorologia/lluvia_acumulada.jpg"><img src="http://www.insivumeh.gob.gt/meteorologia/lluvia_acumulada.jpg" class="img-responsive"/></a>
+                  <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+                </div>
+              </div>
+
+        </div>
+    </div>
+</div>
+</script>

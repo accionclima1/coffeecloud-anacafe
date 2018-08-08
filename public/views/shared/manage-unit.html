@@ -1,0 +1,601 @@
+
+<div class="col-xs-12">
+             <div class="collapse map">
+                 <div>
+                     <div align="left" style="margin-bottom:10px;"><a ng-click="toggle = !toggle; mapInit()" style="color:#00abff"><- Regresar a formulario</a></div>
+                 <i class="fa fa-spinner fa-spin"></i>
+                 <div id="map-canvas" style="height:400px;width:100%;" ng-class="{ offline: !IsInternetOnline }"></div>
+                 </div>
+             </div>
+         </div>
+ <div id="formulariocompleto">
+
+<form name="newunitForm" novalidate class="form" role="form" ng-submit="onFormSubmit()" id="newunitForm" data-toggle="validator">
+    <div class="row">
+
+        <!--<button type="button" class="btn btn-default" ng-click="ResetUnitForm()">ResetUnitForm</button>-->
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Nombre"
+                       ng-model="newUnit.nombre"
+                       data-error="Campo requerido"
+                       name="nombreInput"
+                       required>
+                <div class="help-block with-errors"></div>
+
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       id="altitudId"
+                       placeholder="Altitud"
+                       ng-model="newUnit.altitud"
+                       data-error="Campo requerido"
+                       required></input>
+                       <span id="menssageAltitud">(Cargando Altitud...)</span>
+                       <span>(msnm)</span>
+
+                        <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label for="departamentos"
+                style="
+                    background-color: #afafaf;
+                    color: #fff;
+                    text-align: left;
+                    padding: 0px 3px;" >Departamento / Municipio: </label>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group munis">
+                <select id="departamentos" class="form-control" required>
+                <option class="optionVacio" value=""></option>
+                </select>
+
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+
+        <!-- <div class="col-xs-6">
+            <div class="form-group">
+                <input type="text"
+                        id="departamentoDisabled"
+                        class="form-control"
+                       placeholder="Departamento"
+                       disabled></input>
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+            <div class="form-group">
+                <input type="text"
+                        id="municipioDisabled"
+                        class="form-control"
+                       placeholder="Municipio"
+                       disabled></input>
+            </div>
+        </div> -->
+
+
+
+        <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Geo Referencia" ng-model="newUnit.ubicacion" id="latlongid">
+                <div class="help-block with-errors"></div></input>
+                <span class="input-group-btn">
+                    <button style="margin-top: 0px;" class="btn btn-default" type="button" ng-click="toggle = !toggle; mapInit()">
+                        <i class="fa fa-map-marker" aria-hidden="true" ng-show="!toggle"></i>
+                        <i class="fa fa-times" aria-hidden="true" ng-show="toggle"></i>
+                    </button>
+                </span>
+                <span id="menssageLocation">(Cargando Ubicación...)</span>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="col-md-6 col-xs-6">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Area total"
+                       ng-model="newUnit.areaTotal"
+                       data-error="Campo requerido"
+                       required></input>
+                (manzanas)
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Area con café"
+                       ng-model="newUnit.areaCafe"
+                       data-error="Campo requerido"
+                       required></input>
+                (manzanas)
+            </div>
+        </div>
+
+        <!--<div class="col-xs-6">
+                <div class="form-group">
+                    <input type="text"
+                          class="form-control"
+                          placeholder="Edad del lote"
+                          ng-model="newUnit.edadLote"></input>
+                          (Años)
+                </div>
+            </div> -->
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="row" id="variedadesLista" ng-show="variedades">
+                    <label class="col-xs-12" style="
+                        background-color: #afafaf;
+                        color: #fff;
+                        text-align: left;
+                        padding: 0px 3px;">Variedad</label>
+                    <div class="col-xs-6" ng-repeat="variedad in variedades" style="text-align:left;">
+                        <!--<label ng-hide="variedad.name == 'cual?'">
+                            <input type="checkbox" ng-model="newUnit.variedad[variedad.name]"> {{variedad.name}}
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               placeholder="¿cual?"
+                               ng-model="newUnit.variedad['cual?']" ng-show="newUnit.variedad['otro'] && variedad.name == 'cual?'"></input>-->
+
+
+
+
+                        <label ng-hide="variedad.name == 'cual?'">
+                            <input type="checkbox" ng-model="variedad.isSelected"/> {{variedad.name}}
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               placeholder="¿cual?"
+                               ng-model="variedad.VAL" ng-show="variedad.isSelected && variedad.ISUDF"/>
+
+                    </div>
+
+
+                </div>
+                <div>
+
+                    <label id="lblAdd" class="addBtn pull-left" ng-click="addVariedad()">
+                        <span class="glyphicon glyphicon-plus"></span> Añadir variedad
+                    </label>
+                    <div id="contenedorNueva" class="col-xs-10" style="padding-left: 0px; margin-bottom: 10px; display: none">
+                     <div class="input-group">
+                       <input class="form-control" type="text" name="nuevaVariedad" id="nuevaVariedad" placeholder="ingrese nombre"/>
+                        <span class="input-group-addon">
+                            <span ng-click="addNewvariedad()" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </span>
+                        <span class="input-group-addon">
+                            <span ng-click="cancelNewvariedad()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </span>
+                    </div><!-- /input-group -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label for="selCoffeProducessOptions"
+                style="
+                    background-color: #afafaf;
+                    color: #fff;
+                    text-align: left;
+                    padding: 0px 3px;">Tipo de café que produce?</label>
+                <select class="form-control"
+                        id="selCoffeProducessOptions"
+                        multiple="true"
+                        ng-model="newUnit.typeOfCoffeProducessOptionSelected"
+                        data-error="Campo requerido"
+                        required>
+                    <option ng-repeat="option in typesOfCoffeSelectionOptions" value="{{option.name}}">{{option.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Distanciamiento Ej: 2x1"
+                       ng-model="newUnit.distanciamiento"
+                       data-error="Campo requerido"
+                       required></input>
+                (Metros)
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Tiene sombra?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" id="optionsRadios1" ng-value="true" ng-model="newUnit.sombra">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" id="optionsRadios2" ng-value="false" ng-model="newUnit.sombra">
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Realiza muestreo de suelos?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNomuestreoChange('newUnit') name="muestreo" ng-value="true" ng-model="newUnit.muestreo">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNomuestreoChange('newUnit') name="muestreo" ng-value="false" ng-model="newUnit.muestreo" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="newUnit.muestreo">
+            <div class="form-group">
+                <label>¿En que mes lo realiza?</label>
+                <select class="form-control" id="selmuestreoOptions" multiple="true" ng-model="newUnit.muestreoMes">
+                    <option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Fertiliza el suelo?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNofertilizaSueloChange('newUnit') name="fertilizaSuelo" ng-value="true" ng-model="newUnit.fertilizaSuelo">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNofertilizaSueloChange('newUnit') name="fertilizaSuelo" ng-value="false" ng-model="newUnit.fertilizaSuelo" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="newUnit.fertilizaSuelo">
+            <div class="form-group">
+                <label>¿En que mes lo realiza?</label>
+                <select class="form-control" id="selfertilizaOptions" multiple="true" ng-model="newUnit.fertilizaSueloMes">
+                    <option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Realiza aplicaciones foliares?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNofertilizaFollajeChange('newUnit') name="fertilizaFollaje" ng-value="true" ng-model="newUnit.fertilizaFollaje">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNofertilizaFollajeChange('newUnit') name="fertilizaFollaje" ng-value="false" ng-model="newUnit.fertilizaFollaje" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="newUnit.fertilizaFollaje">
+            <div class="form-group">
+                <label>¿En que mes lo realiza?</label>
+                <select class="form-control" id="selfertilizaFollajeOptions" multiple="true" ng-model="newUnit.fertilizaFollajeMes">
+                    <option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Realiza enmiendas de suelo?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNoenmiendasSueloChange('newUnit') name="enmiendasSuelo" ng-value="true" ng-model="newUnit.enmiendasSuelo">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNoenmiendasSueloChange('newUnit') ng-value="false" ng-model="newUnit.enmiendasSuelo" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="newUnit.enmiendasSuelo">
+            <div class="form-group">
+                <label>¿En que mes lo realiza?</label>
+                <select class="form-control" id="enmiendasSueloOptions" multiple="true" ng-model="newUnit.enmiendasSueloMes">
+                    <option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Realiza manejo de tejido?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNomanejoTejidoChange('newUnit') name="manejoTejido" ng-value="true" ng-model="newUnit.manejoTejido">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNomanejoTejidoChange('newUnit') name="manejoTejido" ng-value="false" ng-model="newUnit.manejoTejido" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="newUnit.manejoTejido">
+            <div class="form-group">
+                <label>¿En que mes lo realiza?</label>
+                <select class="form-control" id="manejoTejidoOptions" multiple="true" ng-model="newUnit.manejoTejidoMes">
+                    <option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                <p>¿Verifica la calidad del Agua?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNoVerificiaAcquaChange('newUnit') name="verificaAgua" ng-value="true" ng-model="newUnit.verificaAgua">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" ng-change=yesNoVerificiaAcquaChange('newUnit') name="verificaAgua" ng-value="false" ng-model="newUnit.verificaAgua" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-show="newUnit.verificaAgua">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-12">¿Que tipo de verificación?</label>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="checkbox" ng-model="newUnit.verificaAguaTipo.ph"> pH
+                        </label>
+                    </div>
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="checkbox" ng-model="newUnit.verificaAguaTipo.dureza"> Dureza
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Producción"
+                       ng-model="newUnit.rendimiento"
+                       data-error="Campo requerido"
+ +                     required/>
+                (Quintales de café maduro/manzana)
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+
+                <input type="text"
+                       class="form-control date-field"
+                       placeholder="Floracion principal año anterior"
+                       ng-model="newUnit.floracionPrincipal"
+                       data-error="Campo requerido"
+ +                     required>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control date-field"
+                       placeholder="Inicio de la cosecha año anterior"
+                       ng-model="newUnit.inicioCosecha"></input>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control date-field"
+                       placeholder="Final de la cosecha año anterior"
+                       ng-model="newUnit.finalCosecha"></input>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control date-field"
+                       placeholder="Inicio epoca lluviosa año anterior"
+                       ng-model="newUnit.epocalluviosa"></input>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control date-field"
+                       placeholder="Fin epoca lluviosa año anterior"
+                       ng-model="newUnit.FinEpocalluviosa"></input>
+            </div>
+        </div>
+    </div>
+
+    <!-- new questions -->
+
+    <div class="col-xs-12">
+        <div class="form-group">
+            <p>¿Aplica fungicidas para el control de roya?</p>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="enfermedades" ng-change="yesNoSelectionChange('newUnit')" ng-value="true" ng-model="newUnit.enfermedades">
+                    Si
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="enfermedades" ng-change="yesNoSelectionChange('newUnit')" ng-value="false" ng-model="newUnit.enfermedades" checked>
+                    No
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12" ng-show="newUnit.enfermedades">
+        <div class="form-group">
+            <div class="row">
+                <label class="col-xs-12">¿Que tipo de fungicidas aplica?</label>
+                <div class="col-xs-6" ng-repeat="categoria in fungicidas">
+                    <label>
+                        <input type="checkbox" value="{{categoria.categoria}}" ng-model="categoriaSeleccionada"> {{categoria.categoria}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12" ng-repeat="categoria in fungicidas" ng-show="categoria.categoria">
+        <div class="form-group">
+            <div class="row fungicidasContacto">
+                <label class="col-xs-12">Fungicidas de {{categoria.categoria}} </label>
+                <div class="clearfix"></div>
+
+                <!-- Contacto caldovicosa -->
+                <div class="col-xs-6" ng-repeat="f in categoria.fungicidas">
+                    <label>
+                        <input type="checkbox" value="{{f.valor}}" ng-change="agregarFSeleccion(f.valor)" ng-Model="funVar[f.valor]"> {{f.nombre}}
+                    </label>
+                    <div class="form-group" ng-show="fungicidasSeleccionados[f.valor]">
+                        <label>¿Cuando lo aplica?</label>
+                        <select class="form-control" multiple="true" ng-Model="fungicidasSeleccionados[f.valor]">
+                          <option ng-repeat="Month in MonthDropDownOptions">{{Month.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- <div class="clearfix"></div> -->
+
+                <!-- Contacto Otro -->
+                <div class="col-xs-6">
+                  <label>
+                      <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál
+                  </label>
+                  <label>
+                      <input type="text" ng-show="newUnit.fungicidas.contactoOptions.otrocual" placeholder="¿Cuál?" ng-model="newUnit.fungicidas.contactoOptions.cual">
+                  </label>
+                  <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.otrocual">
+                      <label>¿Cuando lo aplica?</label>
+                      <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.otrocual">
+                        <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.otrocual == Month.name}}">{{Month.name}}</option>
+                      </select>
+                  </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+              <!-- <div class="col-xs-6" ng-repeat="fungicida in fungicidasContacto">
+                  <label>
+                      <input type="checkbox" value="{{fungicida.valor}}" ng-model="{{fungicida.ngModelOpcion}}"> {{fungicida.nombre}}
+                  </label>
+                  <div class="form-group" ng-show="{{fungicida.ngModelOpcion}}">
+                      <label>¿Cuando lo aplica?</label>
+                      <select class="form-control" multiple="true" ng-model="{{fungicida.ngModelMeses}}">
+                        <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{fungicida.ngModelMeses == Month.name}}">{{Month.name}}</option>
+                      </select>
+                  </div>
+              </div> -->
+
+
+              <!-- <div class="col-xs-6"> -->
+
+                  <!-- <label id="fcAdd" class="addBtn pull-left" ng-click="addFungicida('contacto')">
+                      <span class="glyphicon glyphicon-plus"></span> Añadir Fungicida
+                  </label>
+                  <div id="fungicidaContactoNuevo" class="col-xs-10" style="padding-left: 0px; margin-bottom: 10px; display: none">
+                   <div class="input-group">
+                     <input class="form-control" type="text" name="nuevoFungicidaContacto" id="nuevoFungicidaContacto" placeholder="ingrese nombre">
+                      <span class="input-group-addon">
+                          <span ng-click="addNewFungicida()" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                      </span>
+                      <span class="input-group-addon">
+                          <span ng-click="cancelNewFungicida()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </span>
+                  </div>
+                  </div> -->
+
+                  <!-- <label>
+                      <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál
+                  </label>
+                  <label>
+                      <input type="text" ng-show="newUnit.fungicidas.contactoOptions.otrocual" placeholder="¿Cuál?" ng-model="newUnit.fungicidas.contactoOptions.cual">
+                  </label>
+                  <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.otrocual">
+                      <label>¿Cuando lo aplica?</label>
+                      <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.otrocual">
+                        <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.otrocual == Month.name}}">{{Month.name}}</option>
+                      </select>
+                  </div> -->
+              <!-- </div> -->
+            </div>
+
+        </div>
+    </div>
+
+
+    <textarea class="form-control" rows="3" ng-model="RecommendationText" ng-show="isRecommendationFieldRequired"></textarea>
+
+
+    <!-- new questions ends -->
+    <input type="submit" class="btn btn-primary" submit="newunitForm" form="newunitForm" value="Guardar nueva" ng-show="Mode == 'ADD' && !isRecommendationFieldRequired" />
+
+    <input type="submit" class="btn btn-primary" style="width: auto; line-height: 1.42857143; float: left;margin-left: 5%;" submit="newunitForm" form="newunitForm"
+            value="Salvar Cambios" ng-show="Mode == 'EDIT' && !isRecommendationFieldRequired"/>
+    <!--ng-disabled="updateunitForm.$invalid" ng-click="updateUnitForm($event,editUnit._id)">-->
+
+    <!--</input>-->
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="CancleForm($event)" ng-show="Mode == 'EDIT' && !isRecommendationFieldRequired">Cerrar</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-show="isRecommendationFieldRequired">Close</button>
+    <!--<button type="button" class="btn btn-default" ng-show="isRecommendationFieldRequired" >Sent recommendation</button>-->
+    <input type="submit" class="btn btn-primary" submit="newunitForm" form="newunitForm" ng-show="isRecommendationFieldRequired" value="Sent Recommendation">
+
+
+</form>
+</div>

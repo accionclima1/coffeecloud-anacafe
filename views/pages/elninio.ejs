@@ -1,0 +1,39 @@
+<script type="text/ng-template" id="/elninio.html">
+  <style>
+    h4 {
+      font-weight:normal;
+      color:#000;
+    }
+    .well {
+        background-color:#00ABFF;
+    }
+    td{
+        border:0px !important;
+    }
+    table {
+    color:#fff;
+    }
+    </style>
+<div class="home-wrap profile-wrap">
+    <div class="container">
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-xs-12">
+           <div class="page-header">
+             <h2>ENSO Fenómeno El Niño</span></h2>
+           </div>
+         </div>
+       </div>
+        <span ng-show="error">Error, imposible cargar información</span>
+        <div align="center" ng-show="!htmlElninio || !online">
+       <p ng-show="!error">Cargando información</p>
+       </div>
+       <div align="center" ng-show="!online">
+       <p>Necesita internet para descargar información</p>
+       </div>
+        <div class="well"  align="justify">
+            <div ng-bind-html="imgElninio" align="center"></div>
+            <div ng-bind-html="htmlElninio"></div>
+        </div>
+    </div>
+</div>
+</script>

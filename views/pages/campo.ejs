@@ -1,0 +1,309 @@
+<script type="text/ng-template" id="/campo.html">
+			<div class="roya-wrap">
+					<h2 class="section-header">
+		  				Hoja de Enfermedad
+		  			</h2>
+		  			
+		  			
+		  			<div class="container">
+						<div class="row intro">
+							<div class="col-lg-6 col-lg-offset-3">
+								<h2>BIENVENIDO <span>{{ currentUser() }}</span></h2>
+								<p>Hoja de Enfermedad</p>
+								
+								
+								<h4 class="clearfix">Seleccione la Unidad para Iniciar</h4>
+								
+								<div class="unidades-wrap">
+								<h6 ng-hide="units" class="textloader">Cargando Unidades <i class="fa fa-spinner fa-spin"></i> </h6>
+					   			<div class="unidad-wrap" ng-repeat="unit in units" id="{{unit._id}}">
+					   				<h3 ng-hide="unit.lote.nombre">{{unit.nombre}}</h3>
+					   					<a class="unidad" ng-show="unit.lote == 0" href="#/profile">
+						   					<span>Agregar Lotes</span>
+							   				<i class="glyphicon glyphicon-chevron-right"></i>
+					   					</a>
+					   					<div class="unidad" ng-repeat="lote in unit.lote" id="{{unit._id + $index}}" ng-click="startTest(unit.user, unit.lote[$index])">
+								   			<span>{{lote.nombre}} </span>
+							   				<i class="glyphicon glyphicon-chevron-right"></i>
+							   			</div>	
+						   		</div>
+						    </div>
+						    <a href="#/profile">Agregar Unidades</a>
+							
+							<!-- <button class="btn btn-primary" ng-click="startTest($event)">Basico</button>
+							<button class="btn btn-primary adv" ng-click="startTest($event)">Avanzado</button> -->
+							
+							
+							<!-- Button trigger history modal -->
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#history" ng-click="historialLaunch()">
+								  Calculos anteriores
+								</button>
+								
+								<!-- History Modal -->
+								<div class="modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								  <div class="modal-dialog" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								        <h4 class="modal-title" id="myModalLabel">Calculos anteriores</h4>
+								      </div>
+								      <div class="modal-body">
+									      <h6 ng-show="campoHistory.length == 0">¡No hay cálculos todavía!</h6>
+								        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+									  <div class="panel panel-default" ng-repeat="campo in campoHistory">
+										    <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
+										      <h5 class="panel-title">
+										        <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}">
+										         {{campo.unidad.nombre}} <small>{{ campo.createdAt | date : "MMM d, y h:mm:ss a" }}</small>
+										        </a>
+										      </h5>
+										    </div>
+										    <div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+										      <div class="panel-body">
+											      	<ul class="list-group">
+												      <li class="list-group-item"><strong>Incidencia</strong> <span class="badge">{{ (campo.incidencia).toFixed(2) }}%</span></li>
+													  <li class="list-group-item" >bandolas <span ng-show="roya.bandolas" class="badge">2</span><span ng-hide="roya.bandolas" class="badge">1</span></li>
+													  <li class="list-group-item" ng-show="roya.advMode">Severidad Promedio <span class="badge">{{(campo.severidadPromedio).toFixed()}}%</span></li>
+													  <li class="list-group-item" ng-show="roya.advMode">Incidencia promedio por planta <span class="badge">{{campo.inideanciaPromedioPlanta}}</span></li>
+													  
+													</ul>
+									
+								<p><strong>Recomendación</strong><br>
+									<span ng-show="campo.incidencia < 11">{{methodsMonth.grade1}}</span>
+									<span ng-show="campo.incidencia > 10 && campo.incidencia < 21 ">{{methodsMonth.grade2}}</span>
+									<span ng-show="campo.incidencia > 20 && campo.incidencia < 51 ">{{methodsMonth.grade3}}</span>
+									<span ng-show="campo.incidencia > 50 ">{{methodsMonth.grade3}}</span>
+								</p>
+										        	 
+										      </div>
+										    </div>
+									  </div>
+									</div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+								        
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+								
+								</div>
+						</div>
+						<div class="row test">
+							<div class="col-lg-6 col-lg-offset-3">
+								<div class="plantContainer">
+									<h6>Unidad: {{ test.unidad.nombre }}</h6>
+									
+									<div class="plantList">
+										<div class="plantListItem" ng-repeat="plantas in test.plantas">
+											<span>Planta {{ $index + 1 }}</span>
+											<div class="plantControls">											
+												<button class="btn remove" ng-click="removePlant($index)">X</button>
+											</div>
+										</div>
+									</div>
+									<div class="testControls">
+									<div class="col-md-12 fullbutton nopadd">
+									<button class="btn btn-primary"  ng-click="ClearTest()">Cancelar</button>
+								</div>
+										<button class="btn btn-primary" ng-click="addPlant()" >Agregar Planta</button>
+										<button class="btn btn-primary" ng-click="SaveTestRecord()" >Guardar</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row results" >
+							<div class="col-lg-6 col-lg-offset-3">
+								<div>
+									<h2>Formulario Enviado</h2>
+									
+									<a href="#/support" class="btn btn-primary" >Solicitar Asesoría Técnica</a>
+								</div>
+								
+							</div>
+						</div>
+						
+						
+						<div class="modal fade" id="plantModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        <h4 class="modal-title" id="myModalLabel">Planta {{plantname}}</h4>
+						      </div>
+						      <div class="modal-body">
+						        <form name="hojaform" ngModel="hojaForm" id="hojaform" data-toggle="validator">
+				                  
+								  <div class="form-group ">
+								      <label class="control-label " for="bandolas">
+								       Bandolas
+								      </label>
+								      <select class="select form-control" id="bandolas" name="bandolas" ng-model="campodata.bandolas" required="true" >
+								       <option value="1">
+								        1
+								       </option>
+								       <option value="2">
+								        2
+								       </option>
+								       <option value="3">
+								        3
+								       </option>
+								       <option value="4">
+								        4
+								       </option>
+								       <option value="5">
+								        5
+								       </option>
+								       <option value="6">
+								        6
+								       </option>
+								       <option value="7">
+								        7
+								       </option>
+								       <option value="8">
+								        8
+								       </option>
+								       <option value="9">
+								        9
+								       </option>
+								       <option value="10">
+								        10
+								       </option>
+								      </select>
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="hojas">
+								       Hojas totales
+								      </label>
+								      <input class="form-control" id="hojas" name="hojas" type="text" ng-model="campodata.hojastotales" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="roya">
+								       Roya
+								      </label>
+								      <input class="form-control" id="roya" name="roya" type="text" ng-model="campodata.roya" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="chasparria">
+								       Chasparria
+								      </label>
+								      <input class="form-control" id="chasparria" name="chasparria" type="text" ng-model="campodata.chasparria" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="antracnosis">
+								       Antracnosis
+								      </label>
+								      <input class="form-control" id="antracnosis" name="antracnosis" type="text" ng-model="campodata.antracnosis" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="derrite">
+								       Derrite
+								      </label>
+								      <input class="form-control" id="derrite" name="derrite" type="text" ng-model="campodata.derrite" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="ojogallo">
+								       Ojo de Gallo
+								      </label>
+								      <input class="form-control" id="ojogallo" name="ojogallo" type="text" ng-model="campodata.ojodegallo" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="hilachas">
+								       Mal de Hilachas
+								      </label>
+								      <input class="form-control" id="hilachas" name="hilachas" type="text" ng-model="campodata.maldehilachas" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="otro">
+								       Otro
+								      </label>
+								      <input class="form-control" id="otro" name="otro" type="text" ng-model="campodata.otro" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="nudos">
+								       Nudos viejos
+								      </label>
+								      <input class="form-control" id="nudos" name="nudos" type="text" ng-model="campodata.nudosviejos" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="nudosmedios">
+								       Nudos medios
+								      </label>
+								      <input class="form-control" id="nudosmedios" name="nudosmedios" type="text" ng-model="campodata.nudosmedios" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="nudosjovenes">
+								       Nudos jovenes
+								      </label>
+								      <input class="form-control" id="nudosjovenes" name="nudosjovenes" type="text" ng-model="campodata.nudosjovenes" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="frutosnudo5">
+								       Frutos nudo 5
+								      </label>
+								      <input class="form-control" id="frutosnudo5" name="frutosnudo5" type="text" ng-model="campodata.frutosnudo5" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="frutosnudo6">
+								       Frutos nudo 6
+								      </label>
+								      <input class="form-control" id="frutosnudo6" name="frutosnudo6" type="text" ng-model="campodata.frutosnudo6" required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <label class="control-label " for="brocatotal">
+								       Broca total nudos 5 y 6
+								      </label>
+								      <input class="form-control" id="brocatotal" name="brocatotal" type="text" ng-model="campodata.brocatotalnudos " required="true" />
+								     </div>
+								     <div class="form-group ">
+								      <div class=" ">
+								       <div class="checkbox">
+								        <label class="checkbox">
+								         <input name="optional" type="checkbox" value="Presencia cochinilla" ng-model="campodata.presenciacochinilla" />
+								         Presencia cochinilla
+								        </label>
+								       </div>
+								       <div class="checkbox">
+								        <label class="checkbox">
+								         <input name="optional" type="checkbox" value="Floral  Nueva" ng-model="campodata.floralnueva" />
+								         Floral  Nueva
+								        </label>
+								       </div>
+								       <div class="checkbox">
+								        <label class="checkbox">
+								         <input name="optional" type="checkbox" value="Vegetativa nueva" ng-model="campodata.vegetativanueva" />
+								         Vegetativa nueva
+								        </label>
+								       </div>
+								      </div>
+								     </div>
+								     <div class="form-group">
+								      <div>
+								       <button class="btn btn-primary"  ng-click="addPlantMutiple(campodata)" name="submit" type="submit" data-dismiss="modal" aria-label="Close">
+								        Guardar Camabios
+								       </button>
+								      </div>
+								     </div>
+			                    	
+			                    
+			                   </form>
+						      </div>
+						      
+						    </div>
+						  </div>
+						</div>
+						
+						
+					</div>
+		  			
+		  			
+		  			
+		  			
+		  			
+		  			
+					
+				</div>
+				
+		  </script>

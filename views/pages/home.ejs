@@ -1,0 +1,1132 @@
+<script type="text/ng-template" id="/home.html">
+		<div class="home-wrap">
+		 <div class="container">
+			   	<div class="row">
+			   		<div class="col-md-12">
+			   		  <div class="page-header">
+				        <h2>¡Hola!</h2>
+				        <p>Bienvenido {{ currentUser() }}</p>
+				      </div>
+						<div class="row">
+						  <div class="col-md-12 ">
+						    <h4>Unidades Productivas</h4>
+
+						    <div ng-show="unitopmessage" class="bg-success row">
+						      <span>{{ unitopmessage }}</span>
+						    </div>
+
+						    <h6 ng-hide="units" class="textloader">Cargando Unidades <i class="fa fa-spinner fa-spin"></i> </h6><hr style="width:50%">
+								<h6 ng-show="units.length >= 0" style="color:#FFF;margin-bottom:5%;">Para iniciar con Coffee Cloud debe crear la unidad productiva, luego seleccione una unidad para usar las herramientas.</h6>
+						    <div class="unidades-wrap">
+
+						      <div class="row unidad" ng-repeat="unit in units" id="{{unit._id}}">
+
+								<div class="col-xs-10 col-md-10 col-lg-10 col-center nombreUnidad"><a href="#/homeinternal/{{unit._id}}/{{$index}}" class="lnkUnidad"><p>{{unit.nombre}}</p></a></div>
+								<div class="col-xs-2 col-md-2 col-lg-2 col-center buttonsUnidad" style="padding-right: 5px;padding-left: 5px;">
+
+										<button class="btn btn-danger" ng-click="deleteUnit($event, unit._id, $index)"><i class="fa fa-trash" style="font-size:20px;"></i></button>
+										<button class="btn btn-default" style="margin-left: 12px;" ng-click="EditOldUnit(unit)" data-toggle="modal"><i class="fa fa-edit" style="font-size:20px;"></i></button>
+
+
+
+
+								</div>
+
+						      </div>
+						    </div>
+
+								<button class="btn btn-primary add-unit" data-toggle="modal" ng-click="AddNewUnit()">Agregar Nueva Unidad</button>
+								<!-- <button class="btn btn-primary add-unit" data-toggle="modal" ng-click="ajaxRequest()">Petición Meteorologica Anacafé</button> -->
+
+								<!-- Modals	 Unidad-->
+								<div class="modal fade" id="myModal" data-backdrop="static"
+								data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Editar: {{ editUnit.nombre }}</h4>
+
+										</div>
+										<div class="modal-body">
+
+											<form name="updateunitForm" ng-submit="updateUnitForm($event,editUnit._id)" id="updateunitForm" data-toggle="validator">
+
+												<div class="row">
+													<div class="col-xs-12">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															placeholder="Nombre"
+															ng-model="editUnit.nombre"
+															required></input>
+														</div>
+													</div>
+													<div class="col-xs-12">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															placeholder="Altitud"
+															ng-model="editUnit.altitud"
+															></input> (msnm)
+														</div>
+													</div>
+													<div class="col-xs-12">
+														<div class="form-group">
+															<label for="departamentos">Departamento / Municipio: </label>
+														</div>
+													</div>
+													<div class="col-xs-6">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															ng-model="editUnit.departamento" disabled></input>
+
+														</div>
+													</div>
+													<div class="col-xs-6">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															ng-model="editUnit.municipio" disabled></input>
+
+														</div>
+													</div>
+
+													<div class="col-xs-6">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															placeholder="Geo Referencia"
+															ng-model="editUnit.ubicacion" ng-click="mapInit()" id="latlongid1" required></input>
+															<span class="input-group-btn">
+																<button style="margin-top: 0px;" class="btn btn-default" type="button" ng-click="toggle = !toggle; mapInit()">
+																	<i class="fa fa-map-marker" aria-hidden="true" ng-show="!toggle"></i>
+																	<i class="fa fa-times" aria-hidden="true" ng-show="toggle"></i>
+																</button>
+															</span>
+														</div>
+													</div>
+													<div class="col-xs-6">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															placeholder="Area total"
+															ng-model="editUnit.areaTotal"></input>
+															(Manzanas)
+														</div>
+													</div>
+													<div class="clearfix"></div>
+													<div class="col-xs-12">
+														<div class="collapse map" >
+
+															<i class="fa fa-spinner fa-spin"></i>
+															<div id="map-canvas1" style="height:200px;width:100%;" ></div>
+														</div>
+													</div>
+													<div class="clearfix"></div>
+													<div class="col-xs-6" style="margin-top:10px;">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															placeholder="Area con café"
+															ng-model="editUnit.areaCafe"></input>
+															(Manzanas)
+														</div>
+													</div>
+													<div class="col-xs-6" style="margin-top:10px;">
+														<div class="form-group">
+															<input type="text"
+															class="form-control"
+															placeholder="Tamaño del lote"
+															ng-model="editUnit.lote"></input>
+															(Manzanas)
+														</div>
+													</div>
+															<!--
+															<div class="col-xs-6">
+																<div class="form-group">
+																	<input type="text"
+																	      class="form-control"
+																	      placeholder="Edad del lote"
+																	      ng-model="editUnit.edadLote"></input>
+																	      (Años)
+																</div>
+															</div>-->
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<div class="row">
+																		<label class="col-xs-12">Variedad</label>
+																		<div class="col-xs-6" ng-repeat="variedad in variedades">
+																			<label ng-hide="variedad.name == 'cual?'">
+																				<input type="checkbox" ng-model="editUnit.variedad[0][variedad.name]"> {{variedad.name}}
+																			</label>
+
+																			<input type="text"
+																			class="form-control"
+																			placeholder="¿cual?"
+																			ng-model="editUnit.variedad[0]['cual?']" ng-show="editUnit.variedad[0]['otro'] && variedad.name == 'cual?'"></input>
+																		</div>
+
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<label for="selCoffeProducessOptions">Tipo de café que produce?</label>
+																	<select class="form-control" id="selCoffeProducessOptions" multiple="true" ng-model="editUnit.typeOfCoffeProducessOptionSelected">
+																		<option ng-repeat="option in typesOfCoffeSelectionOptions" value="{{option.name}}">{{option.displayValue}}</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control"
+																	placeholder="Distanciamiento Ej: 2x1"
+																	ng-model="editUnit.distanciamiento"></input>
+																	(Metros)
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Tiene sombra?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" id="optionsRadios1" ng-value="true" ng-model="editUnit.sombra">
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" id="optionsRadios2" ng-value="false" ng-model="editUnit.sombra">
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Realiza muestreo de suelos?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" name="muestreo" ng-value="true" ng-model="editUnit.muestreo" checked>
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" name="muestreo" ng-value="false" ng-model="editUnit.muestreo">
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<label>¿En que mes lo realiza?</label>
+																	<select class="form-control" id="selmuestreoOptions" multiple="true" ng-model="editUnit.muestreoMes">
+																		<option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Fertiliza el suelo?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNofertilizaSueloChange('editUnit') name="fertilizaSuelo" ng-value="true" ng-model="editUnit.fertilizaSuelo" >
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNofertilizaSueloChange('editUnit') name="fertilizaSuelo" ng-value="false" ng-model="editUnit.fertilizaSuelo" checked>
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.fertilizaSuelo">
+																<div class="form-group">
+																	<label>¿En que mes lo realiza?</label>
+																	<select class="form-control" id="selfertilizaOptions" multiple="true" ng-model="editUnit.fertilizaSueloMes">
+																		<option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Realiza aplicaciones Foliares?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio"  ng-change=yesNofertilizaFollajeChange('editUnit') name="fertilizaFollaje" ng-value="true" ng-model="editUnit.fertilizaFollaje" >
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNofertilizaFollajeChange('editUnit')  name="fertilizaFollaje" ng-value="false" ng-model="editUnit.fertilizaFollaje" checked>
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.fertilizaFollaje">
+																<div class="form-group">
+																	<label>¿En que mes lo realiza?</label>
+																	<select class="form-control" id="selfertilizaFollajeOptions" multiple="true" ng-model="editUnit.fertilizaFollajeMes">
+																		<option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Realiza enmiendas de suelo?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNoenmiendasSueloChange('editUnit') name="enmiendasSuelo" ng-value="true" ng-model="editUnit.enmiendasSuelo" >
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNoenmiendasSueloChange('editUnit') ng-value="false" ng-model="editUnit.enmiendasSuelo" checked>
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.enmiendasSuelo">
+																<div class="form-group">
+																	<label>¿En que mes lo realiza?</label>
+																	<select class="form-control" id="enmiendasSueloOptions" multiple="true" ng-model="editUnit.enmiendasSueloMes">
+																		<option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+																	</select>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Realiza manejo de tejido?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNomanejoTejidoChange('editUnit') name="manejoTejido" ng-value="true" ng-model="editUnit.manejoTejido" >
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" name="manejoTejido" ng-value="false" ng-model="editUnit.manejoTejido">
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.manejoTejido">
+																<div class="form-group">
+																	<label>¿En que mes lo realiza?</label>
+																	<select class="form-control" id="manejoTejidoOptions" multiple="true" ng-model="editUnit.manejoTejidoMes">
+																		<option ng-repeat="option in MonthDropDownOptions" value="{{option.name}}">{{option.displayValue}}</option>
+																	</select>
+																</div>
+															</div>
+
+
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Verifica la calidad del Agua?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNoVerificiaAcquaChange('editUnit')  name="verificaAgua" ng-value="true" ng-model="editUnit.verificaAgua" >
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" ng-change=yesNoVerificiaAcquaChange('editUnit')  name="verificaAgua" ng-value="false" ng-model="editUnit.verificaAgua" checked>
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.verificaAgua">
+																<div class="form-group">
+																	<div class="row">
+																		<label class="col-xs-12">¿Que tipo de verificación?</label>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox"  ng-model="editUnit.verificaAguaTipo.ph"> Ph
+																			</label>
+																		</div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-model="editUnit.verificaAguaTipo.dureza"> Dureza
+																			</label>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control"
+																	placeholder="Producción"
+																	ng-model="editUnit.rendimiento"></input>
+																	(Quintales de Cereza/manzana)
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control date-field"
+																	placeholder="Floracion principal año anterior"
+																	ng-model="editUnit.floracionPrincipal"></input>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control date-field"
+																	placeholder="Inicio de la cosecha año anterior"
+																	ng-model="editUnit.inicioCosecha"></input>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control date-field"
+																	placeholder="Final de la cosecha año anterior"
+																	ng-model="editUnit.finalCosecha"></input>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control date-field"
+																	placeholder="Inicio epoca lluviosa año anterior"
+																	ng-model="editUnit.epocalluviosa"></input>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control date-field"
+																	placeholder="Fin epoca lluviosa año anterior"
+																	ng-model="editUnit.FinEpocalluviosa"></input>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control"
+																	placeholder="Recomendación Técnica"
+																	ng-model="editUnit.recomendaciontecnica"></input>
+
+																</div>
+															</div>
+
+
+
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<p>¿Aplica fungicidas para el control de roya?</p>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" name="enfermedades" ng-change="yesNoSelectionChange('editUnit')" ng-value="true" ng-model="editUnit.enfermedades" >
+																			Si
+																		</label>
+																	</div>
+																	<div class="radio">
+																		<label>
+																			<input type="radio" name="enfermedades" ng-change="yesNoSelectionChange('editUnit')" ng-value="false" ng-model="editUnit.enfermedades" checked>
+																			No
+																		</label>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.enfermedades">
+																<div class="form-group">
+																	<div class="col-xs-6">
+																		<label>
+																			<input type="checkbox" value="Contacto" ng-change="FungicidOptionsChange('editUnit','contacto')" ng-model="editUnit.fungicidas.contacto"> Contacto
+																		</label>
+																	</div>
+																	<div class="col-xs-6">
+																		<label>
+																			<input type="checkbox" value="Sistémico" ng-change="FungicidOptionsChange('editUnit','sistemico')" ng-model="editUnit.fungicidas.sistemico"> Sistémico
+																		</label>
+																	</div>
+																	<div class="col-xs-6">
+																		<label>
+																			<input type="checkbox" value="Biológico" ng-change="FungicidOptionsChange('editUnit','biologico')" ng-model="editUnit.fungicidas.biologico"> Biológico
+																		</label>
+																	</div>
+																</div>
+															</div>
+
+															<div class="col-xs-12" ng-show="editUnit.fungicidas.contacto" >
+																<div class="form-group">
+																	<div class="row">
+																		<label class="col-xs-12">Fungicidas de Contacto </label>
+																		<div class="clearfix" ></div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','contactoOptions.caldovicosa')" value=" Caldo Vicosa" ng-model="editUnit.fungicidas.contactoOptions.caldovicosa"> Caldo Vicosa
+																			</label>
+																			<div class="form-group" ng-if="editUnit.fungicidas.contactoOptions.caldovicosa" >
+																				<label>¿Cuando lo aplica?</label>
+																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.caldovicosa">
+																					<option>Enero</option>
+																					<option>Febrero</option>
+																					<option>Marzo</option>
+																					<option>Abril</option>
+																					<option>Mayo</option>
+																					<option>Junio</option>
+																					<option>Julio</option>
+																					<option>Agosto</option>
+																					<option>Septiembre</option>
+																					<option>Octubre</option>
+																					<option>Noviembre</option>
+																					<option>Diciembre</option>
+																				</select>
+																			</div>
+																		</div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','contactoOptions.caldobordeles')" value="Caldo Bordeles" ng-model="editUnit.fungicidas.contactoOptions.caldobordeles"> Caldo Bordeles
+																			</label>
+																			<div class="form-group" ng-if="editUnit.fungicidas.contactoOptions.caldobordeles" >
+																				<label>¿Cuando lo aplica?</label>
+																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.caldobordeles">
+																					<option>Enero</option>
+																					<option>Febrero</option>
+																					<option>Marzo</option>
+																					<option>Abril</option>
+																					<option>Mayo</option>
+																					<option>Junio</option>
+																					<option>Julio</option>
+																					<option>Agosto</option>
+																					<option>Septiembre</option>
+																					<option>Octubre</option>
+																					<option>Noviembre</option>
+																					<option>Diciembre</option>
+																				</select>
+																			</div>
+																		</div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','contactoOptions.otrocual')" value="Otro" ng-model="editUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál
+																			</label>
+
+																			<label>
+																				<input type="text" placeholder="¿Cuál?" ng-show="editUnit.fungicidas.contactoOptions.otrocual" ng-model="editUnit.fungicidas.contactoOptions.cual">
+																			</label>
+
+																			<div class="form-group" ng-if="editUnit.fungicidas.contactoOptions.otrocual">
+																				<label>¿Cuando lo aplica?</label>
+																				<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.contactoOptionsMonths.otrocual">
+																					<option>Enero</option>
+																					<option>Febrero</option>
+																					<option>Marzo</option>
+																					<option>Abril</option>
+																					<option>Mayo</option>
+																					<option>Junio</option>
+																					<option>Julio</option>
+																					<option>Agosto</option>
+																					<option>Septiembre</option>
+																					<option>Octubre</option>
+																					<option>Noviembre</option>
+																					<option>Diciembre</option>
+																				</select>
+																			</div>
+																		</div>
+																		<div class="clearfix" ></div>
+																	</div>
+																</div>
+															</div>
+
+															<div class="col-xs-12" ng-show="editUnit.fungicidas.sistemico">
+																<div class="form-group">
+																	<div class="row">
+																		<label class="col-xs-12">Fungicidas Sistémicos </label>
+																		<div class="clearfix" ></div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.opus')" value="Opus" ng-model="editUnit.fungicidas.sistemicoOptions.opus"> Opus
+																			</label>
+																			<div ng-if="editUnit.fungicidas.sistemicoOptions.opus">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.opus">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.opera')" value="Opera" ng-model="editUnit.fungicidas.sistemicoOptions.opera">Opera
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.opera">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.opera">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.esferamax')" value="Esfera Max" ng-model="editUnit.fungicidas.sistemicoOptions.esferamax">Esfera Max
+																			</label>
+																			<div ng-if="editUnit.fungicidas.sistemicoOptions.esferamax">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.esferamax">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.amistarxtra')" value="Amistar Xtra" ng-model="editUnit.fungicidas.sistemicoOptions.amistarxtra">Amistar Xtra
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.amistarxtra">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.amistarxtra">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.alto10')" value="Alto 10" ng-model="editUnit.fungicidas.sistemicoOptions.alto10">Alto 10
+																			</label>
+																			<div ng-if="editUnit.fungicidas.sistemicoOptions.alto10">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.alto10">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+
+
+
+																		<div class="col-xs-6" >
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.verdadero')" value="Verdadero" ng-model="editUnit.fungicidas.sistemicoOptions.verdadero">Verdadero
+																			</label>
+																			<div ng-if="editUnit.fungicidas.sistemicoOptions.verdadero">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.verdadero">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+
+
+
+
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.caporal')" value="Caporal" ng-model="editUnit.fungicidas.sistemicoOptions.caporal"> Caporal
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.caporal">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.caporal">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+
+
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.estrobirulina')" value="Estrobirulina" ng-model="editUnit.fungicidas.sistemicoOptions.estrobirulina"> Estrobirulina
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.estrobirulina">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.estrobirulina">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+
+																		<div class="col-xs-6" ng-class="editUnit.fungicidas.sistemicoOptions.otro ? 'col-xs-6' : 'col-xs-12'">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','sistemicoOptions.otro')" value="Otro" ng-model="editUnit.fungicidas.sistemicoOptions.otro">Otro
+																			</label>
+																			<label>
+																				<input type="text" placeholder="¿cual?" ng-show="editUnit.fungicidas.sistemicoOptions.otro" ng-model="editUnit.fungicidas.sistemicoOptions.cual">
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.sistemicoOptions.otro">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.sistemicoOptionsMonths.otro">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-xs-12" ng-show="editUnit.fungicidas.biologico">
+																<div class="form-group">
+																	<div class="row">
+																		<label class="col-xs-12">Fungicidas Biológicos </label>
+																		<div class="clearfix" ></div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','biologicalOptions.verticiliumlecanii')" value="Verticilium Lecanii" ng-model="editUnit.fungicidas.biologicalOptions.verticiliumlecanii"> Verticilium Lecanii
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.biologicalOptions.verticiliumlecanii">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+
+
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','biologicalOptions.bacilussutillis')" value="Bacilus Sutillis" ng-model="editUnit.fungicidas.biologicalOptions.bacilussutillis"> Bacilus Sutillis
+																			</label>
+																			<div  ng-if="editUnit.fungicidas.biologicalOptions.bacilussutillis">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.bacilussutillis">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-xs-6">
+																			<label>
+																				<input type="checkbox" ng-change="CheckboxBasedMonthChange('editUnit','biologicalOptions.otrocual')" value="Otro ¿Cuál" ng-model="editUnit.fungicidas.biologicalOptions.otrocual"> Otro
+																			</label>
+
+																			<label>
+																				<input type="text" placeholder="¿Cuál?" ng-show="editUnit.fungicidas.biologicalOptions.otrocual" ng-model="editUnit.fungicidas.biologicalOptions.cual">
+																			</label>
+
+																			<div  ng-if="editUnit.fungicidas.biologicalOptions.otrocual">
+																				<div class="form-group" >
+																					<label>¿Cuando lo aplica?</label>
+																					<select class="form-control" multiple="true" ng-model="editUnit.fungicidas.biologicalOptionsMonths.otrocual">
+																						<option>Enero</option>
+																						<option>Febrero</option>
+																						<option>Marzo</option>
+																						<option>Abril</option>
+																						<option>Mayo</option>
+																						<option>Junio</option>
+																						<option>Julio</option>
+																						<option>Agosto</option>
+																						<option>Septiembre</option>
+																						<option>Octubre</option>
+																						<option>Noviembre</option>
+																						<option>Diciembre</option>
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="clearfix" ></div>
+																	</div>
+																</div>
+															</div>
+
+
+															<div class="col-xs-12">
+																<div class="form-group">
+																	<input type="text"
+																	class="form-control"
+																	placeholder="¿Producción estimada por hectárea?"
+																	ng-model="editUnit.produccionhectarea"></input>
+																</div>
+															</div>
+															<!-- new questions ends -->
+
+														</div>
+
+													</form>
+
+
+
+												</div>
+												<div class="modal-footer">
+													<div ng-show="sucMsg" class="bg-success row text-center">
+														<span>{{ sucMsg }}</span>
+													</div>
+													<button type="button" class="btn btn-primary" style="width: auto; line-height: 1.42857143; float: left;margin-left: 5%;" form="updateunitForm" ng-disabled="updateunitForm.$invalid" ng-click="updateUnitForm($event,editUnit._id)">Salvar Cambios</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal" ng-click = "CloseUnit($event)">Cerrar</button>
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div data-ng-init="onLoad()" data-backdrop="static"
+									data-keyboard="false" class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"  ng-click="CloseUnit($event)"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title" id="myModalLabel">{{modalText}}</h4>
+											</div>
+											<div class="modal-body">
+
+												<manage-Unit></manage-Unit>
+												<!--//directive here-->
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<!-- Empieza Formulario Lotes -->
+								<div class="modal fade" data-backdrop="static"
+								data-keyboard="false" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="confirmarcierre($event);"><span aria-hidden="true">&times;</span></button>
+											<h4 class="modal-title" id="myModalLabel">Editar Lotes: {{ editUnit.nombre }}</h4>
+										</div>
+										<div class="modal-body">
+											<div align="right">
+												<button type="button" id="nuevoLote" class="btn btn-default" ng-click="prependItem()" style="margin-bottom:20px"><span class="glyphicon glyphicon-plus"></span>Agregar nuevo lote</button>
+											</div>
+
+											<form name="updateunitFormlote" ng-submit="updateUnitForm($event,editUnit._id)" id="updateunitFormlote" >
+
+
+
+												<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+
+
+													<div class="panel panel-default" ng-repeat="lote in editUnit.lote">
+
+														<div class="col-xs-12">
+															<div class="{{'collapse map'+$index}}" >
+																<div align="left" style="margin-bottom:10px;"><a ng-click="toggle=!toggle;mapInit($index);" style="color:#00abff"><- Regresar a formulario</a></div>
+																<i class="fa fa-spinner fa-spin"></i>
+																<div id="{{ 'map-canvas-lote' + $index }}"
+																style="height:400px;width:100%;" ></div>
+															</div>
+														</div>
+
+														<div class="clearfix"></div>
+
+														<div class="clearfix"></div>
+
+														<div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
+<div class="col-md-10 col-xs-8">
+    <h4 class="panel-title">
+        <a role="button" id="{{ 'opLote-' + $index }}" data-toggle="collapse" data-parent="#accordion" data-target="{{ '#collapse-' + $index }}" aria-expanded="false" aria-controls="{{ 'collapse-' + $index }}" class="tituloLote">
+        <span ng-bind="editUnit.lote[$index].nombre"></span>		                              </a>
+    </h4>
+</div>
+<div class="col-md-2 col-xs-4 areaBorrarLote">
+    <button id="{{ 'borrarLote-' + $index }}" type="button" class="btn btn-danger" ng-click="eliminarLote($index)"><i class="fa fa-trash" style="font-size:16px;"></i></button>
+</div>
+														</div>
+														<div id="{{ 'collapse-' + $index }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{{ 'collapse-' + $index }}">
+															<div  class="{{'panel-body cuerpoMapa'+$index}}">
+																<div class="row">
+																	<div class="col-xs-12">
+																		<div class="form-group">
+																			<input type="text"
+																			class="form-control"
+																			placeholder="Nombre del lote"
+																			ng-model="editUnit.lote[$index].nombre" required></input>
+																		</div>
+																	</div>
+
+																	<div class="col-xs-12">
+																		<div class="form-group">
+																			<input type="text"
+																			class="form-control {{ 'latLongLoteId' + $index }}"
+																			placeholder="Geo Referencia"
+																			ng-model="editUnit.lote[$index].georeferenciacion" id="{{ 'latlongid' + $index }}"></input>
+																			<span class="input-group-btn">
+																				<button style="margin-top: 0px;" class="btn btn-default" type="button" ng-click="toggle = !toggle; mapInit($index)">
+																					<i class="fa fa-map-marker" aria-hidden="true" ng-show="!toggle"></i>
+																					<i class="fa fa-times" aria-hidden="true" ng-show="toggle"></i>
+																				</button>
+																			</span>
+																			<span class="cargandoUbicacionLote" id="{{'messageLocationLote' + $index}}">(Cargando Ubicación...)</span>
+																		</div>
+																	</div>
+																	<div class="col-xs-12">
+																		<div class="form-group">
+																			<input type="text"
+																			class="form-control"
+																			id="{{ 'altitudLoteId' + $index }}"
+																			placeholder="Altitud"
+																			ng-model="editUnit.lote[$index].altitud"
+																			required></input>
+																			<span class="cargandoAltitudLote" id="{{'messageAltitudLote' + $index}}">(Cargando Altitud...)</span>
+																		</div>
+
+																	</div>
+																	<div class="col-xs-12">
+																		<div class="form-group">
+																			<input type="text"
+																			class="form-control"
+																			placeholder="Tamaño del lote (manzanas)"
+																			ng-model="editUnit.lote[$index].tamano"
+																			required></input>
+																		</div>
+																	</div>
+																	<div class="col-xs-12">
+																		<div class="form-group">
+																			<input type="text"
+																			class="form-control"
+																			placeholder="Edad del lote"
+																			ng-model="editUnit.lote[$index].edad"
+																			required></input>
+																		</div>
+																	</div>
+																	<div class="col-xs-12">
+																		<div class="form-group">
+																			<select class="form-control"
+																			id="selCoffeProducessOptions"
+																			multiple="true"
+																			ng-model="editUnit.lote[$index].variedad"
+																			data-error="Campo requerido"
+																			required>
+																			<option ng-repeat="option in variedades" value="{{option.name}}" ng-selected="(lote.variedad.indexOf(option.name)>=0)">{{option.name}}</option>
+																		</select>
+																	</div>
+																</div>
+
+																<div class="col-xs-12">
+																	<div class="form-group">
+																		<input type="text"
+																		class="form-control"
+																		placeholder="Distanciamiento Ej: 2x1"
+																		ng-model="editUnit.lote[$index].distanciamiento"
+																		required></input>
+																	</div>
+																</div>
+
+																<div class="col-xs-12">
+																	<div class="form-group">
+																		<p>¿Tiene sombra?</p>
+																		<div class="radio">
+																			<label>
+																				<input type="radio" id="optionsRadios1A" ng-value="true" ng-model="editUnit.lote[$index].sombra">
+																				Si
+																			</label>
+																		</div>
+																		<div class="radio">
+																			<label>
+																				<input type="radio" id="optionsRadios2A" ng-value="false" ng-model="editUnit.lote[$index].sombra">
+																				No
+																			</label>
+																		</div>
+																	</div>
+																</div>
+																<div class="col-xs-12">
+																	<div class="form-group">
+																		<p>¿Tiene cobertura de suelo?</p>
+																		<div class="radio">
+																			<label>
+																				<input type="radio" id="optionsRadios1" ng-value="true" ng-model="editUnit.lote[$index].cobertura">
+																				Si
+																			</label>
+																		</div>
+																		<div class="radio">
+																			<label>
+																				<input type="radio" id="optionsRadios2" ng-value="false" ng-model="editUnit.lote[$index].cobertura">
+																				No
+																			</label>
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</form>
+
+
+									</div>
+									<div class="modal-footer">
+										<div class="col-md-6 col-sm-6 col-xs-6">
+											<button type="button" class="btn btn-default" data-dismiss="modal" style="width:100%;padding: 8px 18px;line-height: 30px;" ng-click="confirmarcierre($event);">Cerrar</button>
+										</div>
+										<div class="col-md-6 col-sm-6 col-xs-6">
+											<button type="button" class="btn btn-primary" form="updateunitFormlote" ng-click="updateUnitForm($event,$index,editUnit.lote)">Salvar Cambios</button>
+										</div>
+										<div ng-show="sucMsg" class="bg-success row">
+											<span>{{ sucMsg }}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						  </div>
+						</div>
+
+					</div>
+			   	</div>
+		   </div>
+		</div>
+
+
+
+
+	</script>

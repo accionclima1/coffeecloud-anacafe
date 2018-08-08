@@ -1,0 +1,48 @@
+﻿<script type="text/ng-template" id="/register.html">
+	  <div class="login-wrap">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+				  <img src="images/pages-logo-dark.png" alt="" class="register-img"/>
+				  <h5>Registro</h5>
+				  <div ng-show="error" class="alert alert-danger row">
+				    <span>{{ error.message }}</span>
+				  </div>
+
+				  <form ng-submit="register()">
+
+				    <div class="form-group">
+				      <input type="text"
+				      class="form-control"
+				      placeholder="Nombre de usuario"
+				      ng-model="user.username" required></input>
+				    </div>
+				    <div class="form-group">
+				      <input type="text"
+				      class="form-control"
+				      placeholder="Numero Telefonico"
+				      ng-model="user.phone" required></input>
+				    </div>
+				    <div class="form-group">
+				      <input type="email"
+				      class="form-control"
+				      placeholder="Correo Electrónico"
+				      ng-model="user.email" required></input>
+				    </div>
+				   <div class="form-group">
+							    <div class="form-group">
+							      <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Contraseña" required>
+							    </div>
+							    <div class="form-group">
+							      <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirmar Contraseña" ng-model="user.password" required>
+							      <div class="help-block with-errors"></div>
+							    </div>
+							</div>
+				    				    <button type="submit" class="btn btn-primary">Registrarse</button>
+				  </form>
+				  </div>
+			</div>
+		</div>
+	</div>
+	</script>
+    
