@@ -1234,6 +1234,7 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             unit.manejoTejido = req.body.manejoTejido;
             unit.manejoTejidoMes = req.body.manejoTejidoMes;
             unit.fungicidasRoya = req.body.fungicidasRoya;
+            unit.newFungicidas = req.body.newFungicidas;
             unit.fungicidas = req.body.fungicidas;
             unit.fungicidasFechas = req.body.fungicidasFechas;
             unit.verificaAguaTipo = req.body.verificaAguaTipo;
@@ -1689,6 +1690,7 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.manejoTejido = item.manejoTejido;
                 unit.manejoTejidoMes = item.manejoTejidoMes;
                 unit.fungicidasRoya = item.fungicidasRoya;
+                unit.newFungicidas = item.newFungicidas;
                 unit.fungicidas = item.fungicidas;
                 unit.fungicidasFechas = item.fungicidasFechas;
                 unit.verificaAguaTipo = item.verificaAguaTipo;
