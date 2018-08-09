@@ -1812,12 +1812,50 @@ router.delete('/varieties', auth, function (req, res) {
 
 // Fungicidas
 
+router.post('/fungicidas', auth, function (req, res, next) {
+
+
+    var fungicidas = new Fungicida(req.body);
+
+    //post.author = req.payload.username;
+    fungicidas = req.body;
+
+    // console.log(req.user);
+    fungicidas.save(function (err) {
+        console.log("aqui se entra...........................");
+        if (err) { return res.status(500).json({ message: err }); }
+        res.json(fungicidas);
+
+    });
+});
+
+router.post('/fungicidas/update', auth, function (req, res, next) {
+    console.log(req.body);
+    Fungicida.findById(req.body._id, function (err, fungi) {
+        console.log(varie);
+        fungi = req.body;
+        fungi.save(function (err, updatedvarie) {
+            if (err) return res.send({Success:false});
+            res.send({ Success: true });
+        });
+    });
+});
+
 router.get('/fungicidas', function (req, res, next) {
     Fungicida.find(function (err, fungicidas) {
         if (err) { return next(err); }
 
         res.json(fungicidas);
     });
+});
+
+
+router.delete('/fungicidas', auth, function (req, res) {
+    Fungicida.findByIdAndRemove(req.headers.variid, function (err, fungi) {
+        if (err) { console.log(err); /*throw err;*/ }
+        res.json({ messageUnit: "Fungicida eliminado!" });
+    });
+
 });
 
 
