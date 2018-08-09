@@ -27,7 +27,7 @@ var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
 var auth = jwt({ secret: 'SECRET', userProperty: 'payload' });
 
-const {google} = require('googleapis');
+const google = require('googleapis');
 
 function createNotification(token,post){
     console.log("creara push");
@@ -142,10 +142,10 @@ router.post('/posts', auth, function (req, res, next) {
     post.save(function (err, post) {
         if (err) { return next(err); }
         //enviando PUSH
-        getAccessToken().then(function(data){
+        /*getAccessToken().then(function(data){
             console.log("obtuvo token");
             createNotification(data,post);
-        });
+        });*/
         //termino PUSH
         console.log(post);
         res.json(post);
