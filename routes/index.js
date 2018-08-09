@@ -27,7 +27,7 @@ var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
 var auth = jwt({ secret: 'SECRET', userProperty: 'payload' });
 
-const {google} = require('googleapis');
+const google = require('googleapis');
 
 function createNotification(token,post){
     console.log("creara push");
