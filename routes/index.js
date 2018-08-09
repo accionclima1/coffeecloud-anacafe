@@ -142,10 +142,10 @@ router.post('/posts', auth, function (req, res, next) {
     post.save(function (err, post) {
         if (err) { return next(err); }
         //enviando PUSH
-        getAccessToken().then(function(data){
+        /*getAccessToken().then(function(data){
             console.log("obtuvo token");
             createNotification(data,post);
-        });
+        });*/
         //termino PUSH
         console.log(post);
         res.json(post);
