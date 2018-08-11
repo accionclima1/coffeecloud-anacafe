@@ -17,6 +17,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     $scope.categoriaSeleccionada = "";
     $scope.fungicidasSeleccionados = {};
     $scope.funVar = {};
+    $scope.llaveFungi = [];
+    $scope.inputOtros = {};
+    $scope.listadoFungicidas = [];
 
     $scope.oficinaregionallst = [{ id: -1, name: "Select Oficina Regional" },
            { id: 1, name: "Los Santos" },
@@ -139,37 +142,31 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
          }
 
          fungicidas.getAll().then(function (fungi) {
-             fungicidas = fungi.data;
-             $scope.fungicidas = fungicidas;
-             console.log($scope.fungicidas);
+             fungicides = fungi.data;
+             $scope.fungicides = fungicides;
+             console.log($scope.fungicides);
              //Guardamos con localStorage
-             localStorageService.set('localFungicidas',fungicidas);
+             localStorageService.set('localFungicidas',fungicides);
 
              //Guardamos a nivel local
-             // PouchDB.SaveVarietiesToPouchDB(variedades);fungicidas
+             PouchDB.SaveFungicidesToPouchDB(fungicides);
              console.log("Data --->");
-             console.log($scope.fungicidas);
+             console.log($scope.fungicides);
 
-             for (var i = 0; i < $scope.fungicidas.length; i++) {
-               if ($scope.fungicidas[i].categoria == "Contacto") {
-                 $scope.fungicidasContacto = $scope.fungicidas[i].fungicidas;
-                 console.log($scope.fungicidasContacto);
-               }
-               else if ($scope.fungicidas[i].categoria == "Sistemico") {
-                 $scope.fungicidasSistemico = $scope.fungicidas[i].fungicidas;
-                 console.log($scope.fungicidasSistemico);
-               }
-               else if ($scope.fungicidas[i].categoria == "Biologico") {
-                 $scope.fungicidasBiologico = $scope.fungicidas[i].fungicidas;
-                 console.log($scope.fungicidasBiologico);
-               }
-             }
-
-             for (var i = 0; i < $scope.fungicidasContacto.length; i++) {
-               $scope.fungicidasContacto[i].ngModelOpcion = 'newUnit.newFungicidas.contactoOptions.' + $scope.fungicidasContacto[i].nombre.toLowerCase().replace(" ", "");
-               $scope.fungicidasContacto[i].ngModelMeses = 'newUnit.newFungicidas.' + $scope.fungicidasContacto[i].nombre.toLowerCase().replace(" ", "");
-               console.log($scope.fungicidasContacto[i]);
-             }
+             // for (var i = 0; i < $scope.fungicides.length; i++) {
+             //   if ($scope.fungicides[i].categoria == "Contacto") {
+             //     $scope.fungicidesContacto = $scope.fungicides[i].fungicides;
+             //     console.log($scope.fungicidesContacto);
+             //   }
+             //   else if ($scope.fungicides[i].categoria == "Sistemico") {
+             //     $scope.fungicidesSistemico = $scope.fungicides[i].fungicides;
+             //     console.log($scope.fungicidesSistemico);
+             //   }
+             //   else if ($scope.fungicides[i].categoria == "Biologico") {
+             //     $scope.fungicidesBiologico = $scope.fungicides[i].fungicides;
+             //     console.log($scope.fungicidesBiologico);
+             //   }
+             // }
          });
 
     }
@@ -201,8 +198,40 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                     $scope.variedades = variedadesArray;
                     // $scope.variedadLocalesPouchDB = variedadesArray;
                     //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
-                    console.log("Data-- ");
+                    console.log("Data-- Variedades Offline ");
                     console.log($scope.variedades);
+
+                }
+            }
+        }).catch(function(err) {
+            console.log("error al obtener datos");
+            console.log(err);
+           // $("#txtPrueba").val("error en data");
+        });
+
+        PouchDB.GetFungicidesFromPouchDB().then(function (result) {
+            console.log("Respuesta: ");
+            console.log(result);
+            console.log("entramos a PouchDB");
+            if (result.status == 'fail') {
+
+                $scope.error = result.message;
+                //$("#txtPrueba").val("error get Var");
+
+            }
+            else if (result.status == 'success') {
+                var doc = result.data.rows[0].doc;
+                if (result.data.rows.length > 0) {
+                    var fungicidasArray = [];
+                    for (var i = 0; i < doc.list.length; i++) {
+                        fungicidasArray.push(doc.list[i]);
+                    }
+                    //variedadesArray.push({ name: "otro" }, { name: "cual?" });
+                    $scope.fungicides = fungicidasArray;
+                    // $scope.variedadLocalesPouchDB = variedadesArray;
+                    //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
+                    console.log("Data-- Fungicidas Offline ");
+                    console.log($scope.fungicides);
 
                 }
             }
@@ -440,6 +469,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
       }
       else {
         $scope.fungicidasSeleccionados[nombre]=null;
+        delete $scope.fungicidasSeleccionados[nombre];
       }
       // var val = $event.currentTarget;
 
@@ -480,17 +510,17 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     }
     $scope.FungicidOptionsChange = function (type, optionType) {
         switch (optionType) {
-            case "contacto":
+            case "Contacto":
                 if ($scope.newUnit.fungicidas.contacto == false) {
                     $scope.resetFungicidasSelection(type, true, false, false);
                 }
                 break;
-            case "sistemico":
+            case "Sistemico":
                 if ($scope.newUnit.fungicidas.sistemico == false) {
                     $scope.resetFungicidasSelection(type, false, false, true);
                 }
                 break;
-            case "biologico":
+            case "Biologico":
                 if ($scope.newUnit.fungicidas.biologico == false) {
                     $scope.resetFungicidasSelection(type, false, true, false);
                 }
@@ -767,6 +797,14 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                     $scope.newUnit.variedad.push($scope.variedades[vcounter].name);
             }
 
+            if ($scope.newUnit.newFungicidas) {
+              $scope.newUnit.newFungicidas = $scope.fungicidasSeleccionados;
+              console.log($scope.newUnit.newFungicidas);
+              $scope.fungicidasSeleccionados = {};
+              $scope.funVar = {};
+              $scope.llaveFungi = [];
+            }
+
             // document.getElementById("");
             if ($scope.isOtherUser)
             {
@@ -823,6 +861,16 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                 if ($scope.variedades[vcounter].isSelected)
                     $scope.newUnit.variedad.push($scope.variedades[vcounter].name);
             }
+
+            if ($scope.newUnit.newFungicidas) {
+              $scope.newUnit.newFungicidas = $scope.fungicidasSeleccionados;
+              console.log($scope.newUnit.newFungicidas);
+              console.log($scope.funVar);
+              $scope.fungicidasSeleccionados = {};
+              $scope.funVar = {};
+              $scope.llaveFungi = [];
+            }
+
 
             // document.getElementById("");
             if ($scope.isOtherUser) {
@@ -959,50 +1007,90 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
     }
 
+    $scope.addNewFun = function (newFun, arrFung) {
+        console.log(newFun);
+        var currentFungicidas = {};
+        if ($rootScope.IsInternetOnline) {
+
+            fungicidas.update(newFun).then(function (newFungi) {
+                currentFungicidas = newFungi.data;
+                // $scope.fungicides = currentFungicidas;
+                $scope.SweetAlert('¡Excelente!', 'Fungicida añadido.', 'success');
+                console.log($scope.fungicides);
+
+                //Busco la variedad Local que acabo de crear
+                // for (var i = 0; i < $scope.variedades.length; i++) {
+                //   if ($scope.variedades[i].name == newVariety.name) {
+                //     console.log("Nueva Variedad: ", $scope.variedades[i]);
+                //     // La reemplazo por la del servidor
+                //     $scope.variedades[i] = $scope.varieties[0];
+                //     console.log($scope.variedades);
+                //     break;
+                //   }
+                // }
+            });
+        }
+      }
+
     // + Añadir fungicidas
     $scope.addFungicida = function(tipoFungicida){
-      console.log(tipoFungicida);
-      if (tipoFungicida == "contacto") {
-        $("#fcAdd").hide();
-        $("#fungicidaContactoNuevo").show();
-      }
+      var claseHide = '#fcAdd-' + tipoFungicida;
+      var claseShow = '#funNuevo-' + tipoFungicida;
+      console.log(tipoFungicida, claseHide, claseShow);
+      $(claseHide).hide();
+      $(claseShow).show();
     }
 
     // > Añadir Fungicidas
-    $scope.addNewFungicida = function(){
-      var existeVariedad = false
-      if ($("#nuevoFungicidaContacto").val() != "") {
-        // for (var i = 0; i < $scope.variedades.length; i++) {
-        //   if ($("#nuevaVariedad").val() == $scope.variedades[i].name){
-        //     $scope.SweetAlert('¡Error!', 'Ya existe la variedad.', 'error');
-        //     existeVariedad = true;
-        //   }
-        // }
+    $scope.addNewFungicida = function(tipoFungicida){
+      var claseHide = '#funNuevo-' + tipoFungicida;
+      var claseShow = '#fcAdd-' + tipoFungicida;
+      var claseInput = '#nuevoFungicida-' + tipoFungicida;
+      var newFungicida = $(claseInput).val();
 
-        // if (existeVariedad != true) {
-          var nombreFungicidaContacto = $("#nuevoFungicidaContacto").val();
-          $("#nuevoFungicidaContacto").val("");
 
-          console.log(nombreFungicidaContacto);
-          var ngIf = "newUnit.fungicidas.contactoOptions."+nombreFungicidaContacto;
-          var ngModel = "newUnit.fungicidas.contactoOptionsMonths."+nombreFungicidaContacto;
-          var valueNgRepeat = "{{Month.name}}";
-          var ngRepeat = "Month in MonthDropDownOptions";
-          var ngSelected = "{{"+ ngModel +" == Month.name}}"
-          console.log(ngModel);
-          console.log(ngIf);
-          $(".fungicidasContacto").append('<!-- Contacto '+ nombreFungicidaContacto +' -->'+
-            '<div class="col-xs-6">'+
-                '<label>'+
-                    '<input type="checkbox" ng-change="CheckboxBasedMonthChange("newUnit",contactoOptions.'+ nombreFungicidaContacto.toString() +')" value="'+ nombreFungicidaContacto.toString() +'" ng-model="'+ ngModel +'"> '+ nombreFungicidaContacto.toString() +''+
-                '</label>'+
-                '<div class="form-group" ng-if="'+ ngIf +'">'+
-                    '<label>¿Cuando lo aplica?</label>'+
-                    '<select class="form-control" multiple="true" ng-model="'+ ngModel +'">'+
-                      '<option ng-repeat="'+ ngRepeat +'" ng-selected="'+ ngSelected +'">'+ valueNgRepeat +'</option>'+
-                    '</select>'+
-                '</div>'+
-            '</div>');
+      if ($(claseInput).val() != "") {
+        console.log($scope.fungicides, newFungicida);
+
+        for (var i = 0; i < $scope.fungicides.length; i++) {
+          if ($scope.fungicides[i].categoria == tipoFungicida) {
+            $scope.listadoFungicidas = $scope.fungicides[i].fungicidas;
+            console.log($scope.fungicides[i].fungicidas);
+          }
+        }
+
+        if ($scope.listadoFungicidas != null) {
+          for (var i = 0; i < $scope.listadoFungicidas.length; i++) {
+            if (newFungicida == ($scope.listadoFungicidas[i].nombre || $scope.listadoFungicidas[i].nombre.toLowerCase())) {
+              $scope.SweetAlert('¡Error!', 'Fungicida ya existe.', 'error');
+              break;
+            }
+            else {
+
+              for (var i = 0; i < $scope.fungicides.length; i++) {
+                if ($scope.fungicides[i].categoria == tipoFungicida) {
+                  $scope.fungicides[i].fungicidas.push({valor: newFungicida, nombre: newFungicida});
+                  console.log($scope.fungicides[i].fungicidas);
+                  $scope.listadoFungicidas = [];
+                  newFungicida = "";
+                  $(claseInput).val("");
+                  $(claseHide).hide();
+                  $(claseShow).show();
+
+                  $scope.addNewFun($scope.fungicides[i], $scope.fungicides);
+
+                  break;
+                }
+              }
+
+
+              // console.log($scope.listadoFungicidas[i].nombre);
+              // console.log($scope.listadoFungicidas[i].nombre.toLowerCase());
+
+            }
+          }
+        }
+
 
           // $scope.variedades.push({ name:  nombreVariedad });
           // console.log("************************************************");
@@ -1016,9 +1104,6 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
           //   }
           // }
 
-          $("#fungicidaContactoNuevo").hide();
-          $("#fcAdd").show();
-
       }
       else{
         $scope.SweetAlert('¡Error!', 'Nombre de fungicida incorrecto.', 'error');
@@ -1026,10 +1111,16 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     }
 
     // x cancelar nuevo fungicida
-    $scope.cancelNewFungicida = function(){
-      $("#nuevoFungicidaContacto").val("");
-      $("#fungicidaContactoNuevo").hide();
-      $("#fcAdd").show();
+    $scope.cancelNewFungicida = function(tipoFungicida){
+
+      var claseHide = '#funNuevo-' + tipoFungicida;
+      var claseShow = '#fcAdd-' + tipoFungicida;
+      var claseInput = '#nuevoFungicida-' + tipoFungicida;
+
+      $(claseInput).val("");
+      $(claseHide).hide();
+      $(claseShow).show();
+
     }
 
 
@@ -1040,6 +1131,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
         if($scope.valor != "Aceptar"){
             console.log("Close Unit - Aceptar");
+            $scope.fungicidasSeleccionados = {};
+            $scope.funVar = {};
+            $scope.llaveFungi = [];
             $event.stopPropagation();
          }else if ($scope.valor == "Cancelar"){
              console.log("Close Unit - Cancelar");
@@ -1098,6 +1192,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             produccionhectarea: '',
             variedad: {},
             typeOfCoffeProducessOptionSelected: [],
+            newFungicidas: {},
             fungicidas: {
                 contacto: false,
                 bourbon: false,
@@ -1235,6 +1330,22 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                 console.log("Datos Actuales: ", $scope.newUnit); // KH - Datos de la Unidad
 
                 $scope.newUnit.oficinaregional = $scope.oficinaregionalmodel.name;
+
+                if ($scope.newUnit.newFungicidas) {
+                  $scope.fungicidasSeleccionados = $scope.newUnit.newFungicidas;
+                  $scope.llaveFungi = Object.keys($scope.fungicidasSeleccionados)
+                  console.log($scope.llaveFungi);
+                  // $scope.funVar = $scope.fungicidasSeleccionados;
+                  for (var i = 0; i < $scope.llaveFungi.length; i++) {
+                    console.log($scope.llaveFungi[i]);
+                    $scope.funVar[$scope.llaveFungi[i]] = true;
+                    console.log($scope.funVar[$scope.llaveFungi[i]]);
+                  }
+                }
+                else{
+                  $scope.fungicidasSeleccionados = {};
+                  $scope.funVar = {};
+                }
                 $('#myModal3').on('shown.bs.modal', function (e) {
                     $('.collapse').collapse('hide');
                 });

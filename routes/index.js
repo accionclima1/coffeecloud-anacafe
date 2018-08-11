@@ -27,7 +27,7 @@ var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
 var auth = jwt({ secret: 'SECRET', userProperty: 'payload' });
 
-const {google} = require('googleapis');
+const google = require('googleapis');
 
 function createNotification(token,post){
     console.log("creara push");
@@ -142,10 +142,10 @@ router.post('/posts', auth, function (req, res, next) {
     post.save(function (err, post) {
         if (err) { return next(err); }
         //enviando PUSH
-        getAccessToken().then(function(data){
+        /*getAccessToken().then(function(data){
             console.log("obtuvo token");
             createNotification(data,post);
-        });
+        });*/
         //termino PUSH
         console.log(post);
         res.json(post);
@@ -1234,6 +1234,7 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             unit.manejoTejido = req.body.manejoTejido;
             unit.manejoTejidoMes = req.body.manejoTejidoMes;
             unit.fungicidasRoya = req.body.fungicidasRoya;
+            unit.newFungicidas = req.body.newFungicidas;
             unit.fungicidas = req.body.fungicidas;
             unit.fungicidasFechas = req.body.fungicidasFechas;
             unit.verificaAguaTipo = req.body.verificaAguaTipo;
@@ -1689,6 +1690,7 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.manejoTejido = item.manejoTejido;
                 unit.manejoTejidoMes = item.manejoTejidoMes;
                 unit.fungicidasRoya = item.fungicidasRoya;
+                unit.newFungicidas = item.newFungicidas;
                 unit.fungicidas = item.fungicidas;
                 unit.fungicidasFechas = item.fungicidasFechas;
                 unit.verificaAguaTipo = item.verificaAguaTipo;
@@ -1810,12 +1812,51 @@ router.delete('/varieties', auth, function (req, res) {
 
 // Fungicidas
 
+router.post('/fungicidas', auth, function (req, res, next) {
+
+
+    var fungicidas = new Fungicida(req.body);
+
+    //post.author = req.payload.username;
+    // fungicidas = req.body;
+    console.log(fungicidas);
+
+    // console.log(req.user);
+    // fungicidas.save(function (err) {
+    //     console.log("aqui se entra...........................");
+    //     if (err) { return res.status(500).json({ message: err }); }
+    //     res.json(fungicidas);
+    //
+    // });
+});
+
+router.post('/fungicidas/update', auth, function (req, res, next) {
+    console.log(req.body);
+    Fungicida.findById(req.body._id, function (err, fungi) {
+        console.log(fungi.categoria);
+        fungi.fungicidas = req.body.fungicidas;
+        fungi.save(function (err, updatedvarie) {
+            if (err) return res.send({Success:false});
+            res.send({ Success: true });
+        });
+    });
+});
+
 router.get('/fungicidas', function (req, res, next) {
     Fungicida.find(function (err, fungicidas) {
         if (err) { return next(err); }
 
         res.json(fungicidas);
     });
+});
+
+
+router.delete('/fungicidas', auth, function (req, res) {
+    Fungicida.findByIdAndRemove(req.headers.variid, function (err, fungi) {
+        if (err) { console.log(err); /*throw err;*/ }
+        res.json({ messageUnit: "Fungicida eliminado!" });
+    });
+
 });
 
 

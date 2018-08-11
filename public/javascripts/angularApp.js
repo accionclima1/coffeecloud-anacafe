@@ -156,81 +156,115 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
     }
 
 
-    //for saving Fungicidas to pouchDB
-    // pouchDbFactory.SaveFungicidasToPouchDB = function (fungicidasData) {
-    //     var result = {
-    //         status: '',
-    //         data: {},
-    //         message: ''
-    //     };
-    //     var deferred = $q.defer();
-    //     if (fungicidasData != undefined && fungicidasData.length > 0) {
-    //         var fungicidas = {
-    //             list: [],
-    //             EntityType: 'Fungicidas',
-    //         };
-    //         for (var x = 0; x < fungicidasData.length; x++) {
-    //             fungicidas.list.push(fungicidasData[x])
-    //         }
-    //         function mapFunctionTypeUnit(doc) {
-    //             if ((doc.EntityType == "Fungicidas")) {
-    //                 emit(doc);
-    //             }
-    //         }
-    //         var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
-    //          $q.when(pouchPromise).then(function (result) {
-    //             if (result.rows.length > 0) {
-    //                 var tmp = result.rows[0].doc;
-    //                 doc = varieties;
-    //                 doc._id = tmp._id;
-    //                 doc._rev = tmp._rev;
-    //                 var UpdatePouchPromise = localPouchDB.put(doc);
-    //                 $q.when(UpdatePouchPromise).then(function (res) {
-    //                     if (res && res.ok == true) {
-    //                         console.log("fungicidas updated to local pouchDb");
-    //                         result.status = 'success';
-    //                         deferred.resolve(result);
-    //                     }
-    //                 },function(err){
-    //                     console.log(err);
-    //                     result.status = 'fail';
-    //                     result.message = err;
-    //                     deferred.resolve(result);
-    //                 }).catch(function (err) {
-    //                     console.log(err);
-    //                     result.status = 'fail';
-    //                     result.message = err;
-    //                     deferred.resolve(result);
-    //                 });
-    //             }
-    //             else {
-    //                 var dt = new Date();
-    //                 var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
-    //                 fungicidas._id = documentId;
-    //                 return localPouchDB.put(fungicidas).then(function () {
-    //                     console.log("fungicidas inserted in pouchDb");
-    //                     result.status = 'success';
-    //                     deferred.resolve(result);
-    //                 },function(err){
-    //                     result.status = 'fail';
-    //                     result.message = err;
-    //                     deferred.resolve(result);
-    //                 }).catch(function (err) {
-    //                     result.status = 'fail';
-    //                     result.message = err;
-    //                     deferred.resolve(result);
-    //                 });
-    //             }
-    //
-    //         });
-    //     }
-    //     else {
-    //         result.status = 'success';
-    //         result.message = 'No fungicidasData to sync';
-    //         deferred.resolve(result);
-    //     }
-    //     return deferred.promise;
-    // }
+    //Get Fungicidas from PouchDb
+
+    pouchDbFactory.GetFungicidesFromPouchDB = function () {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        function mapFunctionTypeUnit(doc) {
+            if ((doc.EntityType == "Fungicides")) {
+                emit(doc);
+            }
+        }
+        var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+        $q.when(pouchPromise).then(function (doc) {
+            result.status = 'success';
+            result.data = doc;
+            deferred.resolve(result);
+        },function(err){
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        }).catch(function (err) {
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        });
+        return deferred.promise;
+    }
+
+
+    //Save Fungicidas to pouchDB
+    pouchDbFactory.SaveFungicidesToPouchDB = function (fungicidesData) {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        if (fungicidesData != undefined && fungicidesData.length > 0) {
+            var fungicides = {
+                list: [],
+                EntityType: 'Fungicides',
+            };
+            for (var x = 0; x < fungicidesData.length; x++) {
+                fungicides.list.push(fungicidesData[x])
+            }
+            function mapFunctionTypeUnit(doc) {
+                if ((doc.EntityType == "Fungicides")) {
+                    emit(doc);
+                }
+            }
+            var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+             $q.when(pouchPromise).then(function (result) {
+                if (result.rows.length > 0) {
+                    var tmp = result.rows[0].doc;
+                    doc = fungicides;
+                    doc._id = tmp._id;
+                    doc._rev = tmp._rev;
+                    var UpdatePouchPromise = localPouchDB.put(doc);
+                    $q.when(UpdatePouchPromise).then(function (res) {
+                        if (res && res.ok == true) {
+                            console.log("Fungicides updated to local pouchDb");
+                            result.status = 'success';
+                            deferred.resolve(result);
+                        }
+                    },function(err){
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+                else {
+                    var dt = new Date();
+                    var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+                    fungicides._id = documentId;
+                    return localPouchDB.put(fungicides).then(function () {
+                        console.log("fungicides inserted in pouchDb");
+                        result.status = 'success';
+                        deferred.resolve(result);
+                    },function(err){
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+
+            });
+        }
+        else {
+            result.status = 'success';
+            result.message = 'No fungicidesData to sync';
+            deferred.resolve(result);
+        }
+        return deferred.promise;
+    }
 
 
     pouchDbFactory.SynServerLoginReturnedDataToLocalDb = function (userData) {
@@ -1714,7 +1748,16 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
     };
     o.create = function (fungicidas) {
         //localhost unit
-        return $http.post('http://coffeecloud.centroclima.org/fungicidas', fungicidas, {
+        return $http.post('http://www.localhost:8090/fungicidas', fungicidas, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+
+    o.update = function (fungicidas) {
+        //localhost unit
+        return $http.post('http://www.localhost:8090/fungicidas/update', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;

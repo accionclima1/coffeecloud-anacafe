@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var fungicidaSchema = new mongoose.Schema({
-	name: String
+	categoria: String,
+	fungicidas: { type: Array, "default": [] }
 });
 
 mongoose.model('Fungicida', fungicidaSchema);
