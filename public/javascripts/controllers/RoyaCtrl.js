@@ -311,6 +311,7 @@ app.controller('RoyaCtrl', [
     }
 
     $scope.startTest = function(userid,idunidad,loteindex) {
+			$('.back-button').hide();
     	$scope.test.unidad = {"user":auth.userId()};
         $scope.test.idunidad = idunidad;
         $scope.test.loteIndex=loteindex;

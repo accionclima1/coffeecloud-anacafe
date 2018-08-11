@@ -384,9 +384,10 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   }
 
   $scope.startTest = function(userid,idunidad,loteindex) {
+    $('.back-button').hide();
 		$scope.test.unidad = {"user":auth.userId()};
-			$scope.test.idunidad = idunidad;
-			$scope.test.loteIndex=loteindex;
+		$scope.test.idunidad = idunidad;
+		$scope.test.loteIndex=loteindex;
 		$('.gallo-wrap').addClass('initiated');
    }
 
