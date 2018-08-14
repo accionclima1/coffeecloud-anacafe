@@ -4,7 +4,7 @@ require('./models/Posts');
 require('./models/Comments');
 require('./models/Users');
 var Unit = require('./models/Units');
-require('./models/Fungicidas');
+require('./models/Fungicida');
 
 require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@163.172.154.223/dummyDB', {
   server: {
