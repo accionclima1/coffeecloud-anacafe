@@ -37,7 +37,6 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
       fungicidas.getAll().then(function (fungi) {
           fungicidas = fungi.data;
           $scope.fungicidas = fungicidas;
-          console.log($scope.fungicidas);
           //Guardamos con localStorage
           localStorageService.set('localFungicidas',fungicidas);
 
@@ -48,18 +47,18 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
       });
 
 
-        // varieties.getAll().then(function (varids) {
-        //     variedades = varids.data;
-        //     $scope.variedades = variedades;
-        //     console.log($scope.variedades);
-        //     //Guardamos con localStorage
-        //     localStorageService.set('localVarieties',variedades);
-        //
-        //     //Guardamos a nivel local
-        //     PouchDB.SaveVarietiesToPouchDB(variedades);
-        //     console.log("Data --->");
-        //     console.log($scope.variedades);
-        // });
+        varieties.getAll().then(function (varids) {
+            variedades = varids.data;
+            $scope.variedades = variedades;
+            console.log($scope.variedades);
+            //Guardamos con localStorage
+            localStorageService.set('localVarieties',variedades);
+
+            //Guardamos a nivel local
+            // PouchDB.SaveVarietiesToPouchDB(variedades);
+            console.log("Data --->");
+            console.log($scope.variedades);
+        });
 
         console.log("app online...");
 
@@ -84,7 +83,6 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             if (result.status == 'fail') {
 
                 $scope.error = result.message;
-                //$("#txtPrueba").val("error get Var");
 
             }
             else if (result.status == 'success') {
@@ -94,10 +92,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
                     for (var i = 0; i < doc.list.length; i++) {
                         variedadesArray.push(doc.list[i]);
                     }
-                    //variedadesArray.push({ name: "otro" }, { name: "cual?" });
                     $scope.variedades = variedadesArray;
-                    // $scope.variedadLocalesPouchDB = variedadesArray;
-                    //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
                     console.log("Data-- ");
                     console.log($scope.variedades);
 
@@ -106,7 +101,6 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
         }).catch(function(err) {
             console.log("error al obtener datos");
             console.log(err);
-           // $("#txtPrueba").val("error en data");
         });
     }
 
