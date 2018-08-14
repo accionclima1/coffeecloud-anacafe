@@ -1748,7 +1748,7 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
     };
     o.create = function (fungicidas) {
         //localhost unit
-        return $http.post('http://www.localhost:8090/fungicidas', fungicidas, {
+        return $http.post('http://coffeecloud.centroclima.org/fungicidas', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -1757,7 +1757,7 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
 
     o.update = function (fungicidas) {
         //localhost unit
-        return $http.post('http://www.localhost:8090/fungicidas/update', fungicidas, {
+        return $http.post('http://coffeecloud.centroclima.org/fungicidas/update', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
