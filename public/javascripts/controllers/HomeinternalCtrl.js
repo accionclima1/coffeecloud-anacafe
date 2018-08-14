@@ -334,8 +334,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            var altitud = "";
            var ubicacionLote = ".latLongLoteId" + $scope.unidadseleccionada.lote.length.toString();
            var altitudLote = "#altitudLoteId" + $scope.unidadseleccionada.lote.length.toString();
-           var sombraNo = ".sombraNoId" + $scope.unidadseleccionada.lote.length.toString();
-           var coberturaNo = ".coberturaNoId" + $scope.unidadseleccionada.lote.length.toString();
            $scope.mensajeUbicacionLote = "#messageLocationLote" + $scope.unidadseleccionada.lote.length.toString();
            $scope.mensajeAltitudLote = "#messageAltitudLote" + $scope.unidadseleccionada.lote.length.toString();
            var idetime=(new Date).getTime();

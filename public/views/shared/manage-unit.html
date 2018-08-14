@@ -480,318 +480,78 @@
         <div class="form-group">
             <div class="row">
                 <label class="col-xs-12">¿Que tipo de fungicidas aplica?</label>
-                <div class="col-xs-6">
+                <!-- <div class="col-xs-6" ng-repeat="categoria in fungicides">
                     <label>
-                        <input type="checkbox" value="Contacto" ng-change="FungicidOptionsChange('newUnit','contacto')" ng-model="newUnit.fungicidas.contacto"> Contacto
+                        <input type="checkbox" value="{{categoria.categoria}}" ng-model="categoriaSeleccionada"> {{categoria.categoria}}
                     </label>
-                </div>
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" value="Sistémico" ng-change="FungicidOptionsChange('newUnit','sistemico')" ng-model="newUnit.fungicidas.sistemico"> Sistémico
-                    </label>
-                </div>
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" value="Biológico" ng-change="FungicidOptionsChange('newUnit','biologico')" ng-model="newUnit.fungicidas.biologico"> Biológico
-                    </label>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 
-    <div class="col-xs-12" ng-show="newUnit.fungicidas.contacto">
+    <div class="col-xs-12" ng-repeat="categoria in fungicides" ng-show="newUnit.enfermedades">
         <div class="form-group">
             <div class="row fungicidasContacto">
-                <label class="col-xs-12">Fungicidas de Contacto </label>
+                <label class="col-xs-12">Fungicidas de {{categoria.categoria}} </label>
                 <div class="clearfix"></div>
 
-                <!-- Contacto caldovicosa -->
-                <div class="col-xs-6">
+                <!-- Fungicidas -->
+                <div class="col-xs-6" style="text-align:left;" ng-repeat="f in categoria.fungicidas">
                     <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.caldovicosa')" value=" Caldo Vicosa" ng-model="newUnit.fungicidas.contactoOptions.caldovicosa"> Caldo Vicosa
+                        <input type="checkbox" value="{{f.valor}}" ng-change="agregarFSeleccion(f.valor)" ng-Model="funVar[f.valor]"> {{f.nombre}}
                     </label>
-                    <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.caldovicosa">
+                    <div class="form-group" ng-show="fungicidasSeleccionados[f.valor]">
                         <label>¿Cuando lo aplica?</label>
-                        <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.caldovicosa">
-                          <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.caldovicosa == Month.name}}">{{Month.name}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Contacto caldobordeles -->
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.caldobordeles')" value="Caldo Bordeles" ng-model="newUnit.fungicidas.contactoOptions.caldobordeles"> Caldo Bordeles
-                    </label>
-                    <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.caldobordeles">
-                        <label>¿Cuando lo aplica?</label>
-                        <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.caldobordeles">
-                          <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.caldobordeles == Month.name}}">{{Month.name}}</option>
+                        <select class="form-control" multiple="true" ng-Model="fungicidasSeleccionados[f.valor]">
+                          <option ng-repeat="Month in MonthDropDownOptions" value="{{Month.name}}">{{Month.displayValue}}</option>
                         </select>
                     </div>
                 </div>
 
                 <!-- <div class="clearfix"></div> -->
-            </div>
 
-            <div class="row">
-              <div class="col-xs-6">
-
-                  <!-- <label id="fcAdd" class="addBtn pull-left" ng-click="addFungicida('contacto')">
-                      <span class="glyphicon glyphicon-plus"></span> Añadir Fungicida
-                  </label>
-                  <div id="fungicidaContactoNuevo" class="col-xs-10" style="padding-left: 0px; margin-bottom: 10px; display: none">
-                   <div class="input-group">
-                     <input class="form-control" type="text" name="nuevoFungicidaContacto" id="nuevoFungicidaContacto" placeholder="ingrese nombre">
-                      <span class="input-group-addon">
-                          <span ng-click="addNewFungicida()" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                      </span>
-                      <span class="input-group-addon">
-                          <span ng-click="cancelNewFungicida()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                      </span>
-                  </div>
-                  </div> -->
-
+                <!-- Contacto Otro -->
+                <!-- <div class="col-xs-6">
                   <label>
-                      <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál
+                      <input type="checkbox" value="" ng-model="newUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál
                   </label>
                   <label>
-                      <input type="text" ng-show="newUnit.fungicidas.contactoOptions.otrocual" placeholder="¿Cuál?" ng-model="newUnit.fungicidas.contactoOptions.cual">
+                      <input type="text" ng-show="newUnit.fungicidas.contactoOptions.otrocual" placeholder="¿Cuál?" ng-model="inputOtros[categoria.categoria]">
                   </label>
-                  <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.otrocual">
+                  <div class="form-group" ng-show="fungicidasSeleccionados[inputOtros[categoria.categoria]]">
                       <label>¿Cuando lo aplica?</label>
-                      <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.contactoOptionsMonths.otrocual">
-                        <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.contactoOptionsMonths.otrocual == Month.name}}">{{Month.name}}</option>
+                      <select class="form-control" multiple="true" ng-model="fungicidasSeleccionados[inputOtros[categoria.categoria]]">
+                        <option ng-repeat="Month in MonthDropDownOptions">{{Month.name}}</option>
                       </select>
                   </div>
-              </div>
-            </div>
+                </div> -->
 
-        </div>
-    </div>
+                <div class="col-xs-12">
 
-    <div class="col-xs-12" ng-show="newUnit.fungicidas.sistemico">
-        <div class="form-group">
-            <div class="row">
-                <label class="col-xs-12">Fungicidas Sistémicos</label>
-                <div class="clearfix"></div>
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.opus')" value="Opus" ng-model="newUnit.fungicidas.sistemicoOptions.opus"> Opus
+                    <label id="{{ 'fcAdd-' + categoria.categoria }}" class="addBtn pull-left" ng-click="addFungicida(categoria.categoria)">
+                        <span class="glyphicon glyphicon-plus"></span> Añadir Fungicida
                     </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.opus">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.opus">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.opus == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
+                    <div id="{{ 'funNuevo-' + categoria.categoria }}" class="col-xs-10" style="padding-left: 0px; margin-bottom: 10px; display: none">
+                     <div class="input-group">
+                       <input class="form-control" type="text" name="{{ 'nuevoFungicida-' + categoria.categoria }}" id="{{ 'nuevoFungicida-' + categoria.categoria }}" placeholder="ingrese nombre">
+                        <span class="input-group-addon">
+                            <span ng-click="addNewFungicida(categoria.categoria)" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </span>
+                        <span class="input-group-addon">
+                            <span ng-click="cancelNewFungicida(categoria.categoria)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </span>
                     </div>
-                </div>
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.opera')" value="Opera" ng-model="newUnit.fungicidas.sistemicoOptions.opera">Opera
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.opera">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.opera">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.opera == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.esferamax')" value="Esfera Max" ng-model="newUnit.fungicidas.sistemicoOptions.esferamax">Esfera Max
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.esferamax">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.esferamax">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.esferamax == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.amistarxtra')" value="Amistar Xtra" ng-model="newUnit.fungicidas.sistemicoOptions.amistarxtra">Amistar Xtra
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.amistarxtra">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.amistarxtra">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.amistarxtra == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.alto10')" value="Alto 10" ng-model="newUnit.fungicidas.sistemicoOptions.alto10">Alto 10
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.alto10">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.alto10">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.alto10 == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 
 
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.silvacur')" value="Silvacur" ng-model="newUnit.fungicidas.sistemicoOptions.silvacur">Silvacur
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.silvacur">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.silvacur">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.silvacur == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.verdadero')" value="Verdadero" ng-model="newUnit.fungicidas.sistemicoOptions.verdadero">Verdadero
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.verdadero">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.verdadero">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.verdadero == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.caporal')" value="Caporal" ng-model="newUnit.fungicidas.sistemicoOptions.caporal"> Caporal
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.caporal">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.caporal">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.caporal == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.estrobirulina')" value="Estrobirulina" ng-model="newUnit.fungicidas.sistemicoOptions.estrobirulina"> Estrobirulina
-                    </label>
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.estrobirulina">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.estrobirulina">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.estrobirulina == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xs-6" ng-class="newUnit.fungicidas.sistemicoOptions.otro ? 'col-xs-6' : 'col-xs-12'">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.otro')" value="Otro" ng-model="newUnit.fungicidas.sistemicoOptions.otro">Otro
-                    </label>
-
-                    <label>
-                        <input type="text" placeholder="¿Otro?" ng-show="newUnit.fungicidas.sistemicoOptions.otro" ng-model="newUnit.fungicidas.sistemicoOptions.cual">
-                    </label>
-
-                    <div ng-if="newUnit.fungicidas.sistemicoOptions.otro">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.sistemicoOptionsMonths.otro">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.sistemicoOptionsMonths.otro == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xs-12" ng-show="newUnit.fungicidas.biologico">
-        <div class="form-group">
-            <div class="row">
-                <label class="col-xs-12">Fungicidas Biológicos </label>
-                <div class="clearfix"></div>
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','biologicalOptions.verticiliumlecanii')" value="Verticilium Lecanii" ng-model="newUnit.fungicidas.biologicalOptions.verticiliumlecanii">
-                        Verticillium Lecanii
+    <!-- <div class="row" ng-show="newUnit.enfermedades">
 
-                    </label>
-                    <div ng-if="newUnit.fungicidas.biologicalOptions.verticiliumlecanii">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.biologicalOptionsMonths.verticiliumlecanii == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','biologicalOptions.bacilussutillis')" value="Bacilus Sutillis" ng-model="newUnit.fungicidas.biologicalOptions.bacilussutillis">
-                        Bacillus sutilis
-                    </label>
-                    <div ng-if="newUnit.fungicidas.biologicalOptions.bacilussutillis">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.bacilussutillis">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.biologicalOptionsMonths.bacilussutillis == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <label>
-                        <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','biologicalOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.biologicalOptions.otrocual"> Otro
-                    </label>
-                    <label>
-                        <input type="text" placeholder="¿Cuál?" ng-show="newUnit.fungicidas.biologicalOptions.otrocual" ng-model="newUnit.fungicidas.biologicalOptions.cual">
-                    </label>
-                    <div ng-if="newUnit.fungicidas.biologicalOptions.otrocual">
-                        <div class="form-group">
-                            <label>¿Cuando lo aplica?</label>
-                            <select class="form-control" multiple="true" ng-model="newUnit.fungicidas.biologicalOptionsMonths.otrocual">
-                              <option ng-repeat="Month in MonthDropDownOptions" ng-selected="{{newUnit.fungicidas.biologicalOptionsMonths.otrocual == Month.name}}">{{Month.name}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
+    </div> -->
 
 
     <textarea class="form-control" rows="3" ng-model="RecommendationText" ng-show="isRecommendationFieldRequired"></textarea>

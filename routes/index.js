@@ -1818,22 +1818,23 @@ router.post('/fungicidas', auth, function (req, res, next) {
     var fungicidas = new Fungicida(req.body);
 
     //post.author = req.payload.username;
-    fungicidas = req.body;
+    // fungicidas = req.body;
+    console.log(fungicidas);
 
     // console.log(req.user);
-    fungicidas.save(function (err) {
-        console.log("aqui se entra...........................");
-        if (err) { return res.status(500).json({ message: err }); }
-        res.json(fungicidas);
-
-    });
+    // fungicidas.save(function (err) {
+    //     console.log("aqui se entra...........................");
+    //     if (err) { return res.status(500).json({ message: err }); }
+    //     res.json(fungicidas);
+    //
+    // });
 });
 
 router.post('/fungicidas/update', auth, function (req, res, next) {
     console.log(req.body);
     Fungicida.findById(req.body._id, function (err, fungi) {
-        console.log(varie);
-        fungi = req.body;
+        console.log(fungi.categoria);
+        fungi.fungicidas = req.body.fungicidas;
         fungi.save(function (err, updatedvarie) {
             if (err) return res.send({Success:false});
             res.send({ Success: true });
