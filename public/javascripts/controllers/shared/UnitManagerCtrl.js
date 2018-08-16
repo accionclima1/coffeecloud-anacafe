@@ -1440,72 +1440,15 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
         var unitId = args.unitId;
         if (unitId == -1) {
 
-            if (!$rootScope.IsInternetOnline) {
+            if ($rootScope.IsInternetOnline == false) {
 
               if ($scope.variedades.length <= 0) {
-                PouchDB.GetVarietiesFromPouchDB().then(function (result) {
-                    console.log("Respuesta: ");
-                    console.log(result);
-                    console.log("entramos a PouchDB");
-                    if (result.status == 'fail') {
-
-                        $scope.error = result.message;
-
-                    }
-                    else if (result.status == 'success') {
-                        var doc = result.data.rows[0].doc;
-                        if (result.data.rows.length > 0) {
-                            var variedadesArray = [];
-                            for (var i = 0; i < doc.list.length; i++) {
-                                variedadesArray.push(doc.list[i]);
-                            }
-                            $scope.variedades = variedadesArray;
-                            console.log("Data-- ");
-                            console.log($scope.variedades);
-
-                        }
-                    }
-                }).catch(function(err) {
-                    console.log("error al obtener datos");
-                    console.log(err);
-                });
-
+                $scope.variedades = localStorageService.get('localVarieties');
               }
 
               if ($scope.fungicides.length <= 0) {
-                PouchDB.GetFungicidesFromPouchDB().then(function (result) {
-                    console.log("Respuesta: ");
-                    console.log(result);
-                    console.log("entramos a PouchDB");
-                    if (result.status == 'fail') {
-
-                        $scope.error = result.message;
-                        //$("#txtPrueba").val("error get Var");
-
-                    }
-                    else if (result.status == 'success') {
-                        var doc = result.data.rows[0].doc;
-                        if (result.data.rows.length > 0) {
-                            var fungicidasArray = [];
-                            for (var i = 0; i < doc.list.length; i++) {
-                                fungicidasArray.push(doc.list[i]);
-                            }
-                            //variedadesArray.push({ name: "otro" }, { name: "cual?" });
-                            $scope.fungicides = fungicidasArray;
-                            // $scope.variedadLocalesPouchDB = variedadesArray;
-                            //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
-                            console.log("Data-- Fungicidas Offline ");
-                            console.log($scope.fungicides);
-
-                        }
-                    }
-                }).catch(function(err) {
-                    console.log("error al obtener datos");
-                    console.log(err);
-                   // $("#txtPrueba").val("error en data");
-                });
+                $scope.fungicides = localStorageService.get('localFungicidas');
               }
-
             }
             //$('#myModal2').on('shown.bs.modal', function (e) {
             //    $('#newunitForm').validator();
@@ -1580,72 +1523,15 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
         } else {
             var ariaLabel = "";
-            if (!$rootScope.IsInternetOnline) {
+            if ($rootScope.IsInternetOnline == false) {
 
               if ($scope.variedades.length <= 0) {
-                PouchDB.GetVarietiesFromPouchDB().then(function (result) {
-                    console.log("Respuesta: ");
-                    console.log(result);
-                    console.log("entramos a PouchDB");
-                    if (result.status == 'fail') {
-
-                        $scope.error = result.message;
-
-                    }
-                    else if (result.status == 'success') {
-                        var doc = result.data.rows[0].doc;
-                        if (result.data.rows.length > 0) {
-                            var variedadesArray = [];
-                            for (var i = 0; i < doc.list.length; i++) {
-                                variedadesArray.push(doc.list[i]);
-                            }
-                            $scope.variedades = variedadesArray;
-                            console.log("Data-- ");
-                            console.log($scope.variedades);
-
-                        }
-                    }
-                }).catch(function(err) {
-                    console.log("error al obtener datos");
-                    console.log(err);
-                });
-
+                $scope.variedades = localStorageService.get('localVarieties');
               }
 
               if ($scope.fungicides.length <= 0) {
-                PouchDB.GetFungicidesFromPouchDB().then(function (result) {
-                    console.log("Respuesta: ");
-                    console.log(result);
-                    console.log("entramos a PouchDB");
-                    if (result.status == 'fail') {
-
-                        $scope.error = result.message;
-                        //$("#txtPrueba").val("error get Var");
-
-                    }
-                    else if (result.status == 'success') {
-                        var doc = result.data.rows[0].doc;
-                        if (result.data.rows.length > 0) {
-                            var fungicidasArray = [];
-                            for (var i = 0; i < doc.list.length; i++) {
-                                fungicidasArray.push(doc.list[i]);
-                            }
-                            //variedadesArray.push({ name: "otro" }, { name: "cual?" });
-                            $scope.fungicides = fungicidasArray;
-                            // $scope.variedadLocalesPouchDB = variedadesArray;
-                            //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
-                            console.log("Data-- Fungicidas Offline ");
-                            console.log($scope.fungicides);
-
-                        }
-                    }
-                }).catch(function(err) {
-                    console.log("error al obtener datos");
-                    console.log(err);
-                   // $("#txtPrueba").val("error en data");
-                });
+                $scope.fungicides = localStorageService.get('localFungicidas');
               }
-
             }
             //$scope.newunitForm.$setPristine();
             //$scope.newunitForm.$setUntouched()
