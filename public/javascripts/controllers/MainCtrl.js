@@ -34,32 +34,6 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
 
     if ($rootScope.IsInternetOnline) {
 
-      fungicidas.getAll().then(function (fungi) {
-          fungicidas = fungi.data;
-          $scope.fungicidas = fungicidas;
-          //Guardamos con localStorage
-          localStorageService.set('localFungicidas',fungicidas);
-
-          //Guardamos a nivel local
-          // PouchDB.SaveVarietiesToPouchDB(variedades);fungicidas
-          console.log("Data --->");
-          console.log($scope.fungicidas);
-      });
-
-
-        varieties.getAll().then(function (varids) {
-            variedades = varids.data;
-            $scope.variedades = variedades;
-            console.log($scope.variedades);
-            //Guardamos con localStorage
-            localStorageService.set('localVarieties',variedades);
-
-            //Guardamos a nivel local
-            // PouchDB.SaveVarietiesToPouchDB(variedades);
-            console.log("Data --->");
-            console.log($scope.variedades);
-        });
-
         console.log("app online...");
 
         methodsGallo.get().then(function(methodsGallo){
