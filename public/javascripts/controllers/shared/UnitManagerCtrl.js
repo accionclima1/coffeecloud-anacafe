@@ -1442,13 +1442,13 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
             if ($rootScope.IsInternetOnline == false) {
 
-              if ($scope.variedades.length <= 0) {
-                $scope.variedades = localStorageService.get('localVarieties');
-              }
+                if ((!$scope.variedades) || ($scope.variedades.length <= 0)) {
+                    $scope.variedades = localStorageService.get('localVarieties');
+                }
 
-              if ($scope.fungicides.length <= 0) {
+                if ((!$scope.fungicides) || ($scope.fungicides.length <= 0)) {
                 $scope.fungicides = localStorageService.get('localFungicidas');
-              }
+                }
             }
             //$('#myModal2').on('shown.bs.modal', function (e) {
             //    $('#newunitForm').validator();
