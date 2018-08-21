@@ -38,6 +38,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   $scope.arrOfflineGallo = [];
   $scope.nombreUnidad = "";
   $scope.nombreLote = "";
+  $scope.calculoStatus = false;
 
 	console.log($scope.user_Ided, $scope.unitId, $scope.loteIndex);
 
@@ -65,6 +66,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
     $scope.ClearTest = function(option){
 			if (option == true) {
 				console.log("Reinicar");
+        $scope.calculoStatus = false;
         $scope.IsErrorInfrmGalloAddPlanta=false;
     		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
     		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
@@ -75,18 +77,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 			}
 		}
 
-    $scope.backHistorial = function(option){
-			if (option == true) {
-				console.log("Reinicar");
-        $scope.IsErrorInfrmGalloAddPlanta=false;
-    		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
-    		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
-    		$scope.IsTotalPlantaAdded=false;
-    		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-				localStorageService.remove('localTestgallo');
-				$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
-			}
-		}
+
 
 	// Función para salir al precionar Cancelar
 	$scope.exitAlert = function (){
@@ -109,11 +100,30 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 					return false;
 				}
 		});
-	}
-	else {
+	 }
+	 else {
 		$scope.ClearTest(true);
-	}
-}
+	 }
+  }
+
+  // Función Historial de Muestreos Ojo de Gallo
+  $scope.backHistorial = function(){
+    if ($scope.calculoStatus) {
+      $scope.exitAlert();
+
+    }
+    else {
+      console.log("Reinicar");
+      $scope.calculoStatus = false;
+      $scope.IsErrorInfrmRoyaAddPlanta=false;
+      $scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+      $scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+      $scope.IsTotalPlantaAdded=false;
+      $scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+      localStorageService.remove('localTest');
+      $state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+    }
+  }
 
 	var plantEditor = function(plant) {
 		$scope.plantname = plant;
@@ -383,8 +393,9 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	  $('.results').show();
   }
 
+  // Inicio de muestreo de Ojo de Gallo
   $scope.startTest = function(userid,idunidad,loteindex) {
-    $('.back-button').hide();
+    $scope.calculoStatus = true;
 		$scope.test.unidad = {"user":auth.userId()};
 		$scope.test.idunidad = idunidad;
 		$scope.test.loteIndex=loteindex;

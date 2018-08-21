@@ -38,6 +38,7 @@ app.controller('RoyaCtrl', [
 		$scope.numeroDeHojas = 0;
 		$scope.hojasPorPlanta = [];
 		$scope.severidad = {};
+		$scope.calculoStatus = false;
 
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
 
@@ -67,6 +68,7 @@ app.controller('RoyaCtrl', [
 		$scope.ClearTest = function(option){
 			if (option == true) {
 				console.log("Reinicar");
+				$scope.calculoStatus = false;
 				$scope.IsErrorInfrmRoyaAddPlanta=false;
 				$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
 				$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
@@ -77,20 +79,6 @@ app.controller('RoyaCtrl', [
 			}
 		}
 
-
-		// Función Historial de Muestreos Roya
-		$scope.backHistorial = function(option){
-			if (option == true) {
-				console.log("Reinicar");
-				$scope.IsErrorInfrmRoyaAddPlanta=false;
-				$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
-				$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
-				$scope.IsTotalPlantaAdded=false;
-				$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-				localStorageService.remove('localTest');
-				$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
-			}
-		}
 
 		// Función para salir al precionar Cancelar
 		$scope.exitAlert = function (){
@@ -116,6 +104,25 @@ app.controller('RoyaCtrl', [
 		}
 		else {
 			$scope.ClearTest(true);
+		}
+	}
+
+	// Función Historial de Muestreos Roya
+	$scope.backHistorial = function(){
+		if ($scope.calculoStatus) {
+			$scope.exitAlert();
+
+		}
+		else {
+			console.log("Reinicar");
+			$scope.calculoStatus = false;
+			$scope.IsErrorInfrmRoyaAddPlanta=false;
+			$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+			$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+			$scope.IsTotalPlantaAdded=false;
+			$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+			localStorageService.remove('localTest');
+			$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
 		}
 	}
 
@@ -311,7 +318,7 @@ app.controller('RoyaCtrl', [
     }
 
     $scope.startTest = function(userid,idunidad,loteindex) {
-			$('.back-button').hide();
+			$scope.calculoStatus = true;
     	$scope.test.unidad = {"user":auth.userId()};
         $scope.test.idunidad = idunidad;
         $scope.test.loteIndex=loteindex;
