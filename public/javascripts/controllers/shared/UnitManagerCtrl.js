@@ -784,7 +784,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
                       //Mandamos el nuevo arreglo a pouchDB
                       PouchDB.SaveVarietiesToPouchDB($scope.variedadLocalesPouchDB);
-                      localStorageService.set('localVarieties', $scope.variedadLocalesPouchDB);
+                      localStorageService.set('localVarieties', $scope.variedades);
                       localStorageService.set('dataNewVarietysOffline', $scope.variedadLocalesPouchDB);
                       $scope.SweetAlert('¡Excelente!', 'Variedad añadida.', 'success');
                   }
@@ -1500,6 +1500,8 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
         } else {
             var ariaLabel = "";
+            $scope.fungicidasSeleccionados = {};
+            $scope.funVar = {};
             if ($rootScope.IsInternetOnline == false) {
 
               if ((!$scope.variedades) || ($scope.variedades.length <= 0)) {
