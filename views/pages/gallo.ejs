@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="/gallo.html">
 	  		<div class="gallo-wrap">
 	  			<h2 class="section-header">
-						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backHistorial()">
+						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backView()">
 							<i style="font-size: 20px;" class="fa fa-chevron-left"></i>
 					  </a>
 	  				CÁLCULO DE OJO DE GALLO <small ng-show="test.advMode">(avanzado)</small>
@@ -157,7 +157,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
+								<button class="btn btn-primary" ng-click="backHistorial()">Historial de Muestreos</button>
 
 							</div>
 
@@ -173,7 +173,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
+								<button class="btn btn-primary" ng-click="backHistorial()">Historial de Muestreos</button>
 							</div>
 
 						</div>

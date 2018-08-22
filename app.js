@@ -25,14 +25,14 @@ require('./models/Fungicida');
 require('./models/Vulnerability');
 require('./models/Encuesta');
 
-require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@163.172.154.223/dummyDB', {
-  server: {
-    socketOptions: {
-      socketTimeoutMS: 0,
-      connectionTimeout: 0
-    }
-  }
-});
+// require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@163.172.154.223/dummyDB', {
+//   server: {
+//     socketOptions: {
+//       socketTimeoutMS: 0,
+//       connectionTimeout: 0
+//     }
+//   }
+// });
 
 //XR7vwshDKmKW
 //{

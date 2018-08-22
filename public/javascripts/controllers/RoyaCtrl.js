@@ -38,7 +38,9 @@ app.controller('RoyaCtrl', [
 		$scope.numeroDeHojas = 0;
 		$scope.hojasPorPlanta = [];
 		$scope.severidad = {};
-		$scope.calculoStatus = false;
+		$scope.vistaInicio = true;
+		$scope.vistaCalculo = false;
+		$scope.vistaResultado = false;
 
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
 
@@ -68,7 +70,9 @@ app.controller('RoyaCtrl', [
 		$scope.ClearTest = function(option){
 			if (option == true) {
 				console.log("Reinicar");
-				$scope.calculoStatus = false;
+				$scope.vistaInicio = true;
+				$scope.vistaCalculo = false;
+				$scope.vistaResultado = false;
 				$scope.IsErrorInfrmRoyaAddPlanta=false;
 				$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
 				$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
@@ -107,23 +111,31 @@ app.controller('RoyaCtrl', [
 		}
 	}
 
+	$scope.backView = function(){
+		if ($scope.vistaInicio == true) {
+			$scope.backHistorial();
+		}
+		else if ($scope.vistaCalculo == true) {
+			$scope.exitAlert();
+		}
+		else if ($scope.vistaResultado == true) {
+			$scope.ClearTest(true);
+		}
+	}
+
 	// Función Historial de Muestreos Roya
 	$scope.backHistorial = function(){
-		if ($scope.calculoStatus) {
-			$scope.exitAlert();
-
-		}
-		else {
-			console.log("Reinicar");
-			$scope.calculoStatus = false;
-			$scope.IsErrorInfrmRoyaAddPlanta=false;
-			$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
-			$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
-			$scope.IsTotalPlantaAdded=false;
-			$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-			localStorageService.remove('localTest');
-			$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
-		}
+		console.log("Reinicar");
+		$scope.vistaInicio = true;
+		$scope.vistaCalculo = false;
+		$scope.vistaResultado = false;
+		$scope.IsErrorInfrmRoyaAddPlanta=false;
+		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+		$scope.IsTotalPlantaAdded=false;
+		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+		localStorageService.remove('localTest');
+		$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
 	}
 
 		var plantEditor = function(plant) {
@@ -318,7 +330,8 @@ app.controller('RoyaCtrl', [
     }
 
     $scope.startTest = function(userid,idunidad,loteindex) {
-			$scope.calculoStatus = true;
+			$scope.vistaInicio = false;
+			$scope.vistaCalculo = true;
     	$scope.test.unidad = {"user":auth.userId()};
         $scope.test.idunidad = idunidad;
         $scope.test.loteIndex=loteindex;
@@ -710,6 +723,9 @@ app.controller('RoyaCtrl', [
 		        $scope.getHelp($scope.totalPlants,$scope.avgplnt,$scope.avgplntDmgPct,$scope.currentUser());
 		        $('.test').hide();
 		        $('.results').show();
+						$scope.vistaInicio = false;
+ 			 		  $scope.vistaCalculo = false;
+ 			 		  $scope.vistaResultado = true;
 					}
         } else {
 
@@ -789,6 +805,9 @@ app.controller('RoyaCtrl', [
 
 					 $('.test').hide();
 					 $('.results').show();
+					 $scope.vistaInicio = false;
+			 		 $scope.vistaCalculo = false;
+			 		 $scope.vistaResultado = true;
 					}
    }
 };

@@ -30,8 +30,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                 variedades = varids.data;
                 $scope.variedades = variedades;
                 console.log($scope.variedades);
-                //Guardamos con localStorage
-                localStorageService.set('localVarieties',variedades);
 
                 console.log("Data --->");
                 console.log($scope.variedades);
