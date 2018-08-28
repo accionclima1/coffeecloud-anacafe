@@ -205,11 +205,14 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
             $scope.royaHistoryOffline = localStorageService.get('dataOffline');
             console.log($scope.royaHistoryOffline);
 
-            for (var i = 0; i < $scope.royaHistory.length; i++) {
-              if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
-                $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+            if ($scope.royaHistory != null) {
+              for (var i = 0; i < $scope.royaHistory.length; i++) {
+                if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
+                  $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+                }
               }
             }
+
 
             if ($scope.royaHistoryOffline !== null) {
               for (var i = 0; i < $scope.royaHistoryOffline.length; i++) {
@@ -254,12 +257,15 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                         $scope.galloHistoryOffline = localStorageService.get('dataOfflineGallo');
                         console.log($scope.galloHistoryOffline);
 
-                        for (var i = 0; i < $scope.galloHistory.length; i++) {
-                                if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
-                                        $scope.galloHistoryByLote.push($scope.galloHistory[i]);
-                                }
-
+                        if ($scope.galloHistory != null) {
+                          for (var i = 0; i < $scope.galloHistory.length; i++) {
+                                  if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
+                                          $scope.galloHistoryByLote.push($scope.galloHistory[i]);
+                                  }
+                          }
                         }
+
+
                         if ($scope.galloHistoryOffline !== null) {
                                 for (var i = 0; i < $scope.galloHistoryOffline.length; i++) {
                                         if (($scope.galloHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.galloHistoryOffline[i].idunidad==$scope.unitId)) {
