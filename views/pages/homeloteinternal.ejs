@@ -40,7 +40,7 @@
         </div>
         <div class="panel-body">
 
-                  <h6 ng-show="royaHistoryByLote.length == 0" style="color:#666666">¡No hay cálculos todavía!</h6>
+                  <h6 ng-hide="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" style="color:#666666">¡No hay cálculos todavía!</h6>
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                   <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
 
@@ -114,7 +114,7 @@
         </div>
         <div class="panel-body">
 
-                  <h6 ng-show="galloHistoryByLote.length == 0" style="color:#666666">¡No hay cálculos todavía!</h6>
+                  <h6 ng-hide="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" style="color:#666666">¡No hay cálculos todavía!</h6>
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                   <div id="datagUnit" class="ct-chart ct-chart-line" style="width: 100%; height: 250px; display: none"></div>
 
