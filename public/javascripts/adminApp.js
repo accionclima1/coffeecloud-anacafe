@@ -1,4 +1,4 @@
-var app = angular.module('coffeeScriptAdmin', ['btford.socket-io', 'ui.router', 'luegg.directives', 'ui.tinymce', 'ui.bootstrap', 'ngSanitize']);
+var app = angular.module('coffeeScriptAdmin', ['btford.socket-io', 'ui.router', 'luegg.directives', 'ui.tinymce', 'ui.bootstrap', 'ngSanitize','ui.grid']);
 app.directive('fileModel', ['$parse', function ($parse) {
 	return {
 		restrict: 'A',
@@ -531,8 +531,22 @@ app.config([
 		})
 		.state('roya', {
 			url: '/roya',
-			templateUrl: '/roya.html',
-			controller: 'RoyaCtrl',
+			templateUrl: '/roya2.html',
+			controller: 'RoyaCtrl2',
+			onEnter: ['$state', 'auth', function ($state, auth) {
+				var curUserRole = auth.currentUserRole();
+				if (!auth.isLoggedIn()) {
+					$state.go('login');
+				}
+				else if (curUserRole != 'admin' && curUserRole != 'Admin' && curUserRole != 'Extensionista') {
+					window.location.href = '/';
+				}
+			}]
+		})
+		.state('unidad', {
+			url: '/unidad/:id',
+			templateUrl: '/unidad2.html',
+			controller: 'UnidadCtrl',
 			onEnter: ['$state', 'auth', function ($state, auth) {
 				var curUserRole = auth.currentUserRole();
 				if (!auth.isLoggedIn()) {

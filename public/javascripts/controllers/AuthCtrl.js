@@ -20,17 +20,6 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
         });
     };
 
-    function onDeviceReady() {
-      // Register the event listener
-      console.log("--------------------------------inicializado");
-      $scope.listo = 1;
-      document.addEventListener("backbutton", onBackKeyDown, false);
-    }
-
-    function onBackKeyDown() {
-      document.removeEventListener("backbutton", onBackKeyDown, false);
-    }
-
     $scope.registerProfile = function () {
         $state.go('location');
     };

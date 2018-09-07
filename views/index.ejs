@@ -165,10 +165,15 @@ function onDeviceReady(){
 
 }
 
-function backKeyDown(){
-		window.history.back();
-		return true;
-}
+var teclaRetrocederActivada=true;		//Si se asigna "false", se puede desactivar la tecla back desde cualquier lado del código
+		
+		function backKeyDown(){
+			var hash = window.location.hash;
+			if((hash!="#/login")&&(teclaRetrocederActivada)){
+				window.history.back();
+			}
+			return true;
+		}
 
         $(document).ready(function(){
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
