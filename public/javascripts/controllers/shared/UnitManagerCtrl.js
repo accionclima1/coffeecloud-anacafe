@@ -864,6 +864,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     $scope.saveAddUnitForm = function () {
         console.log($scope.newunitForm.$valid);
         if ($scope.newunitForm.$valid) {
+            $(".addUnit").hide();
             $('#myModal2').modal('hide');
             // $(".addUnit").attr('disabled', 'disabled');
             // $(".addUnit").removeAttr('disabled', 'disabled');

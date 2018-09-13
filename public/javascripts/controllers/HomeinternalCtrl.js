@@ -755,9 +755,6 @@ $scope.historialVulLaunch = function() {
              textoData = "Totalmente vulnerable y sin ninguna capacidad adaptativa.";
           }
 
-
-
-
           $scope.resumenDataHistorial.push({
              id: idData,
              fecha: fechaData,
@@ -782,6 +779,136 @@ $scope.historialVulLaunch = function() {
         console.log("Esot es algo --------------------------");
 
         //$scope.graficarHitorial();
+    }
+
+    $scope.graficarHitorial = function () {
+      var data = [];
+      var historyGrafic = [];
+      var classData = "";
+
+      Array.prototype.contains = function(obj) {
+          var i = this.length;
+          while (i--)
+              if (this[i] == obj)
+                  return true;
+              return false;
+          }
+
+          $('.graficHistoryVulne').hide();
+          classData = "#dataUnitVulne"
+          $(classData).css({display:"block"});
+          $(".espacioVulne").css({display:"block"});
+          historyGrafic = localStorageService.get('encuestaHistory');
+
+          console.log(historyGrafic);
+
+          if (historyGrafic != 0) {
+            for (var i = 0; i < historyGrafic.length; i++) {
+              if (historyGrafic[i].unidad == $scope.unitId) {
+                data.push(historyGrafic[i]);
+              }
+
+            }
+          }
+
+          console.log(data);
+
+          if ($scope.encuestaHistoryByUnidadOffline.length != 0) {
+            for (var i = 0; i < $scope.encuestaHistoryByUnidadOffline.length; i++) {
+                  data.push($scope.encuestaHistoryByUnidadOffline[i]);
+                  console.log(data);
+                }
+          }
+
+          var fechas = [];
+          var puntosIncidencia = [];
+          var listaUnidades = [];
+          var puntosIncidenciaPorUnidad = [];
+
+
+          for (var i = 0; i < data.length; i++) {
+              var day = "";
+              var months = ["Ene","Feb","Mar","Abr","Mayo","Jun","Jul","Ago","Sep","Oct","Nov","Dec"];
+              // console.log(data[i].resumenVulne[0].fecha);
+              if (data[i].resumenVulne.fecha != undefined) {
+                day = new Date(data[i].resumenVulne.fecha);
+                day = day.getDate() + '-' +  months[day.getMonth()];
+                fechas.push(day);
+
+                console.log(data[i]);
+                puntosIncidencia.push({meta: data[i].unidad,value: data[i].resumenVulne.valor});
+              }else {
+                if (!fechas.contains(data[i].resumenVulne[0].fecha)){
+
+                    day = new Date(data[i].resumenVulne[0].fecha);
+                    day = day.getDate() + '-' + months[day.getMonth()];
+                    fechas.push(day);
+                }
+                console.log(data[i]);
+                puntosIncidencia.push({meta: data[i].unidad,value: data[i].resumenVulne[0].valor});
+              }
+
+          }
+
+          //Extraemos el listado de unidades involucradas
+          for (var i = 0; i < puntosIncidencia.length; i++) {
+              console.log(puntosIncidencia);
+              if (!listaUnidades.contains(puntosIncidencia[i].meta)){
+                  listaUnidades.push(puntosIncidencia[i].meta);
+              }
+          }
+
+          //Regeneramos el array para graficar cada unidad como línea
+          for (var i = 0; i < listaUnidades.length; i++) {
+             for (var j = 0; j < puntosIncidencia.length; j++) {
+              if (listaUnidades[i].localeCompare(puntosIncidencia[j].meta) == 0){
+                  if (puntosIncidenciaPorUnidad[i] == undefined){
+                      puntosIncidenciaPorUnidad[i] = [];
+                      for (var y = 0; y < j; y++) {
+                           puntosIncidenciaPorUnidad[i].push(null);
+                      }
+                  }
+
+                  puntosIncidenciaPorUnidad[i].push(puntosIncidencia[j]);
+              }
+          }
+          }
+
+          console.log("listaUnidades-------------------");
+          console.log(listaUnidades);
+
+          console.log(fechas);
+          console.log(puntosIncidencia);
+          console.log("Todo-------------------");
+          console.log(puntosIncidenciaPorUnidad);
+
+
+          var dataG = new Chartist.Line(classData, {
+            labels: fechas,
+            series: puntosIncidenciaPorUnidad
+        }, {
+            fullWidth: true,
+
+            chartPadding: {
+              right: 25,
+              left: -18,
+              top: 50,
+              bottom: 50
+          },
+          plugins: [
+              Chartist.plugins.tooltip()
+          ]
+
+
+      });
+    }
+
+    $scope.cerrarHitorial = function(){
+      $('.graficHistoryVulne').show();
+      $("#dataUnitVulne").css({display:"none"});
+      $(".espacioVulne").css({display:"none"});
+
+
     }
 
 

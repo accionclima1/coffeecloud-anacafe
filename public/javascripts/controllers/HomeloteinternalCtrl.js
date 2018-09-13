@@ -226,58 +226,219 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
 
 
-                //Cálculos de Ojo de Gallo
-                if ($rootScope.IsInternetOnline) {
-                        console.log("Con internet Gallo");
-                        console.log($scope.user_Ided);
+        //Cálculos de Ojo de Gallo
+        if ($rootScope.IsInternetOnline) {
+            console.log("Con internet Gallo");
+            console.log($scope.user_Ided);
 
-                        // Reporte de Ojo de Gallo
-                        gallo.getUser(auth.userId()).then(function(userhistory){
-                          console.log('Entré Data Gallo');
-                          $scope.galloHistory = userhistory.data;
-                          localStorageService.set('galloHistory',userhistory.data);
-                          console.log("Historial Ojo de Gallo");
-                          console.log($scope.galloHistory);
+            // Reporte de Ojo de Gallo
+            gallo.getUser(auth.userId()).then(function(userhistory){
+              console.log('Entré Data Gallo');
+              $scope.galloHistory = userhistory.data;
+              localStorageService.set('galloHistory',userhistory.data);
+              console.log("Historial Ojo de Gallo");
+              console.log($scope.galloHistory);
 
-                          for (var i = 0; i < $scope.galloHistory.length; i++) {
-                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad == $scope.unitId)) {
-                                    $scope.galloHistoryByLote.push($scope.galloHistory[i]);
+              for (var i = 0; i < $scope.galloHistory.length; i++) {
+                if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad == $scope.unitId)) {
+                        $scope.galloHistoryByLote.push($scope.galloHistory[i]);
+                }
+              }
+              console.log($scope.galloHistoryByLote);
+            });
+
+
+            localStorageService.remove('dataOfflineGallo');
+        } else {
+            console.log("No internet Gallo");
+            console.log($scope.user_Ided);
+            $scope.galloHistory = localStorageService.get('galloHistory');
+            console.log('Offline-Data Gallo: ', $scope.galloHistory);
+            $scope.galloHistoryOffline = localStorageService.get('dataOfflineGallo');
+            console.log($scope.galloHistoryOffline);
+
+            if ($scope.galloHistory != null) {
+              for (var i = 0; i < $scope.galloHistory.length; i++) {
+                      if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
+                              $scope.galloHistoryByLote.push($scope.galloHistory[i]);
+                      }
+              }
+            }
+
+
+            if ($scope.galloHistoryOffline !== null) {
+                    for (var i = 0; i < $scope.galloHistoryOffline.length; i++) {
+                            if (($scope.galloHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.galloHistoryOffline[i].idunidad==$scope.unitId)) {
+                                    $scope.galloHistoryByLoteOffline.push($scope.galloHistoryOffline[i]);
                             }
+
+                    }
+            }
+        }
+        console.log("historial");
+        console.log($scope.royaHistory);
+
+        $scope.graficarHitorial = function (option) {
+          var data = [];
+          var historyGrafic = [];
+          var classData = "";
+
+          Array.prototype.contains = function(obj) {
+              var i = this.length;
+              while (i--)
+                  if (this[i] == obj)
+                      return true;
+                  return false;
+              }
+
+          if (option == 'roya') {
+            $('.graficHistoryRoya').hide();
+            classData = "#dataUnitRoya"
+            $(classData).css({display:"block"});
+            $(".espacioRoya").css({display:"block"});
+            historyGrafic = localStorageService.get('royaHistory');
+
+            if (historyGrafic != 0) {
+                for (var i = 0; i < historyGrafic.length; i++) {
+                  if (historyGrafic[i].idunidad == $scope.unitId && historyGrafic[i].loteIndex == $scope.loteIndex) {
+                    data.push(historyGrafic[i]);
+                  }
+
+                }
+              }
+
+              if ($scope.royaHistoryByLoteOffline.length != 0) {
+                for (var i = 0; i < $scope.royaHistoryByLoteOffline.length; i++) {
+                      data.push($scope.royaHistoryByLoteOffline[i]);
+                      console.log(data);
+                    }
+              }
+          }
+          else if (option == 'gallo') {
+            $('.graficHistoryGallo').hide();
+            classData = "#dataUnitGallo"
+            $(classData).css({display:"block"});
+            $(".espacioGallo").css({display:"block"});
+            historyGrafic = localStorageService.get('galloHistory');
+
+            if (historyGrafic != 0) {
+              for (var i = 0; i < historyGrafic.length; i++) {
+                if (historyGrafic[i].idunidad == $scope.unitId && historyGrafic[i].loteIndex == $scope.loteIndex) {
+                  data.push(historyGrafic[i]);
+                }
+
+              }
+            }
+
+            if ($scope.galloHistoryByLoteOffline.length != 0) {
+              for (var i = 0; i < $scope.galloHistoryByLoteOffline.length; i++) {
+                    data.push($scope.galloHistoryByLoteOffline[i]);
+                    console.log(data);
+                  }
+            }
+          }
+
+
+
+              var fechas = [];
+              var puntosIncidencia = [];
+              var listaUnidades = [];
+              var puntosIncidenciaPorUnidad = [];
+
+
+              for (var i = 0; i < data.length; i++) {
+
+                var day = "";
+                var months = ["Ene","Feb","Mar","Abr","Mayo","Jun","Jul","Ago","Sep","Oct","Nov","Dec"];
+
+                if (data[i].date != undefined) {
+                  day = new Date(data[i].date);
+                  day = day.getDate() + '-' +  months[day.getMonth()];
+                  fechas.push(day);
+
+                  console.log(data[i]);
+                  puntosIncidencia.push({meta: data[i].unidad.user,value: data[i].incidencia});
+                }
+                else {
+                  if (!fechas.contains(data[i].createdAt)){
+                    day = new Date(data[i].createdAt);
+                    day = day.getDate() + '-' +  months[day.getMonth()];
+                    fechas.push(day);
+                  }
+      						console.log(data[i]);
+                  puntosIncidencia.push({meta: data[i].unidad.user,value: data[i].incidencia});
+                }
+
+
+
+              }
+
+              //Extraemos el listado de unidades involucradas
+              for (var i = 0; i < puntosIncidencia.length; i++) {
+      						console.log(puntosIncidencia);
+                  if (!listaUnidades.contains(puntosIncidencia[i].meta)){
+                      listaUnidades.push(puntosIncidencia[i].meta);
+                  }
+              }
+
+              //Regeneramos el array para graficar cada unidad como línea
+              for (var i = 0; i < listaUnidades.length; i++) {
+                 for (var j = 0; j < puntosIncidencia.length; j++) {
+                  if (listaUnidades[i].localeCompare(puntosIncidencia[j].meta) == 0){
+                      if (puntosIncidenciaPorUnidad[i] == undefined){
+                          puntosIncidenciaPorUnidad[i] = [];
+                          for (var y = 0; y < j; y++) {
+                               puntosIncidenciaPorUnidad[i].push(null);
                           }
-                          console.log($scope.galloHistoryByLote);
-                        });
+                      }
+
+                      puntosIncidenciaPorUnidad[i].push(puntosIncidencia[j]);
+                  }
+              }
+              }
+
+              console.log("listaUnidades-------------------");
+              console.log(listaUnidades);
+
+              console.log(fechas);
+              console.log(puntosIncidencia);
+              console.log("Todo-------------------");
+              console.log(puntosIncidenciaPorUnidad);
 
 
-                        localStorageService.remove('dataOfflineGallo');
-                        } else {
-                        console.log("No internet Gallo");
-                        console.log($scope.user_Ided);
-                        $scope.galloHistory = localStorageService.get('galloHistory');
-                        console.log('Offline-Data Gallo: ', $scope.galloHistory);
-                        $scope.galloHistoryOffline = localStorageService.get('dataOfflineGallo');
-                        console.log($scope.galloHistoryOffline);
+              var dataG = new Chartist.Line(classData, {
+                labels: fechas,
+                series: puntosIncidenciaPorUnidad
+            }, {
+                fullWidth: true,
 
-                        if ($scope.galloHistory != null) {
-                          for (var i = 0; i < $scope.galloHistory.length; i++) {
-                                  if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
-                                          $scope.galloHistoryByLote.push($scope.galloHistory[i]);
-                                  }
-                          }
-                        }
-
-
-                        if ($scope.galloHistoryOffline !== null) {
-                                for (var i = 0; i < $scope.galloHistoryOffline.length; i++) {
-                                        if (($scope.galloHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.galloHistoryOffline[i].idunidad==$scope.unitId)) {
-                                                $scope.galloHistoryByLoteOffline.push($scope.galloHistoryOffline[i]);
-                                        }
-
-                                }
-                        }
-                        }
+                chartPadding: {
+                  right: 25,
+                  left: -18,
+                  top: 50,
+                  bottom: 50
+              },
+              plugins: [
+                  Chartist.plugins.tooltip()
+              ]
 
 
-                console.log("historial");
-                console.log($scope.royaHistory);
+          });
+        }
+
+        $scope.cerrarHitorial = function(option){
+          console.log(option);
+          if (option == "roya") {
+            $('.graficHistoryRoya').show();
+            $("#dataUnitRoya").css({display:"none"});
+            $(".espacioRoya").css({display:"none"});
+          }
+          else if (option == "gallo") {
+            $('.graficHistoryGallo').show();
+            $("#dataUnitGallo").css({display:"none"});
+            $(".espacioGallo").css({display:"none"});
+          }
+
+        }
 
 }]);
