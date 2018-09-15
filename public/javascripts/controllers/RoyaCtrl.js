@@ -938,16 +938,6 @@ $scope.graficarHitorial = function () {
 
     });
 
-
-
-
-
-
-
-
-
-
-
     }
 
     var usrid = auth.userId();

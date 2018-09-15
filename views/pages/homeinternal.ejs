@@ -211,16 +211,22 @@
       </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading"><div class="col-md-10 col-xs-7" align="left">Análisis cambio climático</div><div class="col-md-2 col-xs-5" align="right"><a class=" btn btn-default btn-sm" href="#/vulnerability/{{unidadseleccionada._id}}/{{unitIndex}}" style="color:#000">Evaluar</a></div></div>
+      <div class="panel-heading" style="height: 40px !important;">
+        <div class="col-md-10 col-xs-7" align="left">Análisis cambio climático</div>
+        <div class="col-md-2 col-xs-5" align="right">
+          <a class=" btn btn-default btn-sm" href="#/vulnerability/{{unidadseleccionada._id}}/{{unitIndex}}" style="color:#000;margin-top: -1% !important;">
+            <span class="glyphicon glyphicon-check"></span>&nbsp;Evaluar
+          </a>
+
+        </div>
+      </div>
       <div class="panel-body">
     <h6 ng-hide="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" style="color:#666666">¡No hay encuestas todavía!</h6>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-      <div ng-show="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" id="dataUnitVulne" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;display: none;">
-
-        <button type="button" class="close" aria-label="Close" ng-click="cerrarHitorial()"><span aria-hidden="true">×</span></button>
+      <div ng-show="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" id="dataUnitVulne" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;">
         <h4 class="modal-title" id="myModalLabel" style="color: #666666!important;">Gráfica de Historal</h4><hr style="margin-top:15px!important;">
       </div>
-      <hr ng-show="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" class="espacioVulne" style="margin-top:50px;display:none">
+      <hr ng-show="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" class="espacioVulne" style="margin-top:50px;">
 
     	<div class="panel panel-default" ng-repeat="encuesta in encuestaHistoryByUnidad">
     		<div class="panel-heading" role="tab" id="{{ 'heading-' + encuesta._id }}">
@@ -264,9 +270,6 @@
     			</div>
     		</div>
     	</div>
-
-      <hr ng-show="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" style="margin-bottom:15px!important">
-      <button ng-show="encuestaHistoryByUnidad.length != 0 || encuestaHistoryByUnidadOffline.length != 0" type="button" class="btn btn-default graficHistoryVulne" ng-click="graficarHitorial()">Gráfica</button>
 
       <!-- <div class="panel panel-default" ng-repeat="encuesta in resumenDataHistorial">
     		<div class="panel-heading" role="tab" id="{{ 'heading-' + encuesta.id }}">

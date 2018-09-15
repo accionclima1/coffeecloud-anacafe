@@ -51,6 +51,17 @@ app.controller('VulneCtrl', [
         });
     }
 
+    $scope.clearTestVulne = function(option){
+			if (option == true) {
+				console.log("Reinicar");
+				$state.go("vulnerability", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex}, {reload: true});
+			}
+		}
+
+    $scope.backHistorialVulne = function(){
+      $state.go("homeinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex}, {reload: true});
+    }
+
 
 
     $scope.newEncuesta = {

@@ -631,6 +631,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
    ///PARA VULNERABILIDAD
 
+   // Gráficas de Vulnerabilidad
    $scope.buscarValor = function (arrayData, nombre) {
        for (var i = 0; i < arrayData.length; i++) {
            if (arrayData[i].name.localeCompare(nombre) == 0){
@@ -641,56 +642,179 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
        return -1;
    }
 
-$scope.historialVulLaunch = function() {
+   $scope.graficarHitorial = function () {
+     var data = [];
+     var historyGrafic = [];
+     var classData = "";
 
+     Array.prototype.contains = function(obj) {
+         var i = this.length;
+         while (i--)
+             if (this[i] == obj)
+                 return true;
+             return false;
+         }
 
-     if ($rootScope.IsInternetOnline) {
-        console.log("Con internet");
-        console.log(auth.userId());
-        vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
-           $scope.encuestaHistory = userhistory.data;
-           $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
-           localStorageService.set('encuestaHistory',userhistory.data);
-           console.log($scope.encuestaHistory);
+         classData = "#dataUnitVulne"
+         historyGrafic = localStorageService.get('encuestaHistory');
 
-           for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-                   if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
-                           $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
-                   }
-
+         // Añadimos los muestreos guardados en el servidor
+         if (historyGrafic != 0) {
+           for (var i = 0; i < historyGrafic.length; i++) {
+             if (historyGrafic[i].unidad == $scope.unitId) {
+               data.push(historyGrafic[i]);
+             }
            }
-           console.log($scope.encuestaHistoryByUnidad);
-           // $scope.chargeData($scope.encuestaHistoryByUnidad);
-       });
-       localStorageService.remove('dataVulneOffline');
+         }
 
-    } else {
-        console.log("No internet");
-        console.log(auth.userId());
-        $scope.encuestaHistory = localStorageService.get('encuestaHistory');
-        console.log('Offline-Data Vulnerabilidad: ', $scope.encuestaHistory);
-        $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
-        console.log($scope.encuestaHistoryOffline);
+         // Añadimos muestreos realizados offline si hubiera
+         if ($scope.encuestaHistoryByUnidadOffline.length != 0) {
+           for (var i = 0; i < $scope.encuestaHistoryByUnidadOffline.length; i++) {
+             data.push($scope.encuestaHistoryByUnidadOffline[i]);
+           }
+         }
 
-        for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-                if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
-                        $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
-                }
+         // Graficamos los últimos 12 muestreos si hubieran más
+         if (data.length >= 12){
+           var records = data;
+           var index = data.length - 12;
+           data = [];
 
-        }
+           for (var i = index; i < records.length; i++) {
+             data.push(records[i]);
+           }
+         }
 
-        if ($scope.encuestaHistoryOffline != null) {
-          for (var i = 0; i < $scope.encuestaHistoryOffline[0].length; i++) {
-                  if ($scope.encuestaHistoryOffline[0][i].unidad === $scope.unitId) {
-                          $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[0][i]);
-                  }
+         var fechas = [];
+         var puntosIncidencia = [];
+         var listaUnidades = [];
+         var puntosIncidenciaPorUnidad = [];
 
+
+         for (var i = 0; i < data.length; i++) {
+             //Extraemos el día y mes para comprimir más la fecha
+             var day = "";
+             var months = ["Ene","Feb","Mar","Abr","Mayo","Jun","Jul","Ago","Sep","Oct","Nov","Dec"];
+
+             if (data[i].resumenVulne.fecha != undefined) {
+               day = new Date(data[i].resumenVulne.fecha);
+               day = day.getDate() + '-' +  months[day.getMonth()];
+               fechas.push(day);
+               puntosIncidencia.push({meta: data[i].unidad,value: data[i].resumenVulne.valor});
+             }else {
+               if (!fechas.contains(data[i].resumenVulne[0].fecha)){
+                   day = new Date(data[i].resumenVulne[0].fecha);
+                   day = day.getDate() + '-' + months[day.getMonth()];
+                   fechas.push(day);
+               }
+               puntosIncidencia.push({meta: data[i].unidad,value: data[i].resumenVulne[0].valor});
+             }
+
+         }
+
+         //Extraemos el listado de unidades involucradas
+         for (var i = 0; i < puntosIncidencia.length; i++) {
+             console.log(puntosIncidencia);
+             if (!listaUnidades.contains(puntosIncidencia[i].meta)){
+                 listaUnidades.push(puntosIncidencia[i].meta);
+             }
+         }
+
+         //Regeneramos el array para graficar cada unidad como línea
+         for (var i = 0; i < listaUnidades.length; i++) {
+            for (var j = 0; j < puntosIncidencia.length; j++) {
+             if (listaUnidades[i].localeCompare(puntosIncidencia[j].meta) == 0){
+                 if (puntosIncidenciaPorUnidad[i] == undefined){
+                     puntosIncidenciaPorUnidad[i] = [];
+                     for (var y = 0; y < j; y++) {
+                          puntosIncidenciaPorUnidad[i].push(null);
+                     }
+                 }
+
+                 puntosIncidenciaPorUnidad[i].push(puntosIncidencia[j]);
+             }
+         }
+         }
+
+         console.log("listaUnidades-------------------");
+         console.log(listaUnidades);
+
+         console.log(fechas);
+         console.log(puntosIncidencia);
+         console.log("Todo-------------------");
+         console.log(puntosIncidenciaPorUnidad);
+
+
+         var dataG = new Chartist.Line(classData, {
+           labels: fechas,
+           series: puntosIncidenciaPorUnidad
+       }, {
+           fullWidth: true,
+
+           chartPadding: {
+             right: 25,
+             left: -18,
+             top: 50,
+             bottom: 50
+         },
+         plugins: [
+             Chartist.plugins.tooltip()
+         ]
+
+
+     });
+   }
+
+  $scope.historialVulLaunch = function() {
+
+
+       if ($rootScope.IsInternetOnline) {
+          console.log("Con internet");
+          console.log(auth.userId());
+          vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
+             $scope.encuestaHistory = userhistory.data;
+             $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
+             localStorageService.set('encuestaHistory',userhistory.data);
+             console.log($scope.encuestaHistory);
+
+             // Encuestas filtradas por Unidad
+             for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+               if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                 $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+               }
+             }
+             console.log($scope.encuestaHistoryByUnidad);
+             $scope.graficarHitorial();
+         });
+         localStorageService.remove('dataVulneOffline');
+
+      } else {
+          console.log("No internet");
+          console.log(auth.userId());
+          $scope.encuestaHistory = localStorageService.get('encuestaHistory');
+          console.log('Offline-Data Vulnerabilidad: ', $scope.encuestaHistory);
+          $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
+          console.log($scope.encuestaHistoryOffline);
+
+          //Encuestas ya guardadas cargadas Offline filtradas por Unidad
+          for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+            if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+              $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+            }
           }
-        }
 
-        console.log($scope.encuestaHistoryByUnidadOffline);
-        // $scope.chargeData($scope.encuestaHistoryByUnidadOffline);
-    }
+          //Encuestas Realizadas Offline filtradas por Unidad
+          if ($scope.encuestaHistoryOffline != null) {
+            for (var i = 0; i < $scope.encuestaHistoryOffline[0].length; i++) {
+              if ($scope.encuestaHistoryOffline[0][i].unidad === $scope.unitId) {
+                $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[0][i]);
+              }
+            }
+          }
+
+          console.log($scope.encuestaHistoryByUnidadOffline);
+          $scope.graficarHitorial();
+      }
 
 
     console.log("historial");
@@ -778,139 +902,6 @@ $scope.historialVulLaunch = function() {
                 console.log($scope.algo);
         console.log("Esot es algo --------------------------");
 
-        //$scope.graficarHitorial();
     }
-
-    $scope.graficarHitorial = function () {
-      var data = [];
-      var historyGrafic = [];
-      var classData = "";
-
-      Array.prototype.contains = function(obj) {
-          var i = this.length;
-          while (i--)
-              if (this[i] == obj)
-                  return true;
-              return false;
-          }
-
-          $('.graficHistoryVulne').hide();
-          classData = "#dataUnitVulne"
-          $(classData).css({display:"block"});
-          $(".espacioVulne").css({display:"block"});
-          historyGrafic = localStorageService.get('encuestaHistory');
-
-          console.log(historyGrafic);
-
-          if (historyGrafic != 0) {
-            for (var i = 0; i < historyGrafic.length; i++) {
-              if (historyGrafic[i].unidad == $scope.unitId) {
-                data.push(historyGrafic[i]);
-              }
-
-            }
-          }
-
-          console.log(data);
-
-          if ($scope.encuestaHistoryByUnidadOffline.length != 0) {
-            for (var i = 0; i < $scope.encuestaHistoryByUnidadOffline.length; i++) {
-                  data.push($scope.encuestaHistoryByUnidadOffline[i]);
-                  console.log(data);
-                }
-          }
-
-          var fechas = [];
-          var puntosIncidencia = [];
-          var listaUnidades = [];
-          var puntosIncidenciaPorUnidad = [];
-
-
-          for (var i = 0; i < data.length; i++) {
-              var day = "";
-              var months = ["Ene","Feb","Mar","Abr","Mayo","Jun","Jul","Ago","Sep","Oct","Nov","Dec"];
-              // console.log(data[i].resumenVulne[0].fecha);
-              if (data[i].resumenVulne.fecha != undefined) {
-                day = new Date(data[i].resumenVulne.fecha);
-                day = day.getDate() + '-' +  months[day.getMonth()];
-                fechas.push(day);
-
-                console.log(data[i]);
-                puntosIncidencia.push({meta: data[i].unidad,value: data[i].resumenVulne.valor});
-              }else {
-                if (!fechas.contains(data[i].resumenVulne[0].fecha)){
-
-                    day = new Date(data[i].resumenVulne[0].fecha);
-                    day = day.getDate() + '-' + months[day.getMonth()];
-                    fechas.push(day);
-                }
-                console.log(data[i]);
-                puntosIncidencia.push({meta: data[i].unidad,value: data[i].resumenVulne[0].valor});
-              }
-
-          }
-
-          //Extraemos el listado de unidades involucradas
-          for (var i = 0; i < puntosIncidencia.length; i++) {
-              console.log(puntosIncidencia);
-              if (!listaUnidades.contains(puntosIncidencia[i].meta)){
-                  listaUnidades.push(puntosIncidencia[i].meta);
-              }
-          }
-
-          //Regeneramos el array para graficar cada unidad como línea
-          for (var i = 0; i < listaUnidades.length; i++) {
-             for (var j = 0; j < puntosIncidencia.length; j++) {
-              if (listaUnidades[i].localeCompare(puntosIncidencia[j].meta) == 0){
-                  if (puntosIncidenciaPorUnidad[i] == undefined){
-                      puntosIncidenciaPorUnidad[i] = [];
-                      for (var y = 0; y < j; y++) {
-                           puntosIncidenciaPorUnidad[i].push(null);
-                      }
-                  }
-
-                  puntosIncidenciaPorUnidad[i].push(puntosIncidencia[j]);
-              }
-          }
-          }
-
-          console.log("listaUnidades-------------------");
-          console.log(listaUnidades);
-
-          console.log(fechas);
-          console.log(puntosIncidencia);
-          console.log("Todo-------------------");
-          console.log(puntosIncidenciaPorUnidad);
-
-
-          var dataG = new Chartist.Line(classData, {
-            labels: fechas,
-            series: puntosIncidenciaPorUnidad
-        }, {
-            fullWidth: true,
-
-            chartPadding: {
-              right: 25,
-              left: -18,
-              top: 50,
-              bottom: 50
-          },
-          plugins: [
-              Chartist.plugins.tooltip()
-          ]
-
-
-      });
-    }
-
-    $scope.cerrarHitorial = function(){
-      $('.graficHistoryVulne').show();
-      $("#dataUnitVulne").css({display:"none"});
-      $(".espacioVulne").css({display:"none"});
-
-
-    }
-
-
 
 }]);

@@ -24,7 +24,7 @@
 
        <div class="row">
          <div class="col-xs-12 grup-lotes">
-           <h4 class="titleUnit" style="padding-left:0">Nombre: {{loteseleccionado.nombre}}</h4>
+           <h4 class="titleUnit" style="padding-left:0;margin-top: 20px;margin-bottom: 20px">Nombre: {{loteseleccionado.nombre}}</h4>
          </div>
        </div>
 
@@ -41,12 +41,10 @@
         <div class="panel-body">
           <h6 ng-hide="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" style="color:#666666">¡No hay cálculos todavía!</h6>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-          <div ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" id="dataUnitRoya" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;display: none;">
-
-            <button type="button" class="close" aria-label="Close" ng-click="cerrarHitorial('roya')"><span aria-hidden="true">×</span></button>
+          <div ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" id="dataUnitRoya" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;">
             <h4 class="modal-title" id="myModalLabel">Gráfica de Historal</h4><hr style="margin-top:15px!important;margin-bottom: 0px!important;">
           </div>
-          <hr ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" class="espacioRoya" style="display:none">
+          <hr ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" class="espacioRoya">
 
             <div class="panel panel-default" ng-repeat="roya in royaHistoryByLote">
               <div class="panel-heading" role="tab" id="{{ 'heading-' + $index }}">
@@ -102,8 +100,6 @@
                 </div>
               </div>
             </div>
-            <hr ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" style="margin-bottom:15px!important">
-            <button ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" type="button" class="btn btn-default graficHistoryRoya" ng-click="graficarHitorial('roya')">Gráfica</button>
           </div>
         </div>
       </div>
@@ -122,12 +118,10 @@
 
           <h6 ng-hide="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" style="color:#666666">¡No hay cálculos todavía!</h6>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-            <div ng-show="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" id="dataUnitGallo" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;display: none;">
-
-              <button type="button" class="close" aria-label="Close" ng-click="cerrarHitorial('gallo')"><span aria-hidden="true">×</span></button>
+            <div ng-show="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" id="dataUnitGallo" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;">
               <h4 class="modal-title" id="myModalLabel">Gráfica de Historal</h4><hr style="margin-top:15px!important;margin-bottom: 0px!important;">
             </div>
-            <hr ng-show="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" class="espacioGallo" style="display:none">
+            <hr ng-show="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" class="espacioGallo">
 
             <div class="panel panel-default" ng-repeat="gallo in galloHistoryByLote">
               <div class="panel-heading" role="tab" id="{{ 'headingGalloOnline-' + $index }}">
@@ -184,10 +178,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Footer Gráfica -->
-            <hr ng-show="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" style="margin-bottom:15px!important">
-            <button ng-show="galloHistoryByLote.length != 0 || galloHistoryByLoteOffline.length != 0" type="button" class="btn btn-default graficHistoryGallo" ng-click="graficarHitorial('gallo')">Gráfica</button>
           </div>
         </div>
       </div>
