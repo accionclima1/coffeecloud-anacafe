@@ -1,0 +1,33 @@
+<script type="text/ng-template" id="/roya2.html">
+    <style>
+.myGrid {
+    width: 100%;
+    height: 350px;
+  }
+        </style>
+    <div class="container-fluid roya-wrap">
+        <h1>Status Roya</h1>
+    </div>
+    <div style="margin:10px;">
+        <div class="row" >
+            <div class="col-md-6">
+                <label>Desde:</label>
+                <input type="date" class="form-control" ng-model="fechainicio"/>
+            </div>
+            <div class="col-md-6">
+                <label>Hasta:</label>
+                <input type="date" class="form-control" ng-model="fechafin"/>
+            </div>
+        </div>
+        <div class="row" align="right" style="padding-right:15px;">
+            <button class="btn btn-default" ng-click="loadAll()">Buscar</button>
+        </div>
+        <div class="row" style="padding:15px">
+            <div id="mapid" style="height:350px">
+            </div>
+        </div>
+        <div class="row" style="padding:15px">
+            <div ui-grid="gridOptions" class="myGrid"></div>
+        </div>
+    </div>
+</script>

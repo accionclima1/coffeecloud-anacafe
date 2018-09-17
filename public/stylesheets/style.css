@@ -1605,6 +1605,8 @@ a.unidad {
  }
 
  .titleUnit{
+   margin-top: 20px;
+   margin-bottom: 20px;
    text-align: left;
    padding-left: 20px;
    color: #FFF;
@@ -1617,6 +1619,10 @@ a.unidad {
 
 .roya-wrap .switch{
   display:none;
+}
+
+.ct-label, .ct-horizontal, .ct-end{
+  margin-top: 5px;
 }
 
  /* Mensaje de Geolocalización Lote */

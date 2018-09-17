@@ -245,7 +245,8 @@ app.controller('RoyaCtrl', [
     	incidencia: 0,
     	avgplnt : "",
     	avgplntDmgPct : 0,
-    	incidencia : 0
+    	incidencia : 0,
+			date: new Date()
     };
 
 		$scope.test.user = $scope.currentId;
@@ -883,13 +884,14 @@ $scope.graficarHitorial = function () {
             if (!fechas.contains(data[i].createdAt)){
                 fechas.push(data[i].createdAt);
             }
-
-            puntosIncidencia.push({meta: data[i].unidad.nombre,value: data[i].incidencia});
+						console.log(data[i]);
+            puntosIncidencia.push({meta: data[i].unidad.user,value: data[i].incidencia});
 
         }
 
         //Extraemos el listado de unidades involucradas
         for (var i = 0; i < puntosIncidencia.length; i++) {
+						console.log(puntosIncidencia);
             if (!listaUnidades.contains(puntosIncidencia[i].meta)){
                 listaUnidades.push(puntosIncidencia[i].meta);
             }
@@ -935,16 +937,6 @@ $scope.graficarHitorial = function () {
 
 
     });
-
-
-
-
-
-
-
-
-
-
 
     }
 

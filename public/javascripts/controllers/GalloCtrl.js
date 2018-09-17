@@ -249,7 +249,8 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	  	incidencia: 0,
 	  	avgplnt : "",
 			avgplntDmgPct : 0,
-			incidencia : 0
+			incidencia : 0,
+      date: new Date()
 	  };
 
 		$scope.test.user = $scope.currentId;

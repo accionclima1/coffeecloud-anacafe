@@ -864,6 +864,10 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     $scope.saveAddUnitForm = function () {
         console.log($scope.newunitForm.$valid);
         if ($scope.newunitForm.$valid) {
+            $(".addUnit").hide();
+            $('#myModal2').modal('hide');
+            // $(".addUnit").attr('disabled', 'disabled');
+            // $(".addUnit").removeAttr('disabled', 'disabled');
             /*For sync fied ,as new record will always have sync property false until it is' sync by local db' */
 
             /*Sync */
@@ -908,7 +912,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
                         $scope.ResetNewUnit();
                         $scope.SweetAlert("¡Excelente!", "Unidad Añadida", "success");
-                        $('#myModal2').modal('hide');
+
                     }
                 });
             }
