@@ -661,7 +661,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          // Añadimos los muestreos guardados en el servidor
          if (historyGrafic != 0) {
            for (var i = 0; i < historyGrafic.length; i++) {
-             if (historyGrafic[i].unidad == $scope.unitId) {
+             if (historyGrafic[i].unidad == $scope.unitId && historyGrafic[i].resumenVulne[0] != undefined) {
                data.push(historyGrafic[i]);
              }
            }
@@ -670,7 +670,9 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          // Añadimos muestreos realizados offline si hubiera
          if ($scope.encuestaHistoryByUnidadOffline.length != 0) {
            for (var i = 0; i < $scope.encuestaHistoryByUnidadOffline.length; i++) {
-             data.push($scope.encuestaHistoryByUnidadOffline[i]);
+             if ($scope.encuestaHistoryByUnidadOffline[i].unidad == $scope.unitId && $scope.encuestaHistoryByUnidadOffline[i].resumenVulne != undefined) {
+               data.push($scope.encuestaHistoryByUnidadOffline[i]);
+             }
            }
          }
 
@@ -695,7 +697,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
              //Extraemos el día y mes para comprimir más la fecha
              var day = "";
              var months = ["Ene","Feb","Mar","Abr","Mayo","Jun","Jul","Ago","Sep","Oct","Nov","Dec"];
-
              if (data[i].resumenVulne.fecha != undefined) {
                day = new Date(data[i].resumenVulne.fecha);
                day = day.getDate() + '-' +  months[day.getMonth()];
