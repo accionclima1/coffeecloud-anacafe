@@ -41,6 +41,7 @@ app.controller('RoyaCtrl', [
 		$scope.vistaInicio = true;
 		$scope.vistaCalculo = false;
 		$scope.vistaResultado = false;
+		$scope.royaLocalesPouchDB = [];
 
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
 
@@ -203,6 +204,8 @@ app.controller('RoyaCtrl', [
 
         });
 				localStorageService.remove('dataOffline');
+
+
     } else {
 
     	console.log('app offline');
@@ -831,32 +834,42 @@ $scope.getHelp = function(currentUser) {
    };
    socket.emit('get msg',data_server);
 
-
-   localStorageService.remove('localTest');
-	 if ((localStorageService.get('dataOffline'))&&(localStorageService.get('dataOffline').length > 0)) {
-		 localStorageService.remove('dataOffline');
-	 }
 }).error(function(){
 
-	if (localStorageService.get('dataOffline') === null) {
-		localStorageService.set('dataOffline', $scope.arrOffline);
-		$scope.arrOffline.push($scope.test);
-		localStorageService.set('dataOffline', $scope.arrOffline);
-	}else {
-		$scope.arrOffline = localStorageService.get('dataOffline');
-		$scope.arrOffline.push($scope.test);
-		localStorageService.set('dataOffline', $scope.arrOffline);
-	}
-	$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+	PouchDB.GetRoyaFromPouchDB().then(function (result) {
+			console.log("entramos a PouchDB");
+			console.log(result);
 
-	console.log($scope.arrOffline);
-	console.log(localStorageService.get('dataOffline'));
+			if (result.status == 'fail') {
+					$scope.error = result.message;
+			}
+			else if (result.status == 'success') {
+					var doc = result.data.rows[0].doc;
+					if (result.data.rows.length > 0) {
+							var royaArrayPouchDB = [];
+							for (var i = 0; i < doc.list.length; i++) {
+									royaArrayPouchDB.push(doc.list[i]);
+							}
+							$scope.royaLocalesPouchDB = royaArrayPouchDB;
+
+							console.log("Data -- Roya Guardado Offline ");
+							console.log($scope.royaLocalesPouchDB);
+							console.log($scope.test);
+							$scope.royaLocalesPouchDB.push($scope.test);
+							console.log($scope.royaLocalesPouchDB);
+
+							//Mandamos el nuevo arreglo a pouchDB
+							PouchDB.SaveRoyaToPouchDB($scope.royaLocalesPouchDB);
+							$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+					}
+			}
+	}).catch(function(err) {
+			console.log("error al obtener datos");
+			console.log(err);
+	});
 });
 
-
-
-
-};
+}
 
 
 $scope.graficarHitorial = function () {
@@ -963,17 +976,10 @@ $scope.graficarHitorial = function () {
         $scope.royaHistory = localStorageService.get('royaHistory');
     }
 
-
     console.log("historial");
     console.log($scope.royaHistory);
-
-    //$scope.graficarHitorial();
-
-
-
 };
     //historialLaunchFunc();
     $scope.historialLaunch = historialLaunchFunc();
-
 
 }]);

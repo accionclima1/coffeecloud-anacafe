@@ -19,7 +19,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
             $(".cargandoAltitudLote").css("display", "none");
             $('.collapse').collapse('hide');
             },200);
-            $scope.historialVulLaunch();
+            // $scope.historialVulLaunch();
         });
 
         // Actualizo las variedades en Home Internal para poder visualizarlas en Lotes
@@ -38,9 +38,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
         else {
             console.log("app offline **");
             console.log(onlineStatus);
-            //$("#txtPrueba").val("offline " + onlineStatus.onLine);
             console.log(PouchDB);
-            //$scope.variedades = localStorageService.get('localVarieties');
 
             PouchDB.GetVarietiesFromPouchDB().then(function (result) {
                 console.log("Respuesta: ");
@@ -73,6 +71,86 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                // $("#txtPrueba").val("error en data");
             });
         }
+
+        if ($rootScope.IsInternetOnline) {
+           console.log("Con internet");
+           console.log(auth.userId());
+
+           vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
+              $scope.encuestaHistory = userhistory.data;
+
+              // Guardamos los muestreos en PouchDB
+              if (userhistory.data.length == 0) {
+                PouchDB.SaveVulnerabilityToPouchDB([{}]);
+              }
+              else {
+                PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
+              }
+
+              console.log($scope.encuestaHistory);
+
+              // Encuestas filtradas por Unidad
+              for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                  $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+                }
+              }
+              console.log("Encuestas de Unidad Servidor");
+              console.log($scope.encuestaHistoryByUnidad);
+              $scope.graficarHitorial(userhistory.data);
+          });
+
+       } else {
+           console.log("No internet");
+           console.log(auth.userId());
+
+           PouchDB.GetVulnerabilityFromPouchDB().then(function (result) {
+               console.log("Respuesta: ");
+               console.log(result);
+               console.log("entramos a PouchDB");
+               if (result.status == 'fail') {
+                  $scope.error = result.message;
+               }
+               else if (result.status == 'success') {
+                   var doc = result.data.rows[0].doc;
+                   if (result.data.rows.length > 0) {
+                       var encuestasArray = [];
+                       for (var i = 0; i < doc.list.length; i++) {
+                          encuestasArray.push(doc.list[i]);
+                       }
+
+                       $scope.encuestaHistory = encuestasArray;
+                       $scope.encuestaHistoryOffline = encuestasArray;
+                       console.log("Data -- Vulnerabilidad Offline - PouchDB ");
+                       console.log($scope.encuestaHistory);
+
+                       //Encuestas del Servidor cargadas Offline filtradas por Unidad
+                       for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                         if (($scope.encuestaHistory[i].unidad === $scope.unitId) && ($scope.encuestaHistory[i]._id != undefined)) {
+                           $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+                         }
+                       }
+                       console.log("Encuestas de Unidad Servidor - Cargadas Offline");
+                       console.log($scope.encuestaHistoryByUnidad);
+
+                       //Encuestas Realizadas Offline filtradas por Unidad
+                       if ($scope.encuestaHistoryOffline != null) {
+                         for (var i = 0; i < $scope.encuestaHistoryOffline.length; i++) {
+                           if (($scope.encuestaHistoryOffline[i].unidad === $scope.unitId) && ($scope.encuestaHistoryOffline[i]._id == undefined)) {
+                             $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[i]);
+                           }
+                         }
+                       }
+                       console.log("Encuestas de Unidad Offline");
+                       console.log($scope.encuestaHistoryByUnidadOffline);
+                       $scope.graficarHitorial(encuestasArray);
+                   }
+               }
+           }).catch(function(err) {
+               console.log("error al obtener datos");
+               console.log(err);
+           });
+       }
 
 
 
@@ -642,7 +720,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
        return -1;
    }
 
-   $scope.graficarHitorial = function () {
+   $scope.graficarHitorial = function (arrayEncuestas) {
      var data = [];
      var historyGrafic = [];
      var classData = "";
@@ -656,7 +734,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          }
 
          classData = "#dataUnitVulne"
-         historyGrafic = localStorageService.get('encuestaHistory');
+         historyGrafic = arrayEncuestas;
 
          // Añadimos los muestreos guardados en el servidor
          if (historyGrafic != 0) {
@@ -715,7 +793,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
          //Extraemos el listado de unidades involucradas
          for (var i = 0; i < puntosIncidencia.length; i++) {
-             console.log(puntosIncidencia);
              if (!listaUnidades.contains(puntosIncidencia[i].meta)){
                  listaUnidades.push(puntosIncidencia[i].meta);
              }
@@ -766,60 +843,11 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
      });
    }
 
-  $scope.historialVulLaunch = function() {
-
-
-       if ($rootScope.IsInternetOnline) {
-          console.log("Con internet");
-          console.log(auth.userId());
-          vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
-             $scope.encuestaHistory = userhistory.data;
-             $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
-             localStorageService.set('encuestaHistory',userhistory.data);
-             console.log($scope.encuestaHistory);
-
-             // Encuestas filtradas por Unidad
-             for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-               if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
-                 $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
-               }
-             }
-             console.log($scope.encuestaHistoryByUnidad);
-             $scope.graficarHitorial();
-         });
-         localStorageService.remove('dataVulneOffline');
-
-      } else {
-          console.log("No internet");
-          console.log(auth.userId());
-          $scope.encuestaHistory = localStorageService.get('encuestaHistory');
-          console.log('Offline-Data Vulnerabilidad: ', $scope.encuestaHistory);
-          $scope.encuestaHistoryOffline = localStorageService.get('dataVulneOffline');
-          console.log($scope.encuestaHistoryOffline);
-
-          //Encuestas ya guardadas cargadas Offline filtradas por Unidad
-          for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-            if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
-              $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
-            }
-          }
-
-          //Encuestas Realizadas Offline filtradas por Unidad
-          if ($scope.encuestaHistoryOffline != null) {
-            for (var i = 0; i < $scope.encuestaHistoryOffline[0].length; i++) {
-              if ($scope.encuestaHistoryOffline[0][i].unidad === $scope.unitId) {
-                $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[0][i]);
-              }
-            }
-          }
-
-          console.log($scope.encuestaHistoryByUnidadOffline);
-          $scope.graficarHitorial();
-      }
-
-
-    console.log("historial");
-    console.log($scope.encuestaHistory);
+  // $scope.historialVulLaunch = function() {
+  //
+  //
+  //
+  //   }
 
     $scope.resumenDataHistorial = [];
 
@@ -894,15 +922,5 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
           }
           console.log($scope.resumenDataHistorial);
    }
-
-    console.log("Inicio historial Resumen--------------------------");
-    console.log($scope.resumenDataHistorial);
-    console.log("Fin historial Resumen--------------------------");
-
-     console.log("Esot es algo --------------------------");
-                console.log($scope.algo);
-        console.log("Esot es algo --------------------------");
-
-    }
 
 }]);

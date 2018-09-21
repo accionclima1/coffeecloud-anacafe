@@ -41,6 +41,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   $scope.vistaInicio = true;
   $scope.vistaCalculo = false;
   $scope.vistaResultado = false;
+  $scope.galloLocalesPouchDB = [];
 
 	console.log($scope.user_Ided, $scope.unitId, $scope.loteIndex);
 
@@ -730,31 +731,40 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	            from_id:currentUser
 	        };
 	        socket.emit('get msg',data_server);
-					localStorageService.remove('localTestgallo');
-          console.log(localStorageService.get('dataOfflineGallo'));
-					if (localStorageService.get('dataOfflineGallo') !== null) {
-						localStorageService.remove('dataOfflineGallo');
-					}
         }).error(function(){
 
-					if (localStorageService.get('dataOfflineGallo') === null) {
-						localStorageService.set('dataOfflineGallo', $scope.arrOfflineGallo);
-						$scope.arrOfflineGallo.push($scope.test);
-						localStorageService.set('dataOfflineGallo', $scope.arrOfflineGallo);
-					}else {
-						$scope.arrOfflineGallo = localStorageService.get('dataOfflineGallo');
-						$scope.arrOfflineGallo.push($scope.test);
-						localStorageService.set('dataOfflineGallo', $scope.arrOfflineGallo);
-					}
-					$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+          PouchDB.GetGalloFromPouchDB().then(function (result) {
+        			console.log("entramos a PouchDB");
+        			console.log(result);
 
-					console.log($scope.arrOfflineGallo);
-					console.log(localStorageService.get('dataOfflineGallo'));
+        			if (result.status == 'fail') {
+        					$scope.error = result.message;
+        			}
+        			else if (result.status == 'success') {
+        					var doc = result.data.rows[0].doc;
+        					if (result.data.rows.length > 0) {
+        							var galloArrayPouchDB = [];
+        							for (var i = 0; i < doc.list.length; i++) {
+        									galloArrayPouchDB.push(doc.list[i]);
+        							}
+        							$scope.galloLocalesPouchDB = galloArrayPouchDB;
+
+        							console.log("Data -- Gallo Guardado Offline ");
+        							console.log($scope.galloLocalesPouchDB);
+        							console.log($scope.test);
+        							$scope.galloLocalesPouchDB.push($scope.test);
+        							console.log($scope.galloLocalesPouchDB);
+
+        							//Mandamos el nuevo arreglo a pouchDB
+        							PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
+        							$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+        					}
+        			}
+        	}).catch(function(err) {
+        			console.log("error al obtener datos");
+        			console.log(err);
+        	});
 				});
-
-
-
-
     };
 
 

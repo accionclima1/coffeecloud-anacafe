@@ -175,7 +175,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
 
         //Gráficas de Muestreos de Roya y Ojo de Gallo
-        $scope.graficarHitorial = function (option) {
+        $scope.graficarHitorial = function (option, optionList) {
           var data = [];
           var historyGrafic = [];
           var classData = "";
@@ -190,12 +190,12 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
           if (option == 'roya') {
             classData = "#dataUnitRoya"
-            historyGrafic = localStorageService.get('royaHistory');
+            historyGrafic = optionList;
 
             // Añadimos los muestreos guardados en el servidor
             if (historyGrafic != 0) {
               for (var i = 0; i < historyGrafic.length; i++) {
-                if (historyGrafic[i].idunidad == $scope.unitId && historyGrafic[i].loteIndex == $scope.loteIndex) {
+                if ((historyGrafic[i].idunidad == $scope.unitId) && (historyGrafic[i].loteIndex == $scope.loteIndex) && (historyGrafic[i]._id != undefined)) {
                   data.push(historyGrafic[i]);
                 }
               }
@@ -221,12 +221,12 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
           }
           else if (option == 'gallo') {
             classData = "#dataUnitGallo"
-            historyGrafic = localStorageService.get('galloHistory');
+            historyGrafic = optionList;
 
             // Añadimos los muestreos guardados en el servidor
             if (historyGrafic != 0) {
               for (var i = 0; i < historyGrafic.length; i++) {
-                if (historyGrafic[i].idunidad == $scope.unitId && historyGrafic[i].loteIndex == $scope.loteIndex) {
+                if ((historyGrafic[i].idunidad == $scope.unitId) && (historyGrafic[i].loteIndex == $scope.loteIndex) && (historyGrafic[i]._id != undefined)) {
                   data.push(historyGrafic[i]);
                 }
 
@@ -281,7 +281,6 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
           //Extraemos el listado de unidades involucradas
           for (var i = 0; i < puntosIncidencia.length; i++) {
-  						console.log(puntosIncidencia);
               if (!listaUnidades.contains(puntosIncidencia[i].meta)){
                   listaUnidades.push(puntosIncidencia[i].meta);
               }
@@ -342,8 +341,15 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
           roya.getUser(auth.userId()).then(function(userhistory){
             console.log("Entré Datos Roya");
             $scope.royaHistory = userhistory.data;
-            $scope.royaHistoryOffline = localStorageService.get('dataOffline');
-            localStorageService.set('royaHistory',userhistory.data);
+
+            // Guardamos los muestreos en PouchDB
+            if (userhistory.data.length == 0) {
+              PouchDB.SaveRoyaToPouchDB([{}]);
+            }
+            else {
+              PouchDB.SaveRoyaToPouchDB($scope.royaHistory);
+            }
+
             console.log("Historial Roya");
             console.log($scope.royaHistory);
 
@@ -353,37 +359,66 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                 $scope.royaHistoryByLote.push($scope.royaHistory[i]);
               }
             }
+            console.log("Muestreos Roya Servidor");
             console.log($scope.royaHistoryByLote);
-            $scope.graficarHitorial('roya');
+            $scope.graficarHitorial('roya', userhistory.data);
           });
-          localStorageService.remove('dataOffline');
           } else {
             console.log("No internet Roya");
             console.log($scope.user_Ided);
-            $scope.royaHistory = localStorageService.get('royaHistory');
-            console.log('Offline-Data Roya: ', $scope.royaHistory);
-            $scope.royaHistoryOffline = localStorageService.get('dataOffline');
-            console.log($scope.royaHistoryOffline);
+            PouchDB.GetRoyaFromPouchDB().then(function (result) {
+                console.log("Respuesta: ");
+                console.log(result);
+                console.log("entramos a PouchDB");
+                if (result.status == 'fail') {
 
-            //Muestreos ya guardados cargados Offline filtrados por lote
-            if ($scope.royaHistory != null) {
-              for (var i = 0; i < $scope.royaHistory.length; i++) {
-                if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
-                  $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+                    $scope.error = result.message;
+
                 }
-              }
-            }
+                else if (result.status == 'success') {
+                    var doc = result.data.rows[0].doc;
+                    if (result.data.rows.length > 0) {
+                        var royaArray = [];
+                        for (var i = 0; i < doc.list.length; i++) {
+                            royaArray.push(doc.list[i]);
+                        }
+                        $scope.royaHistory = royaArray;
+                        console.log("Data -- Roya Offline - PouchDB ");
+                        console.log($scope.royaHistory);
 
-            //Muestreos Realizados Offline filtrados por lote
-            if ($scope.royaHistoryOffline !== null) {
-              for (var i = 0; i < $scope.royaHistoryOffline.length; i++) {
-                if (($scope.royaHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.royaHistoryOffline[i].idunidad==$scope.unitId)) {
-                  $scope.royaHistoryByLoteOffline.push($scope.royaHistoryOffline[i]);
+                        console.log('Offline-Data Roya: ', $scope.royaHistory);
+                        $scope.royaHistoryOffline = royaArray;
+                        console.log($scope.royaHistoryOffline);
+
+                        //Muestreos ya guardados cargados Offline filtrados por lote
+                        if ($scope.royaHistory != null) {
+                          for (var i = 0; i < $scope.royaHistory.length; i++) {
+                            if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId) && ($scope.royaHistoryOffline[i]._id != undefined)) {
+                              $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+                            }
+                          }
+                        }
+                        console.log("Muestreos Roya Servidor - Cargados Offline");
+                        console.log($scope.royaHistoryByLote);
+
+                        //Muestreos Realizados Offline filtrados por lote
+                        if ($scope.royaHistoryOffline !== null) {
+                          for (var i = 0; i < $scope.royaHistoryOffline.length; i++) {
+                            if (($scope.royaHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.royaHistoryOffline[i].idunidad==$scope.unitId) && ($scope.royaHistoryOffline[i]._id == undefined)) {
+                              $scope.royaHistoryByLoteOffline.push($scope.royaHistoryOffline[i]);
+                            }
+                          }
+                        }
+                        console.log("Muestreos Roya Offline");
+                        console.log($scope.royaHistoryByLoteOffline);
+                        $scope.graficarHitorial('roya', royaArray);
+                    }
                 }
-              }
-            }
+            }).catch(function(err) {
+                console.log("error al obtener datos");
+                console.log(err);
+            });
 
-            $scope.graficarHitorial('roya');
           }
 
 
@@ -397,7 +432,15 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
             gallo.getUser(auth.userId()).then(function(userhistory){
               console.log('Entré Data Gallo');
               $scope.galloHistory = userhistory.data;
-              localStorageService.set('galloHistory',userhistory.data);
+
+              // Guardamos los muestreos en PouchDB
+              if (userhistory.data.length == 0) {
+                PouchDB.SaveGalloToPouchDB([{}]);
+              }
+              else {
+                PouchDB.SaveGalloToPouchDB($scope.galloHistory);
+              }
+
               console.log("Historial Ojo de Gallo");
               console.log($scope.galloHistory);
 
@@ -407,40 +450,67 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                         $scope.galloHistoryByLote.push($scope.galloHistory[i]);
                 }
               }
+              console.log("Muestreos Gallo Servidor");
               console.log($scope.galloHistoryByLote);
-              $scope.graficarHitorial('gallo');
+              $scope.graficarHitorial('gallo', userhistory.data);
             });
 
-
-            localStorageService.remove('dataOfflineGallo');
         } else {
             console.log("No internet Gallo");
             console.log($scope.user_Ided);
-            $scope.galloHistory = localStorageService.get('galloHistory');
-            console.log('Offline-Data Gallo: ', $scope.galloHistory);
-            $scope.galloHistoryOffline = localStorageService.get('dataOfflineGallo');
-            console.log($scope.galloHistoryOffline);
+            PouchDB.GetGalloFromPouchDB().then(function (result) {
+                console.log("Respuesta: ");
+                console.log(result);
+                console.log("entramos a PouchDB");
+                if (result.status == 'fail') {
 
-            //Muestreos ya guardados cargados Offline
-            if ($scope.galloHistory != null) {
-              for (var i = 0; i < $scope.galloHistory.length; i++) {
-                if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
-                  $scope.galloHistoryByLote.push($scope.galloHistory[i]);
-                }
-              }
-            }
+                    $scope.error = result.message;
 
-            //Muestreos Realizados Offline
-            if ($scope.galloHistoryOffline !== null) {
-              for (var i = 0; i < $scope.galloHistoryOffline.length; i++) {
-                if (($scope.galloHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.galloHistoryOffline[i].idunidad==$scope.unitId)) {
-                  $scope.galloHistoryByLoteOffline.push($scope.galloHistoryOffline[i]);
                 }
-              }
-            }
-            $scope.graficarHitorial('gallo');
+                else if (result.status == 'success') {
+                    var doc = result.data.rows[0].doc;
+                    if (result.data.rows.length > 0) {
+                        var galloArray = [];
+                        for (var i = 0; i < doc.list.length; i++) {
+                            galloArray.push(doc.list[i]);
+                        }
+                        $scope.galloHistory = galloArray;
+                        console.log("Data -- Gallo Offline - PouchDB ");
+                        console.log($scope.galloHistory);
+
+                        console.log('Offline-Data Roya: ', $scope.galloHistory);
+                        $scope.galloHistoryOffline = galloArray;
+                        console.log($scope.galloHistoryOffline);
+
+                        //Muestreos ya guardados cargados Offline
+                        if ($scope.galloHistory != null) {
+                          for (var i = 0; i < $scope.galloHistory.length; i++) {
+                            if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId) && ($scope.galloHistoryOffline[i]._id != undefined)) {
+                              $scope.galloHistoryByLote.push($scope.galloHistory[i]);
+                            }
+                          }
+                        }
+
+                        console.log("Muestreos Gallo Servidor - Cargados Offline");
+                        console.log($scope.galloHistoryByLote);
+
+                        //Muestreos Realizados Offline
+                        if ($scope.galloHistoryOffline !== null) {
+                          for (var i = 0; i < $scope.galloHistoryOffline.length; i++) {
+                            if (($scope.galloHistoryOffline[i].loteIndex == $scope.loteIndex)&&($scope.galloHistoryOffline[i].idunidad==$scope.unitId) && ($scope.galloHistoryOffline[i]._id == undefined)) {
+                              $scope.galloHistoryByLoteOffline.push($scope.galloHistoryOffline[i]);
+                            }
+                          }
+                        }
+                        console.log("Muestreos Gallo Offline");
+                        console.log($scope.galloHistoryByLoteOffline);
+                        $scope.graficarHitorial('gallo', galloArray);
+                    }
+                }
+            }).catch(function(err) {
+                console.log("error al obtener datos");
+                console.log(err);
+            });
         }
-        console.log("historial");
-        console.log($scope.royaHistory);
 
 }]);
