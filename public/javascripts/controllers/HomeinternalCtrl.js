@@ -538,7 +538,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            if (($(elemento1).attr("aria-expanded") === 'true')) {
              // Modifico elemento 2
              elemento2 = elemento2 + i;
-             sombra = sombra + i;
+             // sombra = sombra + i;
              porcentajeInput = porcentajeInput + i;
              console.log($(elemento1).attr("aria-expanded"));
 
@@ -619,18 +619,51 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            //    });
            //}
            var clase = 'latLangLoteId' + index.toString();
+           var areaExpandida = "#opLote-"
+           console.log(index);
 
-           //Sombra
-           sombra = ".sombraNoId" + index.toString();
-           porcentajeInput = ".porcentajeSombraId" + index.toString();
+           if ($scope.nuevoLote == "Activado") {
+             //Sombra
+             sombra = ".sombraNoId" + index;
+             porcentajeInput = ".porcentajeSombraId" + index;
 
-           if($(sombra).is(':checked')) {
-              console.log("Está activado");
-              $(porcentajeInput).val(0);
-              delete $scope.unidadseleccionada.lote[index].porcentajeDeSombra;
-              // $scope.unidadseleccionada.lote[i].porcentajeDeSombra = 0;
-              console.log($scope.unidadseleccionada.lote);
-            }
+             console.log(index);
+             console.log(sombra);
+
+             if($(sombra).is(':checked')) {
+                console.log("Está activado");
+                $(porcentajeInput).val(0);
+                delete $scope.unidadseleccionada.lote[index].porcentajeDeSombra;
+                // $scope.unidadseleccionada.lote[i].porcentajeDeSombra = 0;
+                console.log($scope.unidadseleccionada.lote);
+              }
+
+           }else if ($scope.nuevoLote == "") {
+             console.log("entré acá");
+             for (var i = 0; i <= index; i++) {
+               areaExpandida = areaExpandida + i;
+               if (($(areaExpandida).attr("aria-expanded") === 'true')) {
+                 //Sombra
+                 sombra = ".sombraNoId" + i;
+                 porcentajeInput = ".porcentajeSombraId" + i;
+
+                 console.log(i);
+                 console.log(sombra);
+
+                 if($(sombra).is(':checked')) {
+                    console.log("Está activado");
+                    $(porcentajeInput).val(0);
+                    delete $scope.unidadseleccionada.lote[i].porcentajeDeSombra;
+                    // $scope.unidadseleccionada.lote[i].porcentajeDeSombra = 0;
+                    console.log($scope.unidadseleccionada.lote);
+                  }
+               }
+               areaExpandida = "#opLote-";
+             }
+           }
+
+
+
 
            PouchDB.EditUnitLotes($scope.unidadseleccionada, auth.userId()).then(function (result) {
                console.log("Entre a Pouch");

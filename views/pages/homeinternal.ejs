@@ -147,13 +147,13 @@
                            <p>¿Tiene sombra?</p>
                            <div class="radio" style="display: inline;">
                              <label>
-                               <input type="radio" id="optionsRadios1A" class="{{ 'sombraSiId' + $index }}" ng-value="true" name="sombra" ng-model="lote.sombra" ng-checked="valueRadio">
+                               <input type="radio" id="optionsRadios1A" class="{{ 'sombraSiId' + $index }}" ng-value="true" ng-model="lote.sombra" ng-checked="lote.sombra">
                                Si
                              </label>
                            </div>
                            <div class="radio" style="display: inline;">
                              <label>
-                               <input type="radio" id="optionsRadios2A" class="{{ 'sombraNoId' + $index }}" ng-value="false" name="sombra" ng-model="lote.sombra" ng-checked="!valueRadio">
+                               <input type="radio" id="optionsRadios2A" class="{{ 'sombraNoId' + $index }}" ng-value="false" ng-model="lote.sombra" ng-checked="!lote.sombra">
                                No
                              </label>
                            </div>
