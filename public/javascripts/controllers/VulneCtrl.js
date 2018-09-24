@@ -540,7 +540,6 @@ $scope.dataImprimir = function(){
 
                 var dt = new Date();
                 var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
-                $scope.newEncuesta._id = documentId;
                 $scope.newEncuesta.user = auth.userId();
                 $scope.newEncuesta.PouchDBId = documentId;
                 $scope.newEncuesta.LastUpdatedDateTime = Number(dt);
