@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="/gallo.html">
 	  		<div class="gallo-wrap">
 	  			<h2 class="section-header">
-						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backHistorial(true)">
+						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backView()">
 							<i style="font-size: 20px;" class="fa fa-chevron-left"></i>
 					  </a>
 	  				CÁLCULO DE OJO DE GALLO <small ng-show="test.advMode">(avanzado)</small>
@@ -9,7 +9,7 @@
 				<div class="container">
 					<div class="row intro">
 						<div class="col-lg-6 col-lg-offset-3">
-							<p align="justify">Para llevar a cabo el cálculo de ojo de gallo presione el botón Iniciar Cálculo:</p>
+							<p align="justify" style="margin-top: 20px;margin-bottom: 20px;">Para llevar a cabo el cálculo de ojo de gallo presione el botón Iniciar Cálculo:</p>
 							<!-- <div class="radio">
 							  <input type="radio" id="optionsRadios1" ng-value="false" ng-model="test.advMode"><label for="optionsRadios1">Básico</label>
 							</div>
@@ -134,11 +134,11 @@
 
 								<div class="testControls">
 								<div class="col-md-12 fullbutton nopadd">
-									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 4 && test.bandolas || test.plantas.length > 4 && !test.bandolas">Agregar Planta</button>
 								</div>
 									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
 
-									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 30 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
+									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 5 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
 								</div>
 							</div>
 						</div>
@@ -157,7 +157,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
+								<button class="btn btn-primary" ng-click="backHistorial()">Historial de Muestreos</button>
 
 							</div>
 
@@ -173,7 +173,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonth.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
+								<button class="btn btn-primary" ng-click="backHistorial()">Historial de Muestreos</button>
 							</div>
 
 						</div>

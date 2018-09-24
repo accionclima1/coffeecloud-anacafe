@@ -15,12 +15,12 @@ function($scope, auth, $filter, $sce, posts){
   console.log($scope.data);
   $scope.getData = function () {
       return $filter('filter')($scope.data, $scope.q)
-     
+
     }
-    
+
     $scope.numberOfPages=function(){
-        return Math.ceil($scope.getData().length/$scope.pageSize);                
+        return Math.ceil($scope.getData().length/$scope.pageSize);
     }
-   
- 
+
+
 }]);

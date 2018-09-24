@@ -25,7 +25,7 @@ require('./models/Fungicida');
 require('./models/Vulnerability');
 require('./models/Encuesta');
 
-require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@163.172.154.223/dummyDB', {
+require('./config/passport'); mongoose.connect('mongodb://cafenube:Sec03lP1nt0@coffeecloudgt-beta-shard-00-00-i6kaz.mongodb.net:27017,coffeecloudgt-beta-shard-00-01-i6kaz.mongodb.net:27017,coffeecloudgt-beta-shard-00-02-i6kaz.mongodb.net:27017/dummyDB?ssl=true&replicaSet=CoffeeCloudGT-Beta-shard-0&authSource=admin&retryWrites=true', {
   server: {
     socketOptions: {
       socketTimeoutMS: 0,

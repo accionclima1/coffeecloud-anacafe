@@ -5,7 +5,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
     var map;
     //*Ea0707*/
-    //$rootScope.IsInternetOnline = false;
+    // $rootScope.IsInternetOnline = false;
     $scope.isLoggedIn = auth.isLoggedIn;
     $scope.currentUser = auth.currentUser;
     $scope.userId = auth.userId;
@@ -79,69 +79,67 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
     if ($rootScope.IsInternetOnline) {
         console.log("app online");
+        $scope.nuevaVariedad = false;
 
-         if (localStorageService.get('dataNewVarietysOffline') != null) {
-           PouchDB.GetVarietiesFromPouchDB().then(function (result) {
-               console.log("entramos a PouchDB");
-               console.log(result);
+        // Obteniendo Variedades
+        PouchDB.GetVarietiesFromPouchDB().then(function (result) {
+            console.log("entramos a PouchDB");
+            console.log(result);
 
-               if (result.status == 'fail') {
-                   $scope.error = result.message;
-               }
-               else if (result.status == 'success') {
-                   var doc = result.data.rows[0].doc;
-                   if (result.data.rows.length > 0) {
-                       var variedadesArrayPouchDB = [];
-                       for (var i = 0; i < doc.list.length; i++) {
-                           variedadesArrayPouchDB.push(doc.list[i]);
-                           if (doc.list[i]._id == null) {
-                             console.log(doc.list[i]);
-                             varieties.create(doc.list[i]).then(function (newVar) {
-                                 console.log("Entré a actualizar variedades en el servidor");
-                                 console.log(newVar.data);
+            if (result.status == 'fail') {
+                $scope.error = result.message;
+            }
+            else if (result.status == 'success') {
+                var doc = result.data.rows[0].doc;
+                if (result.data.rows.length > 0) {
+                    var variedadesArrayPouchDB = [];
+                    for (var i = 0; i < doc.list.length; i++) {
+                        variedadesArrayPouchDB.push(doc.list[i]);
 
-                                 varieties.getAll().then(function (varids) {
-                                   console.log("Entré a obtener variedades");
-                                     variedades = varids.data;
-                                     $scope.variedades = variedades;
-                                     //Guardamos con localStorage
-                                     localStorageService.set('localVarieties',variedades);
+                        // Valido si hay una variedad nueva
+                        if (doc.list[i]._id == null) {
+                          $scope.nuevaVariedad = true;
+                          console.log(doc.list[i]);
+                          varieties.create(doc.list[i]).then(function (newVar) {
+                              console.log("Entré a actualizar variedades en el servidor");
+                              console.log(newVar.data);
 
-                                     //Guardamos a nivel local
-                                     PouchDB.SaveVarietiesToPouchDB(variedades);
-                                     console.log("Data UnitManageCtrl--->");
-                                     console.log($scope.variedades);
-                                 });
-                             });
+                              varieties.getAll().then(function (varids) {
+                                console.log("Entré a obtener variedades");
+                                  variedades = varids.data;
+                                  $scope.variedades = variedades;
+                                  //Guardamos con localStorage
+                                  localStorageService.set('localVarieties',variedades);
 
-                           }
-                       }
+                                  //Guardamos a nivel local
+                                  PouchDB.SaveVarietiesToPouchDB(variedades);
+                                  console.log("Data --- Variedades Online Actualizadas - Servidor >");
+                                  console.log($scope.variedades);
+                              });
+                          });
 
-                       console.log("Data-- ");
-                       localStorageService.remove('dataNewVarietysOffline');
-                       console.log(variedadesArrayPouchDB);
-                   }
-               }
-           }).catch(function(err) {
-               console.log("error al obtener datos");
-               console.log(err);
-              // $("#txtPrueba").val("error en data");
-           });
+                        }else if ($scope.nuevaVariedad == false && i == (doc.list.length - 1)) {
+                          // En caso no hayan variedades nuevas
+                          varieties.getAll().then(function (varids) {
+                              variedades = varids.data;
+                              $scope.variedades = variedades;
+                              //Guardamos con localStorage
+                              localStorageService.set('localVarieties',variedades);
 
-         }else {
-           varieties.getAll().then(function (varids) {
-               variedades = varids.data;
-               $scope.variedades = variedades;
-               console.log($scope.variedades);
-               //Guardamos con localStorage
-               localStorageService.set('localVarieties',variedades);
+                              //Guardamos a nivel local
+                              PouchDB.SaveVarietiesToPouchDB(variedades);
+                              console.log("Data --- Variedades Online - Servidor >");
+                              console.log($scope.variedades);
+                          });
 
-               //Guardamos a nivel local
-               PouchDB.SaveVarietiesToPouchDB(variedades);
-               console.log("Data --->");
-               console.log($scope.variedades);
-           });
-         }
+                        }
+                    }
+                }
+            }
+        }).catch(function(err) {
+            console.log("error al obtener datos");
+            console.log(err);
+        });
 
          if (localStorageService.get('dataNewFungicidesOffline') != null) {
 
@@ -205,9 +203,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     else {
         console.log("app offline **");
         console.log(onlineStatus);
-        //$("#txtPrueba").val("offline " + onlineStatus.onLine);
         console.log(PouchDB);
-        //$scope.variedades = localStorageService.get('localVarieties');
 
         PouchDB.GetVarietiesFromPouchDB().then(function (result) {
             console.log("Respuesta: ");
@@ -216,7 +212,6 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             if (result.status == 'fail') {
 
                 $scope.error = result.message;
-                //$("#txtPrueba").val("error get Var");
 
             }
             else if (result.status == 'success') {
@@ -226,10 +221,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                     for (var i = 0; i < doc.list.length; i++) {
                         variedadesArray.push(doc.list[i]);
                     }
-                    //variedadesArray.push({ name: "otro" }, { name: "cual?" });
                     $scope.variedades = variedadesArray;
-                    // $scope.variedadLocalesPouchDB = variedadesArray;
-                    //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
                     console.log("Data-- Variedades Offline ");
                     console.log($scope.variedades);
 
@@ -238,7 +230,6 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
         }).catch(function(err) {
             console.log("error al obtener datos");
             console.log(err);
-           // $("#txtPrueba").val("error en data");
         });
 
         PouchDB.GetFungicidesFromPouchDB().then(function (result) {
@@ -246,10 +237,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             console.log(result);
             console.log("entramos a PouchDB");
             if (result.status == 'fail') {
-
                 $scope.error = result.message;
-                //$("#txtPrueba").val("error get Var");
-
             }
             else if (result.status == 'success') {
                 var doc = result.data.rows[0].doc;
@@ -258,10 +246,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                     for (var i = 0; i < doc.list.length; i++) {
                         fungicidasArray.push(doc.list[i]);
                     }
-                    //variedadesArray.push({ name: "otro" }, { name: "cual?" });
                     $scope.fungicides = fungicidasArray;
-                    // $scope.variedadLocalesPouchDB = variedadesArray;
-                    //$("#txtPrueba").val("GetVariedads "  + onlineStatus.onLine);
                     console.log("Data-- Fungicidas Offline ");
                     console.log($scope.fungicides);
 
@@ -270,7 +255,6 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
         }).catch(function(err) {
             console.log("error al obtener datos");
             console.log(err);
-           // $("#txtPrueba").val("error en data");
         });
     }
 
@@ -796,9 +780,11 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                       console.log(newVariety);
                       $scope.variedadLocalesPouchDB.push(newVariety);
                       console.log($scope.variedadLocalesPouchDB);
+
                       //Mandamos el nuevo arreglo a pouchDB
                       PouchDB.SaveVarietiesToPouchDB($scope.variedadLocalesPouchDB);
-                      localStorageService.set('dataNewVarietysOffline', $scope.variedadLocalesPouchDB);
+                      localStorageService.set('localVarieties', $scope.variedades);
+                      // localStorageService.set('dataNewVarietysOffline', $scope.variedadLocalesPouchDB);
                       $scope.SweetAlert('¡Excelente!', 'Variedad añadida.', 'success');
                   }
               }
@@ -877,6 +863,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     $scope.saveAddUnitForm = function () {
         console.log($scope.newunitForm.$valid);
         if ($scope.newunitForm.$valid) {
+            $('#myModal2').modal('hide');
+            // $(".addUnit").attr('disabled', 'disabled');
+            // $(".addUnit").removeAttr('disabled', 'disabled');
             /*For sync fied ,as new record will always have sync property false until it is' sync by local db' */
 
             /*Sync */
@@ -921,7 +910,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
                         $scope.ResetNewUnit();
                         $scope.SweetAlert("¡Excelente!", "Unidad Añadida", "success");
-                        $('#myModal2').modal('hide');
+
                     }
                 });
             }
@@ -1060,6 +1049,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
           console.log($scope.fungicidasLocalesPouchDB);
           PouchDB.SaveFungicidesToPouchDB($scope.fungicides);
           localStorageService.set('dataNewFungicidesOffline', $scope.fungicidasLocalesPouchDB);
+          localStorageService.set('localFungicidas', $scope.fungicides);
           console.log(localStorageService.get('dataNewFungicidesOffline'));
           $scope.SweetAlert('¡Excelente!', 'Fungicida añadido.', 'success');
         }
@@ -1119,19 +1109,6 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             }
           }
         }
-
-
-          // $scope.variedades.push({ name:  nombreVariedad });
-          // console.log("************************************************");
-          // console.log($scope.variedades);
-
-          // Buscar Nuevas Variedades y Añadirlas
-          // for (var i = 0; i < $scope.variedades.length; i++) {
-          //   if ($scope.variedades[i]._id == null) {
-          //     console.log("Nueva Variedad: ", $scope.variedades[i]);
-          //     $scope.addNewVariety($scope.variedades[i]);
-          //   }
-          // }
 
       }
       else{
@@ -1439,6 +1416,19 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
         }
         var unitId = args.unitId;
         if (unitId == -1) {
+            $scope.fungicidasSeleccionados = {};
+            $scope.funVar = {};
+
+            if ($rootScope.IsInternetOnline == false) {
+
+              if ((!$scope.variedades) || ($scope.variedades.length <= 0)) {
+                  $scope.variedades = localStorageService.get('localVarieties');
+              }
+
+              if ((!$scope.fungicides) || ($scope.fungicides.length <= 0)) {
+                $scope.fungicides = localStorageService.get('localFungicidas');
+              }
+            }
             //$('#myModal2').on('shown.bs.modal', function (e) {
             //    $('#newunitForm').validator();
             //});
@@ -1508,8 +1498,22 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                 $scope.SweetAlert('¡Error!', 'El dispositivo no soporta geolocalización', 'warinig');
             }
 
+
+
         } else {
             var ariaLabel = "";
+            $scope.fungicidasSeleccionados = {};
+            $scope.funVar = {};
+            if ($rootScope.IsInternetOnline == false) {
+
+              if ((!$scope.variedades) || ($scope.variedades.length <= 0)) {
+                  $scope.variedades = localStorageService.get('localVarieties');
+              }
+
+              if ((!$scope.fungicides) || ($scope.fungicides.length <= 0)) {
+                $scope.fungicides = localStorageService.get('localFungicidas');
+              }
+            }
             //$scope.newunitForm.$setPristine();
             //$scope.newunitForm.$setUntouched()
             //$scope.newUnit.nombre.$setUntouched();

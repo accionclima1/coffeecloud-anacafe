@@ -24,7 +24,7 @@ app.controller('VulneCtrl', [
 
       $scope.unitId = $stateParams.idunidad;
       $scope.unitIndex = $stateParams.indexunidad;
-      $scope.resumenVulneOffline = [];
+      $scope.encuestasLocalesPouchDB = [];
 
       console.log($scope.unitId);
 
@@ -42,13 +42,22 @@ app.controller('VulneCtrl', [
 
 
     if ($rootScope.IsInternetOnline) {
-
-
         PouchDB.SynLocalDataToServerDbEncuesta().then(function () {
             console.log("sync successfully encuesta.... al entrar a opción");
         }).catch(function (err) {
             console.log("Not able to sync" + error);
         });
+    }
+
+    $scope.clearTestVulne = function(option){
+			if (option == true) {
+				console.log("Reinicar");
+				$state.go("vulnerability", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex}, {reload: true});
+			}
+		}
+
+    $scope.backHistorialVulne = function(){
+      $state.go("homeinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex}, {reload: true});
     }
 
 
@@ -135,6 +144,7 @@ app.controller('VulneCtrl', [
         console.log(auth.userId());
         vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
            $scope.encuestaHistory = userhistory.data;
+
            localStorageService.set('encuestaHistory',userhistory.data);
            console.log($scope.encuestaHistory);
        });
@@ -528,44 +538,55 @@ $scope.dataImprimir = function(){
                 $scope.newEncuesta.unidad = $stateParams.idunidad;
                 $scope.newEncuesta.preguntas = $scope.listaPreguntas;
 
+                var dt = new Date();
+                var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+                $scope.newEncuesta.user = auth.userId();
+                $scope.newEncuesta.PouchDBId = documentId;
+                $scope.newEncuesta.LastUpdatedDateTime = Number(dt);
+
                 console.log('savelocal');
-                //region to create unit in local PouchDB instead of server
-                PouchDB.AddEncuesta($scope.newEncuesta, auth.userId()).then(function (result) {
-                    console.log("Esto es lo que devuelve al guardar");
-                    console.log(result);
-                    PouchDB.SynLocalDataToServerDbEncuesta();
-                    $scope.idEncuesta = result.data._id;
-                    console.log(result.data);
-                    $scope.listaPreguntas.push(result.data);
-                    if (result.status == 'fail') {
-                        $scope.error = result.message;
-                    }
+                console.log($scope.newEncuesta);
+
+                vulnerabilidades.create($scope.newEncuesta, auth.userId()).success(function(data){
+                   console.log("data enviado");
+                   console.log(data);
+
+                   var encuestaNueva = data;
+                   $scope.encuestaHistory.push(encuestaNueva);
+                   console.log($scope.encuestaHistory);
+
+               }).error(function(){
+
+               	PouchDB.GetVulnerabilityFromPouchDB().then(function (result) {
+               			console.log("entramos a PouchDB");
+               			console.log(result);
+
+               			if (result.status == 'fail') {
+               					$scope.error = result.message;
+               			}
                     else if (result.status == 'success') {
-                        delete result.data["type"];
+                        var doc = result.data.rows[0].doc;
+                        if (result.data.rows.length > 0) {
+                            var encuestasArray = [];
+                            for (var i = 0; i < doc.list.length; i++) {
+                                encuestasArray.push(doc.list[i]);
+                            }
+
+                            $scope.encuestasLocalesPouchDB = encuestasArray;
+                            console.log($scope.encuestasLocalesPouchDB);
+
+                            // Guardamos los muestreos en PouchDB
+                            $scope.encuestasLocalesPouchDB.push($scope.newEncuesta)
+                            PouchDB.SaveVulnerabilityToPouchDB($scope.encuestasLocalesPouchDB);
+                            console.log($scope.encuestasLocalesPouchDB);
+                        }
                     }
-
-                    if ((localStorageService.get('dataVulneOffline'))&&(localStorageService.get('dataVulneOffline').length > 0)) {
-                 		 localStorageService.remove('dataVulneOffline');
-                 	 }
-                });
-                // .catch (function(){
-                //     if (localStorageService.get('dataVulneOffline') === null) {
-                //   		localStorageService.set('dataVulneOffline', $scope.resumenVulneOffline);
-                //   		$scope.resumenVulneOffline.push($scope.newEncuesta);
-                //   		localStorageService.set('dataVulneOffline', $scope.resumenVulneOffline);
-                //   	}else {
-                //   		$scope.resumenVulneOffline = localStorageService.get('dataVulneOffline');
-                //   		$scope.resumenVulneOffline.push($scope.newEncuesta);
-                //   		localStorageService.set('dataVulneOffline', $scope.resumenVulneOffline);
-                //   	}
-                //   	$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-                //
-                //   	console.log($scope.resumenVulneOffline);
-                //   	console.log(localStorageService.get('dataVulneOffline'));
-                //
-                // });
-
-            };
+               	}).catch(function(err) {
+               			console.log("error al obtener datos");
+               			console.log(err);
+               	});
+               });
+            }
 
         $scope.verResultados = function(){
             $('#Preguntas').css('display','none');
@@ -576,19 +597,34 @@ $scope.dataImprimir = function(){
            console.log("Con internet");
            console.log(auth.userId());
            vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
-             console.log(userhistory.data);
               $scope.encuestaHistory = userhistory.data;
-              localStorageService.set('encuestaHistory',userhistory.data);
               console.log($scope.encuestaHistory);
           });
 
        } else {
            console.log("No internet");
-           console.log(auth.userId());
-           $scope.encuestaHistory = localStorageService.get('encuestaHistory');
+           PouchDB.GetVulnerabilityFromPouchDB().then(function (result) {
+               console.log("Respuesta: ");
+               console.log(result);
+               console.log("entramos a PouchDB");
+               if (result.status == 'fail') {
+                $scope.error = result.message;
+               }
+               else if (result.status == 'success') {
+                   var doc = result.data.rows[0].doc;
+                   if (result.data.rows.length > 0) {
+                     var encuestasArray = [];
+                     for (var i = 0; i < doc.list.length; i++) {
+                         encuestasArray.push(doc.list[i]);
+                     }
+
+                     $scope.encuestasLocalesPouchDB = encuestasArray;
+                     console.log($scope.encuestasLocalesPouchDB);
+                   }
+               }
+           }).catch(function(err) {
+               console.log("error al obtener datos");
+               console.log(err);
+           });
        }
-
-
-
-
         }]);

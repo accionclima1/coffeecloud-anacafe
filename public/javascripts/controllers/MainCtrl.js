@@ -34,32 +34,6 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
 
     if ($rootScope.IsInternetOnline) {
 
-      fungicidas.getAll().then(function (fungi) {
-          fungicidas = fungi.data;
-          $scope.fungicidas = fungicidas;
-          //Guardamos con localStorage
-          localStorageService.set('localFungicidas',fungicidas);
-
-          //Guardamos a nivel local
-          // PouchDB.SaveVarietiesToPouchDB(variedades);fungicidas
-          console.log("Data --->");
-          console.log($scope.fungicidas);
-      });
-
-
-        varieties.getAll().then(function (varids) {
-            variedades = varids.data;
-            $scope.variedades = variedades;
-            console.log($scope.variedades);
-            //Guardamos con localStorage
-            localStorageService.set('localVarieties',variedades);
-
-            //Guardamos a nivel local
-            // PouchDB.SaveVarietiesToPouchDB(variedades);
-            console.log("Data --->");
-            console.log($scope.variedades);
-        });
-
         console.log("app online...");
 
         methodsGallo.get().then(function(methodsGallo){
@@ -72,37 +46,37 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
           localStorageService.set("methodsRoya", methRoya)
         });
     }
-    else {
-        console.log("app offline");
-        console.log("Versión prueba de fallos");
-
-        PouchDB.GetVarietiesFromPouchDB().then(function (result) {
-            console.log("Respuesta: ");
-            console.log(result);
-            console.log("entramos a PouchDB");
-            if (result.status == 'fail') {
-
-                $scope.error = result.message;
-
-            }
-            else if (result.status == 'success') {
-                var doc = result.data.rows[0].doc;
-                if (result.data.rows.length > 0) {
-                    var variedadesArray = [];
-                    for (var i = 0; i < doc.list.length; i++) {
-                        variedadesArray.push(doc.list[i]);
-                    }
-                    $scope.variedades = variedadesArray;
-                    console.log("Data-- ");
-                    console.log($scope.variedades);
-
-                }
-            }
-        }).catch(function(err) {
-            console.log("error al obtener datos");
-            console.log(err);
-        });
-    }
+    // else {
+    //     console.log("app offline");
+    //     console.log("Versión prueba de fallos");
+    //
+    //     PouchDB.GetVarietiesFromPouchDB().then(function (result) {
+    //         console.log("Respuesta: ");
+    //         console.log(result);
+    //         console.log("entramos a PouchDB");
+    //         if (result.status == 'fail') {
+    //
+    //             $scope.error = result.message;
+    //
+    //         }
+    //         else if (result.status == 'success') {
+    //             var doc = result.data.rows[0].doc;
+    //             if (result.data.rows.length > 0) {
+    //                 var variedadesArray = [];
+    //                 for (var i = 0; i < doc.list.length; i++) {
+    //                     variedadesArray.push(doc.list[i]);
+    //                 }
+    //                 $scope.variedades = variedadesArray;
+    //                 console.log("Data-- ");
+    //                 console.log($scope.variedades);
+    //
+    //             }
+    //         }
+    //     }).catch(function(err) {
+    //         console.log("error al obtener datos");
+    //         console.log(err);
+    //     });
+    // }
 
 
     // Opciones de Formulario Nueva Unidad - Fungicidas

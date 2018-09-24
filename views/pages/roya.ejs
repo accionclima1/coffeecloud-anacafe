@@ -2,7 +2,7 @@
 	  		<div class="roya-wrap">
 
 	  			<h2 class="section-header">
-						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backHistorial(true)">
+						<a class="back-button" style="position: fixed;left: 20px;color: #FFF;" ng-click="backView()">
 							<i style="font-size: 20px;" class="fa fa-chevron-left"></i>
 					  </a>
 	  				CÁLCULO DE ROYA <small ng-show="test.advMode">(avanzado)</small>
@@ -10,7 +10,7 @@
 				<div class="container">
 					<div class="row intro">
 						<div class="col-lg-6 col-lg-offset-3">
-							<p align="justify">Para llevar a cabo el cálculo de roya es necesario que elija un modo:</p>
+							<p align="justify" style="margin-top: 20px;margin-bottom: 20px;">Para llevar a cabo el cálculo de roya es necesario que elija un modo:</p>
 							<div class="radio">
 							  <input type="radio" id="optionsRadios1" ng-value="false" ng-model="test.advMode"><label for="optionsRadios1">Básico</label>
 							</div>
@@ -44,7 +44,7 @@
 							<button class="btn btn-primary adv" ng-click="startTest($event)">Avanzado</button> -->
 
 							<!-- Button Iniciar Test -->
-								<button id="startTest" type="button" class="btn btn-primary" ng-click="startTest(idUser, unitId,loteIndex)">
+								<button id="startTest" type="button" class="btn btn-primary" style="margin-top:100px!important" ng-click="startTest(idUser, unitId,loteIndex)">
 								  Iniciar Cálculo
 								</button>
 
@@ -137,11 +137,11 @@
 
 								<div class="testControls">
 								<div class="col-md-12 fullbutton nopadd">
-									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 29 && test.bandolas || test.plantas.length > 49 && !test.bandolas">Agregar Planta</button>
+									<button class="btn btn-primary" ng-click="addPlant()" ng-disable="IsTotalPlantaAdded" ng-hide="test.plantas.length > 4 && test.bandolas || test.plantas.length > 4 && !test.bandolas">Agregar Planta</button>
 								</div>
 									<button class="btn btn-primary" ng-click="exitAlert()">Cancelar</button>
 
-									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 30 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
+									<button class="btn btn-primary" ng-click="calculateTest()" ng-disabled="test.plantas.length < 5 && test.bandolas || test.plantas.length < unabandola50 && !test.bandolas">Calcular</button>
 								</div>
 							</div>
 						</div>
@@ -160,7 +160,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p> -->
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
+								<button class="btn btn-primary" ng-click="backHistorial()">Historial de Muestreos</button>
 
 							</div>
 
@@ -176,7 +176,7 @@
 									<span ng-show="test.incidencia > 50 ">{{methodsMonthRoya.grade3}}</span>
 								</p>
 								<button class="btn btn-primary" ng-click="ClearTest(true)">Nuevo cálculo</button>
-								<button class="btn btn-primary" ng-click="backHistorial(true)">Historial de Muestreos</button>
+								<button class="btn btn-primary" ng-click="backHistorial()">Historial de Muestreos</button>
 
 							</div>
 

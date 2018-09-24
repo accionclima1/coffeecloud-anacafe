@@ -157,7 +157,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
 
 
     //Get Fungicidas from PouchDb
-
     pouchDbFactory.GetFungicidesFromPouchDB = function () {
         var result = {
             status: '',
@@ -266,7 +265,332 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         return deferred.promise;
     }
 
+    // Get Roya from PouchDB
+    pouchDbFactory.GetRoyaFromPouchDB = function () {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        function mapFunctionTypeUnit(doc) {
+            if ((doc.EntityType == "Roya")) {
+                emit(doc);
+            }
+        }
+        var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+        $q.when(pouchPromise).then(function (doc) {
+            result.status = 'success';
+            result.data = doc;
+            deferred.resolve(result);
+        },function(err){
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        }).catch(function (err) {
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        });
+        return deferred.promise;
+    }
 
+    //Save Roya to PouchDb
+    pouchDbFactory.SaveRoyaToPouchDB = function (royaData) {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        if (royaData != undefined && royaData.length > 0) {
+            var roya = {
+                list: [],
+                EntityType: 'Roya',
+            };
+            for (var x = 0; x < royaData.length; x++) {
+                roya.list.push(royaData[x])
+            }
+            function mapFunctionTypeUnit(doc) {
+                if ((doc.EntityType == "Roya")) {
+                    emit(doc);
+                }
+            }
+            var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+             $q.when(pouchPromise).then(function (result) {
+                if (result.rows.length > 0) {
+                    var tmp = result.rows[0].doc;
+                    doc = roya;
+                    doc._id = tmp._id;
+                    doc._rev = tmp._rev;
+                    var UpdatePouchPromise = localPouchDB.put(doc);
+                    $q.when(UpdatePouchPromise).then(function (res) {
+                        if (res && res.ok == true) {
+                            console.log("Roya updated to local pouchDb");
+                            result.status = 'success';
+                            deferred.resolve(result);
+                        }
+                    },function(err){
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+                else {
+                    var dt = new Date();
+                    var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+                    roya._id = documentId;
+                    return localPouchDB.put(roya).then(function () {
+                        console.log("Roya inserted in pouchDb");
+                        result.status = 'success';
+                        deferred.resolve(result);
+                    },function(err){
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+
+            });
+        }
+        else {
+            result.status = 'success';
+            result.message = 'No royaData to sync';
+            deferred.resolve(result);
+        }
+        return deferred.promise;
+    }
+
+    // Get Gallo from PouchDB
+    pouchDbFactory.GetGalloFromPouchDB = function () {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        function mapFunctionTypeUnit(doc) {
+            if ((doc.EntityType == "Gallo")) {
+                emit(doc);
+            }
+        }
+        var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+        $q.when(pouchPromise).then(function (doc) {
+            result.status = 'success';
+            result.data = doc;
+            deferred.resolve(result);
+        },function(err){
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        }).catch(function (err) {
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        });
+        return deferred.promise;
+    }
+
+    //Save Gallo to PouchDb
+    pouchDbFactory.SaveGalloToPouchDB = function (galloData) {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        if (galloData != undefined && galloData.length > 0) {
+            var gallo = {
+                list: [],
+                EntityType: 'Gallo',
+            };
+            for (var x = 0; x < galloData.length; x++) {
+                gallo.list.push(galloData[x])
+            }
+            function mapFunctionTypeUnit(doc) {
+                if ((doc.EntityType == "Gallo")) {
+                    emit(doc);
+                }
+            }
+            var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+             $q.when(pouchPromise).then(function (result) {
+                if (result.rows.length > 0) {
+                    var tmp = result.rows[0].doc;
+                    doc = gallo;
+                    doc._id = tmp._id;
+                    doc._rev = tmp._rev;
+                    var UpdatePouchPromise = localPouchDB.put(doc);
+                    $q.when(UpdatePouchPromise).then(function (res) {
+                        if (res && res.ok == true) {
+                            console.log("Gallo updated to local pouchDb");
+                            result.status = 'success';
+                            deferred.resolve(result);
+                        }
+                    },function(err){
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+                else {
+                    var dt = new Date();
+                    var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+                    gallo._id = documentId;
+                    return localPouchDB.put(gallo).then(function () {
+                        console.log("Gallo inserted in pouchDb");
+                        result.status = 'success';
+                        deferred.resolve(result);
+                    },function(err){
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+
+            });
+        }
+        else {
+            result.status = 'success';
+            result.message = 'No galloData to sync';
+            deferred.resolve(result);
+        }
+        return deferred.promise;
+    }
+
+    //for getting Encuestas de Vulnerabilidad from pouchDB
+    pouchDbFactory.GetVulnerabilityFromPouchDB = function () {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        function mapFunctionTypeUnit(doc) {
+            if ((doc.EntityType == "Vulnerability")) {
+                emit(doc);
+            }
+        }
+        var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+        $q.when(pouchPromise).then(function (doc) {
+            result.status = 'success';
+            result.data = doc;
+            deferred.resolve(result);
+        },function(err){
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        }).catch(function (err) {
+            console.log(err);
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        });
+        return deferred.promise;
+    }
+
+    //for saving Encuestas de Vulnerabilidad to pouchDB
+    pouchDbFactory.SaveVulnerabilityToPouchDB = function (vulnerabilityData) {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        if (vulnerabilityData != undefined && vulnerabilityData.length > 0) {
+            var vulnerability = {
+                list: [],
+                EntityType: 'Vulnerability',
+            };
+            for (var x = 0; x < vulnerabilityData.length; x++) {
+                vulnerability.list.push(vulnerabilityData[x])
+            }
+            function mapFunctionTypeUnit(doc) {
+                if ((doc.EntityType == "Vulnerability")) {
+                    emit(doc);
+                }
+            }
+            var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+             $q.when(pouchPromise).then(function (result) {
+                if (result.rows.length > 0) {
+                    var tmp = result.rows[0].doc;
+                    doc = vulnerability;
+                    doc._id = tmp._id;
+                    doc._rev = tmp._rev;
+                    var UpdatePouchPromise = localPouchDB.put(doc);
+                    $q.when(UpdatePouchPromise).then(function (res) {
+                        if (res && res.ok == true) {
+                            console.log("vulnerability updated to local pouchDb");
+                            result.status = 'success';
+                            deferred.resolve(result);
+                        }
+                    },function(err){
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        console.log(err);
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+                else {
+                    var dt = new Date();
+                    var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+                    vulnerability._id = documentId;
+                    return localPouchDB.put(vulnerability).then(function () {
+                        console.log("vulnerability inserted in pouchDb");
+                        result.status = 'success';
+                        deferred.resolve(result);
+                    },function(err){
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    }).catch(function (err) {
+                        result.status = 'fail';
+                        result.message = err;
+                        deferred.resolve(result);
+                    });
+                }
+
+            });
+        }
+        else {
+            result.status = 'success';
+            result.message = 'No vulnerabilityData to sync';
+            deferred.resolve(result);
+        }
+        return deferred.promise;
+    }
+
+
+    // SynServerLoginReturnedDataToLocalDb
     pouchDbFactory.SynServerLoginReturnedDataToLocalDb = function (userData) {
         console.log("Dentro de: SynServerLoginReturnedDataToLocalDb");
         var result = {
@@ -618,6 +942,8 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                     result.data = [];
                     result.message = 'Error while Sync' + err.Message;
                     deferred.resolve(result);
+
+
 
                     if (localStorageService.get('dataVulneOffline') == null) {
                   		localStorageService.set('dataVulneOffline', resumenVulneOffline);
@@ -1964,7 +2290,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.create = function (encuesta, id) {
         //localhost unit
-        return $http.post('http://coffeecloud.centroclima.org/users/' + id + '/encuesta', encuesta, {
+        return $http.post('http://coffeecloud.centroclima.org/users/' + id + '/encuesta?tmp=' + (new Date()).getTime(), encuesta, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
