@@ -1054,7 +1054,7 @@ input:checked + label + #otherArea {
   background-color: #7FD321;
 }
 .chatbox {
-  height: 76%;
+  height: 78%;
   overflow: auto;
 }
 
@@ -1089,24 +1089,27 @@ input:checked + label + #otherArea {
 }
 
 .type-sink input {
-  height: 54px;
-  margin-top: -10px;
+  height: 40px;
+  margin-top: 10px;
   border: 0;
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.14);
   width: 80% !important;
+  border-radius: 15px;
+  margin-left: 27%
 }
 
 .type-sink .form-group {
   display: inline-block;
   width: 100%;
   padding-right: 84px;
+  margin-bottom: 5px !important;
 }
 
 .type-sink button {
   float: right;
   border-radius: 360px;
-  padding: 25px 10px;
-  margin-top: -65px;
+  padding: 15px;
+  margin-top: -50px;
   background-color: #7FD321;
   color: #fff;
   text-transform: uppercase;
@@ -1298,9 +1301,10 @@ a.unidad {
   background-repeat: no-repeat;
   background-size:cover;
   background-position: center top;
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: 40px;
   float:left;
+  border-radius: 20px;
 }
 
 
@@ -1390,9 +1394,9 @@ a.unidad {
 }
 .icattache {
   position: absolute;
-  right: 94px;
+  right: 80px;
   font-size: 26px;
-  top: -8px;
+  top: 15px;
 }
 .fullbutton button {
   width: 100% !important;
@@ -1580,6 +1584,10 @@ a.unidad {
    /* .nombreUnidad{
      width: 28%;
    } */
+
+   .chatbox{
+     height: 70% !important;
+   }
 
    .buttonsUnidad{
      width: 72%;
