@@ -89,7 +89,7 @@
             <div class="form-group">
                 <input type="text"
                        class="form-control"
-                       placeholder="Geo Referencia" ng-model="newUnit.ubicacion" id="latlongid">
+                       placeholder="Geo Referencia" ng-model="newUnit.ubicacion" id="latlongid" required>
                 <div class="help-block with-errors"></div></input>
                 <span class="input-group-btn">
                     <button style="margin-top: 0px;" class="btn btn-default" type="button" ng-click="toggle = !toggle; mapInit()">
@@ -197,13 +197,14 @@
                     background-color: #afafaf;
                     color: #fff;
                     text-align: left;
-                    padding: 0px 3px;">Tipo de café que produce?</label>
+                    padding: 0px 3px;">¿Tipo de café que produce?</label>
                 <select class="form-control"
                         id="selCoffeProducessOptions"
                         multiple="true"
                         ng-model="newUnit.typeOfCoffeProducessOptionSelected"
                         data-error="Campo requerido"
                         required>
+                        <option disabled selected>0 tipos seleccionados</option>
                     <option ng-repeat="option in typesOfCoffeSelectionOptions" value="{{option.name}}">{{option.displayValue}}</option>
                 </select>
             </div>
