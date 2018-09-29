@@ -717,79 +717,111 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
 
     $scope.getHelp = function(currentUser) {
+
       console.log($scope.test);
-	    gallo.create($scope.test).success(function(data){
-				$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-				console.log("data enviado");
-		    console.log(data);
-		    console.log(currentUser);
+      if ($rootScope.IsInternetOnline) {
 
-		     var msg = 'Calculo De Gallo Enviado: ID: ' + data._id + '.' ;
-		  	 var data_server={
-	            message:msg,
-	            to_user:'admin',
-	            from_id:currentUser
-	        };
-	        socket.emit('get msg',data_server);
-        }).error(function(){
+    			gallo.create($scope.test).then(function (result) {
+    				$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+    				console.log("Muestreo Gallo realizado");
+    				console.log(result);
+    				console.log(result.data);
 
-          PouchDB.GetGalloFromPouchDB().then(function (result) {
-        			console.log("entramos a PouchDB");
-        			console.log(result);
+    				console.log("Historial de Gallo - Servidor: ",$scope.galloHistory);
+    				$scope.galloHistory.push(result.data);
+    				console.log("Historial de Gallo Actualizado - Servidor: ",$scope.galloHistory);
 
-        			if (result.status == 'fail') {
-        					$scope.error = result.message;
-        			}
-        			else if (result.status == 'success') {
-        					var doc = result.data.rows[0].doc;
-        					if (result.data.rows.length > 0) {
-        							var galloArrayPouchDB = [];
-        							for (var i = 0; i < doc.list.length; i++) {
-        									galloArrayPouchDB.push(doc.list[i]);
-        							}
-        							$scope.galloLocalesPouchDB = galloArrayPouchDB;
+    				var msg = 'Calculo De Gallo Enviado: ID: ' + result.data._id + '.' ;
+    	     	var data_server={
+    	        message:msg,
+    	        to_user:'admin',
+    	        from_id:currentUser
+    	    	};
 
-        							console.log("Data -- Gallo Guardado Offline ");
-        							console.log($scope.galloLocalesPouchDB);
-        							console.log($scope.test);
-        							$scope.galloLocalesPouchDB.push($scope.test);
-        							console.log($scope.galloLocalesPouchDB);
+    		    socket.emit('get msg',data_server);
 
-        							//Mandamos el nuevo arreglo a pouchDB
-        							PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
-        							$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-        					}
-        			}
-        	}).catch(function(err) {
-        			console.log("error al obtener datos");
-        			console.log(err);
-        	});
-				});
-    };
+    			});
+    		}else {
+    			PouchDB.GetGalloFromPouchDB().then(function (result) {
+    					console.log("entramos a PouchDB");
+    					console.log(result);
+
+    					if (result.status == 'fail') {
+    							$scope.error = result.message;
+    					}
+    					else if (result.status == 'success') {
+    							var doc = result.data.rows[0].doc;
+    							if (result.data.rows.length > 0) {
+    									var galloArrayPouchDB = [];
+    									for (var i = 0; i < doc.list.length; i++) {
+    											galloArrayPouchDB.push(doc.list[i]);
+    									}
+    									$scope.galloLocalesPouchDB = galloArrayPouchDB;
+
+    									console.log("Historial de Gallo - PouchDB: ");
+    									console.log($scope.galloLocalesPouchDB);
+    									console.log($scope.test);
+    									$scope.galloLocalesPouchDB.push($scope.test);
+
+    									console.log("Historial de Gallo - PouchDB Actualizado: ");
+    									console.log($scope.galloLocalesPouchDB);
+
+    									//Mandamos el nuevo arreglo a pouchDB
+    									PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
+    									$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+    							}
+    					}
+    			}).catch(function(err) {
+    					console.log("error al obtener datos");
+    					console.log(err);
+    			});
+    		}
+    }
 
 
-    var historialLaunchFunc = function() {
+var historialLaunchFunc = function() {
 
-	    if ($rootScope.IsInternetOnline) {
+  if ($rootScope.IsInternetOnline) {
+        console.log("Con internet");
+        console.log($scope.user_Ided);
 
-			  gallo.getUser($scope.user_Ided).then(function(userhistory){
-				  $scope.galloHistory = userhistory.data;
-          console.log(userhistory.data);
-				  localStorageService.set('galloHistory',userhistory.data);
-				  console.log($scope.galloHistory);
-			  });
+        gallo.getUser($scope.user_Ided).then(function(userhistory){
+           $scope.galloHistory = userhistory.data;
+           console.log("Historial de Gallo - Servidor: ", userhistory.data);
+       });
 
-		} else {
-			console.log("No internet");
-			console.log($scope.user_Ided);
-			$scope.galloHistory = localStorageService.get('galloHistory');
-		}
+  }else {
+    console.log("No internet");
+    console.log($scope.user_Ided);
 
-		console.log("historial Gallo");
-    console.log($scope.galloHistory);
-    };
-    // historialLaunchFunc();
-    $scope.historialLaunch = historialLaunchFunc();
+    PouchDB.GetGalloFromPouchDB().then(function (result) {
+          console.log("entramos a PouchDB");
+          console.log(result);
+
+          if (result.status == 'fail') {
+              $scope.error = result.message;
+          }
+         else if (result.status == 'success') {
+             var doc = result.data.rows[0].doc;
+             if (result.data.rows.length > 0) {
+                 var galloArray = [];
+                 for (var i = 0; i < doc.list.length; i++) {
+                     galloArray.push(doc.list[i]);
+                 }
+                 console.log("Historial de Gallo - PouchDB: ", galloArray);
+             }
+         }
+    }).catch(function(err) {
+        console.log("error al obtener datos");
+        console.log(err);
+    });
+  }
+
+}
+
+
+// historialLaunchFunc();
+$scope.historialLaunch = historialLaunchFunc();
 
 
 

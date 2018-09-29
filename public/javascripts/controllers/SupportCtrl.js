@@ -1,4 +1,4 @@
-// Support Chat Controller 
+// Support Chat Controller
 app.controller('SupportCtrl',['$scope','auth', 'socket', 'user','Upload','$base64',
 function ($scope, auth, socket, user,Upload,$base64) {
 
@@ -24,15 +24,18 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	    reader.onload = $scope.saveImage;
 	    reader.readAsDataURL(file);
 	});
+
+
 	$scope.saveImage = function (e) {
 	    $scope.UserImage = e.target.result;
 	}
+
 
 	$scope.getUserImage = function (userId) {
 	    var result = $.grep($scope.userImageList, function (item) {
 	        return item._id == userId;
 	    });
-	    
+
 	    if (result.length == 0) {
 	        $scope.userImageList.push({ _id: userId, nickname: '', image: '' });
 	        user.get(userId).then(function (userObj) {
@@ -65,18 +68,20 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	    else {
 	        if ($scope.chatLog != undefined) {
 	            $.each($scope.chatLog, function (i, v) {
-	                
+
 	                    v.imageurl = result[0].image;
 	                    v.sender = result[0].nickname;
-								
+
 	            });
 	        }
 	    }
 	}
 
+	// Función para Cambiar Imagen de Usuario
 	$scope.openImagePopup = function () {
 	    $('#myModalUserImage').modal('show');
 	}
+
 
 	$scope.setCurrentUserImage = function (messageList) {
 	    for (var i = 0; i < messageList.length; i++) {
@@ -87,7 +92,8 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	    $scope.chatLog = messageList;
 	}
 
-	
+
+	// Función del botón enviar mensaje
 	$scope.sendMessage = function(attachmentfile) {
 		var image;
 		console.log(attachmentfile)
@@ -100,8 +106,10 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	        var msg = f.find('[name=chatMsg]').val();
 	        var from_id = f.find('[name=fromId]').val();
 	        var from_chatattchment = image;
-	     
-	       
+
+					console.log("Mensaje: ", msg);
+
+
 			var data_server={
 	            message:msg,
 	            bodyattachement:from_chatattchment,
@@ -115,13 +123,14 @@ function ($scope, auth, socket, user,Upload,$base64) {
 		 })
 		 } else {
 
-		 
+
 			var f = $('.type-sink');
 	        var msg = f.find('[name=chatMsg]').val();
 	        var from_id = f.find('[name=fromId]').val();
 	        var from_chatattchment = image;
-	     
-	       
+
+					console.log("Mensaje: ", msg);
+
 			var data_server={
 	            message:msg,
 	            bodyattachement:from_chatattchment,
@@ -133,6 +142,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	        $('.type-sink .form-control').val("");
         }
 	};
+
 	socket.on('set msg only',function(data){
         data=JSON.parse(data);console.log("set msg only", data)
         var user = data.sender;
@@ -141,6 +151,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	        $scope.$apply();
 	    }
     });
+
 	socket.on('set msg',function(data){
         data=JSON.parse(data);console.log("set msg", data);
         var usera = data.to_user;
@@ -149,11 +160,13 @@ function ($scope, auth, socket, user,Upload,$base64) {
             $scope.setCurrentUserImage(data.chat.messages);
 			      $scope.$apply();
         }
-        
+
     });
+
+
 	if (!$scope.IsCall) {
 	    $scope.IsCall = true;
-	
+
 	    user.get($scope.currentUserObj._id).then(function (userObj) {
 	        if (userObj.nickname == "") {
 	            userObj.nickname = null;
@@ -168,7 +181,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 					    $scope.UserImageBottom = userObj.image || '../images/ChatUser.png';
 						$scope.UserName=userObj.username;
 					}
-					else	
+					else
 					{
 						$scope.UserName = userObj.nickname || userObj.username;
 						//$scope.UserImage = userObj.imageurl || '../images/ChatUser.png';
@@ -176,7 +189,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 					}
 	    });
 	}
-	
+
 	$scope.uploadPhoto = function () {
 	    var userObj = auth.currentUserObject();
 	    if (userObj != null) {
@@ -188,7 +201,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	            //if ($scope.UserName != null) {
 	            //    userObj.nickname = $scope.UserName;
 	            //}
-	            
+
 	            user.update(userObj).error(function (error) {
 	                $scope.error = error;
 	            }).then(function (data) {
@@ -198,7 +211,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	        });
 	    }
 	    $('#myModalUserImage').modal('hide');
-	    
+
 	}
 
 }]);

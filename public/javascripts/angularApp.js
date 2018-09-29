@@ -2290,7 +2290,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.create = function (encuesta, id) {
         //localhost unit
-        return $http.post('http://coffeecloud.centroclima.org/users/' + id + '/encuesta?tmp=' + (new Date()).getTime(), encuesta, {
+        return $http.post('http://coffeecloud.centroclima.org/users/' + id + '/encuesta', encuesta, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;

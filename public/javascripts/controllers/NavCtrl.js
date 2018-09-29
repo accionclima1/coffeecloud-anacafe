@@ -4,11 +4,13 @@ app.controller('NavCtrl', [
 '$location',
 '$state',
 '$rootScope',
-function($scope, auth, $location, $state, $rootScope){
+'PouchDB',
+function($scope, auth, $location, $state, $rootScope, PouchDB){
   $scope.isLoggedIn = auth.isLoggedIn;
   var currentuser = auth.currentUserObject();
   $scope.currentuserO = currentuser;
   $scope.logOut = auth.logOut;
+  $scope.dataUser = {};
   $scope.isActive = function (viewLocation) {
      var active = (viewLocation === $location.path());
      return active;
@@ -35,4 +37,18 @@ function($scope, auth, $location, $state, $rootScope){
     }
 
   }
+
+  PouchDB.GetUserDataFromPouchDB(auth.userId()).then(function (result) {
+      if (result.status == 'fail') {
+          $scope.error = result.message;
+      }
+      else if (result.status == 'success') {
+          $scope.userO7 = result.data;
+          $scope.dataUser = result.data;
+          // console.log($scope.user07);
+          console.log(result.data);
+          console.log($scope.dataUser);
+
+      }
+  });
 }]);

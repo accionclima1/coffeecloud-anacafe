@@ -337,8 +337,8 @@ app.controller('RoyaCtrl', [
 			$scope.vistaInicio = false;
 			$scope.vistaCalculo = true;
     	$scope.test.unidad = {"user":auth.userId()};
-        $scope.test.idunidad = idunidad;
-        $scope.test.loteIndex=loteindex;
+        $scope.test.idunidad = $scope.unitId;
+        $scope.test.loteIndex=$scope.loteIndex;
     	$('.roya-wrap').addClass('initiated');
     }
 
@@ -818,57 +818,62 @@ app.controller('RoyaCtrl', [
 
 $scope.getHelp = function(currentUser) {
 
+	if ($rootScope.IsInternetOnline) {
 
- roya.create($scope.test).success(function(data){
-	 	$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-    console.log("data enviado");
-    console.log(data);
-    console.log(currentUser);
+			roya.create($scope.test).then(function (result) {
+					$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+					console.log("Muestreo Roya realizado");
+					console.log(result);
+					console.log(result.data);
 
+					console.log("Historial de Roya - Servidor: ",$scope.royaHistory);
+					$scope.royaHistory.push(result.data);
+					console.log("Historial de Roya Actualizado - Servidor: ",$scope.royaHistory);
 
-    var msg = 'Calculo De Roya Enviado: ID: ' + data._id + '.' ;
-    var data_server={
-       message:msg,
-       to_user:'admin',
-       from_id:currentUser
-   };
-   socket.emit('get msg',data_server);
+					var msg = 'Calculo De Roya Enviado: ID: ' + result.data._id + '-' + result.data.createdAt + '.';
+		     	var data_server={
+		        message:msg,
+		        to_user:'admin',
+		        from_id:currentUser
+		    	};
 
-}).error(function(){
+			    socket.emit('get msg',data_server);
+			});
+	}else {
+		PouchDB.GetRoyaFromPouchDB().then(function (result) {
+				console.log("entramos a PouchDB");
+				console.log(result);
 
-	PouchDB.GetRoyaFromPouchDB().then(function (result) {
-			console.log("entramos a PouchDB");
-			console.log(result);
+				if (result.status == 'fail') {
+						$scope.error = result.message;
+				}
+				else if (result.status == 'success') {
+						var doc = result.data.rows[0].doc;
+						if (result.data.rows.length > 0) {
+								var royaArrayPouchDB = [];
+								for (var i = 0; i < doc.list.length; i++) {
+										royaArrayPouchDB.push(doc.list[i]);
+								}
+								$scope.royaLocalesPouchDB = royaArrayPouchDB;
 
-			if (result.status == 'fail') {
-					$scope.error = result.message;
-			}
-			else if (result.status == 'success') {
-					var doc = result.data.rows[0].doc;
-					if (result.data.rows.length > 0) {
-							var royaArrayPouchDB = [];
-							for (var i = 0; i < doc.list.length; i++) {
-									royaArrayPouchDB.push(doc.list[i]);
-							}
-							$scope.royaLocalesPouchDB = royaArrayPouchDB;
+								console.log("Historial de Roya - PouchDB: ");
+								console.log($scope.royaLocalesPouchDB);
+								console.log($scope.test);
+								$scope.royaLocalesPouchDB.push($scope.test);
 
-							console.log("Data -- Roya Guardado Offline ");
-							console.log($scope.royaLocalesPouchDB);
-							console.log($scope.test);
-							$scope.royaLocalesPouchDB.push($scope.test);
-							console.log($scope.royaLocalesPouchDB);
+								console.log("Historial de Roya - PouchDB Actualizado: ");
+								console.log($scope.royaLocalesPouchDB);
 
-							//Mandamos el nuevo arreglo a pouchDB
-							PouchDB.SaveRoyaToPouchDB($scope.royaLocalesPouchDB);
-							$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-					}
-			}
-	}).catch(function(err) {
-			console.log("error al obtener datos");
-			console.log(err);
-	});
-});
-
+								//Mandamos el nuevo arreglo a pouchDB
+								PouchDB.SaveRoyaToPouchDB($scope.royaLocalesPouchDB);
+								$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+						}
+				}
+		}).catch(function(err) {
+				console.log("error al obtener datos");
+				console.log(err);
+		});
+	}
 }
 
 
@@ -957,28 +962,44 @@ $scope.graficarHitorial = function () {
     //$scope.user_Ided = "5972883cd33b92bd04007443";
 
 
-    var historialLaunchFunc = function() {
+var historialLaunchFunc = function() {
 
-
-     if ($rootScope.IsInternetOnline) {
+  if ($rootScope.IsInternetOnline) {
         console.log("Con internet");
         console.log($scope.user_Ided);
 
         roya.getUser($scope.user_Ided).then(function(userhistory){
            $scope.royaHistory = userhistory.data;
-           localStorageService.set('royaHistory',userhistory.data);
-           console.log($scope.royaHistory);
+					 console.log("Historial de Roya - Servidor: ", userhistory.data);
        });
 
-    } else {
-        console.log("No internet");
-        console.log($scope.user_Ided);
-        $scope.royaHistory = localStorageService.get('royaHistory');
-    }
+  }else {
+    console.log("No internet");
+    console.log($scope.user_Ided);
 
-    console.log("historial");
-    console.log($scope.royaHistory);
-};
+		PouchDB.GetRoyaFromPouchDB().then(function (result) {
+					console.log("entramos a PouchDB");
+					console.log(result);
+
+					if (result.status == 'fail') {
+							$scope.error = result.message;
+					}
+				 else if (result.status == 'success') {
+						 var doc = result.data.rows[0].doc;
+						 if (result.data.rows.length > 0) {
+								 var royaArray = [];
+								 for (var i = 0; i < doc.list.length; i++) {
+										 royaArray.push(doc.list[i]);
+								 }
+								 console.log("Historial de Roya - PouchDB: ", royaArray);
+						 }
+				 }
+		}).catch(function(err) {
+				console.log("error al obtener datos");
+				console.log(err);
+		});
+	}
+}
     //historialLaunchFunc();
     $scope.historialLaunch = historialLaunchFunc();
 
