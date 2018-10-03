@@ -600,6 +600,21 @@ app.config([
 					window.location.href = '/';
 				}
 			}]
+		})		
+		.state('incidenciaroya', {
+			url: '/incidenciaroya',
+			templateUrl: '/incidenciaroya.html',
+			controller: 'IncidenciaRoyaCtrl',
+			onEnter: ['$state', 'auth', function ($state, auth) {
+				var curUserRole = auth.currentUserRole();
+
+				if (!auth.isLoggedIn()) {
+					$state.go('login');
+				}
+				else if (curUserRole != 'admin' && curUserRole != 'Admin' && curUserRole != 'Extensionista' && curUserRole != 'Tecnico') {
+					window.location.href = '/';
+				}
+			}]
 		})
 		.state('reportescampo', {
 			url: '/reportesdecampo',
