@@ -27,7 +27,7 @@ var upload = multer({ dest: './public/images/' })
  * Get port from environment and store in Express.
  */
 var portnumssl = 443
-var portnum = 8090
+var portnum = 80
 var port = normalizePort(process.env.PORT || portnum);
 app.set('port', port);
 var https = require('https');
@@ -139,7 +139,6 @@ var sendMsg = function (data,callback_result) {
 			  
 	    } else {
 		    	Chat.findOne({chatid: chatId},function (err, chat){ 
-			    	//console.log(chat._id);
 					
 					 var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
 				
@@ -188,13 +187,15 @@ var getMessages = function(messageBody,attachment,chat,callback) {
 	 
 
 	 message.save(function(err, message){
-	   	if(err){ return next(err); }
+	   	if(err){ 
+				return console.log(err); 
+			}
 	   	
-	   	chat.messages.push(message);
+	   	chat = chat.messages.concat([message]);
 	       chat.save(function(err, chat) {
-	         if(err){ return next(err); }
+	         if(err){ console.log(err); }
 	         	chat.populate('messages', function(err, chat) {
-	   		    if (err) { return next(err); }
+	   		    if (err) { console.log(err); }
 	   		    	callback(chat);
 	   		  });
 	         	
