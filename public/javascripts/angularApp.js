@@ -2271,6 +2271,32 @@ app.factory('gallo', ['$http', 'auth', function ($http, auth) {
     return o;
 }]);
 
+app.factory('chats', ['$http', 'auth', function ($http, auth) {
+    var o = {
+
+    };
+    o.getAll = function () {
+        return $http.get('http://coffeecloud.centroclima.org/chats').success(function (data) {
+            return data;
+        });
+    };
+    o.getUser = function (userID) {
+        return $http.get('http://coffeecloud.centroclima.org/chats/' + userID).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (chats) {
+        console.log("Result Chats: ", chats);
+        return $http.post('http://coffeecloud.centroclima.org/chats?tmp=' + (new Date()).getTime(), chats, {
+
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
 app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
 
@@ -2476,6 +2502,11 @@ function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/forgorpasswordscreen.html',
           controller: 'AuthCtrl'
       })
+      .state('termsandconditionslogin', {
+          url: '/termsandconditionslogin',
+          templateUrl: '/termsandconditionslogin.html',
+          controller: 'AuthCtrl'
+      })
       .state('authenticateotp', {
           url: '/authenticate',
           templateUrl: '/otpscreen.html',
@@ -2617,10 +2648,26 @@ function ($stateProvider, $urlRouterProvider) {
               }
           }]
       })
-      .state('support', {
-          url: '/support',
-          templateUrl: '/support.html',
-          controller: 'SupportCtrl',
+      .state('supportClient', {
+          url: '/supportClient',
+          templateUrl: '/supportClient.html',
+          controller: 'SupportClientCtrl',
+          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+              var currentUser = auth.currentUser();
+              var data_server = {
+                  from_id: currentUser
+              }
+              //console.log(data_server);
+              socket.emit('load msg', data_server);
+          }]
+      })
+      .state('supportExt', {
+          url: '/supportExt',
+          templateUrl: '/supportExt.html',
+          controller: 'SupportExtCtrl',
           onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
@@ -2637,6 +2684,19 @@ function ($stateProvider, $urlRouterProvider) {
           url: '/profile',
           templateUrl: '/profile.html',
           controller: 'ProfileCtrl',
+          onEnter: ['$state', 'auth', function ($state, auth) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+              var currentUser = auth.currentUser();
+
+
+          }]
+      })
+      .state('termsandconditions', {
+          url: '/termsandconditions',
+          templateUrl: '/termsandconditions.html',
+          controller: 'AutCtrl',
           onEnter: ['$state', 'auth', function ($state, auth) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');

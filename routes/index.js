@@ -18,6 +18,7 @@ var Method = mongoose.model('Method');
 var Campo = mongoose.model('Campo');
 var Roya = mongoose.model('Roya');
 var Gallo = mongoose.model('Gallo');
+var Chat = mongoose.model('Chat');
 var Variety = mongoose.model('Variety');
 var Fungicida = mongoose.model('Fungicida');
 var Vulnerability = mongoose.model('Vulnerability');
@@ -1857,6 +1858,15 @@ router.delete('/fungicidas', auth, function (req, res) {
         res.json({ messageUnit: "Fungicida eliminado!" });
     });
 
+});
+
+// ChatSchema
+router.get('/chats', function (req, res, next) {
+    Chat.find(function (err, chats) {
+        if (err) { return next(err); }
+
+        res.json(chats);
+    });
 });
 
 
