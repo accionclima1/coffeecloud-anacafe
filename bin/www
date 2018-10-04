@@ -191,7 +191,7 @@ var getMessages = function(messageBody,attachment,chat,callback) {
 				return console.log(err); 
 			}
 	   	
-	   	chat = chat.messages.concat([message]);
+	   	chat.messages = chat.messages.concat([message]);
 	       chat.save(function(err, chat) {
 	         if(err){ console.log(err); }
 	         	chat.populate('messages', function(err, chat) {
