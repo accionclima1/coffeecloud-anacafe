@@ -1,4 +1,4 @@
-var app = angular.module('coffeeScriptAdmin', ['btford.socket-io', 'ui.router', 'luegg.directives', 'ui.tinymce', 'ui.bootstrap', 'ngSanitize','ui.grid']);
+var app = angular.module('coffeeScriptAdmin', ['btford.socket-io', 'ui.router', 'luegg.directives', 'ui.tinymce', 'ui.bootstrap', 'ngSanitize','ui.grid','ui.grid' , 'ui.grid.exporter']);
 app.directive('fileModel', ['$parse', function ($parse) {
 	return {
 		restrict: 'A',
@@ -25,8 +25,8 @@ app.filter('startFrom', function () {
 	};
 });
 
-// Main controller 
-app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget', 'mainInfo', 
+// Main controller
+app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget', 'mainInfo',
 	function ($scope, auth, chats, roya, user, widget, mainInfo) {
 		$scope.isLoggedIn = auth.isLoggedIn;
 		$scope.currentUser = auth.currentUser;
@@ -37,7 +37,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 		$scope.msg = '';
 		user.getAll().then(function (users) {
 			$scope.userList = users;
-		});	
+		});
 
 		roya.getAll().then(function (tests) {
 			$scope.royaTests = tests.data;
@@ -57,7 +57,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 
 
 		/*$scope.initMapaincidencia = function(){
-			console.log("Inicializando mapa incidencias...");	
+			console.log("Inicializando mapa incidencias...");
 
 			mainInfo.getData().then(function(data){
 				console.log("Llmada");
@@ -73,10 +73,10 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 				}).addTo($scope.mymap);
 
 
-				var unitsData = $scope.dataIncidencias['units']; 
-				for ( var i=0; i < unitsData.length; i++) {  
+				var unitsData = $scope.dataIncidencias['units'];
+				for ( var i=0; i < unitsData.length; i++) {
 					if (unitsData[i].ubicacion != undefined){
-					//console.log("Ubicacion: " + );	
+					//console.log("Ubicacion: " + );
 
 					var geo = unitsData[i].ubicacion.replace(/[*+?^${}()[ ]|[\]\\]/g, "").split(",");
 					console.log(geo);
@@ -87,9 +87,9 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 					//Lotes
 					if (unitsData[i].lote != undefined){
 
-						var lotesData = unitsData[i].lote; 
+						var lotesData = unitsData[i].lote;
 
-						for ( var j=0; j < lotesData.length; j++) {  
+						for ( var j=0; j < lotesData.length; j++) {
 							if (lotesData[j].georeferenciacion != undefined){
 								var geoRef = lotesData[j].georeferenciacion.replace(/[*+?^${}()[ ]|[\]\\]/g, "").split(",");
 								console.log(geoRef);
@@ -104,10 +104,10 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 
 
 				}
-				
+
 			}
 
-			
+
 
 			//WebService
 			//http://coffeecloud.centroclima.org/users/59262aee75a18b8e63074100
@@ -116,7 +116,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 
 
 
-				
+
 
 		}*/
 
@@ -133,7 +133,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 	    		widget.getAll().then(function(data)
 	    		{
 	    			$scope.widget = data;
-	    		});	    		
+	    		});
 	    	});
 	    }
 
@@ -146,7 +146,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 	    {
 	    	widget.remove(id).then(function(data)
 	    	{
-	    		$scope.widget = data;	
+	    		$scope.widget = data;
 	    	});
 	    }
 
@@ -156,7 +156,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 app.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
 
 //get Datas
-app.factory('mainInfo', ['$http', function($http) { 
+app.factory('mainInfo', ['$http', function($http) {
 
 	var obj = {};
 
@@ -164,10 +164,10 @@ app.factory('mainInfo', ['$http', function($http) {
 
 		return $http.get('http://coffeecloud.centroclima.org/users/59262aee75a18b8e63074100').success(function(data) {
 			return data;
-		});   
-	} 
+		});
+	}
 
-	return obj;    
+	return obj;
 }]);
 
 
@@ -600,7 +600,7 @@ app.config([
 					window.location.href = '/';
 				}
 			}]
-		})		
+		})
 		.state('incidenciaroya', {
 			url: '/incidenciaroya',
 			templateUrl: '/incidenciaroya.html',

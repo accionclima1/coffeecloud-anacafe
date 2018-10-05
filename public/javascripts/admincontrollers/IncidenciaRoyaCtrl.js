@@ -22,8 +22,27 @@ app.controller('IncidenciaRoyaCtrl', [
 			}
 		});
 
+$scope.royas=[];
 
-	
+var roya={Departamento:"Chiquimula",Municipio:"Chiquimula",Unidad:"La Paz",Lote:"Lote 1",Incidencia:12.5};
+$scope.royas.push(roya);
+roya={Departamento:"Huehuetenango",Municipio:"Zacapatecas",Unidad:"La Perla",Lote:"Primer Lote",Incidencia:20};
+$scope.royas.push(roya);
+roya={Departamento:"Alta Verapaz",Municipio:"Chisec",Unidad:"Cataratas",Lote:"Lote 2",Incidencia:12.3};
+$scope.royas.push(roya);
+roya={Departamento:"Baja Verapaz",Municipio:"Salamá",Unidad:"Finca El Mezón",Lote:"EL Mezón 1",Incidencia:7};
+$scope.royas.push(roya);
+roya={Departamento:"Quetzaltenango",Municipio:"Xela",Unidad:"EL Mecapán",Lote:"Mecapázn 3",Incidencia:23};
+$scope.royas.push(roya);
+roya={Departamento:"San Marcos",Municipio:"Chohocol",Unidad:"Finca Sierra Linda",Lote:"Sierra 32",Incidencia:7};
+$scope.royas.push(roya);
+roya={Departamento:"Alta Verapáz",Municipio:"Cobpan",Unidad:"Finca San Marcos",Lote:"Lote 3",Incidencia:23};
+$scope.royas.push(roya);
+roya={Departamento:"Suchitepequez",Municipio:"Suchitos",Unidad:"Unidad 1",Lote:"Lote 1",Incidencia:7.8};
+$scope.royas.push(roya);
+
+
+
 
 		Highcharts.chart('scatterroyachart', {
   chart: {
@@ -41,7 +60,7 @@ app.controller('IncidenciaRoyaCtrl', [
     dateTimeLabelFormats: { // don't display the dummy year
       month: '%e. %b',
 	  year: '%b',
-	 
+
     },
     title: {
       text: 'Date'
@@ -125,28 +144,58 @@ Highcharts.chart('barsroyachart', {
 	title: {
 	  text: 'Roya por Departamentos'
 	},
-  
+
 	subtitle: {
 	  text: 'Source: Coffee Cloud'
 	},
-  
+
 	xAxis: {
 	  categories: ['Alta Verapaz', 'Zacapa', 'Huehuetenango', 'Baja Verapáz', 'Sololá', 'San Marcos', 'Quetzaltenango', 'Escuintla', 'Petén', 'Retauhleu', 'Sacatepequez', 'Suchitepequez']
 	},
-  
+
 	series: [{
 	  type: 'column',
 	  colorByPoint: true,
 	  data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
 	  showInLegend: false
 	}]
-  
+
   });
 
+	$scope.gridOptions = {
+	columnDefs: [
+		{ field: 'Departamento' },
+		{ field: 'Municipio' },
+		{ field: 'Unidad' },
+		{ field: 'Lote' },
+		{ field: 'Incidencia' }
+	],
+	enableGridMenu: true,
+	enableSelectAll: true,
+	exporterCsvFilename: 'myFile.csv',
+	exporterPdfDefaultStyle: {fontSize: 9},
+	exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+	exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+	exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+	exporterPdfFooter: function ( currentPage, pageCount ) {
+		return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+	},
+	exporterPdfCustomFormatter: function ( docDefinition ) {
+		docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+		docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+		return docDefinition;
+	},
+	exporterPdfOrientation: 'portrait',
+	exporterPdfPageSize: 'LETTER',
+	exporterPdfMaxGridWidth: 500,
+	exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+	exporterExcelFilename: 'myFile.xlsx',
+	exporterExcelSheetName: 'Sheet1',
+	onRegisterApi: function(gridApi){
+		$scope.gridApi = gridApi;
+	}
+};
+
+$scope.gridOptions.data=$scope.royas;
+
 	}]);
-
-
-
-
-
-

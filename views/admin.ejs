@@ -22,7 +22,7 @@
 
     <!-- Custom Fonts -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
+
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="/javascripts/validator.min.js"></script>
 	<script src="/javascripts/muni14.min.js"></script>
@@ -42,9 +42,9 @@
   crossorigin=""></script>
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
-    
+
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
-	
+
     <script src="/javascripts/jquery-ui.js"></script>
     <script src="/javascripts/picker.js"></script>
     <script src="/javascripts/picker.date.js"></script>
@@ -67,12 +67,22 @@
     <script src="/javascripts/admincontrollers/RoyaCtrl2.js"></script>
     <script src="/javascripts/admincontrollers/TechRecCtrl.js"></script>
     <script src="/javascripts/admincontrollers/UsersCtrl.js"></script>
-    <script src="/javascripts/admincontrollers/VarietyCtrl.js"></script>    
+    <script src="/javascripts/admincontrollers/VarietyCtrl.js"></script>
     <script src="javascripts/admincontrollers/VulnerabilidadCtrl.js"></script>
     <script src="javascripts/admincontrollers/IncidenciaRoyaCtrl.js"></script>
 
-    
-	
+<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/lodash.min.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/jszip.min.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/excel-builder.dist.js"></script>
+<script src="/javascripts/ui-grid.core.min.js"></script>
+<script src="/javascripts/ui-grid.exporter.min.js"></script>
+
+
+
+
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -254,52 +264,52 @@
                     <li ng-class="{ active: isActive('/messenger') }">
                         <a href="/admin#/messenger"><i class="fa fa-fw fa-comment"></i>  Consultas</a>
                     </li>
-                    
+
                 </ul>
 
                  <ul class="nav navbar-nav side-nav" ng-controller="NavCtrl" ng-show="isLoggedIn() && curUserRole == 'Tecnico'">
                     <li ng-class="{ active: isActive('/home') }">
                         <a href="/admin#/"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
                     </li>
-                    
+
                     <li ng-class="{ active: isActive('/technical-recommendation') }">
                         <a href="/admin#/technical-recommendation"><i class="fa fa-fw fa-users"></i> Recomendación Técnica  </a>
                     </li>
 
-                    
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
 
         <div id="page-wrapper">
-	        
+
 	        <ui-view></ui-view>
-           
+
             <!-- /.container-fluid -->
-            
+
             <footer id="colophon" ng-controller="NavCtrl" class="site-footer" role="contentinfo" ng-hide="isActive('/messenger')">
 	<div class="container">
 		<div class="row text-center">
 			<div class="site-footer-inner col-md-9">
-			
+
 			<h2>CENTRO CLIMA CUENTA CON EL APOYO TÉCNICO Y FINANCIERO DE:</h2>
-				
+
 			<img src="images/USAIDLOGO_new.png" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/06/xCATIE.png.pagespeed.ic.L70wLDKZif.png" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/06/UICN.svg" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLogo-CARE.png.pagespeed.ic.dbZiYO5x3e.png" alt="logo">
-			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-TERRA.png.pagespeed.ic.dE9zG_baAD.png" alt="logo">	
+			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-TERRA.png.pagespeed.ic.dE9zG_baAD.png" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLogo-DAI.jpg.pagespeed.ic.kT4r0zPv_X.webp" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/06/xepa_seal_large_trim.png.pagespeed.ic.pR7AfJfuIv.png" alt="logo">
-			
+
 			</div>
 			<div class="site-footer-inner col-md-3">
-			
+
 			<h2>EN COORDINACIÓN CON:</h2>
-			
+
 			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-CCAD-HORIZONTAL-CON-SICA.png.pagespeed.ic.mlGYZrodRq.png" alt="logo">
-				
+
 
 			</div>
 		</div>
@@ -321,42 +331,42 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    
-	
-	<%- include adminpages/home.ejs %>   
 
-    <%- include adminpages/register.ejs %>   
+
+	<%- include adminpages/home.ejs %>
+
+    <%- include adminpages/register.ejs %>
 
     <%- include adminpages/incidenciaroya.ejs %>
 
-	<%- include adminpages/login.ejs %>   
+	<%- include adminpages/login.ejs %>
 
-	<%- include adminpages/messenger.ejs %>   
+	<%- include adminpages/messenger.ejs %>
 
-	<%- include adminpages/adaptacion.ejs %>   
+	<%- include adminpages/adaptacion.ejs %>
 
-	<%- include adminpages/adaptacionGallo.ejs %>   
+	<%- include adminpages/adaptacionGallo.ejs %>
 
-	<%- include adminpages/users.ejs %>   
+	<%- include adminpages/users.ejs %>
 
-	<%- include adminpages/noticias.ejs %>   
+	<%- include adminpages/noticias.ejs %>
 
-   <%- include adminpages/tech_recom.ejs %>   
+   <%- include adminpages/tech_recom.ejs %>
 
-	<%- include adminpages/roya2.ejs %>   
+	<%- include adminpages/roya2.ejs %>
 
-    <%- include adminpages/vulnerabilidad.ejs %>   
-   
-	<%- include adminpages/campo.ejs %>  
+    <%- include adminpages/vulnerabilidad.ejs %>
 
-    <%- include adminpages/reportesdecampo.ejs %>  
+	<%- include adminpages/campo.ejs %>
+
+    <%- include adminpages/reportesdecampo.ejs %>
 
 	<%- include adminpages/varieties.ejs %>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    
-	
+
+
     <!-- Morris Charts JavaScript -->
     <script src = "bower_components/angular-scroll-glue/src/scrollglue.js"></script>
     <!-- Morris Charts JavaScript
