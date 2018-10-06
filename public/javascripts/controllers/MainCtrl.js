@@ -9,6 +9,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
   $scope.nuevoLote = "";
   $scope.onlineStatus = onlineStatus;
   $scope.user_Ided = auth.userId();
+  $('.switch').css("color", "#FFF");
 
   // Get all widget
   widget.getAll().then(function(data)

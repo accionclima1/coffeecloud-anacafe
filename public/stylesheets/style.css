@@ -206,7 +206,7 @@ h5 {
 }
 /* login screen */
 
-.login-wrap {
+.login-wrap{
   background-image: url(../images/5.jpg);
   background-size: cover;
   background-position:center;
@@ -217,10 +217,34 @@ h5 {
   table-layout: fixed;
 }
 
-.login-wrap > .container {
+.politicas-wrap {
+  background-image: url(../images/5.jpg);
+  background-position: top;
+  background-size: 2500px 18000px;
+  display: table;
+  table-layout: fixed;
+}
+
+.politicas-wrap li {
+  margin-right: 20px;
+}
+
+
+.login-wrap > .container, .politicas-wrap > .container {
   display: table-cell;
   vertical-align: middle;
   height: 100%;
+}
+
+.politicas-wrap .page-header {
+  margin: 0px !important;
+  border: 0;
+}
+
+.politicas-wrap .page-header h1 {
+  font-size: 18px;
+  padding-right: 5%;
+  text-align: center
 }
 
 .login-img {

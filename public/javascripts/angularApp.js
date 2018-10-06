@@ -2502,9 +2502,9 @@ function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/forgorpasswordscreen.html',
           controller: 'AuthCtrl'
       })
-      .state('termsandconditionslogin', {
-          url: '/termsandconditionslogin',
-          templateUrl: '/termsandconditionslogin.html',
+      .state('politicas', {
+          url: '/politicas',
+          templateUrl: '/politicas.html',
           controller: 'AuthCtrl'
       })
       .state('authenticateotp', {
@@ -2684,19 +2684,6 @@ function ($stateProvider, $urlRouterProvider) {
           url: '/profile',
           templateUrl: '/profile.html',
           controller: 'ProfileCtrl',
-          onEnter: ['$state', 'auth', function ($state, auth) {
-              if (!auth.isLoggedIn()) {
-                  $state.go('login');
-              }
-              var currentUser = auth.currentUser();
-
-
-          }]
-      })
-      .state('termsandconditions', {
-          url: '/termsandconditions',
-          templateUrl: '/termsandconditions.html',
-          controller: 'AutCtrl',
           onEnter: ['$state', 'auth', function ($state, auth) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');

@@ -355,7 +355,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
 
                          // Valido si hay un
-                         if (doc.list[i]._id == null) {
+                         if (doc.list[i]._id == null && doc.list[i].user != null) {
                            console.log("Roya Actualización");
                            $scope.nuevoMuestreoRoya = true;
                            console.log(doc.list[i]);
@@ -520,7 +520,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
 
                            // Valido si hay un nuevo muestreo de gallo
-                           if (doc.list[i]._id == null) {
+                           if (doc.list[i]._id == null && doc.list[i].user != null) {
                              console.log("Gallo Actualización");
                              $scope.nuevoMuestreoGallo = true;
                              console.log(doc.list[i]);

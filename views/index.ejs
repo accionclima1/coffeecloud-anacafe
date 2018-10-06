@@ -53,7 +53,8 @@
 	<script src="javascripts/controllers/DosageCtrl.js"></script>
 	<script src="javascripts/controllers/VisitaCtrl.js"></script>
 	<script src="javascripts/controllers/VulneCtrl.js"></script>
-	<script src="javascripts/controllers/SupportCtrl.js"></script>
+	<script src="javascripts/controllers/SupportClientCtrl.js"></script>
+	<script src="javascripts/controllers/SupportExtCtrl.js"></script>
 	<script src="javascripts/controllers/WeatherCtrl.js"></script>
 	<script src="javascripts/controllers/ProfileCtrl.js"></script>
 	<script src="javascripts/controllers/CampoCtrl.js"></script>
@@ -136,7 +137,7 @@ function onDeviceReady(){
         angular.bootstrap(document, ["coffeeScript"]);
 		FCMPlugin.getToken(function(token) {
 				//this is the FCM token which can be used
-				//to send notification to specific device 
+				//to send notification to specific device
 				//FCMPlugin.onNotification( onNotificationCallback(data), successCallback(msg), errorCallback(err) )
 				//Here you define your application behaviour based on the notification data.
 				FCMPlugin.subscribeToTopic('coffeecloudnews');
@@ -166,7 +167,7 @@ function onDeviceReady(){
 }
 
 var teclaRetrocederActivada=true;		//Si se asigna "false", se puede desactivar la tecla back desde cualquier lado del código
-		
+
 		function backKeyDown(){
 			var hash = window.location.hash;
 			if((hash!="#/login")&&(teclaRetrocederActivada)){
@@ -255,11 +256,15 @@ var teclaRetrocederActivada=true;		//Si se asigna "false", se puede desactivar l
 
 	<%- include pages/moon.ejs %>
 
-	<%- include pages/support.ejs %>
+	<%- include pages/supportClient.ejs %>
+
+	<%- include pages/supportExt.ejs %>
 
 	<%- include pages/profile.ejs %>
 
 	<%- include pages/news.ejs %>
+
+	<%- include pages/politicas.ejs %>
 
 	<!-- Latest compiled and minified JavaScript -->
 

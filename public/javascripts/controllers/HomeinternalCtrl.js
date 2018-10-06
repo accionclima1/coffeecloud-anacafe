@@ -136,6 +136,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                             // En caso no hayan Encuestas nuevas
                             vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
                                $scope.encuestaHistory = userhistory.data;
+                               console.log($scope.encuestaHistory);
 
                                $scope.encuestaHistory.sort(function(a,b){
                                   return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
