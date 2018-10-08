@@ -36,42 +36,41 @@
 			</div>
 			<!-- Modal -->
 		<div class="support-wrap" ng-controller="SupportExtCtrl">
-			<h2 class="section-header">Soporte</h2>
+			<h2 class="section-header chatTitle">Soporte</h2>
+			<h2 class="section-header userName">
+				<a class="back-homeint" style="position: fixed;left: 20px;color: #FFF;" ng-click="backChats()">
+				 <i style="font-size: 20px;" class="fa fa-chevron-left"></i>
+				</a>
+				{{chatUserName}}</h2>
 			<div class="container">
 
 				<div class="row listadoChats" style="margin-bottom: 15px;">
 					<div class="col-md-6 col-md-offset-3">
-						<div class="message" ng-repeat="chat in chatsList" style="width:100%;margin-right:0px!important;height: 80px;margin-bottom: 0px;padding:20px!important;margin-left:0px!important;background-color: #CECECE!important;color:#666666;">
+						<div class="message" ng-repeat="chat in chatsList" style="width:100%;margin-right:0px!important;height: 80px;margin-bottom: 0px;padding:20px!important;margin-left:0px!important;background-color: #CECECE!important;color:#666666;" ng-click="userChat(chat.sender)">
 							<div class="message-wrap">
 								<img class="userImage chat-image" ng-src="{{ UserImage }}" />&nbsp;<label class="chat-text" style="margin-top: 0px;margin-left: 15px;">{{ chat.sender }}</label>
 							</div>
 						</div>
 
-						<!-- <div class="message" ng-repeat="message in chatLog" ng-style="{'float':(loggedUser == message.sender ? 'right' : 'left')}" style="width:100%;margin-right:0px!important;height: 80px;margin-bottom: 0px;padding:20px!important">
-							<div class="message-wrap">
-								<img class="userImage chat-image" ng-src="{{ loggedUser == message.sender ? UserImageBottom : adminImage }}" />&nbsp;<label class="chat-text" style="margin-top: 0px;margin-left: 15px;">{{ loggedUser == message.sender ?  UserName : adminName }}</label>
-							</div>
-						</div> -->
-
 					</div>
 				</div>
 
-				<div class="row listadoMensajes" style="margin-bottom: 15px;display:none">
+				<!-- <div class="row listadoMensajes" style="margin-bottom: 15px;display:none">
 					<div class="col-md-6 col-md-offset-3">
-						<!-- <div class="message listadoMensajes" ng-repeat="message in chatLog" ng-style="{'float':(loggedUser == message.sender ? 'right' : 'left')}" style="width:100%;margin-right:0px!important;height: 80px;margin-bottom: 0px;padding:20px!important">
+						<div class="message listadoMensajes" ng-repeat="message in chatLog" ng-style="{'float':(loggedUser == message.sender ? 'right' : 'left')}" style="width:100%;margin-right:0px!important;height: 80px;margin-bottom: 0px;padding:20px!important">
 							<div class="message-wrap">
 								<img class="userImage chat-image" ng-src="{{ loggedUser == message.sender ? UserImageBottom : adminImage }}" />&nbsp;<label class="chat-text" style="margin-top: 0px;margin-left: 15px;">{{ loggedUser == message.sender ?  UserName : adminName }}</label>
 							</div>
-						</div> -->
+						</div>
 					</div>
-				</div>
+				</div> -->
 
-				<div class="row" style="display:none;">
+				<div class="row chatUser">
 					<div class="col-md-6 col-md-offset-3">
 						<div class="chatbox" scroll-glue>
 							<div class="message" ng-repeat="message in chatLog" ng-style="{'float':(loggedUser == message.sender ? 'right' : 'left')}">
 								<div class="message-wrap">
-									<img class="userImage chat-image" ng-src="{{ loggedUser == message.sender ? UserImageBottom : adminImage }}" />&nbsp;<label class="chat-text" >{{ loggedUser == message.sender ?  UserName : adminName }}:</label>
+									<img class="userImage chat-image" ng-src="{{ UserImage }}" />&nbsp;&nbsp;<br>
 									<div class="message-body chat-Body">{{ message.bodyMsg }}</div>
 									<div ng-if="message.Msgattachement" class="album">
 										<img class="attachment-image" ng-src="{{ message.Msgattachement }}" />
@@ -86,7 +85,7 @@
 				</div>
 			</div>
 		</div>
-		<form class="type-sink form-inline"  ng-submit="sendMessage(files)" ng-controller="SupportExtCtrl" style="display:none;">
+		<form class="type-sink form-inline sendMesseges"  ng-submit="sendMessage(files)" ng-controller="SupportExtCtrl">
 			<div class="form-group relativepos">
 				<a ng-click="openImagePopup()"><img style="margin-top:10px" class="userImage chat-image" ng-src="{{ UserImageBottom }}" /></a>
 				<!--<label class="chat-text-bottom">{{ UserName }}</label>-->
@@ -99,7 +98,7 @@
 
 			    <!-- </div> -->
 				<input type="hidden" name="fromId" value="{{ currentUser() }}">
-		    <input type="hidden" name="toId" value="admin">
+		    <input class="chatUser" type="hidden" name="toId" value="chatUserName">
 		  </div>
 		  <button type="submit" class="btn btn-default"><i class="fa fa-location-arrow"></i></button>
 		</form>

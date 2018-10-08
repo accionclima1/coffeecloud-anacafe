@@ -2672,12 +2672,12 @@ function ($stateProvider, $urlRouterProvider) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
               }
-              var currentUser = auth.currentUser();
-              var data_server = {
-                  from_id: currentUser
-              }
-              //console.log(data_server);
-              socket.emit('load msg', data_server);
+              // var currentUser = auth.currentUser();
+              // var data_server = {
+              //     from_id: currentUser
+              // }
+              // //console.log(data_server);
+              // socket.emit('load msg', data_server);
           }]
       })
       .state('profile', {
