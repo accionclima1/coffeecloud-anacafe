@@ -8,6 +8,28 @@ app.controller('IncidenciaRoyaCtrl', [
     'user', 'Excel', '$timeout',
 	function ($scope, auth, $location, roya, $window, user, Excel, $timeout) {
 	var mymap=null;
+	$scope.deptos=muni14.data;
+
+	$scope.selectedDepto="";
+	$scope.munis=[];
+
+	$scope.changeDepto=function (){
+
+	console.log($scope.selectedDepto);
+		$scope.selectedMuni="Todos";
+
+for (var i = 0; i < $scope.deptos.length; i++) {
+
+console.log($scope.deptos[i].dept+" es igual a "+$scope.selectedDepto);
+	if ($scope.deptos[i].dept==$scope.selectedDepto) {
+		$scope.munis=$scope.deptos[i].munis;
+		break;
+
+	}
+
+}
+
+	}
 
 	$scope.mostrarMapa = function(){
 
