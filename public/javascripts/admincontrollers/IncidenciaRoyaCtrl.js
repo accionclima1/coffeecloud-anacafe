@@ -12,7 +12,7 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.mostrarMapa = function(){
 
 	if(mymap==null){
-		mymap = L.map('royamap').setView([14.973642, -90.450439], 7);
+		mymap = L.map('royamap').setView([14.973642, -90.450439], 8);
 	}else{
 
 	}
