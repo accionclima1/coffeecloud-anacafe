@@ -347,8 +347,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                   $scope.error = result.message;
               }
               else if (result.status == 'success') {
-                  var doc = result.data.rows[0].doc;
-                  if (result.data.rows.length > 0) {
+                  if (result.data.rows.length > 0 && result.data.rows[0] != undefined) {
+                      var doc = result.data.rows[0].doc;
                       var royasArrayPouchDB = [];
                       for (var i = 0; i < doc.list.length; i++) {
                          royasArrayPouchDB.push(doc.list[i]);
@@ -428,6 +428,37 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                            });
                          }
                       }
+                  }else {
+                    roya.getUser(auth.userId()).then(function(userhistory){
+                      $scope.royaHistory = userhistory.data;
+
+                      // Ordenamos el Array por fecha
+                      $scope.royaHistory.sort(function(a,b){
+                         return new Date(a.createdAt) - new Date(b.createdAt);
+                       });
+
+                       if (userhistory.data.length == 0) {
+                         PouchDB.SaveRoyaToPouchDB([{}]);
+                       }
+                       else {
+                         PouchDB.SaveRoyaToPouchDB($scope.royaHistory);
+                       }
+
+                       console.log("Data --- Roya Online - Servidor");
+                       console.log($scope.royaHistory);
+                       $scope.royaHistoryByLote = [];
+
+                      // Muestreos filtrados por lote
+                      for (var i = 0; i < $scope.royaHistory.length; i++) {
+                        if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
+                          $scope.royaHistoryByLote.push($scope.royaHistory[i]);
+                        }
+                      }
+
+                      console.log("Data Lote --- Roya Online - Servidor");
+                      console.log($scope.royaHistoryByLote);
+                      $scope.graficarHitorial('roya', $scope.royaHistory);
+                    });
                   }
             }
           }).catch(function(err) {
@@ -512,8 +543,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                     $scope.error = result.message;
                 }
                 else if (result.status == 'success') {
-                    var doc = result.data.rows[0].doc;
-                    if (result.data.rows.length > 0) {
+                    if (result.data.rows.length > 0 && result.data.rows[0] != undefined) {
+                        var doc = result.data.rows[0].doc;
                         var gallosArrayPouchDB = [];
                         for (var i = 0; i < doc.list.length; i++) {
                            gallosArrayPouchDB.push(doc.list[i]);
@@ -593,6 +624,37 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                              });
                            }
                         }
+                    }else {
+                      gallo.getUser(auth.userId()).then(function(userhistory){
+                        $scope.galloHistory = userhistory.data;
+
+                        // Ordenamos el Array por fecha
+                        $scope.galloHistory.sort(function(a,b){
+                           return new Date(a.createdAt) - new Date(b.createdAt);
+                         });
+
+                         if (userhistory.data.length == 0) {
+                           PouchDB.SaveGalloToPouchDB([{}]);
+                         }
+                         else {
+                           PouchDB.SaveGalloToPouchDB($scope.galloHistory);
+                         }
+
+                         console.log("Data --- Gallo Online - Servidor");
+                         console.log($scope.galloHistory);
+                         $scope.galloHistoryByLote = [];
+
+                        // Muestreos filtrados por lote
+                        for (var i = 0; i < $scope.galloHistory.length; i++) {
+                          if (($scope.galloHistory[i].loteIndex == $scope.loteIndex)&&($scope.galloHistory[i].idunidad==$scope.unitId)) {
+                            $scope.galloHistoryByLote.push($scope.galloHistory[i]);
+                          }
+                        }
+
+                        console.log("Data Lote --- Gallo Online - Servidor");
+                        console.log($scope.galloHistoryByLote);
+                        $scope.graficarHitorial('gallo', $scope.galloHistory);
+                      });
                     }
               }
             }).catch(function(err) {

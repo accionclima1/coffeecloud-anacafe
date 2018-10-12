@@ -130,13 +130,27 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		$scope.vistaInicio = true;
 		$scope.vistaCalculo = false;
 		$scope.vistaResultado = false;
-		$scope.IsErrorInfrmRoyaAddPlanta=false;
-		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
-		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+		$scope.IsErrorInfrmGalloAddPlanta=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
 		localStorageService.remove('localTest');
 		$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+	}
+
+  $scope.soporte = function(){
+    console.log("Soporte");
+		$scope.vistaInicio = true;
+		$scope.vistaCalculo = false;
+		$scope.vistaResultado = false;
+		$scope.IsErrorInfrmGalloAddPlanta=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+		$scope.IsTotalPlantaAdded=false;
+		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+		localStorageService.remove('localTest');
+		$state.go("supportclient", {}, {reload: true});
 	}
 
 	var plantEditor = function(plant) {

@@ -139,6 +139,20 @@ app.controller('RoyaCtrl', [
 		$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
 	}
 
+	$scope.soporte = function(){
+		console.log("Soporte");
+		$scope.vistaInicio = true;
+		$scope.vistaCalculo = false;
+		$scope.vistaResultado = false;
+		$scope.IsErrorInfrmRoyaAddPlanta=false;
+		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+		$scope.IsTotalPlantaAdded=false;
+		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+		localStorageService.remove('localTest');
+		$state.go("supportclient", {}, {reload: true});
+	}
+
 		var plantEditor = function(plant) {
 			$scope.plantname = plant;
 			$scope.leafList = $scope.test.plantas[plant - 1];

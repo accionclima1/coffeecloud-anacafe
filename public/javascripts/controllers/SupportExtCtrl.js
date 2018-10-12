@@ -31,9 +31,10 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 		$scope.chatsList = [];
 
 		for (var i = 0; i < chat.data.length; i++) {
-			if (chat.data[i].sender == "kevin16" || chat.data[i].sender == "gallade" ) {
-				$scope.chatsList.push(chat.data[i]);
-			}
+			$scope.chatsList.push(chat.data[i]);
+			// if (chat.data[i].sender == "kevin16" || chat.data[i].sender == "gallade" ) {
+			// 	$scope.chatsList.push(chat.data[i]);
+			// }
 		}
 
 		// $scope.chatsList = chat.data;

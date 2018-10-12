@@ -649,6 +649,16 @@ h5 {
     border-radius: 4px;
   }
 
+  .roya-wrap .optionButtons,
+  .gallo-wrap .optionButtons{
+      margin-top: 25px !important;
+  }
+
+  .roya-wrap .support,
+  .gallo-wrap .support{
+    margin-bottom: 25px !important;
+  }
+
 
   .astro {
     background: rgba(255, 255, 255, 0.4);

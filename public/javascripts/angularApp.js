@@ -2648,7 +2648,7 @@ function ($stateProvider, $urlRouterProvider) {
               }
           }]
       })
-      .state('supportClient', {
+      .state('supportclient', {
           url: '/supportclient',
           templateUrl: '/supportClient.html',
           controller: 'SupportClientCtrl',
@@ -2672,12 +2672,6 @@ function ($stateProvider, $urlRouterProvider) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
               }
-              // var currentUser = auth.currentUser();
-              // var data_server = {
-              //     from_id: currentUser
-              // }
-              // //console.log(data_server);
-              // socket.emit('load msg', data_server);
           }]
       })
       .state('supportExtInterna', {
@@ -2688,12 +2682,6 @@ function ($stateProvider, $urlRouterProvider) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
               }
-              // var currentUser = auth.currentUser();
-              // var data_server = {
-              //     from_id: currentUser
-              // }
-              // //console.log(data_server);
-              // socket.emit('load msg', data_server);
           }]
       })
       .state('profile', {
