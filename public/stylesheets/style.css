@@ -1083,7 +1083,7 @@ input:checked + label + #otherArea {
 }
 
 .message {
-  background-color: #CECECE;
+  background-color: #7DCEA0;
   padding: 15px;
   margin: 15px;
   border-radius: 10px;
@@ -1093,8 +1093,8 @@ input:checked + label + #otherArea {
 
 .message[style*=left] {
   margin-right: 20%;
-  background-color: 00ABFF;
-  color: #fff;
+  background-color: #CECECE;
+  color: #666666;
 }
 
 .message.right {
@@ -1331,6 +1331,14 @@ a.unidad {
   border-radius: 20px;
 }
 
+.chat-image-header{
+  top: 15px;
+  position: fixed;
+  width: 35px;
+  left: 100px;
+  height: 35px;
+}
+
 
 .chat-text {
   margin: 7px 0 0 5px;
@@ -1341,8 +1349,19 @@ a.unidad {
 .chat-Body {
   margin: 7px 0 0 5px;
   float:left;
-  width:55%
+  width:55%;
 }
+
+.chat-Body-Client{
+  margin: 15px 0 0 5px;
+  float:left;
+  width:60%;
+}
+
+.message-wrap{
+  overflow: hidden;
+}
+
 .chat-BodyReceiver {
   width: 74%;
 }

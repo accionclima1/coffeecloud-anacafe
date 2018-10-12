@@ -10,7 +10,23 @@ function($scope, auth, $location, $state, $rootScope, PouchDB){
   var currentuser = auth.currentUserObject();
   $scope.currentuserO = currentuser;
   $scope.logOut = auth.logOut;
-  $scope.dataUser = {};
+  // $scope.dataUser = {};
+  // $scope.dataUser.role = "client";
+
+  PouchDB.GetUserDataFromPouchDB(auth.userId()).then(function (result) {
+      if (result.status == 'fail') {
+          $scope.error = result.message;
+      }
+      else if (result.status == 'success') {
+          $scope.userO7 = result.data;
+          $scope.dataUser = result.data;
+          // console.log($scope.user07);
+          console.log(result.data);
+          console.log($scope.dataUser);
+
+      }
+  });
+
   $scope.isActive = function (viewLocation) {
      var active = (viewLocation === $location.path());
      return active;
@@ -38,17 +54,4 @@ function($scope, auth, $location, $state, $rootScope, PouchDB){
 
   }
 
-  PouchDB.GetUserDataFromPouchDB(auth.userId()).then(function (result) {
-      if (result.status == 'fail') {
-          $scope.error = result.message;
-      }
-      else if (result.status == 'success') {
-          $scope.userO7 = result.data;
-          $scope.dataUser = result.data;
-          // console.log($scope.user07);
-          console.log(result.data);
-          console.log($scope.dataUser);
-
-      }
-  });
 }]);

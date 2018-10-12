@@ -1,5 +1,5 @@
 // Support Chat Controller
-app.controller('SupportExtCtrl',['$scope','auth', 'socket', 'user','Upload','$base64', 'chats', '$state', '$stateParams',
+app.controller('SupportExtInternaCtrl',['$scope','auth', 'socket', 'user','Upload','$base64', 'chats', '$state', '$stateParams',
 function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams) {
 
 
@@ -11,6 +11,8 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	$scope.currentUserObj = auth.currentUserObject();
 	$scope.adminImage='';
 	$scope.adminName='';
+	$scope.chatId = $stateParams.idchat;
+	$scope.senderUser = $stateParams.senderuser;
 	// $scope.chatUserName = "";
 	$scope.chatUser = [];
 	//$scope.UserName = 'User';
@@ -21,78 +23,28 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	console.log($scope.loggedUser);
 
 	$scope.data_server = {};
-	$('.chatUser').hide();
-	$('.userName').hide();
-	$('.sendMesseges').hide();
-	// $('.listadoChats').hide();
+	// $('.chatUser').show();
+	// $('.userName').show();
+	// $('.sendMesseges').show();
 
+	console.log("Chta Id: ", $scope.chatId);
+	console.log("Chat User: ", $scope.senderUser);
 
-	chats.getAll().then(function (chat) {
-		$scope.chatsList = [];
+	var data_server = {
+			from_id: $scope.senderUser
+	}
 
-		for (var i = 0; i < chat.data.length; i++) {
-			if (chat.data[i].sender == "kevin16" || chat.data[i].sender == "gallade" ) {
-				$scope.chatsList.push(chat.data[i]);
+	console.log(data_server);
+	socket.emit('load msg', data_server);
+
+	socket.on('set msg only',function(data){
+				data=JSON.parse(data);console.log("set msg only", data)
+				var user = data.sender;
+				if (user == $scope.senderUser) {
+						$scope.setCurrentUserImage(data.messages);
+					$scope.$apply();
 			}
-		}
-
-		// $scope.chatsList = chat.data;
-		console.log($scope.chatsList);
-	});
-
-
-
-	//Función para entrar en el chats
-	$scope.userChat = function(chatID, chatSender){
-
-		console.log(chatID);
-		console.log(chatSender);
-
-		$state.go("supportextinterna", {idchat: chatID, senderuser: chatSender}, {reload: true});
-
-		$scope.chatUserName = chatSender;
-
-		$scope.data_server = {
-			to_user: chatSender,
-		};
-
-		// $('.listadoChats').hide();
-		// $('.chatTitle').hide();
-		//
-		// $('.chatUser').show();
-		// $('.userName').show();
-		// $('.sendMesseges').show();
-
-		var data_server = {
-				from_id: chatSender
-		}
-
-		console.log($scope.chatUserName);
-		console.log(data_server);
-		socket.emit('load msg', data_server);
-
-
-		// socket.on('set msg only',function(data){
-		// 			data=JSON.parse(data);console.log("set msg only", data)
-		// 			var user = data.sender;
-		// 			if (user == chatSender) {
-		// 					$scope.setCurrentUserImage(data.messages);
-		// 				$scope.$apply();
-		// 		}
-		// 	});
-	}
-
-
-	// Función Volver a Listado de Chats
-	$scope.backChats = function(){
-		// $state.go($state.current, {}, {reload: true});
-		$('.listadoChats').show();
-		$('.chatTitle').show();
-		$('.sendMesseges').hide();
-		$('.chatUser').hide();
-		$('.userName').hide();
-	}
-
+		});
 
 
 	$('#userImage').change(function (e) {
@@ -180,68 +132,70 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	$scope.sendMessage = function(attachmentfile) {
 		var image;
 		console.log(attachmentfile);
-		console.log($scope.chatUserName);
+		console.log($scope.chatId, $scope.senderUser);
 
-	// 	if(attachmentfile){
-	// 		console.log(attachmentfile)
-	// 		//console.log(Upload.dataUrl(attachmentfile).then(('base64')))
-	// 	 Upload.dataUrl(attachmentfile, true).then(function(dataUrl) {
-	// 		image = dataUrl;
-	// 		var f = $('.type-sink');
-	//         var msg = f.find('[name=chatMsg]').val();
-	//         var from_id = f.find('[name=fromId]').val();
-	// 				var toUser = f.find('[name=toId]').val();
-	//         var from_chatattchment = image;
-	//
-	// 				console.log("Mensaje: ", msg);
-	// 				console.log("from_id: ", from_id);
-	// 				console.log("to_user: ", toUser);
-	//
-	//
-	// 		var data_server={
-	//             message:msg,
-	//             bodyattachement:from_chatattchment,
-	//             to_user: toUser,
-	//             from_id:from_id
-	//         };
-	//
-	// 				// $scope.chatLog.push(data_server);
-	//
-	//         socket.emit('get msg',data_server);
-	//         $('.type-sink .form-control').val("");
-	//         $scope.files = '';
-	// 	 })
-	// 	 } else {
-	//
-	//
-	// 		var f = $('.type-sink');
-	//         var msg = f.find('[name=chatMsg]').val();
-	//         var from_id = f.find('[name=fromId]').val();
-	// 				var toUser = f.find('[name=toId]').val();
-	//         var from_chatattchment = image;
-	//
-	// 				console.log("Mensaje: ", msg);
-	// 				console.log("from_id: ", from_id);
-	// 				console.log("to_user: ", toUser);
-	//
-	// 		var data_server={
-	//             message:msg,
-	//             bodyattachement:from_chatattchment,
-	//             to_user: toUser,
-	//             from_id:from_id
-	//         };
-	//
-	//         socket.emit('get msg',data_server);
-	//         $('.type-sink .form-control').val("");
-  // }
+		if(attachmentfile){
+			console.log(attachmentfile)
+			//console.log(Upload.dataUrl(attachmentfile).then(('base64')))
+		 Upload.dataUrl(attachmentfile, true).then(function(dataUrl) {
+			image = dataUrl;
+			var f = $('.type-sink');
+	        var msg = f.find('[name=chatMsg]').val();
+	        var from_id = f.find('[name=fromId]').val();
+					var toUser = f.find('[name=toId]').val();
+	        var from_chatattchment = image;
+
+					console.log("Mensaje: ", msg);
+					console.log("from_id: ", from_id);
+					console.log("to_user: ", $scope.senderUser);
+
+
+			var data_server={
+          message:msg,
+          bodyattachement:from_chatattchment,
+          to_user: $scope.senderUser,
+          from_id:from_id
+      };
+
+
+
+					// $scope.chatLog.push(data_server);
+
+	        socket.emit('get msg',data_server);
+	        $('.type-sink .form-control').val("");
+	        $scope.files = '';
+		 })
+		 } else {
+
+
+			var f = $('.type-sink');
+	        var msg = f.find('[name=chatMsg]').val();
+	        var from_id = f.find('[name=fromId]').val();
+	        var from_chatattchment = image;
+
+					console.log("Mensaje: ", msg);
+					console.log("from_id: ", from_id);
+					console.log("to_user: ", $scope.senderUser);
+
+			var data_server={
+	            message:msg,
+	            bodyattachement:from_chatattchment,
+	            to_user: $scope.senderUser,
+	            from_id: "admin"
+	        };
+
+					$scope.chatLog.push(data_server);
+
+	        socket.emit('get msg',data_server);
+	        $('.type-sink .form-control').val("");
+  }
 }
 
 	socket.on('set msg',function(data){
 				data=JSON.parse(data);console.log("set msg", data);
-				console.log($scope.chatUserName);
 				var usera = data.to_user;
 				var userb = data.from_id;
-				if (usera == $scope.chatUserName || userb == $scope.chatUserName) {
+				if (usera == $scope.senderUser || userb == $scope.senderUser) {
 						$scope.setCurrentUserImage(data.chat.messages);
 						$scope.$apply();
 				}

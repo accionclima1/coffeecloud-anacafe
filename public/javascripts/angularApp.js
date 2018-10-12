@@ -2649,7 +2649,7 @@ function ($stateProvider, $urlRouterProvider) {
           }]
       })
       .state('supportClient', {
-          url: '/supportClient',
+          url: '/supportclient',
           templateUrl: '/supportClient.html',
           controller: 'SupportClientCtrl',
           onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
@@ -2665,9 +2665,25 @@ function ($stateProvider, $urlRouterProvider) {
           }]
       })
       .state('supportExt', {
-          url: '/supportExt',
+          url: '/supportext',
           templateUrl: '/supportExt.html',
           controller: 'SupportExtCtrl',
+          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+              // var currentUser = auth.currentUser();
+              // var data_server = {
+              //     from_id: currentUser
+              // }
+              // //console.log(data_server);
+              // socket.emit('load msg', data_server);
+          }]
+      })
+      .state('supportExtInterna', {
+          url: '/supportextinterna/:idchat/:senderuser',
+          templateUrl: '/supportExtInterna.html',
+          controller: 'SupportExtInternaCtrl',
           onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
