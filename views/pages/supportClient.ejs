@@ -44,7 +44,7 @@
 							<div class="message" ng-repeat="message in chatLog" ng-style="{'float':(loggedUser == message.sender ? 'right' : 'left')}">
 								<div class="message-wrap">
 									<img ng-show="loggedUser == message.sender" class="userImage chat-image" ng-src="{{ loggedUser == message.sender ? UserImageBottom : adminImage }}" />&nbsp;<label ng-show="loggedUser == message.sender" class="chat-text" >{{ loggedUser == message.sender ?  UserName : adminName }}:</label>
-									<img ng-show="loggedUser != message.sender" class="userImage chat-image" ng-src="{{ UserImage }}" />&nbsp;<label ng-show="loggedUser != message.sender" class="chat-text" >Extensionista:</label>
+									<img ng-show="loggedUser != message.sender" class="userImage chat-image" ng-src="images/ChatUser.png" />&nbsp;<label ng-show="loggedUser != message.sender" class="chat-text" >Extensionista:</label>
 									<div class="message-body"><p class="chat-Body-Client">{{ message.bodyMsg }}<p></div>
 									<div ng-if="message.Msgattachement" class="album">
 										<img class="attachment-image" ng-src="{{ message.Msgattachement }}" />

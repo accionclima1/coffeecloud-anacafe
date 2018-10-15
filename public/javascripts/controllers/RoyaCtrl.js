@@ -18,11 +18,13 @@ app.controller('RoyaCtrl', [
 		$scope.currentId = auth.currentUser();
 		console.log("Nombre de Usuario: ", $scope.currentId);
 		var testInStore = localStorageService.get('localTest');
+		
 		$scope.IsErrorInfrmRoyaAddPlanta=false;
 		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
 		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+
 		$scope.modal={};
 		$scope.modal.number="";
 		$scope.modal.numberSubmitted=false;

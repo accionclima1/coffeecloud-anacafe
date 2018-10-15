@@ -17,6 +17,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   $scope.currentId = auth.currentUser();
   console.log("Nombre de Usuario: ", $scope.currentId);
   var testInStore = localStorageService.get('localTestgallo');
+
 	$scope.IsErrorInfrmGalloAddPlanta=false;
 	$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
 	$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
@@ -135,7 +136,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-		localStorageService.remove('localTest');
+		localStorageService.remove('localTestgallo');
 		$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
 	}
 
@@ -149,7 +150,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-		localStorageService.remove('localTest');
+		localStorageService.remove('localTestgallo');
 		$state.go("supportclient", {}, {reload: true});
 	}
 
