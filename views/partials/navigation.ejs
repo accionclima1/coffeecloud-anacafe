@@ -52,9 +52,11 @@
 	      <li><a href="#" snap-toggle><i class="fa fa-calculator"></i> Cálculo de cosecha</a></li>
 	      <li><a href="#" snap-toggle><i class="fa fa-shopping-cart"></i> Proveedores</a></li>-->
 	      <li ng-class="{ active: isActive('/news') }"><a ng-click="newsView()" snap-toggle><i class="fa fa-bell"></i> Notificaciones</a></li>
-	      <li ng-class="{ active: isActive('/support') }"><a href="#/support" snap-toggle><i class="fa fa-comment"></i> Comunicación</a></li>
-        <li ng-hide="dataUser.role != 'Extensionista'" ng-class="{ active: isActive('/consult') }"><a href="#/consult" snap-toggle><i class="fa fa-comments"></i> Consultas</a></li>
+	      <li ng-class="{ active: isActive(classActive) }"><a ng-click="soportUser()" snap-toggle><i class="fa fa-comment"></i> Soporte</a></li>
 	      <li ng-class="{ active: isActive('/profile') }"><a href="#/profile" snap-toggle><i class="fa fa-user"></i> Perfil</a></li>
 	      <li><a href="#/login" ng-click="logOut()" snap-close><i class="fa fa-power-off"></i> Salir</a></li>
 	    </ul>
+      <div align="center" style="margin-top:30px">
+        <small><a href="#/politicas" ng-click="navChange()" snap-toggle>Política de uso y privacidad</a></small>
+      </div>
 	  </nav>

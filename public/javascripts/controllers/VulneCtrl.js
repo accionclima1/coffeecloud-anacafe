@@ -60,6 +60,10 @@ app.controller('VulneCtrl', [
       $state.go("homeinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex}, {reload: true});
     }
 
+    $scope.soporteVulne = function(){
+      $state.go("supportclient", {}, {reload: true});
+    }
+
 
 
     $scope.newEncuesta = {
