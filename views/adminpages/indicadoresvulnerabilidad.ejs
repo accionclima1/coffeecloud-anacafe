@@ -1,0 +1,136 @@
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/ng-template" id="/incidenciaroya.html">
+<div class="container-fluid users-wrap">
+
+                <!-- Page Heading -->
+                <!--  -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Incidencia de Roya
+                        </h1>
+
+                    </div>
+                </div>
+                <div class="row">
+                  <!-- Indicadores -->
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Indicadores
+                        </h1>
+
+
+                    </div>
+                    <!--Filtros  -->
+                    <div class="col-lg-12">
+
+                        <form>
+                            <div class="form-row">
+
+                              <div class="form-group col-md-2">
+                                  <label for="inputState">Enfermedad</label>
+                                  <select id="inputState" class="form-control">
+                                      <option selected>Roya</option>
+                                      <option>Ojo de Gallo</option>
+                                      <option>Broca</option>
+                                  </select>
+                              </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="inputDepto">Departamento</label>
+                                    <select id="inputDepto" class="form-control" ng-init="selectedDepto='Todos'" ng-model="selectedDepto" ng-change="changeDepto()" >
+                                        <option selected>Todos</option>
+                                        <option ng-repeat="depto in deptos" value="{{depto.dept}}">{{depto.dept}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputMuni">Municipio</label>
+                                    <select id="inputMuni" class="form-control" ng-init="selectedMuni='Todos'" ng-model="selectedMuni" ng-change="changeMuni()">
+                                        <option selected>Todos</option>
+                                        <option ng-repeat="muni in munis" value="{{muni}}">{{muni}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputState">Unidad Productiva</label>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputState">Fecha Inicio</label>
+                                    <input type="date" class="form-control"></input>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputState">Fecha Fin</label>
+                                    <input type="date" class="form-control"></input>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <button type="submit" class="btn btn-primary">Graficar</button>
+                                </div>
+
+
+
+
+
+                                </div>
+                        </form>
+                        <!--Gráficos -->
+                        <div class="col-lg-12">
+                           <h1 class="col-lg-12">Gráficos</h1>
+                        </div>
+                        <div id="royamap" class="col-lg-12" style="height:500px">
+                        </div>
+                        <div id="scatterroyachart" class="col-lg-12 basic-chart"> </div>
+                        <div id="barsroyachart" class="col-lg-12 basic-chart"></div>
+
+                        <!--Grid1-->
+                        <div ui-i18n="es" class="col-lg-12">
+                          <div ui-i18n='es' ui-grid="gridOptions" ui-grid-selection ui-grid-exporter class="grid"></div>
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+</div>
+    </script>
+
+    <style>
+
+    #row1{
+height:100px;
+background:red;
+    }
+
+    #row2{
+height:100px;
+background: black;
+    }
+
+        .basic-chart{
+            height: 300px;
+
+        }
+        .grid {
+
+          height: 400px;
+        }
+
+    </style>
