@@ -206,7 +206,7 @@ h5 {
 }
 /* login screen */
 
-.login-wrap {
+.login-wrap{
   background-image: url(../images/5.jpg);
   background-size: cover;
   background-position:center;
@@ -217,10 +217,34 @@ h5 {
   table-layout: fixed;
 }
 
-.login-wrap > .container {
+.politicas-wrap {
+  background-image: url(../images/5.jpg);
+  background-position: top;
+  background-size: 2500px 18000px;
+  display: table;
+  table-layout: fixed;
+}
+
+.politicas-wrap li {
+  margin-right: 20px;
+}
+
+
+.login-wrap > .container, .politicas-wrap > .container {
   display: table-cell;
   vertical-align: middle;
   height: 100%;
+}
+
+.politicas-wrap .page-header {
+  margin: 0px !important;
+  border: 0;
+}
+
+.politicas-wrap .page-header h1 {
+  font-size: 18px;
+  padding-right: 5%;
+  text-align: center
 }
 
 .login-img {
@@ -623,6 +647,16 @@ h5 {
     margin-bottom: 24px;
     width: 100%;
     border-radius: 4px;
+  }
+
+  .roya-wrap .optionButtons,
+  .gallo-wrap .optionButtons{
+      margin-top: 25px !important;
+  }
+
+  .roya-wrap .support,
+  .gallo-wrap .support{
+    margin-bottom: 25px !important;
   }
 
 
@@ -1054,12 +1088,12 @@ input:checked + label + #otherArea {
   background-color: #7FD321;
 }
 .chatbox {
-  height: 76%;
+  height: 78%;
   overflow: auto;
 }
 
 .message {
-  background-color: #CECECE;
+  background-color: #7DCEA0;
   padding: 15px;
   margin: 15px;
   border-radius: 10px;
@@ -1069,8 +1103,8 @@ input:checked + label + #otherArea {
 
 .message[style*=left] {
   margin-right: 20%;
-  background-color: 00ABFF;
-  color: #fff;
+  background-color: #CECECE;
+  color: #666666;
 }
 
 .message.right {
@@ -1089,24 +1123,27 @@ input:checked + label + #otherArea {
 }
 
 .type-sink input {
-  height: 54px;
-  margin-top: -10px;
+  height: 40px;
+  margin-top: 10px;
   border: 0;
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.14);
   width: 80% !important;
+  border-radius: 15px;
+  margin-left: 27%
 }
 
 .type-sink .form-group {
   display: inline-block;
   width: 100%;
   padding-right: 84px;
+  margin-bottom: 5px !important;
 }
 
 .type-sink button {
   float: right;
   border-radius: 360px;
-  padding: 25px 10px;
-  margin-top: -65px;
+  padding: 15px;
+  margin-top: -50px;
   background-color: #7FD321;
   color: #fff;
   text-transform: uppercase;
@@ -1298,9 +1335,18 @@ a.unidad {
   background-repeat: no-repeat;
   background-size:cover;
   background-position: center top;
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: 40px;
   float:left;
+  border-radius: 20px;
+}
+
+.chat-image-header{
+  top: 15px;
+  position: fixed;
+  width: 35px;
+  left: 45px;
+  height: 35px;
 }
 
 
@@ -1313,8 +1359,19 @@ a.unidad {
 .chat-Body {
   margin: 7px 0 0 5px;
   float:left;
-  width:55%
+  width:55%;
 }
+
+.chat-Body-Client{
+  margin: 15px 0 0 5px;
+  float:left;
+  width:60%;
+}
+
+.message-wrap{
+  overflow: hidden;
+}
+
 .chat-BodyReceiver {
   width: 74%;
 }
@@ -1390,9 +1447,9 @@ a.unidad {
 }
 .icattache {
   position: absolute;
-  right: 94px;
+  right: 80px;
   font-size: 26px;
-  top: -8px;
+  top: 15px;
 }
 .fullbutton button {
   width: 100% !important;
@@ -1580,6 +1637,10 @@ a.unidad {
    /* .nombreUnidad{
      width: 28%;
    } */
+
+   .chatbox{
+     height: 70% !important;
+   }
 
    .buttonsUnidad{
      width: 72%;

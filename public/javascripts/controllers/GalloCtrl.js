@@ -17,6 +17,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   $scope.currentId = auth.currentUser();
   console.log("Nombre de Usuario: ", $scope.currentId);
   var testInStore = localStorageService.get('localTestgallo');
+
 	$scope.IsErrorInfrmGalloAddPlanta=false;
 	$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
 	$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
@@ -33,7 +34,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
   $scope.loteIndex = $stateParams.indexlote;
 
 
-  $scope.unabandola50=5;
+  $scope.unabandola50=50;
   $scope.noBandolas = 0;
   $scope.arrOfflineGallo = [];
   $scope.nombreUnidad = "";
@@ -130,13 +131,27 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		$scope.vistaInicio = true;
 		$scope.vistaCalculo = false;
 		$scope.vistaResultado = false;
-		$scope.IsErrorInfrmRoyaAddPlanta=false;
-		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
-		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+		$scope.IsErrorInfrmGalloAddPlanta=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
-		localStorageService.remove('localTest');
+		localStorageService.remove('localTestgallo');
 		$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+	}
+
+  $scope.soporte = function(){
+    console.log("Soporte");
+		$scope.vistaInicio = true;
+		$scope.vistaCalculo = false;
+		$scope.vistaResultado = false;
+		$scope.IsErrorInfrmGalloAddPlanta=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeaf=false;
+		$scope.IsErrorInfrmGalloAddPlantaLeafAffectedLeaf=false;
+		$scope.IsTotalPlantaAdded=false;
+		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+		localStorageService.remove('localTestgallo');
+		$state.go("supportclient", {}, {reload: true});
 	}
 
 	var plantEditor = function(plant) {
@@ -359,10 +374,10 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		 }
 		 var requiredLength=0;
 		 if($scope.test.bandolas==true){
-			 requiredLength=4; //KH - Modificación - 29 - 4
+			 requiredLength=29; //KH - Modificación - 29 - 4
 		 }
 		 else{
-			 requiredLength=4; //KH - Modificación - 49 - 4
+			 requiredLength=49; //KH - Modificación - 49 - 4
 		 }
 		 if($scope.test.plantas.length>requiredLength)
 		 {
@@ -387,13 +402,13 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		if($scope.test.bandolas==true){
 			console.log("Seleccioné 2 Bandolas");
 			$scope.noBandolas = 0;
-			requiredLength=4; //KH - Modificación - 29 - 4
+			requiredLength=29; //KH - Modificación - 29 - 4
 			//$scope.noBandolas = 2;
 
 		}
 		else{
 			console.log("Seleccioné 1 Bandola");
-			requiredLength=4; //KH -Modificación - 49 - 4
+			requiredLength=49; //KH -Modificación - 49 - 4
 			//$scope.noBandolas = 1;
 		}
 		if($scope.test.plantas.length>requiredLength)
@@ -408,7 +423,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 		var plantName = $scope.test.plantas.length;
 		console.log($scope.test.plantas.length);
 		if($scope.test.bandolas==true){
-			if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+			if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
 				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
 			}else{
 				$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -428,7 +443,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
 	$scope.CloseAndAddPlant=function(){
 		console.log($scope.test.plantas.length);
-		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=5)){ //KH - Modificación - 30 - 5
+		if(($scope.test.bandolas==true) && ($scope.test.plantas.length>=30)){ //KH - Modificación - 30 - 5
 			$scope.closePlant();
 			console.log("Cerrramos planta");
 			$('#plantModal').modal('hide');
@@ -447,7 +462,7 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 	// Editar Planta
 	$scope.editPlant = function($index) {
 		if($scope.test.bandolas==true){
-				if ($scope.test.plantas.length==5){ //KH - Modificación - 30 - 5
+				if ($scope.test.plantas.length==30){ //KH - Modificación - 30 - 5
 						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-ok-circle"></span> Cerrar');
 				}else{
 						$("#btnCloseAndAddPlant").html('<span class="glyphicon glyphicon-arrow-right"></span> Siguiente Planta');
@@ -717,79 +732,111 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
 
 
     $scope.getHelp = function(currentUser) {
+
       console.log($scope.test);
-	    gallo.create($scope.test).success(function(data){
-				$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-				console.log("data enviado");
-		    console.log(data);
-		    console.log(currentUser);
+      if ($rootScope.IsInternetOnline) {
 
-		     var msg = 'Calculo De Gallo Enviado: ID: ' + data._id + '.' ;
-		  	 var data_server={
-	            message:msg,
-	            to_user:'admin',
-	            from_id:currentUser
-	        };
-	        socket.emit('get msg',data_server);
-        }).error(function(){
+    			gallo.create($scope.test).then(function (result) {
+    				$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+    				console.log("Muestreo Gallo realizado");
+    				console.log(result);
+    				console.log(result.data);
 
-          PouchDB.GetGalloFromPouchDB().then(function (result) {
-        			console.log("entramos a PouchDB");
-        			console.log(result);
+    				console.log("Historial de Gallo - Servidor: ",$scope.galloHistory);
+    				$scope.galloHistory.push(result.data);
+    				console.log("Historial de Gallo Actualizado - Servidor: ",$scope.galloHistory);
 
-        			if (result.status == 'fail') {
-        					$scope.error = result.message;
-        			}
-        			else if (result.status == 'success') {
-        					var doc = result.data.rows[0].doc;
-        					if (result.data.rows.length > 0) {
-        							var galloArrayPouchDB = [];
-        							for (var i = 0; i < doc.list.length; i++) {
-        									galloArrayPouchDB.push(doc.list[i]);
-        							}
-        							$scope.galloLocalesPouchDB = galloArrayPouchDB;
+    				var msg = 'Calculo De Gallo Enviado: ID: ' + result.data._id + '.' ;
+    	     	var data_server={
+    	        message:msg,
+    	        to_user:'admin',
+    	        from_id:currentUser
+    	    	};
 
-        							console.log("Data -- Gallo Guardado Offline ");
-        							console.log($scope.galloLocalesPouchDB);
-        							console.log($scope.test);
-        							$scope.galloLocalesPouchDB.push($scope.test);
-        							console.log($scope.galloLocalesPouchDB);
+    		    socket.emit('get msg',data_server);
 
-        							//Mandamos el nuevo arreglo a pouchDB
-        							PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
-        							$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-        					}
-        			}
-        	}).catch(function(err) {
-        			console.log("error al obtener datos");
-        			console.log(err);
-        	});
-				});
-    };
+    			});
+    		}else {
+    			PouchDB.GetGalloFromPouchDB().then(function (result) {
+    					console.log("entramos a PouchDB");
+    					console.log(result);
+
+    					if (result.status == 'fail') {
+    							$scope.error = result.message;
+    					}
+    					else if (result.status == 'success') {
+    							var doc = result.data.rows[0].doc;
+    							if (result.data.rows.length > 0) {
+    									var galloArrayPouchDB = [];
+    									for (var i = 0; i < doc.list.length; i++) {
+    											galloArrayPouchDB.push(doc.list[i]);
+    									}
+    									$scope.galloLocalesPouchDB = galloArrayPouchDB;
+
+    									console.log("Historial de Gallo - PouchDB: ");
+    									console.log($scope.galloLocalesPouchDB);
+    									console.log($scope.test);
+    									$scope.galloLocalesPouchDB.push($scope.test);
+
+    									console.log("Historial de Gallo - PouchDB Actualizado: ");
+    									console.log($scope.galloLocalesPouchDB);
+
+    									//Mandamos el nuevo arreglo a pouchDB
+    									PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
+    									$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+    							}
+    					}
+    			}).catch(function(err) {
+    					console.log("error al obtener datos");
+    					console.log(err);
+    			});
+    		}
+    }
 
 
-    var historialLaunchFunc = function() {
+var historialLaunchFunc = function() {
 
-	    if ($rootScope.IsInternetOnline) {
+  if ($rootScope.IsInternetOnline) {
+        console.log("Con internet");
+        console.log($scope.user_Ided);
 
-			  gallo.getUser($scope.user_Ided).then(function(userhistory){
-				  $scope.galloHistory = userhistory.data;
-          console.log(userhistory.data);
-				  localStorageService.set('galloHistory',userhistory.data);
-				  console.log($scope.galloHistory);
-			  });
+        gallo.getUser($scope.user_Ided).then(function(userhistory){
+           $scope.galloHistory = userhistory.data;
+           console.log("Historial de Gallo - Servidor: ", userhistory.data);
+       });
 
-		} else {
-			console.log("No internet");
-			console.log($scope.user_Ided);
-			$scope.galloHistory = localStorageService.get('galloHistory');
-		}
+  }else {
+    console.log("No internet");
+    console.log($scope.user_Ided);
 
-		console.log("historial Gallo");
-    console.log($scope.galloHistory);
-    };
-    // historialLaunchFunc();
-    $scope.historialLaunch = historialLaunchFunc();
+    PouchDB.GetGalloFromPouchDB().then(function (result) {
+          console.log("entramos a PouchDB");
+          console.log(result);
+
+          if (result.status == 'fail') {
+              $scope.error = result.message;
+          }
+         else if (result.status == 'success') {
+             var doc = result.data.rows[0].doc;
+             if (result.data.rows.length > 0) {
+                 var galloArray = [];
+                 for (var i = 0; i < doc.list.length; i++) {
+                     galloArray.push(doc.list[i]);
+                 }
+                 console.log("Historial de Gallo - PouchDB: ", galloArray);
+             }
+         }
+    }).catch(function(err) {
+        console.log("error al obtener datos");
+        console.log(err);
+    });
+  }
+
+}
+
+
+// historialLaunchFunc();
+$scope.historialLaunch = historialLaunchFunc();
 
 
 

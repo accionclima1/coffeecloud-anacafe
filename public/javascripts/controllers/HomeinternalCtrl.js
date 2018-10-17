@@ -1,5 +1,5 @@
 app.controller('HomeinternalCtrl', ['$http', '$scope', '$stateParams','auth', 'unit', 'varieties', 'user', 'PouchDB', '$rootScope','localStorageService', 'onlineStatus','vulnerabilidades',
-function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus,vulnerabilidades) {
+function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $rootScope, localStorageService, onlineStatus, vulnerabilidades) {
 
         $scope.currentUser = auth.currentUser;
         $scope.currentId = auth.currentUser();
@@ -11,6 +11,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
         $scope.encuestaHistoryByUnidad = [];
         $scope.encuestaHistoryByUnidadOffline = [];
+
 
         $scope.$on('$viewContentLoaded', function readyToTrick() {
             setTimeout(function(){
@@ -68,82 +69,179 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
             }).catch(function(err) {
                 console.log("error al obtener datos");
                 console.log(err);
-               // $("#txtPrueba").val("error en data");
             });
         }
 
         if ($rootScope.IsInternetOnline) {
            console.log("Con internet");
            console.log(auth.userId());
+           $scope.nuevaEncuesta = false;
 
-           vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
-              $scope.encuestaHistory = userhistory.data;
+           // Obteniendo Encuestas de Vulnerabilidad
+           PouchDB.GetVulnerabilityFromPouchDB().then(function (result) {
+               console.log("entramos a PouchDB");
+               console.log(result);
 
-              // Guardamos los muestreos en PouchDB
-              if (userhistory.data.length == 0) {
-                PouchDB.SaveVulnerabilityToPouchDB([{}]);
-              }
-              else {
-                PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
-              }
+               if (result.status == 'fail') {
+                   $scope.error = result.message;
+               }
+               else if (result.status == 'success') {
+                  console.log(result.data.rows[0]);
+                   if (result.data.rows.length > 0 && result.data.rows[0] != undefined) {
+                       var doc = result.data.rows[0].doc;
+                       var encuestasArrayPouchDB = [];
+                       for (var i = 0; i < doc.list.length; i++) {
+                          encuestasArrayPouchDB.push(doc.list[i]);
 
-              console.log($scope.encuestaHistory);
 
-              // Encuestas filtradas por Unidad
-              for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-                if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
-                  $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
-                }
-              }
-              console.log("Encuestas de Unidad Servidor");
-              console.log($scope.encuestaHistoryByUnidad);
-              $scope.graficarHitorial(userhistory.data);
-          });
+                          // Valido si hay una encuesta nueva
+                          if (doc.list[i]._id == null) {
+                            console.log("Vulnerabilidades Actualización");
+                            $scope.nuevaEncuesta = true;
+                            console.log(doc.list[i]);
+                            vulnerabilidades.create(doc.list[i], auth.userId()).then(function (result) {
+                                console.log("Entré a actualizar vulnerabilidades en el servidor");
+                                console.log(result.data);
+                                $scope.encuestaHistory = encuestasArrayPouchDB;
+                                // $scope.encuestaHistory.push(result.data);
+                                // PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
+
+                                vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
+                                   $scope.encuestaHistory = userhistory.data;
+
+                                   $scope.encuestaHistory.sort(function(a,b){
+                                      return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                                    });
+
+                                   PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
+                                   console.log("Data --- Vulnerabilidades Online - Servidor");
+                                   console.log($scope.encuestaHistory);
+                                   $scope.encuestaHistoryByUnidad = [];
+
+                                   // Encuestas filtradas por Unidad
+                                   for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                                     if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                                       $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+                                     }
+                                   }
+
+                                   console.log("Data Unidad --- Vulnerabilidades Online - Servidor / Actualización");
+                                   console.log($scope.encuestaHistoryByUnidad);
+                                   $scope.graficarHitorial($scope.encuestaHistory);
+                                 });
+
+                            });
+
+                          }else if ($scope.nuevaEncuesta == false && i == (doc.list.length - 1)) {
+                            console.log("Vulnerabilidades Online");
+                            // En caso no hayan Encuestas nuevas
+                            vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
+                               $scope.encuestaHistory = userhistory.data;
+                               console.log($scope.encuestaHistory);
+
+                               $scope.encuestaHistory.sort(function(a,b){
+                                  return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                                });
+
+                               if (userhistory.data.length == 0) {
+                                 PouchDB.SaveVulnerabilityToPouchDB([{}]);
+                               }
+                               else {
+                                 PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
+                               }
+                               console.log("Data --- Vulnerabilidades Online - Servidor >");
+                               console.log($scope.encuestaHistory);
+
+                               // Encuestas filtradas por Unidad
+                               for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                                 if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                                   $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+                                 }
+                               }
+                               console.log("Data Unidad --- Vulnerabilidades Online - Servidor");
+                               console.log($scope.encuestaHistoryByUnidad);
+                               $scope.graficarHitorial($scope.encuestaHistory);
+                             });
+                       }
+                     }
+                 }else {
+                   console.log("Despliegue normal");
+                   // En caso no hayan Encuestas nuevas
+                   vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
+                      $scope.encuestaHistory = userhistory.data;
+                      console.log($scope.encuestaHistory);
+
+                      $scope.encuestaHistory.sort(function(a,b){
+                         return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                       });
+
+                      if (userhistory.data.length == 0) {
+                        PouchDB.SaveVulnerabilityToPouchDB([{}]);
+                      }
+                      else {
+                        PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
+                      }
+                      console.log("Data --- Vulnerabilidades Online - Servidor >");
+                      console.log($scope.encuestaHistory);
+
+                      // Encuestas filtradas por Unidad
+                      for (var i = 0; i < $scope.encuestaHistory.length; i++) {
+                        if ($scope.encuestaHistory[i].unidad === $scope.unitId) {
+                          $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
+                        }
+                      }
+                      console.log("Data Unidad --- Vulnerabilidades Online - Servidor");
+                      console.log($scope.encuestaHistoryByUnidad);
+                      $scope.graficarHitorial($scope.encuestaHistory);
+                    });
+                 }
+             }
+           }).catch(function(err) {
+               console.log("error al obtener datos");
+               console.log(err);
+           });
 
        } else {
            console.log("No internet");
            console.log(auth.userId());
 
+           // Obteniendo Encuestas de Vulnerabilidad
            PouchDB.GetVulnerabilityFromPouchDB().then(function (result) {
-               console.log("Respuesta: ");
-               console.log(result);
                console.log("entramos a PouchDB");
+               console.log(result);
+
                if (result.status == 'fail') {
-                  $scope.error = result.message;
+                   $scope.error = result.message;
                }
                else if (result.status == 'success') {
                    var doc = result.data.rows[0].doc;
                    if (result.data.rows.length > 0) {
-                       var encuestasArray = [];
+                       var encuestasArrayPouchDB = [];
                        for (var i = 0; i < doc.list.length; i++) {
-                          encuestasArray.push(doc.list[i]);
+                           encuestasArrayPouchDB.push(doc.list[i]);
                        }
-
-                       $scope.encuestaHistory = encuestasArray;
-                       $scope.encuestaHistoryOffline = encuestasArray;
-                       console.log("Data -- Vulnerabilidad Offline - PouchDB ");
-                       console.log($scope.encuestaHistory);
-
-                       //Encuestas del Servidor cargadas Offline filtradas por Unidad
+                       $scope.encuestaHistory = encuestasArrayPouchDB;
+                       $scope.encuestaHistoryOffline = encuestasArrayPouchDB;
+                       // Encuestas filtradas por Unidad
                        for (var i = 0; i < $scope.encuestaHistory.length; i++) {
-                         if (($scope.encuestaHistory[i].unidad === $scope.unitId) && ($scope.encuestaHistory[i]._id != undefined)) {
+                         if (($scope.encuestaHistory[i].unidad === $scope.unitId) && $scope.encuestaHistory[i]._id != undefined) {
                            $scope.encuestaHistoryByUnidad.push($scope.encuestaHistory[i]);
                          }
                        }
-                       console.log("Encuestas de Unidad Servidor - Cargadas Offline");
+
+                       console.log("Data --- Vulnerabilidades PouchDB - Servidor Offline");
                        console.log($scope.encuestaHistoryByUnidad);
 
-                       //Encuestas Realizadas Offline filtradas por Unidad
-                       if ($scope.encuestaHistoryOffline != null) {
-                         for (var i = 0; i < $scope.encuestaHistoryOffline.length; i++) {
-                           if (($scope.encuestaHistoryOffline[i].unidad === $scope.unitId) && ($scope.encuestaHistoryOffline[i]._id == undefined)) {
-                             $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[i]);
-                           }
+                       for (var i = 0; i < $scope.encuestaHistoryOffline.length; i++) {
+                         if (($scope.encuestaHistoryOffline[i].unidad === $scope.unitId) && $scope.encuestaHistoryOffline[i]._id == undefined) {
+                           $scope.encuestaHistoryByUnidadOffline.push($scope.encuestaHistoryOffline[i]);
                          }
                        }
-                       console.log("Encuestas de Unidad Offline");
+
+                       console.log("Data --- Vulnerabilidades PouchDB - Offline");
                        console.log($scope.encuestaHistoryByUnidadOffline);
-                       $scope.graficarHitorial(encuestasArray);
+
+                       $scope.graficarHitorial($scope.encuestaHistory);
                    }
                }
            }).catch(function(err) {
@@ -865,8 +963,8 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
            chartPadding: {
              right: 25,
              left: -18,
-             top: 50,
-             bottom: 50
+             top: 55,
+             bottom: 55
          },
          plugins: [
              Chartist.plugins.tooltip()

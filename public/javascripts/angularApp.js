@@ -2271,6 +2271,32 @@ app.factory('gallo', ['$http', 'auth', function ($http, auth) {
     return o;
 }]);
 
+app.factory('chats', ['$http', 'auth', function ($http, auth) {
+    var o = {
+
+    };
+    o.getAll = function () {
+        return $http.get('http://coffeecloud.centroclima.org/chats').success(function (data) {
+            return data;
+        });
+    };
+    o.getUser = function (userID) {
+        return $http.get('http://coffeecloud.centroclima.org/chats/' + userID).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (chats) {
+        console.log("Result Chats: ", chats);
+        return $http.post('http://coffeecloud.centroclima.org/chats?tmp=' + (new Date()).getTime(), chats, {
+
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
 app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
 
@@ -2290,7 +2316,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.create = function (encuesta, id) {
         //localhost unit
-        return $http.post('http://coffeecloud.centroclima.org/users/' + id + '/encuesta?tmp=' + (new Date()).getTime(), encuesta, {
+        return $http.post('http://coffeecloud.centroclima.org/users/' + id + '/encuesta', encuesta, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2476,6 +2502,11 @@ function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/forgorpasswordscreen.html',
           controller: 'AuthCtrl'
       })
+      .state('politicas', {
+          url: '/politicas',
+          templateUrl: '/politicas.html',
+          controller: 'AuthCtrl'
+      })
       .state('authenticateotp', {
           url: '/authenticate',
           templateUrl: '/otpscreen.html',
@@ -2617,10 +2648,10 @@ function ($stateProvider, $urlRouterProvider) {
               }
           }]
       })
-      .state('support', {
-          url: '/support',
-          templateUrl: '/support.html',
-          controller: 'SupportCtrl',
+      .state('supportclient', {
+          url: '/supportclient',
+          templateUrl: '/supportClient.html',
+          controller: 'SupportClientCtrl',
           onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
@@ -2631,6 +2662,26 @@ function ($stateProvider, $urlRouterProvider) {
               }
               //console.log(data_server);
               socket.emit('load msg', data_server);
+          }]
+      })
+      .state('supportext', {
+          url: '/supportext',
+          templateUrl: '/supportExt.html',
+          controller: 'SupportExtCtrl',
+          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+          }]
+      })
+      .state('supportExtInterna', {
+          url: '/supportextinterna/:idchat/:senderuser',
+          templateUrl: '/supportExtInterna.html',
+          controller: 'SupportExtInternaCtrl',
+          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
           }]
       })
       .state('profile', {

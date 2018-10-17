@@ -79,7 +79,7 @@
                            <input type="text"
                            class="form-control {{ 'latLongLoteId' + $index }}"
                            placeholder="Geo Referencia"
-                           ng-model="lote.georeferenciacion" id="{{ 'latlongid' + $index }}"></input>
+                           ng-model="lote.georeferenciacion" id="{{ 'latlongid' + $index }}" required></input>
                            <span class="input-group-btn">
                              <button style="margin-top: 0px;" class="btn btn-default" type="button" ng-click="toggle = !toggle; mapInit($index)">
                                <i class="fa fa-map-marker" aria-hidden="true" ng-show="!toggle"></i>
@@ -120,6 +120,7 @@
                          </div>
                        </div>
                        <div class="col-xs-12">
+                         <p>Variedad de Café</p>
                          <div class="form-group">
                            <select class="form-control"
                            id="selCoffeProducessOptions"
@@ -127,6 +128,7 @@
                            ng-model="lote.variedad"
                            data-error="Campo requerido"
                            required>
+                             <option disabled selected>0 variedades seleccionadas</option>
                              <option ng-repeat="option in variedades" value="{{option.name}}" ng-selected="(lote.variedad.indexOf(option.name)>=0)">{{option.name}}</option>
                            </select>
                          </div>
