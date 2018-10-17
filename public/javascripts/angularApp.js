@@ -2664,7 +2664,7 @@ function ($stateProvider, $urlRouterProvider) {
               socket.emit('load msg', data_server);
           }]
       })
-      .state('supportExt', {
+      .state('supportext', {
           url: '/supportext',
           templateUrl: '/supportExt.html',
           controller: 'SupportExtCtrl',

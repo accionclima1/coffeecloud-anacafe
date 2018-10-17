@@ -28,7 +28,6 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
 
     });
 
-
     // Función para visualizar variedades
     console.log("online: ");
     console.log($rootScope.IsInternetOnline);
