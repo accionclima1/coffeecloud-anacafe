@@ -1859,6 +1859,179 @@ router.delete('/fungicidas', auth, function (req, res) {
 
 });
 
+//Dashboard request
+router.get('/roya-unit', function (req, res, next) {
+
+
+console.log(req.params);
+console.log(req.body);
+
+      var dateNow=new Date();
+      var dayNow=dateNow.getDate();
+      //var dayNow="";
+      var monthNow=dateNow.getMonth();
+      var yearNow=dateNow.getFullYear();
+
+      var dayStart;
+      var monthStart=monthNow;
+      var yearStart=yearNow;
+
+
+     if (dayNow>7) {
+
+      var dayStart=dayNow-7;
+
+     } else {
+
+      var dayStart=26;
+      monthStart--;
+
+     }
+
+     var dateStart=new Date(yearNow,monthStart,dayStart);
+
+
+
+     Roya.find({createdAt: {$gte: dateStart.toISOString(), $lt: dateNow.toISOString()}}).populate({path:'myunit'}).exec(function (err, roya) {
+      if (err) {
+          console.log(err);
+          console.log("no se pudo");
+      return res.json("Ocurrió un grandisimo error")
+  }
+
+      //console.log(roya)
+      return res.json(roya);
+    });
+
+
+/*
+
+      console.log("Dia: "+dayStart+" Month: "+monthStart+" Year: "+yearStart);
+      console.log("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);
+      return res.json("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);*/
+
+
+
+
+});
+
+router.post('/roya-unit', function (req, res, next) {
+    console.log(req.body);
+var enfermedad=req.body.enfermedad;
+var dep=req.body.departamento;
+var muni=req.body.municipio;
+var unidad;
+var startDate=req.body.startDate;
+var endDate=req.body.endDate;
+//console.log(req.body);
+
+
+if (enfermedad=="Roya") {
+
+
+    if (dep=="Todos") {
+        console.log("Estoy en todos");
+        Roya.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit'}).exec(function (err, roya) {
+            if (err) {
+                console.log(err);
+                console.log("no se pudo");
+            return res.json("Ocurrió un grandisimo error")
+        }
+      
+            //console.log(roya)
+            return res.json(roya);
+          });
+        
+    }else{
+
+        if (muni=="Todos") {
+            Roya.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{departamento:dep}}).exec(function (err, roya) {
+                if (err) {
+                    console.log(err);
+                    console.log("no se pudo");
+                return res.json("Ocurrió un grandisimo error")
+            }
+          
+                //console.log(roya)
+                return res.json(roya);
+              });
+            
+        } else {
+
+            Roya.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, roya) {
+                if (err) {
+                    console.log(err);
+                    console.log("no se pudo");
+                return res.json("Ocurrió un grandisimo error")
+            }
+          
+                //console.log(roya)
+                return res.json(roya);
+              });
+            
+        }
+
+
+
+
+    }
+
+
+
+    
+}
+if (enfermedad=="Ojo de Gallo") {
+    
+}
+if (enfermedad=="Broca") {
+    
+}
+
+/*
+    console.log(req.params);
+    console.log(req.body);
+    
+          var dateNow=new Date();
+          var dayNow=dateNow.getDate();
+          //var dayNow="";
+          var monthNow=dateNow.getMonth();
+          var yearNow=dateNow.getFullYear();
+    
+          var dayStart;
+          var monthStart=monthNow;
+          var yearStart=yearNow;
+    
+    
+         if (dayNow>7) {
+    
+          var dayStart=dayNow-7;
+    
+         } else {
+    
+          var dayStart=26;
+          monthStart--;
+    
+         }
+    
+         var dateStart=new Date(yearNow,monthStart,dayStart);
+    
+    
+    
+
+    
+    
+    /*
+    
+          console.log("Dia: "+dayStart+" Month: "+monthStart+" Year: "+yearStart);
+          console.log("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);
+          return res.json("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);*/
+    
+    
+    
+    
+    });
+
+
 
 /* */
 module.exports = router;

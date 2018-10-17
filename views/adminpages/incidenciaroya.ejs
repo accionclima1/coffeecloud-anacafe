@@ -31,7 +31,7 @@
 
                               <div class="form-group col-md-2">
                                   <label for="inputState">Enfermedad</label>
-                                  <select id="inputState" class="form-control">
+                                  <select id="inputState" class="form-control" ng-init="selectedEnfermedad='Roya'" ng-model="selectedEnfermedad">
                                       <option selected>Roya</option>
                                       <option>Ojo de Gallo</option>
                                       <option>Broca</option>
@@ -61,14 +61,14 @@
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="inputState">Fecha Inicio</label>
-                                    <input type="date" class="form-control"></input>
+                                    <input type="date" class="form-control" ng-model="selectedStart"></input>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="inputState">Fecha Fin</label>
-                                    <input type="date" class="form-control"></input>
+                                    <input type="date" class="form-control" ng-model="selectedEnd"></input>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <button type="submit" class="btn btn-primary">Graficar</button>
+                                    <button type="submit" class="btn btn-primary" ng-click="getData()">Graficar</button>
                                 </div>
 
 
