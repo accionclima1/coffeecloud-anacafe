@@ -29,37 +29,16 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 
 	chats.getAll().then(function (chat) {
 		$scope.chatsList = [];
-		$scope.chatsUsers = [];
 
 		for (var i = 0; i < chat.data.length; i++) {
-					$scope.chatsList.push(chat.data[i]);
+			$scope.chatsList.push(chat.data[i]);
+			// if (chat.data[i].sender == "kevin16" || chat.data[i].sender == "gallade" ) {
+			// 	$scope.chatsList.push(chat.data[i]);
+			// }
 		}
 
-		function eliminarUsuariosDuplicados(originalArray, prop) {
-			 var nuevoArray = [];
-			 var objetoEncontrado  = {};
-
-			 // Buscamos Objetos Duplicados en originalArray
-			 for(var i in originalArray) {
-					objetoEncontrado[originalArray[i][prop]] = originalArray[i];
-			 }
-
-			 // Insertamos los valores en el nuevoArray
-			 for(i in objetoEncontrado) {
-					 nuevoArray.push(objetoEncontrado[i]);
-			 }
-
-			 return nuevoArray;
-	 }
-
-	 $scope.listChats = eliminarUsuariosDuplicados($scope.chatsList, "sender");
-	 console.log($scope.chatsList);
-
-	 $scope.listChats.sort(function(a,b){
-		 return new Date(b.sender) - new Date(a.sender);
-	 });
-
-	 console.log($scope.listChats);
+		// $scope.chatsList = chat.data;
+		console.log($scope.chatsList);
 	});
 
 
