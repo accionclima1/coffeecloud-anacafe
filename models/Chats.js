@@ -7,7 +7,6 @@ var ChatSchema = new mongoose.Schema({
   reciber: String,
   read: false,
   chatid: String,
-  departamento: String,
   messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }]
 });
 

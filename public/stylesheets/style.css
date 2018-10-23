@@ -206,7 +206,7 @@ h5 {
 }
 /* login screen */
 
-.login-wrap {
+.login-wrap{
   background-image: url(../images/5.jpg);
   background-size: cover;
   background-position:center;
@@ -217,10 +217,34 @@ h5 {
   table-layout: fixed;
 }
 
-.login-wrap > .container {
+.politicas-wrap {
+  background-image: url(../images/5.jpg);
+  background-position: top;
+  background-size: 2500px 18000px;
+  display: table;
+  table-layout: fixed;
+}
+
+.politicas-wrap li {
+  margin-right: 20px;
+}
+
+
+.login-wrap > .container, .politicas-wrap > .container {
   display: table-cell;
   vertical-align: middle;
   height: 100%;
+}
+
+.politicas-wrap .page-header {
+  margin: 0px !important;
+  border: 0;
+}
+
+.politicas-wrap .page-header h1 {
+  font-size: 18px;
+  padding-right: 5%;
+  text-align: center
 }
 
 .login-img {
@@ -623,6 +647,16 @@ h5 {
     margin-bottom: 24px;
     width: 100%;
     border-radius: 4px;
+  }
+
+  .roya-wrap .optionButtons,
+  .gallo-wrap .optionButtons{
+      margin-top: 25px !important;
+  }
+
+  .roya-wrap .support,
+  .gallo-wrap .support{
+    margin-bottom: 25px !important;
   }
 
 
@@ -1059,7 +1093,7 @@ input:checked + label + #otherArea {
 }
 
 .message {
-  background-color: #CECECE;
+  background-color: #7DCEA0;
   padding: 15px;
   margin: 15px;
   border-radius: 10px;
@@ -1069,8 +1103,8 @@ input:checked + label + #otherArea {
 
 .message[style*=left] {
   margin-right: 20%;
-  background-color: 00ABFF;
-  color: #fff;
+  background-color: #CECECE;
+  color: #666666;
 }
 
 .message.right {
@@ -1307,6 +1341,14 @@ a.unidad {
   border-radius: 20px;
 }
 
+.chat-image-header{
+  top: 15px;
+  position: fixed;
+  width: 35px;
+  left: 45px;
+  height: 35px;
+}
+
 
 .chat-text {
   margin: 7px 0 0 5px;
@@ -1317,8 +1359,19 @@ a.unidad {
 .chat-Body {
   margin: 7px 0 0 5px;
   float:left;
-  width:55%
+  width:55%;
 }
+
+.chat-Body-Client{
+  margin: 15px 0 0 5px;
+  float:left;
+  width:60%;
+}
+
+.message-wrap{
+  overflow: hidden;
+}
+
 .chat-BodyReceiver {
   width: 74%;
 }
