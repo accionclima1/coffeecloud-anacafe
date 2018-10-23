@@ -1445,6 +1445,7 @@ router.post('/roya', auth, function (req, res, next) {
     roya.severidadPromedio = req.body.avgplntDmgPct;
     roya.idunidad = req.body.idunidad;
     roya.loteIndex = req.body.loteIndex;
+    roya.createdAt=req.body.date;
 
     roya.save(function (err, roya) {
         if (err) { return next(err); }
