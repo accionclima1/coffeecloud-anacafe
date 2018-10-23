@@ -16,8 +16,8 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	// $scope.chatUserName = "";
 	$scope.chatUser = [];
 	//$scope.UserName = 'User';
-	$scope.UserImage = '/images/ChatUser.png';
-	$scope.UserImageBottom = '/images/ChatUser.png';
+	$scope.UserImage = 'images/ChatUser.png';
+	$scope.UserImageBottom = 'images/ChatUser.png';
 	// $scope.UserNameDisplay = 'User';
 	$scope.IsCall = false;
 	console.log($scope.loggedUser);

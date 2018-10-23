@@ -69,7 +69,9 @@
 		</div>
 		<form class="type-sink form-inline sendMesseges"  ng-submit="sendMessage(files)" ng-controller="SupportExtInternaCtrl">
 			<div class="form-group relativepos">
-				<a ng-click="openImagePopup()"><img style="margin-top:10px" class="userImage chat-image" ng-src="{{ UserImageBottom }}" /></a>
+				<a ng-click="openImagePopup()">
+					<img style="margin-top:10px" class="userImage chat-image" ng-src="{{ UserImageBottom }}" />
+				</a>
 				<!--<label class="chat-text-bottom">{{ UserName }}</label>-->
 				<label class="sr-only" for="chatMsg">Chat message</label>
 				<!-- <div class="watschat"> -->
