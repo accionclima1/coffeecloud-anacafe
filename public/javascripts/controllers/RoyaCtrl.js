@@ -18,11 +18,13 @@ app.controller('RoyaCtrl', [
 		$scope.currentId = auth.currentUser();
 		console.log("Nombre de Usuario: ", $scope.currentId);
 		var testInStore = localStorageService.get('localTest');
+		
 		$scope.IsErrorInfrmRoyaAddPlanta=false;
 		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
 		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+
 		$scope.modal={};
 		$scope.modal.number="";
 		$scope.modal.numberSubmitted=false;
@@ -137,6 +139,20 @@ app.controller('RoyaCtrl', [
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
 		localStorageService.remove('localTest');
 		$state.go("homeloteinternal", {idunidad: $scope.unitId, indexunidad: $scope.unitIndex, indexlote: $scope.loteIndex}, {reload: true});
+	}
+
+	$scope.soporte = function(){
+		console.log("Soporte");
+		$scope.vistaInicio = true;
+		$scope.vistaCalculo = false;
+		$scope.vistaResultado = false;
+		$scope.IsErrorInfrmRoyaAddPlanta=false;
+		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
+		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
+		$scope.IsTotalPlantaAdded=false;
+		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
+		localStorageService.remove('localTest');
+		$state.go("supportclient", {}, {reload: true});
 	}
 
 		var plantEditor = function(plant) {

@@ -7,6 +7,8 @@ app.controller('AuthCtrl', [
 '$timeout', 'PouchDB',
 function ($scope, $state, auth, $window, $timeout, PouchDB) {
     $scope.user = {};
+    $('.switch').css("color", "#666666");
+
     err = null;
     $scope.register = function () {
         auth.register($scope.user).error(function (error) {
@@ -200,6 +202,11 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
 
         });
     }
+
+    // $scope.navChange = function (){
+    //   $('.switch').css("color", "#666666");
+    // }
+
     $scope.ChangePassword = function () {
         if (!$scope.user.password || !$scope.user.cpassword) {
             return false;

@@ -7,6 +7,7 @@ function ($http, $scope, auth, unit, varieties, user, PouchDB, $rootScope, local
     $scope.user_Ided = auth.userId();
     var userO = {};
     $scope.preguntar = 0;
+    $('.switch').css("color", "#FFF");
     //$scope.units = [];
     //PouchDB.CreatePouchDB();
 
