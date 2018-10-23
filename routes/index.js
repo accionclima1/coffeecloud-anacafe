@@ -1861,7 +1861,6 @@ router.delete('/fungicidas', auth, function (req, res) {
 
 });
 
-<<<<<<< HEAD
 //Dashboard request
 router.get('/roya-unit', function (req, res, next) {
 
@@ -2035,7 +2034,6 @@ if (enfermedad=="Broca") {
     });
 
 
-=======
 // ChatSchema
 router.get('/chats', function (req, res, next) {
     Chat.find(function (err, chats) {
@@ -2045,7 +2043,6 @@ router.get('/chats', function (req, res, next) {
     });
 });
 
->>>>>>> 6eea6dccdfbd0dc0d5b67ae512825d9b9e8a7ba1
 
 /* */
 module.exports = router;
