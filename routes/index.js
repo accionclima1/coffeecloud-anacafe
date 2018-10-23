@@ -2002,35 +2002,35 @@ if (enfermedad=="Broca") {
           var dayStart;
           var monthStart=monthNow;
           var yearStart=yearNow;
-    
-    
+
+
          if (dayNow>7) {
-    
+
           var dayStart=dayNow-7;
-    
+
          } else {
-    
+
           var dayStart=26;
           monthStart--;
-    
-         }
-    
-         var dateStart=new Date(yearNow,monthStart,dayStart);
-    
-    
-    
 
-    
-    
+         }
+
+         var dateStart=new Date(yearNow,monthStart,dayStart);
+
+
+
+
+
+
     /*
-    
+
           console.log("Dia: "+dayStart+" Month: "+monthStart+" Year: "+yearStart);
           console.log("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);
           return res.json("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);*/
-    
-    
-    
-    
+
+
+
+
     });
 
 
