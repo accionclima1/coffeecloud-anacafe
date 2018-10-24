@@ -1895,6 +1895,14 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
         }
     };
 
+    auth.currentUserRole = function () {
+        if (auth.isLoggedIn()) {
+            var token = auth.getToken();
+            var payload = JSON.parse($window.atob(token.split('.')[1]));
+            return payload.role;
+        }
+    };
+
     auth.currentUserObject = function () {
         if (auth.isLoggedIn()) {
             var token = auth.getToken();
