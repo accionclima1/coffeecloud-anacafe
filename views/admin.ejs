@@ -69,6 +69,7 @@
     <script src="/javascripts/admincontrollers/UsersCtrl.js"></script>
     <script src="/javascripts/admincontrollers/VarietyCtrl.js"></script>
     <script src="javascripts/admincontrollers/VulnerabilidadCtrl.js"></script>
+    <script src="javascripts/admincontrollers/VulnerabilidadCtrl2.js"></script>
     <script src="javascripts/admincontrollers/IncidenciaRoyaCtrl.js"></script>
 
 <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
@@ -228,7 +229,10 @@
                     </li>
                     <li ng-class="{ active: isActive('/incidenciaroya') }">
                     <a href="/admin#/incidenciaroya"><i class="fa fa-fw fa-shield"></i>Indicadores de Enfermedades</a>
-                </li>
+                    </li>
+                    <li ng-class="{ active: isActive('/vulnerabilidad2') }">
+                        <a href="/admin#/vulnerabilidad2"><i class="fa fa-fw fa-shield"></i> Reportes Vulnerabilidad</a>
+                    </li>
 
                     <li ng-class="{ active: isActive('/vulnerabilidad') }">
                         <a href="/admin#/vulnerabilidad"><i class="fa fa-fw fa-shield"></i> Reportes Vulnerabilidad</a>
@@ -356,6 +360,8 @@
 	<%- include adminpages/roya2.ejs %>
 
     <%- include adminpages/vulnerabilidad.ejs %>
+
+  <%- include adminpages/vulnerabilidad2.ejs %>
 
 	<%- include adminpages/campo.ejs %>
 
