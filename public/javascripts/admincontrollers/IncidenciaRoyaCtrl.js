@@ -60,10 +60,14 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.allRoya=[];
 	$scope.royaGrid1=[];
 	$scope.markers=[];
+	$('#cntRoya').loadingIndicator({showOnInit:false});
+	$("#cntRoya").data("loadingIndicator").show();
 	console.log($scope.incidencesVsDate);
-console.log(Date.UTC(1970, 1,  6));
-console.log((new Date("1970-01-06")));
+	console.log(Date.UTC(1970, 1,  6));
+	console.log((new Date("1970-01-06")));
+
 	royaunits.getAll().then(function (result) {
+		
 		$scope.markers=[];
 
 		//console.log(result.data);
@@ -72,6 +76,7 @@ console.log((new Date("1970-01-06")));
 		
 
 		result.data.forEach(element => {
+			
 			var marker={};
 
 			var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
@@ -119,11 +124,7 @@ console.log((new Date("1970-01-06")));
 		$scope.addMarkers($scope.markers);
 		$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 		$scope.loadGrid1($scope.allRoya);
-
-
-
-
-		
+		$("#cntRoya").data("loadingIndicator").hide();
 	});
 
 
@@ -357,7 +358,7 @@ Highcharts.chart('barsroyachart', {
 
 
 $scope.getData=function () {
-
+	$("#cntRoya").data("loadingIndicator").show();
 	var parameters={};
 	$scope.markers=[];
 
@@ -421,18 +422,13 @@ $scope.getData=function () {
 			$scope.addMarkers($scope.markers);
 			$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 			$scope.loadGrid1($scope.allRoya);
-			
-		});;
+			$("#cntRoya").data("loadingIndicator").hide();
+		});
 
 	}else{
 		alert("Debe ingresar fecha de inicio y fecha de fin.");
-
-		
+		$("#cntRoya").data("loadingIndicator").hide();	
 	}
-
-	
-
-	
 }
 
 $scope.addMarkers=function (markers) {
@@ -475,8 +471,4 @@ $scope.addMarkers=function (markers) {
 	});
 	
 }
-
-
-
-
 	}]);
