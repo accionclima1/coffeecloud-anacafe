@@ -1939,11 +1939,11 @@ if (enfermedad=="Roya") {
                 console.log("no se pudo");
             return res.json("Ocurrió un grandisimo error")
         }
-      
+
             //console.log(roya)
             return res.json(roya);
           });
-        
+
     }else{
 
         if (muni=="Todos") {
@@ -1953,11 +1953,11 @@ if (enfermedad=="Roya") {
                     console.log("no se pudo");
                 return res.json("Ocurrió un grandisimo error")
             }
-          
+
                 //console.log(roya)
                 return res.json(roya);
               });
-            
+
         } else {
 
             Roya.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, roya) {
@@ -1966,11 +1966,11 @@ if (enfermedad=="Roya") {
                     console.log("no se pudo");
                 return res.json("Ocurrió un grandisimo error")
             }
-          
+
                 //console.log(roya)
                 return res.json(roya);
               });
-            
+
         }
 
 
@@ -1980,25 +1980,25 @@ if (enfermedad=="Roya") {
 
 
 
-    
+
 }
 if (enfermedad=="Ojo de Gallo") {
-    
+
 }
 if (enfermedad=="Broca") {
-    
+
 }
 
 /*
     console.log(req.params);
     console.log(req.body);
-    
+
           var dateNow=new Date();
           var dayNow=dateNow.getDate();
           //var dayNow="";
           var monthNow=dateNow.getMonth();
           var yearNow=dateNow.getFullYear();
-    
+
           var dayStart;
           var monthStart=monthNow;
           var yearStart=yearNow;
@@ -2040,6 +2040,15 @@ router.get('/chats', function (req, res, next) {
         if (err) { return next(err); }
 
         res.json(chats);
+    });
+});
+
+// ChatSchema
+router.get('/messages', function (req, res, next) {
+    Chat.find(function (err, messages) {
+        if (err) { return next(err); }
+
+        res.json(messages);
     });
 });
 
