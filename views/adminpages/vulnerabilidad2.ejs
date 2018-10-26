@@ -8,7 +8,63 @@
 					Reportes de Vulnerabilidad
 				</h1>
 
+				<div class="row">
+					<div class="panel panel-default">
+					                            <div class="panel-heading">
+					                                <h3 class="panel-title">Filtros
+					                                </h3>
+					                            </div>
+					                            <div class="panel-body">
+																				<form>
+																						<div class="form-row">
 
+
+
+																								<div class="form-group col-md-2">
+																										<label for="inputDepto">Departamento</label>
+																										<select id="inputDepto" class="form-control" ng-init="selectedDepto='Todos'" ng-model="selectedDepto" ng-change="changeDepto()" >
+																												<option selected>Todos</option>
+																												<option ng-repeat="depto in deptos" value="{{depto.dept}}">{{depto.dept}}</option>
+																										</select>
+																								</div>
+																								<div class="form-group col-md-2">
+																										<label for="inputMuni">Municipio</label>
+																										<select id="inputMuni" class="form-control" ng-init="selectedMuni='Todos'" ng-model="selectedMuni" ng-change="changeMuni()">
+																												<option selected>Todos</option>
+																												<option ng-repeat="muni in munis" value="{{muni}}">{{muni}}</option>
+																										</select>
+																								</div>
+																								<div class="form-group col-md-2">
+																										<label for="inputState">Unidad Productiva</label>
+																										<select id="inputState" class="form-control">
+																												<option selected>Choose...</option>
+																												<option>...</option>
+																										</select>
+																								</div>
+																								<div class="form-group col-md-2">
+																										<label for="inputState">Fecha Inicio</label>
+																										<input type="date" class="form-control" ng-model="selectedStart"></input>
+																								</div>
+																								<div class="form-group col-md-2">
+																										<label for="inputState">Fecha Fin</label>
+																										<input type="date" class="form-control" ng-model="selectedEnd"></input>
+																								</div>
+																								<div class="form-group col-md-2">
+																										<button type="submit" class="btn btn-primary" ng-click="getData()">Graficar</button>
+																								</div>
+
+
+
+
+
+																								</div>
+																				</form>
+
+
+					                            </div>
+						                     </div>
+				</div>
+					<!--endRow-->
 
 
 
@@ -25,7 +81,7 @@
                             <div class="panel-body">
 
 	                          <div class="row">
-		                          <div class="col-md-3">
+		                          <div class="col-md-4">
 			                          <div class="panel panel-green">
 			                            <div class="panel-heading">
 			                                <div class="row">
@@ -33,7 +89,7 @@
 			                                        <i class="fa fa-bullhorn fa-5x"></i>
 			                                    </div>
 			                                    <div class="col-xs-9 text-right">
-			                                        <div class="huge ng-binding">1537</div>
+			                                        <div class="huge ng-binding">{{amountTests}}</div>
 			                                        <div>Reportes de Vulnerabilidad</div>
 			                                    </div>
 			                                </div>
@@ -48,7 +104,7 @@
 																	-->
 			                        </div>
 		                          </div>
-		                          <div class="col-md-3">
+		                          <div class="col-md-4">
 			                          <div class="panel panel-primary">
 			                            <div class="panel-heading">
 			                                <div class="row">
@@ -56,7 +112,7 @@
 			                                        <i class="fa fa-line-chart fa-5x"></i>
 			                                    </div>
 			                                    <div class="col-xs-9 text-right">
-			                                        <div class="huge ng-binding">380</div>
+			                                        <div class="huge ng-binding">{{averageTests}}</div>
 			                                        <div>Vulnerabilidad Promedio</div>
 			                                    </div>
 			                                </div>
@@ -71,7 +127,7 @@
 																	-->
 			                        </div>
 		                          </div>
-		                          <div class="col-md-3">
+		                          <div class="col-md-4">
 			                          <div class="panel panel-yellow" ng-hide="curUserRole == 'Extensionista'">
 			                            <div class="panel-heading">
 			                                <div class="row">
@@ -110,11 +166,31 @@
 	                            </div>
 	                            <div class="panel-body">
 
+																<!--Grid1-->
+																<div ui-i18n="es" class="col-lg-12">
+																	<div ui-i18n='es' ui-grid="gridOptionsEvaluation" ui-grid-selection ui-grid-exporter class="grid"></div>
+
+																</div>
+																<!--Fin del grid-->
+
 
 	                            </div>
 		                     </div>
 </div>
 	<!--endRow-->
+	<div class="row">
+		<div class="panel panel-default">
+		                            <div class="panel-heading">
+		                                <h3 class="panel-title">Gráficos
+		                                </h3>
+		                            </div>
+		                            <div class="panel-body">
+
+
+		                            </div>
+			                     </div>
+	</div>
+		<!--endRow-->
 	</div>
 
 </script>

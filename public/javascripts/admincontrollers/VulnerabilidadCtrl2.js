@@ -1,200 +1,153 @@
-//adaptation controller
-app.controller('VulnerabilidadCtrl', [
-	'$scope',
-	'auth',
-	'$location',
-	'encuesta','Excel', '$timeout',
-	function ($scope, auth, $location, encuesta, Excel, $timeout) {
-	    $scope.isLoggedIn = auth.isLoggedIn;
-	    $scope.currentUser = auth.currentUser;
-	    
-	    
-	    $scope.logOut = auth.logOut;
-	    $scope.isActive = function (viewLocation) {
-	        var active = (viewLocation === $location.path());
-	        return active;
-	    };
-
-	    $scope.buscarValor = function (arrayData, nombre) {
-	    	for (var i = 0; i < arrayData.length; i++) {
-	    		if (arrayData[i].name.localeCompare(nombre) == 0){
-	    			return arrayData[i].value;
-	    		}
-	    	}
-
-	    	return -1;
-	    }
-
-
-
-
-
-	    var currentTest = null;
-	    var cargarTodo = function () {
-            console.log("va a cargar la encuestas");
-	        encuesta.getAll().then(function (tests) {
-
-                console.log("data:");
-                console.log(tests.data);
-	            $scope.testsList = tests.data;
-	            $scope.currentPage = 1;
-	            $scope.pageSize = 9;
-	            $scope.noOfPages = Math.ceil($scope.testsList / $scope.pageSize);
-	            $scope.totalItems = $scope.testsList.length;
-
-	            console.log($scope.testsList);
-
-	            for (var k in tests.data) {
-	                if (tests.data[k].preguntas.length > 0 ) {
-	                	$scope.testsList[k].createdAt = tests.data[k].preguntas[0].value;	                    
-	                    $scope.testsList[k].departamento = tests.data[k].preguntas[1].value;	              
-	                    $scope.testsList[k].comunidad = tests.data[k].preguntas[3].value;	
-	                    $scope.testsList[k].calificacion = $scope.buscarValor(tests.data[k].preguntas, 'puntajeNumData');              
-	                    /*if ( tests.data[k].preguntas[46].name.localeCompare("puntajeNumData") == 0){
-	                    	$scope.testsList[k].calificacion = tests.data[k].preguntas[46].value;              	
-	                    }
-	                    if ( tests.data[k].preguntas[45].name.localeCompare("puntajeNumData") == 0){
-	                    	$scope.testsList[k].calificacion = tests.data[k].preguntas[46].value;              	
-	                    }*/
-
-	                    
-	                    $scope.testsList[k].productor = tests.data[k].preguntas[6].value;	              
-	                    $scope.testsList[k].carneAnacafe = tests.data[k].preguntas[8].value;
-	                    $scope.testsList[k].variedades = tests.data[k].preguntas[18].value;	                    
-	                }
-	            }
-
-
-	            
-
-
-	            console.log("Data -------------------");
-	            console.log($scope.testsList);
-	            console.log("Fin Data -------------------");
-
-	            console.log($scope.head);
-
-
-	        },function (error){
-                console.log("ijole, hubo un error");
-            });
-	    };
-
-	    cargarTodo();
-	    $(".date-field").datepicker();
-	    $scope.head = {	        	                       
-	        departamento: "Departamento",
-	        comunidad: "Comunidad",
-	        productor: "Productor",
-			carneAnacafe: "Carné ANACAFE",
-	        variedades: "Variedades",
-	        calificacion: "Calificacion",	        	
-	        createdAt: "Fecha",	 	                
-	        user: "User"
-	    };
-
-
-	    $scope.sort = {
-	        column: 'createdAt',
-	        descending: true
-	    };
-
-	    $scope.selectedCls = function (column) {
-	        return column == $scope.sort.column && 'sort-' + $scope.sort.descending;
-	    };
-
-	    $scope.changeSorting = function (column) {
-	        var sort = $scope.sort;
-	        if (sort.column == column) {
-	            sort.descending = !sort.descending;
-	        } else {
-	            sort.column = column;
-	            sort.descending = false;
-	        }
-	    };
-
-	    $scope.loadTest = function (test) {
-	        currentTest = test;
-	        $scope.detail = currentTest;
-
-	        //$('#detailModal').modal('show');
-
-	    }
-
-	    $scope.removeTest = function (id) {
-
-	        encuesta.delete(id).then(function (user) {
-	            loadAll();
-	        });
-	    }
-        
-       
-        
-	    $scope.exportData = function () {
-	        var table = document.getElementById('exportable');
-	        var html = table.outerHTML;
-	        //window.open('data:application/vnd.ms-excel,' + encodeURIComponent(html));
-	        var exportHref = Excel.tableToExcel("#exportable", 'Reportes de Encuestas');
-	        $timeout(function () { location.href = exportHref; }, 100);
-	    };
-
-	    $scope.search = {};
-	    //$watch search to update pagination
-	    $scope.$watch('search', function (newVal, oldVal) {
-	        if ($scope.testsList != undefined) {
-	            $scope.filtered = $scope.testsList;
-	            var arrayToReturn = [];
-	            for (var i = 0; i < $scope.testsList.length; i++) {
-	             
-	                if (newVal.dateFrom != undefined && newVal.dateFrom != "") {
-	                    var startDate = parseDate(newVal.dateFrom);
-	                    var createDate = new Date($scope.testsList[i].createdAt);
-	                    if (createDate >= startDate) {
-	                        arrayToReturn.push($scope.testsList[i]);
-	                    }
-	                }
-	                if (newVal.dateFrom == undefined && newVal._id == undefined) {
-	                    arrayToReturn.push($scope.testsList[i]);
-	                }
-	            }
-	            $scope.filtered = arrayToReturn;
-	            $scope.totalItems = $scope.filtered == undefined ? 0 : $scope.filtered.length;
-	            //$scope.pageSize = 9;
-	            $scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageSize);
-	            $scope.currentPage = 1;
-	        }
-	        else {
-	            var arrayToReturn = [];
-	            $scope.filtered = arrayToReturn;
-	            $scope.totalItems = 0;
-	            $scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageSize);
-	            $scope.currentPage = 1;
-
-	        }
-	    }, true);
-
-	   
-
-	}]);
-
-
-app.factory('encuesta', ['$http', 'auth', function ($http, auth) {
+//Encuestas factory
+app.factory('encuestaunit', ['$http', 'auth', function ($http, auth) {
     var o = {
 
     };
-    o.getAll = function () {
-        return $http.get('/encuesta').success(function (data) {
-            return data;
-        });
-    };
-   
-    o.delete = function (test) {
-        return $http.delete('/encuesta/' + test, {
-            headers: { Authorization: 'Bearer ' + auth.getToken() }
-        }).success(function (data) {
-            return data
-        });
-    };
+		o.getAll = function () {
+			return $http.get('/encuesta-unit').success(function (data) {
+				return data;
+			});
+		};
+
+
+		/*
+
+		o.getByFilters = function () {
+				return $http.get('/encuesta-unit').success(function (data) {
+						return data;
+				});
+		};*/
+
+
+
 
     return o;
 }]);
+
+
+//adaptation controller
+app.controller('VulnerabilidadCtrl2', [
+	'$scope',
+	'auth',
+	'$location',
+	'encuestaunit',
+	'encuesta','Excel', '$timeout',
+	function ($scope, auth, $location,encuestaunit, encuesta, Excel, $timeout) {
+
+		$scope.encuestas=[];
+		$scope.amountTests=0;
+		$scope.averageTests=0;
+		$scope.dataGrid=[];
+
+		encuestaunit.getAll().then(function (tests){
+			console.log(tests);
+			$scope.setTests(tests.data);
+
+		});;
+
+		$scope.setTests=function(tests){
+
+			$scope.dataGrid=$scope.setDataGrid(tests);
+
+			$scope.gridOptionsEvaluation.data=$scope.dataGrid;
+
+
+				//Calcula número de tests
+				$scope.amountTests=tests.length;
+
+				//Calcula la incidencia Promedio
+				$scope.averageTests=$scope.calculateaverageTests(tests);
+
+
+				console.log(tests.length);
+
+		};
+//La siguiente funcion calcula el valor promedio de tests
+		$scope.calculateaverageTests=function(tests){
+			var promedio=0;
+			var testsvalidos=0;
+
+			for (var i = 0; i < $scope.amountTests; i++) {
+
+				//console.log(i+ " "+ tests[i].resumenVulne[0]);
+				if (tests[i].resumenVulne.length!=0) {
+				//	console.log("Valor: "+tests[i].resumenVulne[0].valor);
+
+				if (typeof tests[i].resumenVulne[0].valor!='undefined') {
+					promedio=promedio+tests[i].resumenVulne[0].valor;
+					console.log("Value: "+promedio+tests[i].resumenVulne[0].valor);
+					//console.log(promedio);
+					testsvalidos++;
+					console.log(testsvalidos+ " Valor: "+tests[i].resumenVulne[0].valor);
+				}
+
+				}
+			}
+
+			console.log("Promedio: "+promedio);
+			console.log("Numero: "+testsvalidos);
+
+			return (promedio/testsvalidos).toFixed(3);
+		}
+
+
+		//El siguiente método cargará los datos para el gridOptions
+		$scope.setDataGrid=function(tests){
+
+			var datagrid=[];
+
+			angular.forEach(tests, function(value, key){
+
+				var encuesta={};
+
+
+				if (value.resumenVulne.length!=0 && value.myunit.length!=0) {
+				//	console.log("Valor: "+tests[i].resumenVulne[0].valor);
+
+				if (typeof value.resumenVulne[0].valor!='undefined') {
+
+					encuesta.departamento=value.myunit[0].departamento;
+					encuesta.municipio=value.myunit[0].municipio;
+					encuesta.municipio=value.myunit[0].municipio;
+					encuesta.nombre=value.myunit[0].nombre;
+					encuesta.valor=value.resumenVulne[0].valor;
+					encuesta.fecha=value.resumenVulne[0].fecha.split('T')[0];
+
+					datagrid.push(encuesta);
+
+
+
+				}
+
+				}
+
+
+
+
+
+
+	});
+
+	return datagrid;
+
+		};
+
+
+		$scope.gridOptionsEvaluation = {
+			"data":$scope.dataGrid,
+			"enableFiltering":true,
+			"enableGridMenu": true,
+			"enableSelectAll": true,
+			"exporterCsvFilename": 'datosencuesta.csv',
+			"exporterExcelFilename": 'myFile.xlsx',
+			"exporterExcelSheetName": 'Sheet1',
+			"columnDefs":[
+				{field:"departamento",displayName:"Departamento"},
+				{field:"municipio",displayName:"Municipio"},
+				{field:"nombre",displayName:"Nombre"},
+				{field:"valor",displayName:"Escala"},
+				{field:"fecha",displayName:"Fecha"}
+			]
+		};
+
+	}]);
