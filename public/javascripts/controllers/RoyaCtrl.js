@@ -18,7 +18,7 @@ app.controller('RoyaCtrl', [
 		$scope.currentId = auth.currentUser();
 		console.log("Nombre de Usuario: ", $scope.currentId);
 		var testInStore = localStorageService.get('localTest');
-		
+
 		$scope.IsErrorInfrmRoyaAddPlanta=false;
 		$scope.IsErrorInfrmRoyaAddPlantaLeaf=false;
 		$scope.IsErrorInfrmRoyaAddPlantaLeafAffectedLeaf=false;
