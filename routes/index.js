@@ -2045,7 +2045,7 @@ router.get('/chats', function (req, res, next) {
 
 // ChatSchema
 router.get('/messages', function (req, res, next) {
-    Chat.find(function (err, messages) {
+    Message.find(function (err, messages) {
         if (err) { return next(err); }
 
         res.json(messages);
