@@ -1012,6 +1012,7 @@ router.post('/users/:user/encuesta', auth, function (req, res, next) {
     encuesta.preguntas = req.body.preguntas;
     encuesta.unidad = req.body.unidad;
 
+
     encuesta.save(function (err) {
         if (err) { return res.status(500).json({ message: err }); }
         else{
@@ -1095,7 +1096,25 @@ router.get('/encuesta', function (req, res, next) {
     });
 });
 
+//Métodos EvaluacionCtrl2.js
 
+router.get('/encuesta-unit', function (req, res, next) {
+
+  Encuesta.find().populate({path:'myunit'}).exec(function (err, encuesta) {
+   if (err) {
+       console.log(err);
+       console.log("no se pudo");
+   return res.json("Ocurrió un grandisimo error")
+}
+
+   console.log(encuesta)
+   return res.json(encuesta);
+ });
+
+
+});
+
+// Terminan Métodos EvaluacionCtrl2.js
 
 
 
@@ -1939,11 +1958,11 @@ if (enfermedad=="Roya") {
                 console.log("no se pudo");
             return res.json("Ocurrió un grandisimo error")
         }
-      
+
             //console.log(roya)
             return res.json(roya);
           });
-        
+
     }else{
 
         if (muni=="Todos") {
@@ -1953,11 +1972,11 @@ if (enfermedad=="Roya") {
                     console.log("no se pudo");
                 return res.json("Ocurrió un grandisimo error")
             }
-          
+
                 //console.log(roya)
                 return res.json(roya);
               });
-            
+
         } else {
 
             Roya.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, roya) {
@@ -1966,11 +1985,11 @@ if (enfermedad=="Roya") {
                     console.log("no se pudo");
                 return res.json("Ocurrió un grandisimo error")
             }
-          
+
                 //console.log(roya)
                 return res.json(roya);
               });
-            
+
         }
 
 
@@ -1980,25 +1999,25 @@ if (enfermedad=="Roya") {
 
 
 
-    
+
 }
 if (enfermedad=="Ojo de Gallo") {
-    
+
 }
 if (enfermedad=="Broca") {
-    
+
 }
 
 /*
     console.log(req.params);
     console.log(req.body);
-    
+
           var dateNow=new Date();
           var dayNow=dateNow.getDate();
           //var dayNow="";
           var monthNow=dateNow.getMonth();
           var yearNow=dateNow.getFullYear();
-    
+
           var dayStart;
           var monthStart=monthNow;
           var yearStart=yearNow;
