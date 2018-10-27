@@ -9,10 +9,21 @@ app.factory('encuestaunit', ['$http', 'auth', function ($http, auth) {
 			});
 		};
 
+    o.getTestsByFilters = function (parameters) {
+
+      var par=JSON.stringify(parameters);
+
+
+       console.log(par);
+      return $http.post('encuesta-unit',parameters).success(function (data) {
+        return data;
+      });
+    };
+
 
 		/*
 
-		o.getByFilters = function () {
+		o.getTestsByFilters = function () {
 				return $http.get('/encuesta-unit').success(function (data) {
 						return data;
 				});
@@ -33,7 +44,7 @@ app.controller('VulnerabilidadCtrl2', [
 	'encuestaunit',
 	'encuesta','Excel', '$timeout',
 	function ($scope, auth, $location,encuestaunit, encuesta, Excel, $timeout) {
-
+    $scope.deptos=muni14.data;
 		$scope.encuestas=[];
 		$scope.amountTests=0;
 		$scope.averageTests=0;
@@ -44,7 +55,7 @@ app.controller('VulnerabilidadCtrl2', [
 			$scope.setTests(tests.data);
 
 		});;
-
+    //EL siguiente método acualiza todas la vistas
 		$scope.setTests=function(tests){
 
 			$scope.dataGrid=$scope.setDataGrid(tests);
@@ -57,6 +68,9 @@ app.controller('VulnerabilidadCtrl2', [
 
 				//Calcula la incidencia Promedio
 				$scope.averageTests=$scope.calculateaverageTests(tests);
+
+        //Se realizará gráfica scatterroyachart
+        $scope.graphicScatter();
 
 
 				console.log(tests.length);
@@ -149,5 +163,189 @@ app.controller('VulnerabilidadCtrl2', [
 				{field:"fecha",displayName:"Fecha"}
 			]
 		};
+
+
+
+
+    //Instrucciones para selectedStart
+
+    $scope.selectedDepto="";
+    $scope.munis=[];
+
+    $scope.changeDepto=function (){
+
+    console.log($scope.selectedDepto);
+      $scope.selectedMuni="Todos";
+
+  for (var i = 0; i < $scope.deptos.length; i++) {
+
+  console.log($scope.deptos[i].dept+" es igual a "+$scope.selectedDepto);
+    if ($scope.deptos[i].dept==$scope.selectedDepto) {
+      $scope.munis=$scope.deptos[i].munis;
+      break;
+
+    }
+
+  }
+
+    }
+
+    //Terminan instrucciones
+
+
+    //Instrucciones para obtener datos por medio de parámetros
+    $scope.getTestByParameters=function () {
+    //	$("#modalMoading").data("loadingIndicator").show();
+    	var parameters={};
+    	$scope.markers=[];
+
+
+    	parameters.departamento=$scope.selectedDepto;
+    	parameters.municipio = $scope.selectedMuni;
+    	parameters.startDate=$scope.selectedStart;
+    	parameters.endDate=$scope.selectedEnd;
+
+    	console.log(parameters);
+
+    	if(parameters.endDate!=undefined && parameters.startDate!=undefined){
+
+        //Las siguientes instrucciones harán una peticion al servidor con parámetros y actualizaran la vista
+    		encuestaunit.getTestsByFilters(parameters).then(function (result) {
+    			$scope.allTests=[];
+    			$scope.incidencesVsDate=[];
+
+          //Las siguientes instrucciones actualizarán la visua
+          $scope.setTests(result.data);
+          //Terminan Instruciones
+
+
+
+
+
+
+
+    		//	$("#modalMoading").data("loadingIndicator").hide();
+    		});
+        //Terminan instrucciones
+    	}else{
+    		alert("Debe ingresar fecha de inicio y fecha de fin.");
+    	//	$("#modalMoading").data("loadingIndicator").hide();
+    	}
+    }
+
+    //Terminan Instrucciones
+
+    $scope.graphicScatter=function (){
+
+      var myRegression = echarts.init(document.getElementById('vscatterchart'));
+
+      var data = [
+          [new Date(1, 1, 2011), 11.35],
+           [new Date(1, 2, 2011), 12.35],
+           [new Date(1, 2, 2011), 5.35],
+
+      ];
+
+      // See https://github.com/ecomfe/echarts-stat
+      var myRegression = ecStat.regression('polynomial', data, 3);
+
+
+
+      myRegression.points.sort(function(a, b) {
+          return a[0] - b[0];
+      });
+
+      option = {
+
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'cross'
+              }
+          },
+          title: {
+              text: '18 companies net profit and main business income (million)',
+              subtext: 'By ecStat.regression',
+              sublink: 'https://github.com/ecomfe/echarts-stat',
+              left: 'center',
+              top: 16
+          },
+          xAxis: {
+              type: 'time',
+              splitLine: {
+                  lineStyle: {
+                      type: 'dashed'
+                  }
+              },
+              splitNumber: 20
+          },
+          yAxis: {
+              type: 'value',
+              min: -40,
+              splitLine: {
+                  lineStyle: {
+                      type: 'dashed'
+                  }
+              }
+          },
+          grid: {
+              top: 90
+          },
+          series: [{
+              name: 'scatter',
+              type: 'scatter',
+              label: {
+                  emphasis: {
+                      show: true,
+                      position: 'right',
+                      textStyle: {
+                          color: 'blue',
+                          fontSize: 16
+                      }
+                  }
+              },
+              data: data
+          }, {
+              name: 'line',
+              type: 'line',
+              smooth: true,
+              showSymbol: false,
+              data: myRegression.points,
+              markPoint: {
+                  itemStyle: {
+                      normal: {
+                          color: 'transparent'
+                      }
+                  },
+                  label: {
+                      normal: {
+                          show: true,
+                          position: 'left',
+                          formatter: myRegression.expression,
+                          textStyle: {
+                              color: '#333',
+                              fontSize: 14
+                          }
+                      }
+                  },
+                  data: [{
+                      coord: myRegression.points[myRegression.points.length - 1]
+                  }]
+              }
+          }]
+      };
+
+
+
+
+    }
+
+
+//Código de gráfico scatter
+
+
+//Termina código
+
+
 
 	}]);
