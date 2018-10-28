@@ -1145,7 +1145,7 @@ var endDate=req.body.endDate;
     }else{
 
         if (muni=="Todos") {
-            Encuesta.find(({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{departamento:dep}}).exec(function (err, encuestas) {
+            Encuesta.find({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{departamento:dep}}).exec(function (err, encuestas) {
                 if (err) {
                     console.log(err);
                     console.log("no se pudo");
@@ -1158,7 +1158,7 @@ var endDate=req.body.endDate;
 
         } else {
 
-            Encuesta.find(({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, encuestas) {
+            Encuesta.find({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, encuestas) {
                 if (err) {
                     console.log(err);
                     console.log("no se pudo");

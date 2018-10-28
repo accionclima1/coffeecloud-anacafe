@@ -63,11 +63,14 @@ app.controller('VulnerabilidadCtrl2', [
 			$scope.gridOptionsEvaluation.data=$scope.dataGrid;
 
 
+      var kpis=$scope.calculateKPIs(tests);
+
+
 				//Calcula número de tests
-				$scope.amountTests=tests.length;
+				$scope.amountTests=kpis.total;
 
 				//Calcula la incidencia Promedio
-				$scope.averageTests=$scope.calculateaverageTests(tests);
+				$scope.averageTests=kpis.promedio;;
 
         //Se realizará gráfica scatterroyachart
         $scope.graphicScatter();
@@ -77,14 +80,16 @@ app.controller('VulnerabilidadCtrl2', [
 
 		};
 //La siguiente funcion calcula el valor promedio de tests
-		$scope.calculateaverageTests=function(tests){
+		$scope.calculateKPIs=function(tests){
 			var promedio=0;
 			var testsvalidos=0;
+      console.log(tests.length);
+      var kpis={};
 
-			for (var i = 0; i < $scope.amountTests; i++) {
+			for (var i = 0; i < tests.length; i++) {
 
 				//console.log(i+ " "+ tests[i].resumenVulne[0]);
-				if (tests[i].resumenVulne.length!=0) {
+				if (tests[i].resumenVulne.length!=0 && tests[i].myunit.length!=0 ) {
 				//	console.log("Valor: "+tests[i].resumenVulne[0].valor);
 
 				if (typeof tests[i].resumenVulne[0].valor!='undefined') {
@@ -101,7 +106,24 @@ app.controller('VulnerabilidadCtrl2', [
 			console.log("Promedio: "+promedio);
 			console.log("Numero: "+testsvalidos);
 
-			return (promedio/testsvalidos).toFixed(3);
+      kpis.sumaValor=promedio;
+      kpis.total=testsvalidos;
+
+      if (promedio==0 && testsvalidos==0){
+
+        kpis.promedio=0;
+
+
+
+        return kpis;
+      }
+      else{
+
+        kpis.promedio=(promedio/testsvalidos).toFixed(3);
+        return kpis;
+      }
+
+
 		}
 
 
@@ -153,7 +175,7 @@ app.controller('VulnerabilidadCtrl2', [
 			"enableGridMenu": true,
 			"enableSelectAll": true,
 			"exporterCsvFilename": 'datosencuesta.csv',
-			"exporterExcelFilename": 'myFile.xlsx',
+			"exporterExcelFilename": 'ReporteVulnerabilidad.xlsx',
 			"exporterExcelSheetName": 'Sheet1',
 			"columnDefs":[
 				{field:"departamento",displayName:"Departamento"},
@@ -234,6 +256,10 @@ app.controller('VulnerabilidadCtrl2', [
     }
 
     //Terminan Instrucciones
+
+
+    //Se realizará gráfica scatterroyachart
+    //$scope.graphicScatter();
 
     $scope.graphicScatter=function (){
 
