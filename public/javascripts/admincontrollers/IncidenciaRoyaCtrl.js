@@ -67,16 +67,16 @@ app.controller('IncidenciaRoyaCtrl', [
 	console.log((new Date("1970-01-06")));
 
 	royaunits.getAll().then(function (result) {
-		
+
 		$scope.markers=[];
 
 		//console.log(result.data);
 
 
-		
+
 
 		result.data.forEach(element => {
-			
+
 			var marker={};
 
 			var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
@@ -92,7 +92,7 @@ app.controller('IncidenciaRoyaCtrl', [
 				marker.ubicacion=element.ubicacion;
 				marker.incidencia=element.incidencia;
 				marker.unidad=element.lote;
-				
+
 
 				if(marker.ubicacion){
 					marker.ubicacion = marker.ubicacion.replace("(","");
@@ -107,20 +107,20 @@ app.controller('IncidenciaRoyaCtrl', [
 			}
 
 			}
-		
+
 
 			$scope.incidencesVsDate.push(incidenceVsDate);
 
 
 			console.log(incidenceVsDate);
-	
 
 
-			
+
+
 		});
 		$scope.allRoya=result.data;
 
-	
+
 		$scope.addMarkers($scope.markers);
 		$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 		$scope.loadGrid1($scope.allRoya);
@@ -232,7 +232,7 @@ $scope.graphicRoyaVsTime=function (royas) {
 			dateTimeLabelFormats: { // don't display the dummy year
 				month: '%e. %b',
 			year: '%b',
-	
+
 			},
 			title: {
 				text: 'Date'
@@ -281,17 +281,17 @@ $scope.graphicRoyaVsTime=function (royas) {
 			name: 'Muestreos',
 			color: 'rgba(45, 204, 51, .5)',
 			data: royas
-	
+
 		}]
 	});
 
-	
+
 }
 
 $scope.loadGrid1=function (data) {
 
 	$scope.gridOptions.data=data;
-	
+
 }
 
 
@@ -328,15 +328,15 @@ Highcharts.chart('barsroyachart', {
 		{ field: 'lote' },
 		{ field: 'incidencia' },
 		{ field: 'createdAt' }
-		
+
 	],
 	enableGridMenu: true,
 	enableSelectAll: true,
-	exporterCsvFilename: 'myFile.csv',
+	exporterCsvFilename: 'Reporte de Enfermedad.csv',
 	exporterPdfDefaultStyle: {fontSize: 9},
 	exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
 	exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-	exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+	exporterPdfHeader: { text: "Reporte de Enfermedad", style: 'headerStyle' },
 	exporterPdfFooter: function ( currentPage, pageCount ) {
 		return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
 	},
@@ -349,7 +349,7 @@ Highcharts.chart('barsroyachart', {
 	exporterPdfPageSize: 'LETTER',
 	exporterPdfMaxGridWidth: 500,
 	exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-	exporterExcelFilename: 'myFile.xlsx',
+	exporterExcelFilename: 'ReporteEnfermedad.xlsx',
 	exporterExcelSheetName: 'Sheet1',
 	onRegisterApi: function(gridApi){
 		$scope.gridApi = gridApi;
@@ -374,14 +374,14 @@ $scope.getData=function () {
 		royaunits.get(parameters).then(function (result) {
 			$scope.allRoya=[];
 			$scope.incidencesVsDate=[];
-	
+
 			result.data.forEach(element => {
 						var marker={};
 				if (element.myunit[0]!=undefined) {
 					var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
 					element.nombreUnidad=element.myunit[0].nombre;
 					element.municipio=element.myunit[0].municipio;
-					
+
 					element.departamento=element.myunit[0].departamento;
 					element.ubicacion=element.myunit[0].ubicacion;
 
@@ -392,7 +392,7 @@ $scope.getData=function () {
 					marker.ubicacion=element.ubicacion;
 					marker.incidencia=element.incidencia;
 					marker.unidad=element.lote;
-					
+
 
 					if(marker.ubicacion){
 						marker.ubicacion = marker.ubicacion.replace("(","");
@@ -412,11 +412,11 @@ $scope.getData=function () {
 
 
 
-					
+
 				}
 
 
-				
+
 			});
 			console.log($scope.markers);
 			$scope.addMarkers($scope.markers);
@@ -427,7 +427,7 @@ $scope.getData=function () {
 
 	}else{
 		alert("Debe ingresar fecha de inicio y fecha de fin.");
-		$("#cntRoya").data("loadingIndicator").hide();	
+		$("#cntRoya").data("loadingIndicator").hide();
 	}
 }
 
@@ -439,7 +439,7 @@ $scope.addMarkers=function (markers) {
 
 		if (element.incidencia<=5) {
 			colorMarker="green";
-			
+
 		}else if(element.incidencia<=10){
 			colorMarker="yellow";
 
@@ -457,18 +457,18 @@ $scope.addMarkers=function (markers) {
 		}
 
 		if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
-			
+
 		L.circle([element.latitud,element.longitud],{
 			color: colorMarker,
 			fillColor: colorMarker,
 			fillOpacity: 0.5,
-			radius: element.incidencia*50
+			radius: 50
 	}).addTo(mymap);
 		}
 
 
-		
+
 	});
-	
+
 }
 	}]);
