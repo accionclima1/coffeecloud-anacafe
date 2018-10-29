@@ -60,7 +60,11 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.allRoya=[];
 	$scope.royaGrid1=[];
 	$scope.markers=[];
-	$scope.ArrayCircles=[];;
+	$scope.ArrayCircles=[];
+
+	$scope.cantidadMuestreos=0;
+	$scope.incidenciaPromedio=0;
+
 
 	$('#cntRoya').loadingIndicator({showOnInit:false});
 	$("#cntRoya").data("loadingIndicator").show();
@@ -126,6 +130,12 @@ app.controller('IncidenciaRoyaCtrl', [
 
 		});
 		$scope.allRoya=result.data;
+
+		//Cargar KPIs a interfaz gráfica
+		var kpis=$scope.calculateKPIs(result.data);
+
+		$scope.cantidadMuestreos=kpis.cantidadMuestreos;
+		$scope.incidenciaPromedio=kpis.incidenciaPromedio;
 
 		//console.log($scope.markers);
 		$scope.addMarkers($scope.markers);
@@ -439,6 +449,16 @@ $scope.getData=function () {
 			$scope.addMarkers($scope.markers);
 			$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 			$scope.loadGrid1($scope.allRoya);
+
+			//Cargar KPIs a interfaz gráfica
+			var kpis=$scope.calculateKPIs(result.data);
+
+			$scope.cantidadMuestreos=kpis.cantidadMuestreos;
+			$scope.incidenciaPromedio=kpis.incidenciaPromedio;
+
+
+
+
 			$("#cntRoya").data("loadingIndicator").hide();
 		});
 
@@ -501,5 +521,35 @@ if (typeof $scope.layerMarkers!='undefined') {
 	//	$scope.layerMarkers.addTo(mymap);
 
 
-}
+};
+
+//La siguiente funcion calcula KPIs
+		$scope.calculateKPIs=function(muestreos){
+			var incidenciaPromedio=0;
+			var muestreosvalidos=0;
+
+      var kpis={};
+
+			//Las siguientes instrucciones calcularan incidencia promedio y número de muestreos válidos
+			for (var i = 0; i < muestreos.length; i++) {
+
+				if (typeof muestreos[i].incidencia!='undefined' && typeof muestreos[i].myunit[0]!='undefined') {
+					incidenciaPromedio=muestreos[i].incidencia+incidenciaPromedio;
+					muestreosvalidos++;
+				};
+
+
+		};
+
+		incidenciaPromedio=(incidenciaPromedio/muestreosvalidos).toFixed(3);
+
+		kpis.cantidadMuestreos=muestreosvalidos;
+		kpis.incidenciaPromedio=incidenciaPromedio;
+
+		return kpis;
+
+
+		};
+
+
 	}]);
