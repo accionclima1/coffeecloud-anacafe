@@ -571,6 +571,20 @@ app.config([
 				}
 			}]
 		})
+		.state('vulnerabilidad2', {
+			url: '/vulnerabilidad2',
+			templateUrl: '/vulnerabilidad2.html',
+			controller: 'VulnerabilidadCtrl2',
+			onEnter: ['$state', 'auth', function ($state, auth) {
+				var curUserRole = auth.currentUserRole();
+				if (!auth.isLoggedIn()) {
+					$state.go('login');
+				}
+				else if (curUserRole != 'admin' && curUserRole != 'Admin' && curUserRole != 'Extensionista') {
+					window.location.href = '/';
+				}
+			}]
+		})
 		.state('recomendaciontecnica', {
 			url: '/technical-recommendation',
 			templateUrl: '/tech_recom.html',

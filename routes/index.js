@@ -1012,6 +1012,7 @@ router.post('/users/:user/encuesta', auth, function (req, res, next) {
     encuesta.preguntas = req.body.preguntas;
     encuesta.unidad = req.body.unidad;
 
+
     encuesta.save(function (err) {
         if (err) { return res.status(500).json({ message: err }); }
         else{
@@ -1095,9 +1096,136 @@ router.get('/encuesta', function (req, res, next) {
     });
 });
 
+//Métodos EvaluacionCtrl2.js
+
+router.get('/encuesta-unit', function (req, res, next) {
+
+  Encuesta.find().populate({path:'myunit'}).exec(function (err, encuesta) {
+   if (err) {
+       console.log(err);
+       console.log("no se pudo");
+   return res.json("Ocurrió un grandisimo error")
+}
+
+   console.log(encuesta)
+   return res.json(encuesta);
+ });
+
+
+});
+
+// Terminan Métodos EvaluacionCtrl2.js
+
+//COnsulta de Evalucacion con parámetros
+router.post('/encuesta-unit', function (req, res, next) {
+    console.log(req.body);
+var enfermedad=req.body.enfermedad;
+var dep=req.body.departamento;
+var muni=req.body.municipio;
+var unidad;
+var startDate=req.body.startDate;
+var endDate=req.body.endDate;
+//console.log(req.body);
 
 
 
+    if (dep=="Todos") {
+        console.log("Estoy en todos");
+        Encuesta.find({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit'}).exec(function (err, encuestas) {
+            if (err) {
+                console.log(err);
+                console.log("no se pudo");
+            return res.json("Ocurrió un grandisimo error")
+        }
+
+            //console.log(roya)
+            return res.json(encuestas);
+          });
+
+    }else{
+
+        if (muni=="Todos") {
+            Encuesta.find({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{departamento:dep}}).exec(function (err, encuestas) {
+                if (err) {
+                    console.log(err);
+                    console.log("no se pudo");
+                return res.json("Ocurrió un grandisimo error")
+            }
+
+                //console.log(roya)
+                return res.json(encuestas);
+              });
+
+        } else {
+
+            Encuesta.find({"resumenVulne.0.fecha": {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, encuestas) {
+                if (err) {
+                    console.log(err);
+                    console.log("no se pudo");
+                return res.json("Ocurrió un grandisimo error")
+            }
+
+                //console.log(roya)
+                return res.json(encuestas);
+              });
+
+        }
+
+
+
+
+    }
+
+
+
+
+
+
+/*
+    console.log(req.params);
+    console.log(req.body);
+
+          var dateNow=new Date();
+          var dayNow=dateNow.getDate();
+          //var dayNow="";
+          var monthNow=dateNow.getMonth();
+          var yearNow=dateNow.getFullYear();
+
+          var dayStart;
+          var monthStart=monthNow;
+          var yearStart=yearNow;
+
+
+         if (dayNow>7) {
+
+          var dayStart=dayNow-7;
+
+         } else {
+
+          var dayStart=26;
+          monthStart--;
+
+         }
+
+         var dateStart=new Date(yearNow,monthStart,dayStart);
+
+
+
+
+
+
+    /*
+
+          console.log("Dia: "+dayStart+" Month: "+monthStart+" Year: "+yearStart);
+          console.log("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);
+          return res.json("Dia: "+dayNow+" Month: "+monthNow+" Year: "+yearNow);*/
+
+
+
+
+    });
+
+//Termina consulta
 
 router.post('/users/:user/units', auth, function (req, res, next) {
 

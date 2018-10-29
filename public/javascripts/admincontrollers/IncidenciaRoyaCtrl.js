@@ -19,7 +19,7 @@ app.factory('royaunits', ['$http', 'auth', function ($http, auth) {
 			url: '/roya-unit',
 			data:{dat:par}
 		 };
-		 console.log(par);
+		 //console.log(par);
 		return $http.post('/roya-unit',parameters).success(function (data) {
 			return data;
 		});
@@ -60,18 +60,25 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.allRoya=[];
 	$scope.royaGrid1=[];
 	$scope.markers=[];
-	console.log($scope.incidencesVsDate);
-console.log(Date.UTC(1970, 1,  6));
-console.log((new Date("1970-01-06")));
+	$scope.ArrayCircles=[];;
+
+	$('#cntRoya').loadingIndicator({showOnInit:false});
+	$("#cntRoya").data("loadingIndicator").show();
+	//console.log($scope.incidencesVsDate);
+	//console.log(Date.UTC(1970, 1,  6));
+	//console.log((new Date("1970-01-06")));
+
 	royaunits.getAll().then(function (result) {
+
 		$scope.markers=[];
 
 		//console.log(result.data);
 
 
-		
+
 
 		result.data.forEach(element => {
+
 			var marker={};
 
 			var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
@@ -82,12 +89,17 @@ console.log((new Date("1970-01-06")));
 				element.ubicacion=element.myunit[0].ubicacion;
 				if (element.myunit[0].lote[element.loteIndex]!=undefined) {
 					element.lote=element.myunit[0].lote[element.loteIndex].nombre;
+					element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion
+
 				}
 
 				marker.ubicacion=element.ubicacion;
 				marker.incidencia=element.incidencia;
-				marker.unidad=element.lote;
-				
+				marker.nombreUnidad=element.nombreUnidad;
+				marker.nombreLote=element.lote;
+				marker.departamento=	element.departamento;
+				marker.municipio=element.municipio;
+
 
 				if(marker.ubicacion){
 					marker.ubicacion = marker.ubicacion.replace("(","");
@@ -102,28 +114,24 @@ console.log((new Date("1970-01-06")));
 			}
 
 			}
-		
+
 
 			$scope.incidencesVsDate.push(incidenceVsDate);
 
 
-			console.log(incidenceVsDate);
-	
+			//console.log(incidenceVsDate);
 
 
-			
+
+
 		});
 		$scope.allRoya=result.data;
 
-	
+		//console.log($scope.markers);
 		$scope.addMarkers($scope.markers);
 		$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 		$scope.loadGrid1($scope.allRoya);
-
-
-
-
-		
+		$("#cntRoya").data("loadingIndicator").hide();
 	});
 
 
@@ -133,12 +141,12 @@ console.log((new Date("1970-01-06")));
 
 	$scope.changeDepto=function (){
 
-	console.log($scope.selectedDepto);
+	//console.log($scope.selectedDepto);
 		$scope.selectedMuni="Todos";
 
 for (var i = 0; i < $scope.deptos.length; i++) {
 
-console.log($scope.deptos[i].dept+" es igual a "+$scope.selectedDepto);
+//console.log($scope.deptos[i].dept+" es igual a "+$scope.selectedDepto);
 	if ($scope.deptos[i].dept==$scope.selectedDepto) {
 		$scope.munis=$scope.deptos[i].munis;
 		break;
@@ -231,7 +239,7 @@ $scope.graphicRoyaVsTime=function (royas) {
 			dateTimeLabelFormats: { // don't display the dummy year
 				month: '%e. %b',
 			year: '%b',
-	
+
 			},
 			title: {
 				text: 'Date'
@@ -280,17 +288,17 @@ $scope.graphicRoyaVsTime=function (royas) {
 			name: 'Muestreos',
 			color: 'rgba(45, 204, 51, .5)',
 			data: royas
-	
+
 		}]
 	});
 
-	
+
 }
 
 $scope.loadGrid1=function (data) {
 
 	$scope.gridOptions.data=data;
-	
+
 }
 
 
@@ -320,22 +328,24 @@ Highcharts.chart('barsroyachart', {
 
 	$scope.gridOptions = {
 	columnDefs: [
+		{ field: 'ubicacion' },
 		{ field: 'departamento' },
 		{ field: 'municipio' },
 		{ field: 'nombreUnidad' },
-		{ field: 'user' },
 		{ field: 'lote' },
+		{ field: 'user' },
 		{ field: 'incidencia' },
-		{ field: 'createdAt' }
-		
+		{ field: 'createdAt',displayName:"Fecha Muestreo" }
+
 	],
 	enableGridMenu: true,
+	enableFiltering:true,
 	enableSelectAll: true,
-	exporterCsvFilename: 'myFile.csv',
+	exporterCsvFilename: 'Reporte de Enfermedad.csv',
 	exporterPdfDefaultStyle: {fontSize: 9},
 	exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
 	exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-	exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+	exporterPdfHeader: { text: "Reporte de Enfermedad", style: 'headerStyle' },
 	exporterPdfFooter: function ( currentPage, pageCount ) {
 		return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
 	},
@@ -348,7 +358,7 @@ Highcharts.chart('barsroyachart', {
 	exporterPdfPageSize: 'LETTER',
 	exporterPdfMaxGridWidth: 500,
 	exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-	exporterExcelFilename: 'myFile.xlsx',
+	exporterExcelFilename: 'ReporteEnfermedad.xlsx',
 	exporterExcelSheetName: 'Sheet1',
 	onRegisterApi: function(gridApi){
 		$scope.gridApi = gridApi;
@@ -357,7 +367,7 @@ Highcharts.chart('barsroyachart', {
 
 
 $scope.getData=function () {
-
+	$("#cntRoya").data("loadingIndicator").show();
 	var parameters={};
 	$scope.markers=[];
 
@@ -367,31 +377,39 @@ $scope.getData=function () {
 	parameters.startDate=$scope.selectedStart;
 	parameters.endDate=$scope.selectedEnd;
 
-	console.log(parameters);
+	//console.log(parameters);
 
 	if(parameters.endDate!=undefined && parameters.startDate!=undefined){
 		royaunits.get(parameters).then(function (result) {
 			$scope.allRoya=[];
 			$scope.incidencesVsDate=[];
-	
+
 			result.data.forEach(element => {
 						var marker={};
 				if (element.myunit[0]!=undefined) {
 					var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
 					element.nombreUnidad=element.myunit[0].nombre;
 					element.municipio=element.myunit[0].municipio;
-					
+
 					element.departamento=element.myunit[0].departamento;
 					element.ubicacion=element.myunit[0].ubicacion;
 
 					if (element.myunit[0].lote[element.loteIndex]!=undefined) {
 						element.lote=element.myunit[0].lote[element.loteIndex].nombre;
+						element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion
+
+
 					}
 
 					marker.ubicacion=element.ubicacion;
 					marker.incidencia=element.incidencia;
 					marker.unidad=element.lote;
-					
+					marker.nombreUnidad=element.nombreUnidad;
+					marker.nombreLote=element.lote;
+					marker.departamento=	element.departamento;
+					marker.municipio=element.municipio;
+
+
 
 					if(marker.ubicacion){
 						marker.ubicacion = marker.ubicacion.replace("(","");
@@ -411,39 +429,43 @@ $scope.getData=function () {
 
 
 
-					
+
 				}
 
 
-				
+
 			});
-			console.log($scope.markers);
+			//console.log($scope.markers);
 			$scope.addMarkers($scope.markers);
 			$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 			$scope.loadGrid1($scope.allRoya);
-			
-		});;
+			$("#cntRoya").data("loadingIndicator").hide();
+		});
 
 	}else{
 		alert("Debe ingresar fecha de inicio y fecha de fin.");
-
-		
+		$("#cntRoya").data("loadingIndicator").hide();
 	}
-
-	
-
-	
 }
 
 $scope.addMarkers=function (markers) {
+if (typeof $scope.layerMarkers!='undefined') {
+	mymap.removeLayer($scope.layerMarkers);
+
+	$scope.layerMarkers.remove();
+	 $scope.ArrayCircles=[];
+}
+
 
 	markers.forEach(element => {
+		console.log("Marker");
+		console.log(element);
 
 		var colorMarker="";
 
 		if (element.incidencia<=5) {
 			colorMarker="green";
-			
+
 		}else if(element.incidencia<=10){
 			colorMarker="yellow";
 
@@ -461,22 +483,23 @@ $scope.addMarkers=function (markers) {
 		}
 
 		if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
-			
-		L.circle([element.latitud,element.longitud],{
+
+		 $scope.ArrayCircles.push(L.circle([element.latitud,element.longitud],{
 			color: colorMarker,
 			fillColor: colorMarker,
 			fillOpacity: 0.5,
-			radius: element.incidencia*50
-	}).addTo(mymap);
+			radius: 50
+	}).bindPopup("<strong>Depto: </strong>"+element.departamento+"<br> <Strong>Municipio: </strong>"+element.municipio+"<br><strong>Unidad: </strong>"+element.nombreUnidad+"<br><strong>Lote: </strong>"+element.nombreLote+"<br><strong>Incidencia: </strong>"+element.incidencia.toFixed(3)));
 		}
 
 
-		
+
 	});
-	
+
+	//Añadiremos el grupo de ArrayCircles
+	$scope.layerMarkers=L.layerGroup($scope.ArrayCircles).addTo(mymap);
+	//	$scope.layerMarkers.addTo(mymap);
+
+
 }
-
-
-
-
 	}]);

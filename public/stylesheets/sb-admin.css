@@ -91,12 +91,22 @@ body {
     color: #fff;
 }
 
+.navbar-inverse .navbar-nav li ul>li>a {
+    color: #fff;
+}
+
 .navbar-inverse .navbar-brand img {
     height: 100%;
     display:inline;
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    background-color:#FE8515;
+}
+
+.navbar-inverse .navbar-nav ul>.active>a, 
+.navbar-inverse .navbar-nav ul>.active>a:focus, 
+.navbar-inverse .navbar-nav ul>.active>a:hover {
     background-color:#FE8515;
 }
 
