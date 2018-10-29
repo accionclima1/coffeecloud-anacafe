@@ -19,6 +19,7 @@ var Campo = mongoose.model('Campo');
 var Roya = mongoose.model('Roya');
 var Gallo = mongoose.model('Gallo');
 var Chat = mongoose.model('Chat');
+var Message = mongoose.model('Message');
 var Variety = mongoose.model('Variety');
 var Fungicida = mongoose.model('Fungicida');
 var Vulnerability = mongoose.model('Vulnerability');
