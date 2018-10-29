@@ -233,19 +233,13 @@
                     <li ng-class="{ active: isActive('/home') }">
                         <a href="/admin#/"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
                     </li>
-                    <li ng-class="{ active: isActive('/adaptacion') }">
-                        <a href="/admin#/adaptacion"><i class="fa fa-fw fa-shield"></i> Adaptación Climática (Roya)</a>
-                    </li>
-                    <li ng-class="{ active: isActive('/incidenciaroya') }">
-                    <a href="/admin#/incidenciaroya"><i class="fa fa-fw fa-shield"></i>Indicadores de Enfermedades</a>
-                </li>
 
-                    <li >
+
+
+                    <li>
                         <a href="#" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file"></i> Reportes <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class=" collapse">
-                            <li ng-class="{ active: isActive('/adaptacion') }">
-                                <a href="/admin#/adaptacion"><i class="fa fa-fw fa-shield"></i> Adaptación Climática (Roya)</a>
-                            </li>
+
                             <li ng-class="{ active: isActive('/incidenciaroya') }">
                                 <a href="/admin#/incidenciaroya"><i class="fa fa-fw fa-shield"></i>Indicadores de Enfermedades</a>
                             </li>
@@ -254,15 +248,24 @@
                                 <a href="/admin#/vulnerabilidad2"><i class="fa fa-fw fa-shield"></i> Reportes Vulnerabilidad</a>
                             </li>
 
-                            <li ng-class="{ active: isActive('/adaptacionGallo') }">
-                                <a href="/admin#/adaptacionGallo"><i class="fa fa-fw fa-shield"></i> Adaptación Climática(Ojo de Gallo) </a>
-                            </li>
-                            <li ng-class="{ active: isActive('/roya') }">
-                                <a href="/admin#/roya"><i class="fa fa-fw fa-leaf"></i> Reportes Roya</a>
-                            </li>
+
+
                             <li ng-class="{ active: isActive('/reportesdecampo') }">
                                 <a href="/admin#/reportesdecampo"><i class="fa fa-fw fa-file-image-o"></i> Reportes de Campo  </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-file"></i>Adaptación Climática<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo2" class=" collapse">
+                            <li ng-class="{ active: isActive('/adaptacion') }">
+                                <a href="/admin#/adaptacion"><i class="fa fa-fw fa-shield"></i> Adaptación Climática (Roya)</a>
+                            </li>
+
+                            <li ng-class="{ active: isActive('/adaptacionGallo') }">
+                                <a href="/admin#/adaptacionGallo"><i class="fa fa-fw fa-shield"></i> Adaptación Climática(Ojo de Gallo) </a>
+                            </li>
+
                         </ul>
                     </li>
                     <li ng-class="{ active: isActive('/technical-recommendation') }">
