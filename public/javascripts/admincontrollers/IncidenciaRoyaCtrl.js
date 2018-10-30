@@ -3,7 +3,7 @@ app.factory('royaunits', ['$http', 'auth', function ($http, auth) {
 
 	};
 	o.getAll = function () {
-		return $http.get('/roya-unit').success(function (data) {
+		return $http.get('/enfermedad-unit').success(function (data) {
 			return data;
 		});
 	};
@@ -20,7 +20,7 @@ app.factory('royaunits', ['$http', 'auth', function ($http, auth) {
 			data:{dat:par}
 		 };
 		 //console.log(par);
-		return $http.post('/roya-unit',parameters).success(function (data) {
+		return $http.post('/enfermedad-unit',parameters).success(function (data) {
 			return data;
 		});
 	};
@@ -396,7 +396,10 @@ $scope.getData=function () {
 
 			result.data.forEach(element => {
 						var marker={};
-				if (element.myunit[0]!=undefined) {
+
+
+
+				if (element.myunit.length!=0) {
 					var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
 					element.nombreUnidad=element.myunit[0].nombre;
 					element.municipio=element.myunit[0].municipio;
@@ -541,7 +544,13 @@ if (typeof $scope.layerMarkers!='undefined') {
 
 		};
 
-		incidenciaPromedio=(incidenciaPromedio/muestreosvalidos).toFixed(3);
+		if(muestreosvalidos==0){
+				incidenciaPromedio=0;
+		}else{
+			incidenciaPromedio=(incidenciaPromedio/muestreosvalidos).toFixed(3);
+		}
+
+
 
 		kpis.cantidadMuestreos=muestreosvalidos;
 		kpis.incidenciaPromedio=incidenciaPromedio;
