@@ -2166,6 +2166,9 @@ if (enfermedad=="Ojo de Gallo") {
 }
 if (enfermedad=="Broca") {
 
+
+  return res.json([]);
+
 }
 
 /*
