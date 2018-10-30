@@ -3,7 +3,7 @@ app.factory('royaunits', ['$http', 'auth', function ($http, auth) {
 
 	};
 	o.getAll = function () {
-		return $http.get('/roya-unit').success(function (data) {
+		return $http.get('/enfermedad-unit').success(function (data) {
 			return data;
 		});
 	};
@@ -19,8 +19,8 @@ app.factory('royaunits', ['$http', 'auth', function ($http, auth) {
 			url: '/roya-unit',
 			data:{dat:par}
 		 };
-		 console.log(par);
-		return $http.post('/roya-unit',parameters).success(function (data) {
+		 //console.log(par);
+		return $http.post('/enfermedad-unit',parameters).success(function (data) {
 			return data;
 		});
 	};
@@ -60,11 +60,17 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.allRoya=[];
 	$scope.royaGrid1=[];
 	$scope.markers=[];
+	$scope.ArrayCircles=[];
+
+	$scope.cantidadMuestreos=0;
+	$scope.incidenciaPromedio=0;
+
+
 	$('#cntRoya').loadingIndicator({showOnInit:false});
 	$("#cntRoya").data("loadingIndicator").show();
-	console.log($scope.incidencesVsDate);
-	console.log(Date.UTC(1970, 1,  6));
-	console.log((new Date("1970-01-06")));
+	//console.log($scope.incidencesVsDate);
+	//console.log(Date.UTC(1970, 1,  6));
+	//console.log((new Date("1970-01-06")));
 
 	royaunits.getAll().then(function (result) {
 
@@ -87,11 +93,16 @@ app.controller('IncidenciaRoyaCtrl', [
 				element.ubicacion=element.myunit[0].ubicacion;
 				if (element.myunit[0].lote[element.loteIndex]!=undefined) {
 					element.lote=element.myunit[0].lote[element.loteIndex].nombre;
+					element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion
+
 				}
 
 				marker.ubicacion=element.ubicacion;
 				marker.incidencia=element.incidencia;
-				marker.unidad=element.lote;
+				marker.nombreUnidad=element.nombreUnidad;
+				marker.nombreLote=element.lote;
+				marker.departamento=	element.departamento;
+				marker.municipio=element.municipio;
 
 
 				if(marker.ubicacion){
@@ -112,7 +123,7 @@ app.controller('IncidenciaRoyaCtrl', [
 			$scope.incidencesVsDate.push(incidenceVsDate);
 
 
-			console.log(incidenceVsDate);
+			//console.log(incidenceVsDate);
 
 
 
@@ -120,7 +131,13 @@ app.controller('IncidenciaRoyaCtrl', [
 		});
 		$scope.allRoya=result.data;
 
+		//Cargar KPIs a interfaz gráfica
+		var kpis=$scope.calculateKPIs(result.data);
 
+		$scope.cantidadMuestreos=kpis.cantidadMuestreos;
+		$scope.incidenciaPromedio=kpis.incidenciaPromedio;
+
+		//console.log($scope.markers);
 		$scope.addMarkers($scope.markers);
 		$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 		$scope.loadGrid1($scope.allRoya);
@@ -134,12 +151,12 @@ app.controller('IncidenciaRoyaCtrl', [
 
 	$scope.changeDepto=function (){
 
-	console.log($scope.selectedDepto);
+	//console.log($scope.selectedDepto);
 		$scope.selectedMuni="Todos";
 
 for (var i = 0; i < $scope.deptos.length; i++) {
 
-console.log($scope.deptos[i].dept+" es igual a "+$scope.selectedDepto);
+//console.log($scope.deptos[i].dept+" es igual a "+$scope.selectedDepto);
 	if ($scope.deptos[i].dept==$scope.selectedDepto) {
 		$scope.munis=$scope.deptos[i].munis;
 		break;
@@ -321,16 +338,18 @@ Highcharts.chart('barsroyachart', {
 
 	$scope.gridOptions = {
 	columnDefs: [
+		{ field: 'ubicacion' },
 		{ field: 'departamento' },
 		{ field: 'municipio' },
 		{ field: 'nombreUnidad' },
-		{ field: 'user' },
 		{ field: 'lote' },
+		{ field: 'user' },
 		{ field: 'incidencia' },
-		{ field: 'createdAt' }
+		{ field: 'createdAt',displayName:"Fecha Muestreo" }
 
 	],
 	enableGridMenu: true,
+	enableFiltering:true,
 	enableSelectAll: true,
 	exporterCsvFilename: 'Reporte de Enfermedad.csv',
 	exporterPdfDefaultStyle: {fontSize: 9},
@@ -368,7 +387,7 @@ $scope.getData=function () {
 	parameters.startDate=$scope.selectedStart;
 	parameters.endDate=$scope.selectedEnd;
 
-	console.log(parameters);
+	//console.log(parameters);
 
 	if(parameters.endDate!=undefined && parameters.startDate!=undefined){
 		royaunits.get(parameters).then(function (result) {
@@ -377,7 +396,10 @@ $scope.getData=function () {
 
 			result.data.forEach(element => {
 						var marker={};
-				if (element.myunit[0]!=undefined) {
+
+
+
+				if (element.myunit.length!=0) {
 					var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
 					element.nombreUnidad=element.myunit[0].nombre;
 					element.municipio=element.myunit[0].municipio;
@@ -387,11 +409,19 @@ $scope.getData=function () {
 
 					if (element.myunit[0].lote[element.loteIndex]!=undefined) {
 						element.lote=element.myunit[0].lote[element.loteIndex].nombre;
+						element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion
+
+
 					}
 
 					marker.ubicacion=element.ubicacion;
 					marker.incidencia=element.incidencia;
 					marker.unidad=element.lote;
+					marker.nombreUnidad=element.nombreUnidad;
+					marker.nombreLote=element.lote;
+					marker.departamento=	element.departamento;
+					marker.municipio=element.municipio;
+
 
 
 					if(marker.ubicacion){
@@ -418,10 +448,20 @@ $scope.getData=function () {
 
 
 			});
-			console.log($scope.markers);
+			//console.log($scope.markers);
 			$scope.addMarkers($scope.markers);
 			$scope.graphicRoyaVsTime($scope.incidencesVsDate);
 			$scope.loadGrid1($scope.allRoya);
+
+			//Cargar KPIs a interfaz gráfica
+			var kpis=$scope.calculateKPIs(result.data);
+
+			$scope.cantidadMuestreos=kpis.cantidadMuestreos;
+			$scope.incidenciaPromedio=kpis.incidenciaPromedio;
+
+
+
+
 			$("#cntRoya").data("loadingIndicator").hide();
 		});
 
@@ -432,8 +472,17 @@ $scope.getData=function () {
 }
 
 $scope.addMarkers=function (markers) {
+if (typeof $scope.layerMarkers!='undefined') {
+	mymap.removeLayer($scope.layerMarkers);
+
+	$scope.layerMarkers.remove();
+	 $scope.ArrayCircles=[];
+}
+
 
 	markers.forEach(element => {
+		console.log("Marker");
+		console.log(element);
 
 		var colorMarker="";
 
@@ -458,17 +507,58 @@ $scope.addMarkers=function (markers) {
 
 		if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
 
-		L.circle([element.latitud,element.longitud],{
+		 $scope.ArrayCircles.push(L.circle([element.latitud,element.longitud],{
 			color: colorMarker,
 			fillColor: colorMarker,
 			fillOpacity: 0.5,
 			radius: 50
-	}).addTo(mymap);
+	}).bindPopup("<strong>Depto: </strong>"+element.departamento+"<br> <Strong>Municipio: </strong>"+element.municipio+"<br><strong>Unidad: </strong>"+element.nombreUnidad+"<br><strong>Lote: </strong>"+element.nombreLote+"<br><strong>Incidencia: </strong>"+element.incidencia.toFixed(3)));
 		}
 
 
 
 	});
 
-}
+	//Añadiremos el grupo de ArrayCircles
+	$scope.layerMarkers=L.layerGroup($scope.ArrayCircles).addTo(mymap);
+	//	$scope.layerMarkers.addTo(mymap);
+
+
+};
+
+//La siguiente funcion calcula KPIs
+		$scope.calculateKPIs=function(muestreos){
+			var incidenciaPromedio=0;
+			var muestreosvalidos=0;
+
+      var kpis={};
+
+			//Las siguientes instrucciones calcularan incidencia promedio y número de muestreos válidos
+			for (var i = 0; i < muestreos.length; i++) {
+
+				if (typeof muestreos[i].incidencia!='undefined' && typeof muestreos[i].myunit[0]!='undefined') {
+					incidenciaPromedio=muestreos[i].incidencia+incidenciaPromedio;
+					muestreosvalidos++;
+				};
+
+
+		};
+
+		if(muestreosvalidos==0){
+				incidenciaPromedio=0;
+		}else{
+			incidenciaPromedio=(incidenciaPromedio/muestreosvalidos).toFixed(3);
+		}
+
+
+
+		kpis.cantidadMuestreos=muestreosvalidos;
+		kpis.incidenciaPromedio=incidenciaPromedio;
+
+		return kpis;
+
+
+		};
+
+
 	}]);

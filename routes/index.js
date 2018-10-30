@@ -1604,6 +1604,8 @@ router.get('/roya/:user', function (req, res, next) {
 
 router.post('/gallo', auth, function (req, res, next) {
 
+  console.log(req.body);
+
     var gallo = new Gallo(req.body);
     gallo.advMode = req.body.advMode;
     gallo.bandolas = req.body.bandolas;
@@ -1616,6 +1618,7 @@ router.post('/gallo', auth, function (req, res, next) {
     gallo.severidadPromedio = req.body.avgplntDmgPct;
     gallo.idunidad = req.body.idunidad;
     gallo.loteIndex = req.body.loteIndex;
+    gallo.createdAt=req.body.createdAt;
 
     gallo.save(function (err, gallo) {
         if (err) { return next(err); }
@@ -1990,7 +1993,7 @@ router.delete('/fungicidas', auth, function (req, res) {
 });
 
 //Dashboard request
-router.get('/roya-unit', function (req, res, next) {
+router.get('/enfermedad-unit', function (req, res, next) {
 
 
 console.log(req.params);
@@ -2045,7 +2048,7 @@ console.log(req.body);
 
 });
 
-router.post('/roya-unit', function (req, res, next) {
+router.post('/enfermedad-unit', function (req, res, next) {
     console.log(req.body);
 var enfermedad=req.body.enfermedad;
 var dep=req.body.departamento;
@@ -2112,8 +2115,59 @@ if (enfermedad=="Roya") {
 }
 if (enfermedad=="Ojo de Gallo") {
 
+
+      if (dep=="Todos") {
+          console.log("Estoy en todos");
+          Gallo.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit'}).exec(function (err, gallo) {
+              if (err) {
+                  console.log(err);
+                  console.log("no se pudo");
+              return res.json("Ocurrió un grandisimo error")
+          }
+
+              //console.log(roya)
+              return res.json(gallo);
+            });
+
+      }else{
+
+          if (muni=="Todos") {
+              Gallo.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{departamento:dep}}).exec(function (err, gallo) {
+                  if (err) {
+                      console.log(err);
+                      console.log("no se pudo");
+                  return res.json("Ocurrió un grandisimo error")
+              }
+
+                  //console.log(roya)
+                  return res.json(gallo);
+                });
+
+          } else {
+
+              Gallo.find({createdAt: {$gte: startDate, $lt: endDate}}).populate({path:'myunit', match:{municipio:muni}}).exec(function (err, gallo) {
+                  if (err) {
+                      console.log(err);
+                      console.log("no se pudo");
+                  return res.json("Ocurrió un grandisimo error")
+              }
+
+                  //console.log(roya)
+                  return res.json(gallo);
+                });
+
+          }
+
+
+
+
+      }
+
 }
 if (enfermedad=="Broca") {
+
+
+  return res.json([]);
 
 }
 
@@ -2168,6 +2222,15 @@ router.get('/chats', function (req, res, next) {
         if (err) { return next(err); }
 
         res.json(chats);
+    });
+});
+
+// ChatSchema
+router.get('/messages', function (req, res, next) {
+    Chat.find(function (err, messages) {
+        if (err) { return next(err); }
+
+        res.json(messages);
     });
 });
 

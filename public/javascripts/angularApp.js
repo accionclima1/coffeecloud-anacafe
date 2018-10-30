@@ -38,8 +38,23 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
             return 0;
         }
     }
+
     pouchDbFactory.SetLastSyncDateTime = function (timeSpan) {
         $window.localStorage['lastSyncDateTime-' + auth.userId()] = Number(timeSpan);
+    }
+
+    pouchDbFactory.SetInHourTime = function (timeSpan) {
+        console.log("Set In Hour Time", timeSpan);
+        $window.localStorage['setInHourTime-' + auth.userId()] = Number(timeSpan);
+    }
+
+    pouchDbFactory.GetInHourTime = function () {
+        if ($window.localStorage['inHourTime-'+auth.userId()] && $window.localStorage['inHourTime-'+auth.userId()]) {
+            return Number($window.localStorage['inHourTime-' + auth.userId()]);
+        }
+        else {
+            return 0;
+        }
     }
 
 
@@ -1895,6 +1910,14 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
         }
     };
 
+    auth.currentUserRole = function () {
+        if (auth.isLoggedIn()) {
+            var token = auth.getToken();
+            var payload = JSON.parse($window.atob(token.split('.')[1]));
+            return payload.role;
+        }
+    };
+
     auth.currentUserObject = function () {
         if (auth.isLoggedIn()) {
             var token = auth.getToken();
@@ -2288,6 +2311,32 @@ app.factory('chats', ['$http', 'auth', function ($http, auth) {
     o.create = function (chats) {
         console.log("Result Chats: ", chats);
         return $http.post('http://coffeecloud.centroclima.org/chats?tmp=' + (new Date()).getTime(), chats, {
+
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
+app.factory('messages', ['$http', 'auth', function ($http, auth) {
+    var o = {
+
+    };
+    o.getAll = function () {
+        return $http.get('http://coffeecloud.centroclima.org/messages').success(function (data) {
+            return data;
+        });
+    };
+    o.getUser = function (userID) {
+        return $http.get('http://coffeecloud.centroclima.org/messages/' + userID).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (messages) {
+        console.log("Result Messages: ", messages);
+        return $http.post('http://coffeecloud.centroclima.org/messages?tmp=' + (new Date()).getTime(), messages, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
