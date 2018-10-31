@@ -468,7 +468,7 @@ if (element.myunit.length!=0) {
 
         }
         else if(element.incidencia<=-2){
-          element.colorMarker="yellowe";
+          element.colorMarker="yellow";
 
         }else if(element.incidencia<=0){
           element.colorMarker="blue";
@@ -484,7 +484,7 @@ if (element.myunit.length!=0) {
 
         else{
 
-          element.colorMarker="red";
+          element.colorMarker="green";
         }
 
         if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
@@ -493,7 +493,7 @@ if (element.myunit.length!=0) {
           console.log(element);
 
          $scope.ArrayCircles.push(L.circle([element.latitud,element.longitud],{
-          color: element.color,
+          color: element.colorMarker,
           fillColor: element.colorMarker,
           fillOpacity: 0.5,
           radius: 500
