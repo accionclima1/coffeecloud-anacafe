@@ -76,7 +76,7 @@ app.controller('VulnerabilidadCtrl2', [
 				$scope.averageTests=kpis.promedio;;
 
         //Se realizará gráfica scatterroyachart
-        $scope.graphicScatter();
+        //$scope.graphicScatter();
 
         //Agregará markadores al mapa
         $scope.addMarkersToMap(tests);
