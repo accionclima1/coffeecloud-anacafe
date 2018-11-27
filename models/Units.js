@@ -106,6 +106,7 @@ var UnitSchema = new mongoose.Schema({
         dureza: Boolean,
     },
     rendimiento: String,
+    rendimientoAnterior: String,
     floracionPrincipal: String,
     inicioCosecha: String,
     finalCosecha: String,

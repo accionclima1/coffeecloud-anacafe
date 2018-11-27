@@ -967,6 +967,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
                 dureza: false
             },
             rendimiento: '',
+            rendimientoAnterior:'',
             tipoCafe: {
                 estrictamenteDuro: true,
                 duro: false,

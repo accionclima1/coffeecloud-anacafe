@@ -935,6 +935,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
     }
     $scope.onFormSubmit = function () {
+      console.log("Ejecuté el botón");
         if ($scope.Mode == "ADD")
             $scope.saveAddUnitForm();
         else if ($scope.Mode == "EDIT")
@@ -1276,6 +1277,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                 dureza: false
             },
             rendimiento: '',
+            rendimientoAnterior: '',
             tipoCafe: {
                 estrictamenteDuro: true,
                 duro: false,

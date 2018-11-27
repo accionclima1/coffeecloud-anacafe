@@ -405,13 +405,23 @@
             <div class="form-group">
                 <input type="text"
                        class="form-control"
-                       placeholder="Producción"
+                       placeholder="Producción estimada año actual"
                        ng-model="newUnit.rendimiento"
                        data-error="Campo requerido"
  +                     required/>
                 (Quintales de café maduro/manzana)
             </div>
         </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Producción año anterior"
+                       ng-model="newUnit.rendimientoAnterior"/>
+                (Quintales de café maduro/manzana)
+            </div>
+        </div>
+
         <div class="col-xs-12">
             <div class="form-group">
 
