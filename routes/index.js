@@ -1797,7 +1797,7 @@ router.post('/varieties/update', auth, function (req, res, next) {
 
 
 router.get('/varieties', function (req, res, next) {
-    Variety.find(function (err, varieties) {
+    Variety.find().sort({'name':'asc'}).exec(function (err, varieties) {
         if (err) { return next(err); }
 
         res.json(varieties);
