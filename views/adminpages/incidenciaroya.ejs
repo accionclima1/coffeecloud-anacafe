@@ -1,8 +1,5 @@
-
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/ng-template" id="/incidenciaroya.html">
-<div class="container-fluid users-wrap">
+    <div class="container-fluid users-wrap">
 
                 <!-- Page Heading -->
                 <!--  -->
@@ -14,15 +11,7 @@
 
                     </div>
                 </div>
-                <div class="row">
-                  <!-- Indicadores -->
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Indicadores
-                        </h1>
-
-
-                    </div>
+                <div id="cntRoya" class="row">
                     <!--Filtros  -->
                     <div class="col-lg-12">
 
@@ -77,21 +66,68 @@
 
                                 </div>
                         </form>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="panel panel-primary">
+                                  <div class="panel-heading">
+                                      <div class="row">
+                                          <div class="col-xs-3">
+                                              <i class="fa fa-leaf fa-5x"></i>
+                                          </div>
+                                          <div class="col-xs-9 text-right">
+                                              <div class="huge">{{cantidadMuestreos}}</div>
+                                              <div>Número de Muestreos</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="panel panel-success">
+                                  <div class="panel-heading">
+                                      <div class="row">
+                                          <div class="col-xs-3">
+                                              <i class="fa fa-leaf fa-5x"></i>
+                                          </div>
+                                          <div class="col-xs-9 text-right">
+                                              <div class="huge">{{incidenciaPromedio}}</div>
+                                              <div>Incidencia Promedio</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading">
+                                      <div class="row">
+                                          <div class="col-xs-3">
+                                              <i class="fa fa-leaf fa-5x"></i>
+                                          </div>
+                                          <div class="col-xs-9 text-right">
+                                              <div class="huge">138</div>
+                                              <div>Unidades Productivas Muestreadas</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+
                         <!--Gráficos -->
                         <div class="col-lg-12">
                            <h1 class="col-lg-12">Gráficos</h1>
                         </div>
-                        <div id="royamap" class="col-lg-12" style="height:500px">
-                        </div>
                         <div id="scatterroyachart" class="col-lg-12 basic-chart"> </div>
                         <div id="barsroyachart" class="col-lg-12 basic-chart"></div>
-
                         <!--Grid1-->
-                        <div ui-i18n="es" class="col-lg-12">
-                          <div ui-i18n='es' ui-grid="gridOptions" ui-grid-selection ui-grid-exporter class="grid"></div>
-
+                        <div class="col-lg-12">
+                          <div ui-grid="gridOptions" ui-grid-selection ui-grid-exporter class="grid"></div>
                         </div>
-
+                        <div id="royamap" class="col-lg-12" style="height:500px"></div>
 
 
 
@@ -112,25 +148,24 @@
 </div>
     </script>
 
-    <style>
-
-    #row1{
-height:100px;
-background:red;
+<style>
+    #row1 {
+        height: 100px;
+        background: red;
     }
 
-    #row2{
-height:100px;
-background: black;
+    #row2 {
+        height: 100px;
+        background: black;
     }
 
-        .basic-chart{
-            height: 300px;
+    .basic-chart {
+        height: 300px;
 
-        }
-        .grid {
+    }
 
-          height: 400px;
-        }
+    .grid {
 
-    </style>
+        height: 400px;
+    }
+</style>

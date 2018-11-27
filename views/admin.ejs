@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Coffee Cloud - Admin</title>
 
     <!-- Bootstrap Core CSS -->
    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -19,6 +19,9 @@
 
     <!-- Morris Charts CSS -->
     <link href="stylesheets/plugins/morris.css" rel="stylesheet">
+
+    <!-- Loading CSS -->
+    <link href="css/jquery.loading-indicator.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -49,6 +52,9 @@
     <script src="/javascripts/picker.js"></script>
     <script src="/javascripts/picker.date.js"></script>
 
+    <!-- Loading CSS -->
+    <script src="/javascripts/jquery.loading-indicator.min.js"></script>
+
     <link rel="styleSheet" href="/stylesheets/ui-grid.min.css"/>
     <script src="/javascripts/ui-grid.min.js"></script>
     <script src="/javascripts/lodash.js"></script>
@@ -69,6 +75,7 @@
     <script src="/javascripts/admincontrollers/UsersCtrl.js"></script>
     <script src="/javascripts/admincontrollers/VarietyCtrl.js"></script>
     <script src="javascripts/admincontrollers/VulnerabilidadCtrl.js"></script>
+    <script src="javascripts/admincontrollers/VulnerabilidadCtrl2.js"></script>
     <script src="javascripts/admincontrollers/IncidenciaRoyaCtrl.js"></script>
 
 <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
@@ -79,6 +86,9 @@
 <script src="http://ui-grid.info/docs/grunt-scripts/excel-builder.dist.js"></script>
 <script src="/javascripts/ui-grid.core.min.js"></script>
 <script src="/javascripts/ui-grid.exporter.min.js"></script>
+<script src="javascripts/echart.min.js"></script>
+<script src="javascripts/ecStat.min.js"></script>
+
 
 
 
@@ -223,28 +233,40 @@
                     <li ng-class="{ active: isActive('/home') }">
                         <a href="/admin#/"><i class="fa fa-fw fa-dashboard"></i> Escritorio</a>
                     </li>
-                    <li ng-class="{ active: isActive('/adaptacion') }">
-                        <a href="/admin#/adaptacion"><i class="fa fa-fw fa-shield"></i> Adaptación Climática (Roya)</a>
-                    </li>
-                    <li ng-class="{ active: isActive('/incidenciaroya') }">
-                    <a href="/admin#/incidenciaroya"><i class="fa fa-fw fa-shield"></i> Incidencia de Roya </a>
-                </li>
 
-                    <li ng-class="{ active: isActive('/vulnerabilidad') }">
-                        <a href="/admin#/vulnerabilidad"><i class="fa fa-fw fa-shield"></i> Reportes Vulnerabilidad</a>
-                    </li>
 
-                    <li ng-class="{ active: isActive('/adaptacionGallo') }">
-                        <a href="/admin#/adaptacionGallo"><i class="fa fa-fw fa-shield"></i> Adaptación Climática(Ojo de Gallo) </a>
+
+                    <li>
+                        <a href="#" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-file"></i> Reportes <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class=" collapse">
+
+                            <li ng-class="{ active: isActive('/incidenciaroya') }">
+                                <a href="/admin#/incidenciaroya"><i class="fa fa-fw fa-shield"></i>Indicadores de Enfermedades</a>
+                            </li>
+
+                            <li ng-class="{ active: isActive('/vulnerabilidad2') }">
+                                <a href="/admin#/vulnerabilidad2"><i class="fa fa-fw fa-shield"></i> Reportes Vulnerabilidad</a>
+                            </li>
+
+
+
+                            <li ng-class="{ active: isActive('/reportesdecampo') }">
+                                <a href="/admin#/reportesdecampo"><i class="fa fa-fw fa-file-image-o"></i> Reportes de Campo  </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li ng-hide="curUserRole == 'Extensionista'" ng-class="{ active: isActive('/users') }">
-                        <a href="/admin#/users"><i class="fa fa-fw fa-users"></i> Usuarios  {{ curUserRole }}</a>
-                    </li>
-                   <!--  <li>
-                        <a href="#"><i class="fa fa-fw fa-umbrella"></i> Perspectiva Climática</a>
-                    </li> -->
-                    <li ng-class="{ active: isActive('/roya') }">
-                        <a href="/admin#/roya"><i class="fa fa-fw fa-leaf"></i> Reportes Roya</a>
+                    <li>
+                        <a href="#" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-file"></i>Adaptación Climática<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo2" class=" collapse">
+                            <li ng-class="{ active: isActive('/adaptacion') }">
+                                <a href="/admin#/adaptacion"><i class="fa fa-fw fa-shield"></i> Adaptación Climática (Roya)</a>
+                            </li>
+
+                            <li ng-class="{ active: isActive('/adaptacionGallo') }">
+                                <a href="/admin#/adaptacionGallo"><i class="fa fa-fw fa-shield"></i> Adaptación Climática(Ojo de Gallo) </a>
+                            </li>
+
+                        </ul>
                     </li>
                     <li ng-class="{ active: isActive('/technical-recommendation') }">
                         <a href="/admin#/technical-recommendation"><i class="fa fa-fw fa-compass"></i> Recomendación Técnica  </a>
@@ -257,6 +279,9 @@
                     </li>
                      <li ng-class="{ active: isActive('/varieties') }">
                         <a href="/admin#/varieties"><i class="fa fa-fw fa-lemon-o"></i> Variedades de Cafe</a>
+                    </li>
+                    <li ng-hide="curUserRole == 'Extensionista'" ng-class="{ active: isActive('/users') }">
+                        <a href="/admin#/users"><i class="fa fa-fw fa-users"></i> Usuarios  {{ curUserRole }}</a>
                     </li>
                     <li ng-class="{ active: isActive('/noticias') }">
                         <a href="/admin#/noticias"><i class="fa fa-fw fa-newspaper-o"></i> Noticias</a>
@@ -356,6 +381,8 @@
 	<%- include adminpages/roya2.ejs %>
 
     <%- include adminpages/vulnerabilidad.ejs %>
+
+  <%- include adminpages/vulnerabilidad2.ejs %>
 
 	<%- include adminpages/campo.ejs %>
 
