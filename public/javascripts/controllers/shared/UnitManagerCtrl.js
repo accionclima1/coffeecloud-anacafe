@@ -800,10 +800,11 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     $scope.saveEditUnitForm = function () {
         console.log("Entré editar unidad");
         console.log($scope.newunitForm.$valid);
-        if ($scope.newunitForm.$valid) {
+        $scope.newUnit.departamento = $("#departamentos option:selected").text();
+        $scope.newUnit.municipio = $("#departamentos-munis option:selected").text();
+        console.log($scope.newUnit.municipio);
+        if ($scope.newunitForm.$valid && $scope.newUnit.departamento!="" && $scope.newUnit.municipio !="") {
 
-            $scope.newUnit.departamento = $("#departamentos option:selected").text();
-            $scope.newUnit.municipio = $("#departamentos-munis option:selected").text();
             $scope.newUnit.oficinaregional = $scope.oficinaregionalmodel.name;
             $scope.newUnit.lat = $('[name="lat"]').val();
             $scope.newUnit.lng = $('[name="lng"]').val();
@@ -852,8 +853,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                     }
                 });
             }
-
-
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -862,7 +864,11 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     // FUNCION PARA GUARDAR UNA NUEVA UNIDAD
     $scope.saveAddUnitForm = function () {
         console.log($scope.newunitForm.$valid);
-        if ($scope.newunitForm.$valid) {
+        $scope.newUnit.departamento = $("#departamentos option:selected").text();
+        $scope.newUnit.municipio = $("#departamentos-munis option:selected").text();
+        console.log($scope.newUnit.departamento)
+        console.log($scope.newUnit.municipio)
+        if ($scope.newunitForm.$valid && $scope.newUnit.departamento !="" && $scope.newUnit.municipio) {
             $('#myModal2').modal('hide');
             // $(".addUnit").attr('disabled', 'disabled');
             // $(".addUnit").removeAttr('disabled', 'disabled');
@@ -914,11 +920,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                     }
                 });
             }
-
-
-
-
+            return true;
         } else {
+            return false;
           $scope.SweetAlert("Error!", "Complete los campos", "error");
         }
 
@@ -936,9 +940,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
     }
     $scope.onFormSubmit = function () {
         if ($scope.Mode == "ADD")
-            $scope.saveAddUnitForm();
+            return $scope.saveAddUnitForm();
         else if ($scope.Mode == "EDIT")
-            $scope.saveEditUnitForm();
+            return $scope.saveEditUnitForm();
         else
             console.log("Close button clicked");
     }

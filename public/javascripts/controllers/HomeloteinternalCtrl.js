@@ -479,8 +479,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
                 }
                 else if (result.status == 'success') {
-                    var doc = result.data.rows[0].doc;
                     if (result.data.rows.length > 0) {
+                    var doc = result.data.rows[0].doc;
                         var royaArray = [];
                         for (var i = 0; i < doc.list.length; i++) {
                             royaArray.push(doc.list[i]);
@@ -675,8 +675,8 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
                   }
                   else if (result.status == 'success') {
-                      var doc = result.data.rows[0].doc;
                       if (result.data.rows.length > 0) {
+                          var doc = result.data.rows[0].doc;
                           var galloArray = [];
                           for (var i = 0; i < doc.list.length; i++) {
                               galloArray.push(doc.list[i]);

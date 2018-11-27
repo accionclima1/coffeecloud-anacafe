@@ -19,7 +19,7 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         if($window.esPhonegap){
             localPouchDB = $window.dbPouchExterna;  //Si es phonegap, se utiliza el plugin sqlite , y la bd se crea externamente antes de que corra angular
         }else{
-            localPouchDB = new PouchDB('dummyDb');  //Si es un browser se utiliza el storage, TODO: NO FUNCIONA BROWSER MOBILE
+            localPouchDB = new PouchDB('dummyDb',{"adapter":"idb"});  //Si es un browser se utiliza el storage, TODO: NO FUNCIONA BROWSER MOBILE
             promesaGlobal = localPouchDB.info();
             promesaGlobal.then(function (details) {
                 console.log("se creo la bd");
@@ -1646,7 +1646,19 @@ app.factory('onlineStatus', ["$window", "$rootScope", function ($window, $rootSc
     var onlineStatus = {};
 
     onlineStatus.onLine = $window.navigator.onLine;
-    onlineStatus.onLine = false;
+//onlineStatus.onLine = false;
+    
+    Offline.on('confirmed-up',function(){
+            onlineStatus.onLine = true;
+            $rootScope.IsInternetOnline = true;
+            console.log("Conectado a internet, confirmación by event");
+    });
+    
+    Offline.on('confirmed-down',function(){
+            onlineStatus.onLine = false;
+            $rootScope.IsInternetOnline = false;
+            console.log("No conectado a internet, confirmación by event");
+    });
 
     Offline.check();
        if (Offline.state === "up"){

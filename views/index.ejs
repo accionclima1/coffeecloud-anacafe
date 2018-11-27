@@ -101,6 +101,16 @@
 	<script type="text/javascript">
         var aplicacionInicio=false;
         var esPhonegap = false;
+        
+Offline.options={checkOnLoad:true,checks:{xhr:{url:'http://coffeecloud.centroclima.org/images/pages-logo-dark.png'}}}
+    Offline.on('confirmed-up',function(){
+        
+            console.log("Conectado a internet en index, confirmación by event");
+    });
+    
+    Offline.on('confirmed-down',function(){
+            console.log("No conectado a internet en index, confirmación by event");
+    });
 
         function setupGeo(o) {
 

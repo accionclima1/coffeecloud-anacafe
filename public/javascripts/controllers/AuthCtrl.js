@@ -1,13 +1,27 @@
 //Authorize Controller
-app.controller('AuthCtrl', [
+app.controller('AuthCtrl', ['$rootScope',
 '$scope',
 '$state',
 'auth',
 '$window',
 '$timeout', 'PouchDB',
-function ($scope, $state, auth, $window, $timeout, PouchDB) {
+function ($rootScope,$scope, $state, auth, $window, $timeout, PouchDB) {
     $scope.user = {};
     $('.switch').css("color", "#666666");
+    
+    // Funcion SweetAlert para mensajes Success y Error
+    $scope.SweetAlert = function (title, text, type){
+
+      if (type == "success" || type == "error" || type == "warning" ) {
+        swal({
+              title: title,
+              text: text,
+              type: type,
+              confirmButtonText: 'Aceptar'
+            });
+      }
+      return
+    }
 
     err = null;
     $scope.register = function () {
@@ -27,7 +41,7 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
     };
 
     $scope.logIn = function () {
-
+        if($rootScope.IsInternetOnline){
         var isServerToLocalSync = false;
         var isLocalToServerSync = false;
         if ($scope.loginForm.$valid) {
@@ -112,6 +126,9 @@ function ($scope, $state, auth, $window, $timeout, PouchDB) {
                 }
             });
         });
+        }else{
+            $scope.SweetAlert('¡Error!', 'Necesita internet para iniciar sesión', 'error');
+        }
     };
 
 
