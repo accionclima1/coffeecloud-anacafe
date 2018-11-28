@@ -120,7 +120,7 @@
                          </div>
                        </div>
                        <div class="col-xs-12">
-                         <p>Variedad de Café</p>
+                         <p>Seleccione las variedades de café</p>
                          <div class="form-group">
                            <select class="form-control"
                            id="selCoffeProducessOptions"
@@ -134,14 +134,49 @@
                          </div>
                        </div>
 
+                       <div class="col-xs-12 form">
+                         <p>Distanciamiento entre plantas de café</p>
+                           <div style="padding-right: 0px;" class="col-xs-5">
+                               <div class="form-group">
+
+                                     <input type="text"
+                                            class="form-control"
+                                            placeholder="Avenida"
+                                            ng-model="lote.distanciamientoAvenida"
+                                            data-error="Campo requerido"></input>
+                                     (Metros)
+                                 </div>
+                           </div>
+                           <div style="margin: auto; padding: 0px;" class="col-xs-2">
+                             <strong>X</strong>
+                           </div>
+
+
+                           <div style="padding-left: 0px;" class="col-xs-5">
+                                   <div class="form-group">
+
+                                             <input type="text"
+                                                    class="form-control"
+                                                    placeholder="Calle"
+                                                    ng-model="lote.distanciamientoCalle"
+                                                    data-error="Campo requerido"></input>
+                                             (Metros)
+                                         </div>
+
+                           </div>
+
+                       </div>
+
                        <div class="col-xs-12">
                          <div class="form-group">
-                           <input type="text"
+                           <input type="number"
+                           name="rendimientoAnterior"
                            class="form-control"
-                           placeholder="Distanciamiento Ej: 2x1"
-                           ng-model="lote.distanciamiento"
-                           required></input>
+                           placeholder="Producción año anterior "
+                           ng-model="lote.rendimientoAnterior"></input>
+                           (Quintales de café maduro/manzana)
                          </div>
+
                        </div>
 
                        <div class="col-xs-12">

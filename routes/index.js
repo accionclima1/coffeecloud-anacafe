@@ -1244,6 +1244,8 @@ router.post('/users/:user/units', auth, function (req, res, next) {
     //  unit.edadLote = req.body.edadLote;
     unit.variedad = req.body.variedad;
     unit.distanciamiento = req.body.distanciamiento;
+    unit.distanciamientoAvenida = req.body.distanciamientoAvenida;
+    unit.distanciamientoCalle = req.body.distanciamientoCalle;
     unit.sombra = req.body.sombra;
     unit.muestreo = req.body.muestreo;
     unit.muestreoMes = req.body.muestreoMes;
@@ -1262,6 +1264,7 @@ router.post('/users/:user/units', auth, function (req, res, next) {
     unit.verificaAguaTipo = req.body.verificaAguaTipo;
     unit.verificaAgua = req.body.verificaAgua;
     unit.rendimiento = req.body.rendimiento;
+    unit.rendimientoAnterior=req.body.rendimientoAnterior;
     unit.floracionPrincipal = req.body.floracionPrincipal;
     unit.inicioCosecha = req.body.inicioCosecha;
     unit.finalCosecha = req.body.finalCosecha;
@@ -1352,6 +1355,8 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             //  unit.edadLote = req.body.edadLote;
             unit.variedad = req.body.variedad;
             unit.distanciamiento = req.body.distanciamiento;
+            unit.distanciamientoAvenida = req.body.distanciamientoAvenida;
+            unit.distanciamientoCalle = req.body.distanciamientoCalle;
             unit.sombra = req.body.sombra;
             unit.muestreo = req.body.muestreo;
             unit.muestreoMes = req.body.muestreoMes;
@@ -1370,6 +1375,8 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             unit.verificaAguaTipo = req.body.verificaAguaTipo;
             unit.verificaAgua = req.body.verificaAgua;
             unit.rendimiento = req.body.rendimiento;
+            unit.rendimientoAnterior = req.body.rendimientoAnterior;
+
             unit.floracionPrincipal = req.body.floracionPrincipal;
             unit.inicioCosecha = req.body.inicioCosecha;
             unit.finalCosecha = req.body.finalCosecha;
@@ -1812,6 +1819,8 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.lote = item.lote;
                 unit.variedad = item.variedad;
                 unit.distanciamiento = item.distanciamiento;
+                unit.distanciamientoAvenida = item.distanciamientoAvenida;
+                unit.distanciamientoCalle = item.distanciamientoCalle;
                 unit.sombra = item.sombra;
                 unit.muestreo = item.muestreo;
                 unit.muestreoMes = item.muestreoMes;
@@ -1830,6 +1839,8 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.verificaAguaTipo = item.verificaAguaTipo;
                 unit.verificaAgua = item.verificaAgua;
                 unit.rendimiento = item.rendimiento;
+                unit.rendimientoAñoAnterior = item.rendimientoAñoAnterior;
+
                 unit.floracionPrincipal = item.floracionPrincipal;
                 unit.inicioCosecha = item.inicioCosecha;
                 unit.finalCosecha = item.finalCosecha;
@@ -1873,6 +1884,7 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.LastUpdatedDateTime = item.LastUpdatedDateTime;
                 unit.EntityType = 'Unit';
                 unit.user = req.user;
+                console.log(item);
 
                 unit.save(function (err) {
                     if (err) {
@@ -1928,7 +1940,7 @@ router.post('/varieties/update', auth, function (req, res, next) {
 
 
 router.get('/varieties', function (req, res, next) {
-    Variety.find(function (err, varieties) {
+    Variety.find().sort({'name':'asc'}).exec(function (err, varieties) {
         if (err) { return next(err); }
 
         res.json(varieties);
