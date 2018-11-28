@@ -1278,6 +1278,8 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             },
             rendimiento: '',
             rendimientoAnterior: '',
+            distanciamientoCalle: '',
+            distanciamientoAvenida: '',
             tipoCafe: {
                 estrictamenteDuro: true,
                 duro: false,

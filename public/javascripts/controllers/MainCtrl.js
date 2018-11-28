@@ -889,6 +889,8 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             otrosdate: '',
             fungicidasmonth: '',
             produccionhectarea: '',
+            distanciamientoCalle:'',
+            distanciamientoAvenida:'',
             variedad: {},
             typeOfCoffeProducessOptionSelected: [],
             fungicidas: {
