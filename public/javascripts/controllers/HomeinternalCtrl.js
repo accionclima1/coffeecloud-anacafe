@@ -15,7 +15,6 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
         $scope.$on('$viewContentLoaded', function readyToTrick() {
             setTimeout(function(){
-                console.log("JA");
             $(".cargandoUbicacionLote").css("display", "none");
             $(".cargandoAltitudLote").css("display", "none");
             $('.collapse').collapse('hide');
@@ -824,7 +823,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          $scope.deleteLote = "Eliminar";
 
       if($scope.unidadseleccionada.lote!=undefined){
-            if (index === noLotes && $scope.nuevoLote === "Activado") {
+            if (index < noLotes && $scope.nuevoLote === "Activado") {
                   console.log("Habilité el botón");
                   $('#nuevoLote').prop('disabled', false);
                   $scope.nuevoLote = "";
