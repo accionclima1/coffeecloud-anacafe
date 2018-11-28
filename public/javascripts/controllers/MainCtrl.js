@@ -1018,7 +1018,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             // $("#departamentos").empty().append('');
             // $("#departamentos").css("border", "1px  solid red");
             $scope.unitopmessage = null
-            $scope.modalText = "Nueva Unidad";
+            $scope.modalText = "Nueva Finca";
             $scope.$broadcast('MANAGEUNIT', { unitId: -1 });
             $("#myModal2").modal('show');
             $("#formulariocompleto").css("display", "block");

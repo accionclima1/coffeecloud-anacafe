@@ -9,14 +9,14 @@
 				      </div>
 						<div class="row">
 						  <div class="col-md-12 ">
-						    <h4>Unidades Productivas</h4>
+						    <h4>Fincas</h4>
 
 						    <div ng-show="unitopmessage" class="bg-success row">
 						      <span>{{ unitopmessage }}</span>
 						    </div>
 
 						    <h6 ng-hide="units" class="textloader">Cargando Unidades <i class="fa fa-spinner fa-spin"></i> </h6><hr style="width:50%">
-								<h6 ng-show="units.length >= 0" style="color:#FFF;margin-bottom:5%;">Para iniciar con Coffee Cloud debe crear la unidad productiva, luego seleccione una unidad para usar las herramientas.</h6>
+								<h6 ng-show="units.length >= 0" style="color:#FFF;margin-bottom:5%;">Para iniciar con Coffee Cloud debe crear la finca, luego seleccione una finca para usar las herramientas.</h6>
 						    <div class="unidades-wrap">
 
 						      <div class="row unidad" ng-repeat="unit in units" id="{{unit._id}}">
@@ -35,7 +35,7 @@
 						      </div>
 						    </div>
 
-								<button class="btn btn-primary add-unit" data-toggle="modal" ng-click="AddNewUnit()">Agregar Nueva Unidad</button>
+								<button class="btn btn-primary add-unit" data-toggle="modal" ng-click="AddNewUnit()">Agregar Nueva Finca</button>
 								<!-- <button class="btn btn-primary add-unit" data-toggle="modal" ng-click="ajaxRequest()">Petición Meteorologica Anacafé</button> -->
 
 								<!-- Modals	 Unidad-->
