@@ -26,7 +26,7 @@
          <div class="col-xs-12 grup-lotes">
            <h4 class="titleUnit" style="padding-left:0">Nombre: {{unidadseleccionada.nombre}}</h4>
            <div align="right">
-             <button type="button" id="nuevoLote" class="btn btn-default" ng-click="prependItem()" style="margin-bottom:20px"><span class="glyphicon glyphicon-plus"></span> Agregar nuevo lote</button>
+             <button type="button" id="nuevoLote" class="btn btn-default" ng-click="prependItem()" style="margin-bottom:20px"><span class="glyphicon glyphicon-plus"></span> Agregar nuevo tablón</button>
            </div>
 
            <form name="updateunitFormlote" ng-submit="updateUnitForm($event,editUnit._id)" id="updateunitFormlote" >
@@ -69,7 +69,7 @@
                          <div class="form-group">
                            <input type="text"
                            class="form-control"
-                           placeholder="Nombre del lote"
+                           placeholder="Nombre del tablón"
                            ng-model="lote.nombre" required></input>
                          </div>
                        </div>
@@ -105,7 +105,7 @@
                          <div class="form-group">
                            <input type="text"
                            class="form-control"
-                           placeholder="Tamaño del lote (manzanas)"
+                           placeholder="Tamaño del tablón (manzanas)"
                            ng-model="lote.tamano"
                            required></input>
                          </div>
@@ -114,7 +114,7 @@
                          <div class="form-group">
                            <input type="text"
                            class="form-control"
-                           placeholder="Edad del lote"
+                           placeholder="Edad del tablón"
                            ng-model="lote.edad"
                            required></input>
                          </div>
@@ -237,7 +237,7 @@
 
        <div class="row">
          <div class="col-md-12 col-sm-12 col-xs-12">
-           <button type="button" class="btn btn-primary" form="updateunitFormlote" ng-click="updateUnitForm()">Salvar cambios a lotes</button>
+           <button type="button" class="btn btn-primary" form="updateunitFormlote" ng-click="updateUnitForm()">Salvar cambios de tablones</button>
          </div>
        </div>
 
