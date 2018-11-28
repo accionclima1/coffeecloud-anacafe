@@ -510,12 +510,10 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
         $scope.newUnit = angular.copy($scope.initNewUnit);
     }
     $scope.typesOfCoffeSelectionOptions = [
-          { name: 'EstrictamenteDuro', displayValue: 'Estrictamente Duro' },
-        { name: 'Duro', displayValue: 'Duro' },
-        { name: 'Semiduro', displayValue: 'Semiduro' },
-        { name: 'Prime', displayValue: 'Prime' },
-        { name: 'ExtraPrime', displayValue: 'ExtraPrime' },
-        { name: 'Nose', displayValue: 'No Sé' }];
+      { name: 'Bajio', displayValue: 'Bajio (500-80 msnm)' },
+      { name: 'Media Altura', displayValue: 'Media Altura (800-1200 msnm)' },
+      { name: 'Estrica Altura', displayValue: 'Estricta Altura (>1200 msnm)' },
+      { name: 'Nose', displayValue: 'No Sé' }];
     $scope.yesNoSelectionChange = function (type) {
         (type == "newUnit") ? $scope.newUnit.fungicidas.contacto = false : $scope.editUnit.fungicidas.contacto = false;
         (type == "newUnit") ? $scope.newUnit.fungicidas.bourbon = false : $scope.editUnit.fungicidas.bourbon = false;
