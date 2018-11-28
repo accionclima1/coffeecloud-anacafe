@@ -1004,11 +1004,9 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
         }
 
         $scope.typesOfCoffeSelectionOptions = [
-          { name: 'EstrictamenteDuro', displayValue: 'Estrictamente Duro' },
-          { name: 'Duro', displayValue: 'Duro' },
-          { name: 'Semiduro', displayValue: 'Semiduro' },
-          { name: 'Prime', displayValue: 'Prime' },
-          { name: 'ExtraPrime', displayValue: 'ExtraPrime' },
+          { name: 'Standard', displayValue: 'Standard ST (650-900 msnm)' },
+          { name: 'Altura', displayValue: 'Altura HG (900-1200 msnm)' },
+          { name: 'Estricta Altura', displayValue: 'Estricta Altura SHG (>1200 msnm)' },
           { name: 'Nose', displayValue: 'No Sé' }];
 
 
