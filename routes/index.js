@@ -1119,6 +1119,7 @@ router.post('/users/:user/units', auth, function (req, res, next) {
     unit.distanciamientoAvenida = req.body.distanciamientoAvenida;
     unit.distanciamientoCalle = req.body.distanciamientoCalle;
     unit.sombra = req.body.sombra;
+    unit.certificadoorganico = req.body.certificadoorganico;
     unit.muestreo = req.body.muestreo;
     unit.muestreoMes = req.body.muestreoMes;
     unit.fertilizaSuelo = req.body.fertilizaSuelo;
@@ -1230,6 +1231,7 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             unit.distanciamientoAvenida = req.body.distanciamientoAvenida;
             unit.distanciamientoCalle = req.body.distanciamientoCalle;
             unit.sombra = req.body.sombra;
+            unit.certificadoorganico = req.body.certificadoorganico
             unit.muestreo = req.body.muestreo;
             unit.muestreoMes = req.body.muestreoMes;
             unit.fertilizaSuelo = req.body.fertilizaSuelo;
@@ -1691,6 +1693,7 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.distanciamientoAvenida = item.distanciamientoAvenida;
                 unit.distanciamientoCalle = item.distanciamientoCalle;
                 unit.sombra = item.sombra;
+                unit.certificadoorganico = item.certificadoorganico;
                 unit.muestreo = item.muestreo;
                 unit.muestreoMes = item.muestreoMes;
                 unit.fertilizaSuelo = item.fertilizaSuelo;

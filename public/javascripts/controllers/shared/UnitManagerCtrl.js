@@ -1159,6 +1159,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             LastUpdatedDateTime: '',
             isDeleted: false,
             sombra: false,
+            certificadoorganico:false,
             lote: [],
             muestreo: false,
             muestreoMes: [],

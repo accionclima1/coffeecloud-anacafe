@@ -26,6 +26,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
         LastUpdatedDateTime: '',
         isDeleted: false,
         sombra: false,
+				certificadoorganico: false,
         lote: [],
         muestreo: false,
         muestreoMes: [],

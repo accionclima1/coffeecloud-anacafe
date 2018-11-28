@@ -20,6 +20,7 @@ var UnitSchema = new mongoose.Schema({
     distanciamientoAvenida: String,
     distanciamientoCalle: String,
     sombra: Boolean,
+    certificadoorganico: Boolean,
     muestreo: Boolean,
     muestreoMes: { type: Array, "default": [] },
     fertilizaSuelo: Boolean,

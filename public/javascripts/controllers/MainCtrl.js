@@ -847,6 +847,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             LastUpdatedDateTime: '',
             isDeleted: false,
             sombra: false,
+            certificadoorganico:false,
             lote: [],
             muestreo: false,
             muestreoMes: [],
