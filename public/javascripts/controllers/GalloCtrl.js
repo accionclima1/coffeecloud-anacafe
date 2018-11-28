@@ -765,26 +765,27 @@ function($rootScope, $scope, $state, $stateParams, auth, localStorageService, so
     							$scope.error = result.message;
     					}
     					else if (result.status == 'success') {
-    							var doc = result.data.rows[0].doc;
+    							var doc = {"list":[]};
     							if (result.data.rows.length > 0) {
-    									var galloArrayPouchDB = [];
-    									for (var i = 0; i < doc.list.length; i++) {
-    											galloArrayPouchDB.push(doc.list[i]);
-    									}
-    									$scope.galloLocalesPouchDB = galloArrayPouchDB;
+                                    doc =result.data.rows[0].doc;
+                                }
+                                var galloArrayPouchDB = [];
+                                for (var i = 0; i < doc.list.length; i++) {
+                                        galloArrayPouchDB.push(doc.list[i]);
+                                }
+                                $scope.galloLocalesPouchDB = galloArrayPouchDB;
 
-    									console.log("Historial de Gallo - PouchDB: ");
-    									console.log($scope.galloLocalesPouchDB);
-    									console.log($scope.test);
-    									$scope.galloLocalesPouchDB.push($scope.test);
+                                console.log("Historial de Gallo - PouchDB: ");
+                                console.log($scope.galloLocalesPouchDB);
+                                console.log($scope.test);
+                                $scope.galloLocalesPouchDB.push($scope.test);
 
-    									console.log("Historial de Gallo - PouchDB Actualizado: ");
-    									console.log($scope.galloLocalesPouchDB);
+                                console.log("Historial de Gallo - PouchDB Actualizado: ");
+                                console.log($scope.galloLocalesPouchDB);
 
-    									//Mandamos el nuevo arreglo a pouchDB
-    									PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
-    									$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-    							}
+                                //Mandamos el nuevo arreglo a pouchDB
+                                PouchDB.SaveGalloToPouchDB($scope.galloLocalesPouchDB);
+                                $scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
     					}
     			}).catch(function(err) {
     					console.log("error al obtener datos");
@@ -817,8 +818,8 @@ var historialLaunchFunc = function() {
               $scope.error = result.message;
           }
          else if (result.status == 'success') {
-             var doc = result.data.rows[0].doc;
              if (result.data.rows.length > 0) {
+             var doc = result.data.rows[0].doc;
                  var galloArray = [];
                  for (var i = 0; i < doc.list.length; i++) {
                      galloArray.push(doc.list[i]);
