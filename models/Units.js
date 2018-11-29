@@ -17,6 +17,7 @@ var UnitSchema = new mongoose.Schema({
     variedad: { type: Array, "default": [] },
     typeOfCoffeProducessOptionSelected: { type: Array, "default": [] },
     typeOfSourceWaterOptionSelected: { type: Array, "default": [] },
+    typeOfPodaOptionSelected: { type: Array, "default": [] },
     distanciamiento: String,
     distanciamientoAvenida: String,
     distanciamientoCalle: String,
