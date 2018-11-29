@@ -403,6 +403,25 @@
                 </select>
             </div>
         </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label for="selSourcesWaterOptions"
+                style="
+                    background-color: #afafaf;
+                    color: #fff;
+                    text-align: left;
+                    padding: 0px 3px;">Seleccione las fuentes de agua en su finca</label>
+                <select class="form-control"
+                        id="selSourcesWaterOptions"
+                        multiple="true"
+                        ng-model="newUnit.typeOfSourceWaterOptionSelected"
+                        data-error="Campo requerido"
+                        required>
+                        <option disabled selected>0 tipos seleccionados</option>
+                    <option ng-repeat="option2 in typeOfSourceWaterOption" value="{{option2.name}}">{{option2.displayValue}}</option>
+                </select>
+            </div>
+        </div>
 
 
         <div class="col-xs-12">

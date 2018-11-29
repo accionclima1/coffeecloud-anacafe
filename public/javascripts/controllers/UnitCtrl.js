@@ -71,6 +71,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
         produccionhectarea: '',
         variedad: {},
         typeOfCoffeProducessOptionSelected: [],
+				typeOfSourceWaterOptionSelected: [],
         fungicidas: {
             contacto: false,
             bourbon: false,
@@ -182,6 +183,14 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
 			{ name: 'Standard', displayValue: 'Standard ST (650-900 msnm)' },
 			{ name: 'Altura', displayValue: 'Altura HG (900-1200 msnm)' },
 			{ name: 'Estricta Altura', displayValue: 'Estricta Altura SHG (>1200 msnm)' },
+			{ name: 'Nose', displayValue: 'No Sé' }];
+
+			$scope.typeOfSourceWaterOption = [
+			{ name: 'Pozo', displayValue: 'Pozo' },
+			{ name: 'Río', displayValue: 'Río' },
+			{ name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
+			{ name: 'Lago', displayValue: 'Lago' },
+			{ name: 'Laguna', displayValue: 'Laguna' },
 			{ name: 'Nose', displayValue: 'No Sé' }];
 
     $scope.yesNoSelectionChange = function (type) {
