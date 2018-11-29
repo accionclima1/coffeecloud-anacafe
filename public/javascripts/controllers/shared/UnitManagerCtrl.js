@@ -523,6 +523,12 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
           { name: 'Laguna', displayValue: 'Laguna' },
           { name: 'Otro', displayValue: 'Otro' }];
 
+          $scope.typesOfPodaOptions = [
+            { name: 'Poda apreciativa', displayValue: 'Poda apreciativa' },
+            { name: 'Recepta por lotes', displayValue: 'Recepta por lotes' },
+            { name: 'Recepta por ciclos', displayValue: 'Recepta por ciclos' },
+            { name: 'Otro', displayValue: 'Otro' }];
+
 
     $scope.yesNoSelectionChange = function (type) {
         (type == "newUnit") ? $scope.newUnit.fungicidas.contacto = false : $scope.editUnit.fungicidas.contacto = false;
@@ -1212,6 +1218,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             variedad: {},
             typeOfCoffeProducessOptionSelected: [],
             typeOfSourceWaterOptionSelected: [],
+            typeOfPodaOptionSelected: [],
             newFungicidas: {},
             fungicidas: {
                 contacto: false,

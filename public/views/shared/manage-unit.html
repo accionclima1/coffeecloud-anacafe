@@ -412,6 +412,43 @@
         </div>
         <div class="col-xs-12">
             <div class="form-group">
+                <p>¿Realiza poda del café?</p>
+                <div class="radio">
+                    <label>
+                        <input type="radio"  name="realizaPoda" ng-value="true" ng-model="newUnit.realizaPoda">
+                        Si
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio"  name="realizaPoda" ng-value="false" ng-model="newUnit.realizaPoda" checked>
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12" ng-show="newUnit.realizaPoda">
+            <div class="form-group">
+                <label for="selPodaOptions"
+                style="
+                    background-color: #afafaf;
+                    color: #fff;
+                    text-align: left;
+                    padding: 0px 3px;">Seleccione el tipo de poda que realiza</label>
+                <select class="form-control"
+                        id="selPodaOptions"
+                        multiple="true"
+                        ng-model="newUnit.typeOfPodaOptionSelected"
+                        data-error="Campo requerido">
+                        <option disabled selected>0 tipos seleccionados</option>
+                    <option ng-repeat="option3 in typesOfPodaOptions" value="{{option3.name}}">{{option3.displayValue}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group">
                 <input type="text"
                        class="form-control"
                        placeholder="Cosecha estimada año actual"

@@ -894,6 +894,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             variedad: {},
             typeOfCoffeProducessOptionSelected: [],
             typeOfSourceWaterOptionSelected: [],
+            typeOfPodaOptionSelected: [],
             fungicidas: {
                 contacto: false,
                 bourbon: false,
@@ -1016,6 +1017,12 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             { name: 'Media Altura', displayValue: 'Media Altura (800-1200 msnm)' },
             { name: 'Estrica Altura', displayValue: 'Estricta Altura (>1200 msnm)' },
             { name: 'Nose', displayValue: 'No Sé' }];
+
+            $scope.typesOfPodaOptions = [
+              { name: 'Poda apreciativa', displayValue: 'Poda apreciativa' },
+              { name: 'Recepta por lotes', displayValue: 'Recepta por lotes' },
+              { name: 'Recepta por ciclos', displayValue: 'Recepta por ciclos' },
+              { name: 'Otro', displayValue: 'Otro' }];
 
 
 
