@@ -893,6 +893,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             distanciamientoAvenida:'',
             variedad: {},
             typeOfCoffeProducessOptionSelected: [],
+            typeOfSourceWaterOptionSelected: [],
             fungicidas: {
                 contacto: false,
                 bourbon: false,
@@ -1002,11 +1003,23 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
           $scope.newUnit = angular.copy($scope.initNewUnit);
         }
 
-        $scope.typesOfCoffeSelectionOptions = [
-          { name: 'Bajio', displayValue: 'Bajio (500-80 msnm)' },
-          { name: 'Media Altura', displayValue: 'Media Altura (800-1200 msnm)' },
-          { name: 'Estrica Altura', displayValue: 'Estricta Altura (>1200 msnm)' },
+        $scope.typeOfSourceWaterOption = [
+          { name: 'Pozo', displayValue: 'Pozo' },
+          { name: 'Río', displayValue: 'Río' },
+          { name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
+          { name: 'Lago', displayValue: 'Lago' },
+          { name: 'Laguna', displayValue: 'Laguna' },
           { name: 'Nose', displayValue: 'No Sé' }];
+
+          $scope.typesOfCoffeSelectionOptions = [
+            { name: 'Bajio', displayValue: 'Bajio (500-80 msnm)' },
+            { name: 'Media Altura', displayValue: 'Media Altura (800-1200 msnm)' },
+            { name: 'Estrica Altura', displayValue: 'Estricta Altura (>1200 msnm)' },
+            { name: 'Nose', displayValue: 'No Sé' }];
+
+
+
+
 
 
         // Funcion Añadir Nueva Unidad

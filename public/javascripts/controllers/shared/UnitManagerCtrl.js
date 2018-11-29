@@ -514,6 +514,16 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
       { name: 'Media Altura', displayValue: 'Media Altura (800-1200 msnm)' },
       { name: 'Estrica Altura', displayValue: 'Estricta Altura (>1200 msnm)' },
       { name: 'Nose', displayValue: 'No Sé' }];
+
+      $scope.typeOfSourceWaterOption = [
+          { name: 'Pozo', displayValue: 'Pozo' },
+          { name: 'Río', displayValue: 'Río' },
+          { name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
+          { name: 'Lago', displayValue: 'Lago' },
+          { name: 'Laguna', displayValue: 'Laguna' },
+          { name: 'Nose', displayValue: 'No Sé' }];
+
+
     $scope.yesNoSelectionChange = function (type) {
         (type == "newUnit") ? $scope.newUnit.fungicidas.contacto = false : $scope.editUnit.fungicidas.contacto = false;
         (type == "newUnit") ? $scope.newUnit.fungicidas.bourbon = false : $scope.editUnit.fungicidas.bourbon = false;
@@ -1201,6 +1211,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             produccionhectarea: '',
             variedad: {},
             typeOfCoffeProducessOptionSelected: [],
+            typeOfSourceWaterOptionSelected: [],
             newFungicidas: {},
             fungicidas: {
                 contacto: false,
