@@ -1175,6 +1175,7 @@ router.post('/users/:user/units', auth, function (req, res, next) {
     unit.fungicidasmonth = req.body.fungicidasmonth;
     unit.produccionhectarea = req.body.produccionhectarea;
     unit.typeOfCoffeProducessOptionSelected = req.body.typeOfCoffeProducessOptionSelected;
+    unit.typeOfSourceWaterOptionSelected = req.body.typeOfSourceWaterOptionSelected;
     unit.isSync = req.body.isSync;
     unit.isDeleted = req.body.isDeleted;
     unit.PouchDBId = req.body.PouchDBId;
@@ -1288,6 +1289,7 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             unit.fungicidasmonth = req.body.fungicidasmonth;
             unit.produccionhectarea = req.body.produccionhectarea;
             unit.typeOfCoffeProducessOptionSelected = req.body.typeOfCoffeProducessOptionSelected;
+            unit.typeOfSourceWaterOptionSelected = req.body.typeOfSourceWaterOptionSelected;
             unit.isSync = req.body.isSync;
             unit.isDeleted = req.body.isDeleted;
             unit.PouchDBId = req.body.PouchDBId;
@@ -1750,6 +1752,7 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.fungicidasmonth = item.fungicidasmonth;
                 unit.produccionhectarea = item.produccionhectarea;
                 unit.typeOfCoffeProducessOptionSelected = item.typeOfCoffeProducessOptionSelected;
+                unit.typeOfSourceWaterOptionSelected = item.typeOfSourceWaterOptionSelected;
                 unit.isSync = item.isSync;
                 unit.isDeleted = item.isDeleted;
                 unit.PouchDBId = item.PouchDBId;
