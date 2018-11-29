@@ -521,7 +521,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
           { name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
           { name: 'Lago', displayValue: 'Lago' },
           { name: 'Laguna', displayValue: 'Laguna' },
-          { name: 'Nose', displayValue: 'No Sé' }];
+          { name: 'Otro', displayValue: 'Otro' }];
 
 
     $scope.yesNoSelectionChange = function (type) {

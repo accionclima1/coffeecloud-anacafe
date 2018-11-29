@@ -190,7 +190,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
           { name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
           { name: 'Lago', displayValue: 'Lago' },
           { name: 'Laguna', displayValue: 'Laguna' },
-          { name: 'Nose', displayValue: 'No Sé' }];
+          { name: 'Otro', displayValue: 'Otro' }];
 
     $scope.yesNoSelectionChange = function (type) {
         (type == "newUnit") ? $scope.newUnit.fungicidas.contacto = false : $scope.editUnit.fungicidas.contacto = false;

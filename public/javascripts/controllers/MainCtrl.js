@@ -1009,7 +1009,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
           { name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
           { name: 'Lago', displayValue: 'Lago' },
           { name: 'Laguna', displayValue: 'Laguna' },
-          { name: 'Nose', displayValue: 'No Sé' }];
+          { name: 'Otro', displayValue: 'Otro' }];
 
           $scope.typesOfCoffeSelectionOptions = [
             { name: 'Bajio', displayValue: 'Bajio (500-80 msnm)' },
