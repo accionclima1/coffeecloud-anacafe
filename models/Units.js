@@ -16,6 +16,8 @@ var UnitSchema = new mongoose.Schema({
     areaOtros: String,
     areaInfraestructura: String,
     areaCafe: String,
+    areaVivienda: String,
+    areaBeneficio: String,
     lote: { type: Array, "default": [] },
     variedad: { type: Array, "default": [] },
     typeOfCoffeProducessOptionSelected: { type: Array, "default": [] },

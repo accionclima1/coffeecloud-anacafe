@@ -1115,6 +1115,8 @@ router.post('/users/:user/units', auth, function (req, res, next) {
     unit.areaOtros = req.body.areaOtros;
     unit.areaBosque = req.body.areaBosque;
     unit.areaCafe = req.body.areaCafe;
+    unit.areaBeneficio = req.body.areaBeneficio;
+    unit.areaVivienda = req.body.areaVivienda;
     unit.lote = req.body.lote;
     //  unit.edadLote = req.body.edadLote;
     unit.variedad = req.body.variedad;
@@ -1231,6 +1233,8 @@ router.put('/users/:user/units/:unit', auth, function (req, res, next) {
             unit.areaInfraestructura = req.body.areaInfraestructura;
             unit.areaOtros = req.body.areaOtros;
             unit.areaBosque = req.body.areaBosque;
+            unit.areaBeneficio = req.body.areaBeneficio;
+            unit.areaVivienda = req.body.areaVivienda;
             unit.lote = req.body.lote;
             //  unit.edadLote = req.body.edadLote;
             unit.variedad = req.body.variedad;
@@ -1698,6 +1702,8 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.areaInfraestructura = item.areaInfraestructura;
                 unit.areaOtros = item.areaOtros;
                 unit.areaBosque = item.areaBosque;
+                unit.areaBeneficio = item.areaBeneficio;
+                unit.areaVivienda = item.areaVivienda;
                 unit.lote = item.lote;
                 unit.variedad = item.variedad;
                 unit.distanciamiento = item.distanciamiento;
