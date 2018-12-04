@@ -18,7 +18,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
 
     });
 
-    
+
 
     $scope.newUnit = {
         PouchDBId: '',
@@ -143,6 +143,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
             dureza: false
         },
         rendimiento: '',
+				rendimientoAnterior: '',
         tipoCafe: {
             estrictamenteDuro: true,
             duro: false,
@@ -380,7 +381,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
     //   console.log("get called");
     //   $scope.userO7 = user;console.log('server:', $scope.userO7.units);
     //   $scope.units = $scope.userO.units;
-    // }); 
+    // });
 
     PouchDB.GetUserDataFromPouchDB(auth.userId()).then(function (result) {
         if (result.status == 'fail') {
@@ -394,16 +395,16 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
 
     //console.log("Is INTERNET AVAILABLE=" + $rootScope.IsInternetOnline);
     if ($rootScope.IsInternetOnline) {
-	    
+
 	    console.log('app online');
 
-	    
+
 	    varieties.getAll().then(function (varids) {
 	        variedades = varids.data;
 	        variedades.push({ name: "otro" }, { name: "cual?" });
 	        $scope.variedades = variedades;
 	        localStorageService.set('localVarieties',variedades);
-            PouchDB.SaveVarietiesToPouchDB(variedades);               
+            PouchDB.SaveVarietiesToPouchDB(variedades);
 	    });
 
         console.log('app online');
@@ -438,12 +439,12 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
 
         });
     } else {
-	    
+
 	    console.log('app offline');
-	    
+
 	     $scope.variedades = localStorageService.get('localVarieties');
-	    
-        
+
+
         //region to  get user unit from local PouchDB instead of server
         PouchDB.GetAllUserUnit(auth.userId()).then(function (result) {
             if (result.status == 'fail') {
@@ -474,29 +475,29 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
 		weekdaysShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
 		showMonthsShort: undefined,
 		showWeekdaysFull: undefined,
-		
+
 		// Buttons
 		today: 'Hoy',
 		clear: 'limpiar',
 		close: 'Cerrar',
-		
+
 		// Accessibility labels
 		labelMonthNext: 'Sig&#x3E;',
 		labelMonthPrev: '&#x3C;Ant',
 		labelMonthSelect: 'Seleccione un mes',
 		labelYearSelect: 'Seleccione un año',
     }
-     
-    
+
+
     $(".date-field").pickadate(spanishDateTimePickerOption);
 
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
  $scope.saveUnit = function () {
 
         if ($scope.newunitForm.$valid) {
@@ -562,8 +563,8 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
     };
 
     muni14.addDepts('departamentos');
-    
-    
+
+
     function wait(ms) {
         var start = new Date().getTime();
         var end = start;
@@ -641,7 +642,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
                 // Browser doesn't support Geolocation
                 handleLocationError(false, infoWindow, map.getCenter());
             }
-            //myLatlng = new google.maps.LatLng(42.94033923363181 , -10.37109375); 
+            //myLatlng = new google.maps.LatLng(42.94033923363181 , -10.37109375);
 
         }
         else {
@@ -716,7 +717,7 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
         map.setCenter(location);
     }
 
-    
+
 
     // Initialize map
     $scope.mapInit = function () {
@@ -730,6 +731,6 @@ function ($rootScope, $scope, $state, unit, auth, varieties, localStorageService
 
   $('#newunitForm').validator();
   $('#newunitForm').validator('update');
-  
-  
+
+
 }]);
