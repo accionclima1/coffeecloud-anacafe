@@ -1,7 +1,6 @@
 <script type="text/ng-template" id="/supportExt.html">
 
 
-			<!-- Modal -->
 		<div class="support-wrap" ng-controller="SupportExtCtrl">
 
 			<h2 class="section-header chatTitle">Soporte</h2>
@@ -10,14 +9,23 @@
 				<div class="row listadoChats" style="margin-bottom: 15px;">
 					<div class="col-md-6 col-md-offset-3">
 						<div class="message" ng-repeat="chat in listChats" style="width:100%;margin-right:0px!important;height: 80px;margin-bottom: 0px;padding:20px!important;margin-left:0px!important;background-color: #CECECE!important;color:#666666;">
-							<a href="#/supportextinterna/{{chat._id}}/{{chat.sender}}">
-								<div class="message-wrap">
-									<img class="userImage chat-image" ng-src="images/ChatUser.png" />&nbsp;<label class="chat-text" style="margin-top: 0px;margin-left: 15px;color: #666666;">{{ chat.sender }}</label>
+							<a href="#/supportextinterna/{{chat.chat}}/{{chat.sender}}">
+								<div class="message-wrap" style="overflow:hidden">
+									<img class="userImage chat-image" ng-src="images/ChatUser.png" />&nbsp;<label class="chat-text" style="margin-top: 0px;margin-left: 15px;color: #666666;">{{ chat.bodyMsg }}</label>
 								</div>
 							</a>
 						</div>
 					</div>
+                    <div class="col-md-12 alert alert-info" ng-show="listChats.length<=0" align="center">
+                        <span>No hay mensajes.</span>
+                        <br/>
+                        <button style="margin-top:10px" class="btn btn-default" ng-show="unidades" ng-click="crearChat()" ng-show="(currentRole!='Extensionista' && currentRole !='admin')">Contactar al técnico</button>
+                        <p ng-show="!unidades">Debe registrar una unidad para poder contactar al técnico</p>
+                    </div>
 				</div>
+                <div align="center">
+                    <button ng-hide="fin" class="btn btn-default" ng-click="cargarChats(n)">Cargar mas mensajes</button>
+                </div>
 			</div>
 
 		</div>

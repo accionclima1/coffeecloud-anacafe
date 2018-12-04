@@ -125,7 +125,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                     var UpdatePouchPromise = localPouchDB.put(doc);
                     $q.when(UpdatePouchPromise).then(function (res) {
                         if (res && res.ok == true) {
-                            console.log("varities updated to local pouchDb");
                             result.status = 'success';
                             deferred.resolve(result);
                         }
@@ -146,7 +145,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                     var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
                     varieties._id = documentId;
                     return localPouchDB.put(varieties).then(function () {
-                        console.log("varieties inserted in pouchDb");
                         result.status = 'success';
                         deferred.resolve(result);
                     },function(err){
@@ -621,7 +619,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                 console.log("Dentro de: userData.data.datalist");
                 var totalElement = 0;
                 Promise.all(userData.data.dataList.map(function (row) {
-                        console.log("inside foreach loop");
                         var element = row;
                         delete element["__v"];
                         if (element.PouchDBId && element.PouchDBId != null && element.PouchDBId != undefined) {
@@ -727,7 +724,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                         element.LastUpdatedDateTime = Number(dt);
                     }
                     localPouchDB.get(element._id, function (err, doc) {
-                        console.log("Entré en: localPouchDB.get");
                         if (err) {
                             if (err.status = '404') { // if the document does not exist
                                 localPouchDB.put(element).then(function () {
@@ -765,7 +761,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                         }
                         pouchDbFactory.SaveVarietiesToPouchDB(varitiesData).then(function (result) {
                             if (result.status == 'fail') {
-                                console.log("Varieties not written to pouch Db")
                                 result.status = 'success';
                                 result.data = [];
                                 result.message = 'Data Sync Successfully...';
@@ -1002,11 +997,9 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         var isServerToLocalSync = false;
         var isLocalToServerSync = false;
         pouchDbFactory.SynServerDataToLocalDb().then(function (serverResult) {
-            console.log("server to local sync result" + JSON.stringify(serverResult));
             if (serverResult.status == 'success') {
                 isServerToLocalSync = true;
                 pouchDbFactory.SynLocalDataToServerDb().then(function (localResult) {
-                    console.log("local to server sync result=" + JSON.stringify(localResult));
                     if (localResult.status == 'success') {
                         isLocalToServerSync = true;
                         if (isLocalToServerSync && isServerToLocalSync) {
@@ -1604,11 +1597,9 @@ console.log("Dentro de Catch - $q.when");
         };
          // _tmpUserId = "ObjectId('" + String(userId) + "')";
          _tmpUserId = String(userId);
-         console.log("Inicializando _tmpUserId", _tmpUserId);
 
 
         function mapFunctionTypeUnit(doc) {
-            console.log("Doc: ", doc);
             if ((doc.EntityType == "Unit" && doc.isDeleted == false && doc.user == _tmpUserId )) {
                 emit([doc._id, doc.isSync]);
             }
@@ -1886,6 +1877,18 @@ app.factory('user', ['$http', 'auth', function ($http, auth) {
             return res.data;
         });
     };
+    
+    o.getArea = function(userId){
+        return $http.get('http://coffeecloud.centroclima.org/userArea/'+userId).then(function(res){
+            return res.data;
+        });
+    }
+    
+    o.getUserInCharge = function(areas){
+        return $http.get('http://coffeecloud.centroclima.org/userInCharge/'+areas).then(function(res){
+            return res.data;
+        });
+    }
 
     return o;
 }]);
@@ -2315,8 +2318,9 @@ app.factory('chats', ['$http', 'auth', function ($http, auth) {
             return data;
         });
     };
-    o.getUser = function (userID) {
-        return $http.get('http://coffeecloud.centroclima.org/chats/' + userID).success(function (data) {
+    o.getUser = function (userID,pagina) {
+        var pagina = parseInt(pagina);
+        return $http.get('http://coffeecloud.centroclima.org/uchats/' + userID+"/"+pagina).success(function (data) {
             return data;
         });
     };
@@ -2428,6 +2432,7 @@ return o;
 
 //pre loader animation controller
 app.run(function ($rootScope, $window) {
+    $rootScope.cantUnidades = 0;
 
     $rootScope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
         // Select open modal(s)

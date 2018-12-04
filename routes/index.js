@@ -2218,11 +2218,31 @@ if (enfermedad=="Broca") {
 
 
 // ChatSchema
-router.get('/chats', function (req, res, next) {
-    Chat.find(function (err, chats) {
+router.get('/uchats/:u/:pagina', function (req, res, next) {
+    /*Chat.find(function (err, chats) {
         if (err) { return next(err); }
 
         res.json(chats);
+    });*/
+    /*    var chatsFinal = [];
+    var chats = Chat.aggregate().group({
+                    _id:"$sender",
+                    mensaje:{$last:{ $slice: [ "$messages", -1 ] }}
+                }).cursor({}).exec();
+    chats.each(function(error,chat){
+        if(error) return next(error);
+        if(chat)
+            chatsFinal.push(chat);
+        else
+            return res.json(chatsFinal);
+    });*/
+    var usuario = req.params.u;
+    var pagina = parseInt(req.params.pagina);
+    console.log("a buscar usuario:"+usuario);
+    Message.find({$or:[{"reciber":usuario},{"sender":usuario}]},null,{skip:(pagina*20),limit:20,sort:{_id:-1}},function(err,msgs){
+        console.log(err);
+        if(err) { return next(err);}
+        res.json(msgs);
     });
 });
 
@@ -2232,6 +2252,27 @@ router.get('/messages', function (req, res, next) {
         if (err) { return next(err); }
 
         res.json(messages);
+    });
+});
+
+router.get('/userArea/:ud',function(req,res,next){
+    console.log("empieza");
+    Unit.distinct('departamento',{"user":req.params.ud},function(err,result){
+        console.log(err);
+        console.log(result);
+        if (err) { return next(err); }
+        
+        res.json(result);
+    });
+})
+
+router.get('/userInCharge/:areas',function(req,res,nex){
+    var strAreas = req.params.areas;
+    console.log("areas:"+strAreas);
+    var arrAreas = strAreas.split(",");
+    User.find({"departamento":{$in:arrAreas},"role":{$in:['Admin','Extensionista']}},{"_id":1},function(err,data){
+        if (err) { return next(err); }
+        res.json(data);
     });
 });
 

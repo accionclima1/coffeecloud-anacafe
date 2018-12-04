@@ -171,7 +171,11 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                       console.log($scope.encuestaHistory);
 
                       $scope.encuestaHistory.sort(function(a,b){
-                         return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                            var resFecha=-1;
+                          if(a.resumenVulne.length>0){
+                              resFecha = new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                          }
+                         return resFecha;
                        });
 
                       if (userhistory.data.length == 0) {
@@ -823,12 +827,12 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
          $scope.deleteLote = "Eliminar";
 
       if($scope.unidadseleccionada.lote!=undefined){
-            if (index < noLotes && $scope.nuevoLote === "Activado") {
+            if (index == noLotes && $scope.nuevoLote === "Activado") {
                   console.log("Habilité el botón");
                   $('#nuevoLote').prop('disabled', false);
                   $scope.nuevoLote = "";
                   $scope.unidadseleccionada.lote.splice(index,1);
-           }else if (index === noLotes) {
+           }else if (index < noLotes) {
                  $scope.SweetAlert("¡Lote Eliminado!", "Presione Salvar Cambios para eliminar definitivamente.", "warning");
                  $scope.unidadseleccionada.lote.splice(index,1);
            }
