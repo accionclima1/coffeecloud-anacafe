@@ -49,11 +49,10 @@
 						<div class="chatbox" scroll-glue>
 							<div class="message" ng-repeat="message in chatLog" ng-style="{'float':(senderUser == message.sender ? 'left' : 'right')}">
 								<div class="message-wrap">
-									<!-- <img class="userImage chat-image" ng-src="{{ UserImage }}" />&nbsp;&nbsp;<br> -->
 									<div class="message-body chat-Body">
 										<p>{{ message.bodyMsg }}</p>
 									</div>
-									<div ng-if="message.Msgattachement" class="album">
+									<div ng-show="(message.Msgattachement!=null && message.Msgattachement!='null')" class="album">
 										<img class="attachment-image" ng-src="{{ message.Msgattachement }}" />
 									</div>
 								</div>
@@ -78,11 +77,11 @@
 			    	<input type="text" class="form-control" name="chatMsg" id="chatMsg">
 			    	<!--<i class="fa fa-paperclip fa-5 icattache" onclick="$('#filuploadattach').click();$('#filuploadattach').trigger('input')"></i>-->
 				    <!-- <input type="file" class="" ng-model="myFile" name="chatattchment" id="filuploadattach"> -->
-				    <i class="fa fa-paperclip fa-5 icattache" ngf-select ng-model="files" ngfDataUrl></i>
+				    
 
 			    <!-- </div> -->
 				<input type="hidden" name="fromId" value="{{ currentUser() }}">
-		    <input class="chatUser" type="hidden" name="toId" value="chatUserName">
+		    <input class="chatUser" type="hidden" name="toId" value="{{ toId }}">
 		  </div>
 		  <button type="submit" class="btn btn-default"><i class="fa fa-location-arrow"></i></button>
 		</form>

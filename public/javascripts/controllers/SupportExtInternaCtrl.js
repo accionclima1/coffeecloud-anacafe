@@ -21,30 +21,28 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	// $scope.UserNameDisplay = 'User';
 	$scope.IsCall = false;
 	console.log($scope.loggedUser);
+    $scope.toId = "";
 
 	$scope.data_server = {};
 	// $('.chatUser').show();
 	// $('.userName').show();
 	// $('.sendMesseges').show();
 
-	console.log("Chta Id: ", $scope.chatId);
-	console.log("Chat User: ", $scope.senderUser);
-
 	var data_server = {
-			from_id: $scope.senderUser
+		from_id: $scope.senderUser,
+        chat_id: $scope.chatId
 	}
-
-	console.log(data_server);
 	socket.emit('load msg', data_server);
 
 	socket.on('set msg only',function(data){
-				data=JSON.parse(data);console.log("set msg only", data)
-				var user = data.sender;
-				if (user == $scope.senderUser) {
-						$scope.setCurrentUserImage(data.messages);
-					$scope.$apply();
-			}
-		});
+        data=JSON.parse(data);console.log("set msg only", data)
+        $scope.toId = data.reciber;
+        /*var user = data.sender;
+        if (user == $scope.senderUser) {*/
+        $scope.setCurrentUserImage(data.messages);
+        $scope.$apply();
+			//}
+    });
 
 
 	$('#userImage').change(function (e) {
@@ -119,11 +117,11 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 
 	$scope.setCurrentUserImage = function (messageList) {
 			console.log(messageList);
-	    for (var i = 0; i < messageList.length; i++) {
+	    /*for (var i = 0; i < messageList.length; i++) {
 	      if (messageList[i].sender_id != undefined) {
 	            $scope.getUserImage(messageList[i].sender_id);
 	      }
-	    }
+	    }*/
 	    $scope.chatLog = messageList;
 	}
 
@@ -180,8 +178,9 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 			var data_server={
 	            message:msg,
 	            bodyattachement:from_chatattchment,
-	            to_user: $scope.senderUser,
-	            from_id: "admin"
+	            to_user: $scope.toId,
+	            from_id: $scope.senderUser,
+                chatid:$scope.chatId
 	        };
 
 					$scope.chatLog.push(data_server);

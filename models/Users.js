@@ -14,7 +14,8 @@ var UserSchema = new mongoose.Schema({
 	//recomendaciontecnica: String,
 	nickname: String,
 	image: String,
-	units: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Unit' }]
+	units: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Unit' }],
+    departamento:[{type:String}]
 });
 
 UserSchema.methods.setPassword = function(password){

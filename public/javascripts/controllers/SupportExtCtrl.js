@@ -1,6 +1,6 @@
 // Support Chat Controller
-app.controller('SupportExtCtrl',['$scope','auth', 'socket', 'user','Upload','$base64', 'chats', '$state', '$stateParams',
-function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams) {
+app.controller('SupportExtCtrl',['$scope','auth', 'socket', 'user','Upload','$base64', 'chats', '$state', '$stateParams','$rootScope',
+function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams,$rootScope) {
 
 
 	$('.switch').css("color", "#FFF");
@@ -9,8 +9,10 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	$scope.loggedUser = auth.currentUser();
 	$scope.userImageList = [];
 	$scope.currentUserObj = auth.currentUserObject();
+    $scope.currentRole = auth.currentUserRole();
 	$scope.adminImage='';
 	$scope.adminName='';
+    $scope.n = 0;
 	// $scope.chatUserName = "";
 	$scope.chatUser = [];
 	//$scope.UserName = 'User';
@@ -19,48 +21,44 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	// $scope.UserNameDisplay = 'User';
 	$scope.IsCall = false;
 	console.log($scope.loggedUser);
+    $scope.fin=false;
 
 	$scope.data_server = {};
 	$('.chatUser').hide();
 	$('.userName').hide();
 	$('.sendMesseges').hide();
 	// $('.listadoChats').hide();
+    $scope.listChats=[];
+    
+    $scope.unidades = ($rootScope.cantUnidades>0) ? true : false;
 
 
-	chats.getAll().then(function (chat) {
-		$scope.chatsList = [];
-		$scope.chatsUsers = [];
+	$scope.cargarChats = function(){
+        chats.getUser($scope.currentUserObj._id,$scope.n).then(function (chat) {
+            $scope.chatsList = {};
+            $scope.chatsUsers = [];
+            
+            if(chat.data.length<20){
+                $scope.fin=true;
+            }
 
-		for (var i = 0; i < chat.data.length; i++) {
-					$scope.chatsList.push(chat.data[i]);
-		}
+            for (var i = 0; i < chat.data.length; i++) {
+                var obj = chat.data[i];
+                if($scope.chatsList[obj['chat']]==null){
+                    $scope.chatsList[obj['chat']]=obj;
+                }
+            }
+            for(var i in $scope.chatsList){
+                $scope.chatsUsers.push($scope.chatsList[i]);
+            }
 
-		function eliminarUsuariosDuplicados(originalArray, prop) {
-			 var nuevoArray = [];
-			 var objetoEncontrado  = {};
+            $scope.listChats = $scope.listChats.concat($scope.chatsUsers);
+            console.log($scope.chatsList);
 
-			 // Buscamos Objetos Duplicados en originalArray
-			 for(var i in originalArray) {
-					objetoEncontrado[originalArray[i][prop]] = originalArray[i];
-			 }
-
-			 // Insertamos los valores en el nuevoArray
-			 for(i in objetoEncontrado) {
-					 nuevoArray.push(objetoEncontrado[i]);
-			 }
-
-			 return nuevoArray;
-	 }
-
-	 $scope.listChats = eliminarUsuariosDuplicados($scope.chatsList, "sender");
-	 console.log($scope.chatsList);
-
-	 $scope.listChats.sort(function(a,b){
-		 return new Date(b.sender) - new Date(a.sender);
-	 });
-
-	 console.log($scope.listChats);
-	});
+            console.log($scope.listChats);
+            $scope.n=$scope.n+1;
+        });
+    }
 
 
 
@@ -72,7 +70,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 
 		$state.go("supportextinterna", {idchat: chatID, senderuser: chatSender}, {reload: true});
 
-		$scope.chatUserName = chatSender;
+/*		$scope.chatUserName = chatSender;
 
 		$scope.data_server = {
 			to_user: chatSender,
@@ -91,7 +89,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 
 		console.log($scope.chatUserName);
 		console.log(data_server);
-		socket.emit('load msg', data_server);
+		socket.emit('load msg', data_server);*/
 
 
 		// socket.on('set msg only',function(data){
@@ -259,14 +257,17 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 }
 
 	socket.on('set msg',function(data){
-				data=JSON.parse(data);console.log("set msg", data);
+				/*data=JSON.parse(data);console.log("set msg", data);
 				console.log($scope.chatUserName);
 				var usera = data.to_user;
 				var userb = data.from_id;
 				if (usera == $scope.chatUserName || userb == $scope.chatUserName) {
 						$scope.setCurrentUserImage(data.chat.messages);
 						$scope.$apply();
-				}
+				}*/
+        var jsonMsg = JSON.parse(data);
+        console.log(jsonMsg);
+            $state.go('supportExtInterna', {reload: true,idchat:jsonMsg.chat._id,senderuser:$scope.currentUserObj._id});
 
 		});
 
@@ -296,6 +297,28 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 					}
 	    });
 	}
+    
+    $scope.crearChat = function(){
+        user.getArea($scope.currentUserObj._id).then(function(data){
+            if(data.length>0){
+                var strData = data.join(",");
+                user.getUserInCharge(strData).then(function(data2){
+                    if(data2){
+                        console.log(data2);
+                        var userReceiver = data2[0];
+                        var dataMsg = {
+                            to_user:userReceiver._id,
+                            from_id:$scope.currentUserObj._id,
+                            message:"Saludos"
+                        }
+                        socket.emit('get msg',dataMsg);
+                    }
+                });
+            }else{
+                
+            }
+        });
+    }
 
 	$scope.uploadPhoto = function () {
 	    var userObj = auth.currentUserObject();
@@ -319,6 +342,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	    }
 	    $('#myModalUserImage').modal('hide');
 
-	}
+    }
+        $scope.cargarChats();
 
 }]);

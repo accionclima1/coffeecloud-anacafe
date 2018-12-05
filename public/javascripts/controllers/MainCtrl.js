@@ -307,8 +307,9 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
               $scope.error = result.message;
           }
           else if (result.status == 'success') {
-              $scope.units = result.data;
-              console.log('local mode:', result.data);
+            $rootScope.cantUnidades = result.data.length;
+            $scope.units = result.data;
+            console.log('local mode:', result.data);
           }
       });
     }
