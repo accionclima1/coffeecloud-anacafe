@@ -41,9 +41,11 @@
 				 <i style="font-size: 20px;" class="fa fa-chevron-left"></i>
 				</a>
 				<img class="userImage chat-image chat-image-header" ng-src="images/ChatUser.png" src="images/ChatUser.png">
-				{{senderUser}}</h2>
+				</h2>
 			<div class="container">
-
+            <div align="center" style="width:100%;margin-top:15px;" ng-hide="cargado">
+            <img src="img/img_spinner.gif"/>
+            </div>
 				<div class="row chatUser">
 					<div class="col-md-6 col-md-offset-3">
 						<div class="chatbox" scroll-glue>
