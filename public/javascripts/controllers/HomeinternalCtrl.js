@@ -107,11 +107,11 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
                                 vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
                                    $scope.encuestaHistory = userhistory.data;
-
-                                   $scope.encuestaHistory.sort(function(a,b){
-                                      return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
-                                    });
-
+                                    if($scope.encuestaHistory.length>0){
+                                        $scope.encuestaHistory.sort(function(a,b){
+                                            return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                                        });
+                                    }
                                    PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
                                    console.log("Data --- Vulnerabilidades Online - Servidor");
                                    console.log($scope.encuestaHistory);

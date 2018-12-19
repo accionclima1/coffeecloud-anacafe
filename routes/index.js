@@ -1907,6 +1907,41 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
     return res.json({ Message: "Data Sync to server successfully" });
 });
 
+router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, next) {
+
+    req.body.forEach(function (item) {
+        if (item.EntityType == 'Roya') {
+            Roya.remove({ 'PouchDBId': item.PouchDBId })
+            .then(function () {
+                var roya = new Roya(req.body);
+                roya.advMode = item.advMode;
+                roya.bandolas = item.bandolas;
+                roya.resolved = item.resolved;
+                roya.user = item.user;
+                roya.plantas = item.plantas;
+                roya.unidad = item.unidad;
+                roya.incidencia = item.incidencia;
+                roya.inideanciaPromedioPlanta = item.avgplnt;
+                roya.severidadPromedio = item.avgplntDmgPct;
+                roya.idunidad = item.idunidad;
+                roya.loteIndex = item.loteIndex;
+                roya.createdAt=item.date;
+            
+                roya.save(function (err, roya) {
+                    if (err) { return next(err); }
+                    console.log(roya);
+                    res.json(roya);
+                });
+
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        }
+    });
+    return res.json({ Message: "Data Sync to server successfully" });
+});
+
 
 router.post('/varieties', auth, function (req, res, next) {
 

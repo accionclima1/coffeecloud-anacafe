@@ -886,6 +886,81 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         return deferred.promise;
     }
 
+//for syncing pouchDB data to server
+pouchDbFactory.SynLocalDataToServerDbRoya = function () {
+
+    _tmpUserId = auth.userId();
+
+    var result = {
+        status: '',
+        data: {},
+        message: ''
+    };
+    var lastSynDateTimeSpan = 0;
+    lastSynDateTimeSpan = pouchDbFactory.GetLastSyncDateTime();
+
+
+
+
+    function mapFunctionTypeRoya(doc) {
+        if ((doc.EntityType == "Roya" && doc.user == _tmpUserId)) {
+            emit([doc._id]);
+        }
+    }
+
+    var deferred = $q.defer();
+    var pouchPromise = localPouchDB.query(mapFunctionTypeRoya, { include_docs: true });
+
+    $q.when(pouchPromise).then(function (recordList) {
+
+        if (recordList && recordList.rows && recordList.rows.length > 0) {
+            var dataList = [];
+            for (i = 0; i < recordList.rows.length; i++) {
+                if (recordList.rows[i].doc.LastUpdatedDateTime && recordList.rows[i].doc.LastUpdatedDateTime > lastSynDateTimeSpan) {
+                    var element = recordList.rows[i].doc;
+                    var documentId = recordList.rows[i].doc._id;
+                    var documentRevKey = recordList.rows[i].doc._rev;
+                    delete element["_id"];
+                    delete element["type"];
+                    dataList.push(element);
+                }
+            }
+            roya.SyncUserLocalPouchDbToServer(dataList, auth.userId()).then(function () {
+                //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+                console.log("roya.SyncUserLocalPouchDbToServer success");
+                result.status = 'success';
+                result.data = [];
+                result.message = 'Data Sync Successfully...';
+                deferred.resolve(result);
+            }).catch(function (err) {
+                console.log("roya.SyncUserLocalPouchDbToServer catch");
+                console.log(err);
+                result.status = 'fail';
+                result.data = [];
+                result.message = 'Error while Sync' + err.Message;
+                deferred.resolve(result);
+            });
+
+        }
+        else {
+            //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+            result.status = 'success';
+            result.data = [];
+            result.message = 'No data to sync...';
+            deferred.resolve(result);
+        }
+
+    }).catch(function (err) {
+        console.log("roya.SyncUserLocalPouchDbToServer catch");
+        console.log(err);
+        result.status = 'fail';
+        result.data = [];
+        result.message = 'Error while Sync' + err.Message;
+        deferred.reject(err);
+    });
+    return deferred.promise;
+}
+
 
 
     pouchDbFactory.SynLocalDataToServerDbEncuesta = function () {
@@ -1001,17 +1076,26 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                 isServerToLocalSync = true;
                 pouchDbFactory.SynLocalDataToServerDb().then(function (localResult) {
                     if (localResult.status == 'success') {
-                        isLocalToServerSync = true;
-                        if (isLocalToServerSync && isServerToLocalSync) {
-                            pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
-                            deferred.resolve(true);
-                        }
+                        pouchDbFactory.SynLocalDataToServerDbRoya().then(function (localResult) {
+                            if (localResult.status == 'success') {
+                                isLocalToServerSync = true;
+                                if (isLocalToServerSync && isServerToLocalSync) {
+                                    pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+                                    deferred.resolve(true);
+                                }
+                            }
+                            else {
+                                console.log("data not sync")
+                                deferred.resolve(true);
+                            }
+                        });
                     }
                     else {
                         console.log("data not sync")
                         deferred.resolve(true);
                     }
                 });
+                
             }
             else {
                 deferred.resolve(true);
