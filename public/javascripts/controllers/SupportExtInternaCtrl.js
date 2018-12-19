@@ -22,6 +22,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	$scope.IsCall = false;
 	console.log($scope.loggedUser);
     $scope.toId = "";
+    $scope.cargado = false;
 
 	$scope.data_server = {};
 	// $('.chatUser').show();
@@ -35,6 +36,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	socket.emit('load msg', data_server);
 
 	socket.on('set msg only',function(data){
+        $scope.cargado = true;
         data=JSON.parse(data);console.log("set msg only", data)
         $scope.toId = data.reciber;
         /*var user = data.sender;
@@ -76,7 +78,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	                userObj.image = null;
 	            }
 	            var nickName = userObj.nickname || userObj.username;
-	            var userImage = userObj.image || '../images/ChatUser.png';
+	            var userImage = userObj.image || 'images/ChatUser.png';
 	            var res = $.grep($scope.userImageList, function (item) {
 	                return item._id == userObj._id;
 	            });
@@ -216,14 +218,14 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 					if($scope.UserName!='admin')
 					{
 					    //$scope.UserImage = userObj.image || '../images/ChatUser.png';
-					    $scope.UserImageBottom = userObj.image || '../images/ChatUser.png';
+					    $scope.UserImageBottom = userObj.image || 'images/ChatUser.png';
 						$scope.UserName=userObj.username;
 					}
 					else
 					{
 						$scope.UserName = userObj.nickname || userObj.username;
 						//$scope.UserImage = userObj.imageurl || '../images/ChatUser.png';
-						$scope.UserImageBottom = userObj.image || '../images/ChatUser.png';
+						$scope.UserImageBottom = userObj.image || 'images/ChatUser.png';
 					}
 	    });
 	}

@@ -90,9 +90,9 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                 $scope.error = result.message;
             }
             else if (result.status == 'success') {
-                var doc = result.data.rows[0].doc;
                 if (result.data.rows.length > 0) {
                     var variedadesArrayPouchDB = [];
+                    var doc = result.data.rows[0].doc;
                     for (var i = 0; i < doc.list.length; i++) {
                         variedadesArrayPouchDB.push(doc.list[i]);
 
@@ -134,6 +134,19 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
 
                         }
                     }
+                }else{
+                    // En caso no hayan variedades nuevas
+                    varieties.getAll().then(function (varids) {
+                        variedades = varids.data;
+                        $scope.variedades = variedades;
+                        //Guardamos con localStorage
+                        localStorageService.set('localVarieties',variedades);
+
+                        //Guardamos a nivel local
+                        PouchDB.SaveVarietiesToPouchDB(variedades);
+                        console.log("Data --- Variedades Online - Servidor >");
+                        console.log($scope.variedades);
+                    });
                 }
             }
         }).catch(function(err) {
