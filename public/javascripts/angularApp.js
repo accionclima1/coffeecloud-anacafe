@@ -338,6 +338,8 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                     doc = roya;
                     doc._id = tmp._id;
                     doc._rev = tmp._rev;
+                    var dt = new Date();
+                    doc.LastUpdatedDateTime = Number(dt);
                     var UpdatePouchPromise = localPouchDB.put(doc);
                     $q.when(UpdatePouchPromise).then(function (res) {
                         if (res && res.ok == true) {
@@ -852,14 +854,11 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                 }
                 unit.SyncUserLocalPouchDbToServer(dataList, auth.userId()).then(function () {
                     //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
-                    console.log("unit.SyncUserLocalPouchDbToServer success");
                     result.status = 'success';
                     result.data = [];
                     result.message = 'Data Sync Successfully...';
                     deferred.resolve(result);
                 }).catch(function (err) {
-                    console.log("unit.SyncUserLocalPouchDbToServer catch");
-                    console.log(err);
                     result.status = 'fail';
                     result.data = [];
                     result.message = 'Error while Sync' + err.Message;
@@ -876,8 +875,6 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
             }
 
         }).catch(function (err) {
-            console.log("unit.SyncUserLocalPouchDbToServer catch");
-            console.log(err);
             result.status = 'fail';
             result.data = [];
             result.message = 'Error while Sync' + err.Message;
@@ -903,7 +900,8 @@ pouchDbFactory.SynLocalDataToServerDbRoya = function () {
 
 
     function mapFunctionTypeRoya(doc) {
-        if ((doc.EntityType == "Roya" && doc.user == _tmpUserId)) {
+        console.log(doc);
+        if ((doc.EntityType == "Roya")) {
             emit([doc._id]);
         }
     }
@@ -927,14 +925,11 @@ pouchDbFactory.SynLocalDataToServerDbRoya = function () {
             }
             roya.SyncUserLocalPouchDbToServer(dataList, auth.userId()).then(function () {
                 //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
-                console.log("roya.SyncUserLocalPouchDbToServer success");
                 result.status = 'success';
                 result.data = [];
                 result.message = 'Data Sync Successfully...';
                 deferred.resolve(result);
             }).catch(function (err) {
-                console.log("roya.SyncUserLocalPouchDbToServer catch");
-                console.log(err);
                 result.status = 'fail';
                 result.data = [];
                 result.message = 'Error while Sync' + err.Message;
@@ -951,8 +946,6 @@ pouchDbFactory.SynLocalDataToServerDbRoya = function () {
         }
 
     }).catch(function (err) {
-        console.log("roya.SyncUserLocalPouchDbToServer catch");
-        console.log(err);
         result.status = 'fail';
         result.data = [];
         result.message = 'Error while Sync' + err.Message;
