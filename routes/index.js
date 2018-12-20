@@ -1612,8 +1612,6 @@ router.get('/roya/:user', function (req, res, next) {
 
 router.post('/gallo', auth, function (req, res, next) {
 
-  console.log(req.body);
-
     var gallo = new Gallo(req.body);
     gallo.advMode = req.body.advMode;
     gallo.bandolas = req.body.bandolas;
@@ -1910,7 +1908,9 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
 router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, next) {
 
     req.body.forEach(function (item) {
+        console.log(item);
         if (item.EntityType == 'Roya') {
+            if(item.PouchDBId){
             Roya.remove({ 'PouchDBId': item.PouchDBId })
             .then(function () {
                 var roya = new Roya(req.body);
@@ -1926,17 +1926,17 @@ router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, n
                 roya.idunidad = item.idunidad;
                 roya.loteIndex = item.loteIndex;
                 roya.createdAt=item.date;
+                roya.PouchDBId = item.PouchDBId;
             
                 roya.save(function (err, roya) {
                     if (err) { return next(err); }
-                    console.log(roya);
-                    res.json(roya);
                 });
 
             })
             .catch(function (err) {
                 console.log(err);
             });
+         }
         }
     });
     return res.json({ Message: "Data Sync to server successfully" });
