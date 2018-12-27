@@ -1779,17 +1779,23 @@ router.get('/getWidgets', function (req, res, next) {
 router.post('/SyncUserServerData/:user/:lastSyncDateTime', function (req, res, next) {
     var dataList = [];
     var lastSyncDateTime = 0;
+    var UnitsPouchDBIds=[];
     if (req.lastSyncDateTime) {
         lastSyncDateTime = req.lastSyncDateTime;
     }
     Unit.find({ LastUpdatedDateTime: { $gt: lastSyncDateTime }, user: req.user }, function (err, units) {
         if (!err) {
             for (var x = 0; x < units.length; x++) {
+                UnitsPouchDBIds.push(parseInt(units[x].PouchDBId));
                 dataList.push(units[x]);
             }
             Variety.find(function (err, varieties) {
                 if (!err) {
-                    return res.json({ dataList: dataList, varieties: varieties });
+                    Roya.find({"idunidad":{$in:UnitsPouchDBIds}},function(err,royas){
+                        if(!err){
+                            return res.json({ dataList: dataList, varieties: varieties, roya:royas });
+                        }
+                    })
                 }
                 else {
                     return res.json({ dataList: dataList});
@@ -1799,6 +1805,7 @@ router.post('/SyncUserServerData/:user/:lastSyncDateTime', function (req, res, n
         }
     });
 });
+
 
 router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next) {
 
@@ -1882,7 +1889,6 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
                 unit.LastUpdatedDateTime = item.LastUpdatedDateTime;
                 unit.EntityType = 'Unit';
                 unit.user = req.user;
-                console.log(item);
 
                 unit.save(function (err) {
                     if (err) {
@@ -1908,12 +1914,14 @@ router.post('/SyncUserLocalData/:user/datalist', auth, function (req, res, next)
 router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, next) {
 
     req.body.forEach(function (item) {
-        console.log(item);
         if (item.EntityType == 'Roya') {
             if(item.PouchDBId){
             Roya.remove({ 'PouchDBId': item.PouchDBId })
-            .then(function () {
-                var roya = new Roya(req.body);
+            .then(function (err) {
+                if(err){
+                    console.log(err);
+                }
+                var roya = new Roya();
                 roya.advMode = item.advMode;
                 roya.bandolas = item.bandolas;
                 roya.resolved = item.resolved;
@@ -1927,14 +1935,15 @@ router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, n
                 roya.loteIndex = item.loteIndex;
                 roya.createdAt=item.date;
                 roya.PouchDBId = item.PouchDBId;
+                roya.EntityType = 'Roya';
             
                 roya.save(function (err, roya) {
                     if (err) { return next(err); }
                 });
-
             })
-            .catch(function (err) {
+            .catch(function(err){
                 console.log(err);
+                if (err) { return next(err); }
             });
          }
         }
@@ -1953,7 +1962,6 @@ router.post('/varieties', auth, function (req, res, next) {
 
     // console.log(req.user);
     varieties.save(function (err) {
-        console.log("aqui se entra...........................");
         if (err) { return res.status(500).json({ message: err }); }
         res.json(varieties);
 
@@ -1962,9 +1970,7 @@ router.post('/varieties', auth, function (req, res, next) {
 
 
 router.post('/varieties/update', auth, function (req, res, next) {
-    console.log(req.body);
     Variety.findById(req.body._id, function (err, varie) {
-        console.log(varie);
         varie.name = req.body.name;
         varie.save(function (err, updatedvarie) {
             if (err) return res.send({Success:false});
