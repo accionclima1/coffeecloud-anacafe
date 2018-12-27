@@ -12,7 +12,8 @@ var RoyaSchema = new mongoose.Schema({
 	incidencia: Number,
 	inideanciaPromedioPlanta: Number,
 	severidadPromedio: Number,
-	createdAt: Date
+	createdAt: Date,
+	PouchDBId: String
 },
 { toJSON: { virtuals: true } },
 {
