@@ -170,7 +170,7 @@ for (var i = 0; i < $scope.deptos.length; i++) {
 	$scope.mostrarMapa = function(){
 
 	if(mymap==null){
-		mymap = L.map('royamap').setView([14.973642, -90.450439], 8);
+		mymap = L.map('royamap').setView([14.978279, -87.057559], 7);
 	}else{
 
 	}
