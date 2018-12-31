@@ -1583,6 +1583,7 @@ router.post('/roya', auth, function (req, res, next) {
     roya.idunidad = req.body.idunidad;
     roya.loteIndex = req.body.loteIndex;
     roya.createdAt=req.body.date;
+    roya.EntityType = "Roya";
 
     roya.save(function (err, roya) {
         if (err) { return next(err); }
@@ -1625,6 +1626,7 @@ router.post('/gallo', auth, function (req, res, next) {
     gallo.idunidad = req.body.idunidad;
     gallo.loteIndex = req.body.loteIndex;
     gallo.createdAt=req.body.createdAt;
+    gallo.EntityType="Gallo";
 
     gallo.save(function (err, gallo) {
         if (err) { return next(err); }
