@@ -1935,7 +1935,7 @@ router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, n
                 roya.severidadPromedio = item.avgplntDmgPct;
                 roya.idunidad = item.idunidad;
                 roya.loteIndex = item.loteIndex;
-                roya.createdAt=item.date;
+                roya.createdAt=item.createdAt;
                 roya.PouchDBId = item.PouchDBId;
                 roya.EntityType = 'Roya';
             
