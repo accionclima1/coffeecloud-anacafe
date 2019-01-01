@@ -1,7 +1,7 @@
 ﻿var global = {};
 global.setting = {
-    //service: "http://coffeecloud.centroclima.org/",
-    service: "http://coffeecloud.centroclima.org/",
+    //service: "http://51.15.220.133:8090/",
+    service: "http://51.15.220.133:8090/",
     getServiceUrl: function () {
         return this.service;
     }

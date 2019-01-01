@@ -60,7 +60,7 @@ node ./bin/www to launch express app
 
 ## Remote deployment
 
-ssh -i ~/.ssh/coffeecloud.pem ubuntu@coffeecloud.centroclima.org
+ssh -i ~/.ssh/coffeecloud.pem ubuntu@51.15.220.133:8090
 
 
 cd apps/coffeecloud/Coffee-Cloud
@@ -75,7 +75,7 @@ sudo forever stopall
 user: "cafenube",
 pwd: "Sec03lP1nt0"
 db name: dummyDB
-ssh -N -L 8888:127.0.0.1:80 -i ~/.ssh/coffeecloud.pem bitnami@coffeecloud.centroclima.org
+ssh -N -L 8888:127.0.0.1:80 -i ~/.ssh/coffeecloud.pem bitnami@51.15.220.133:8090
 
 
 sudo fuser -k 80/tcp
