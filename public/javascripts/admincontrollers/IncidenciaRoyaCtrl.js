@@ -64,6 +64,8 @@ app.controller('IncidenciaRoyaCtrl', [
 
 	$scope.cantidadMuestreos=0;
 	$scope.incidenciaPromedio=0;
+	$scope.units=[];
+	$scope.numUnits=0;
 
 
 	$('#cntRoya').loadingIndicator({showOnInit:false});
@@ -136,6 +138,7 @@ app.controller('IncidenciaRoyaCtrl', [
 
 		$scope.cantidadMuestreos=kpis.cantidadMuestreos;
 		$scope.incidenciaPromedio=kpis.incidenciaPromedio;
+		$scope.numUnits=kpis.unidadesMuestreadas;
 
 		//console.log($scope.markers);
 		$scope.addMarkers($scope.markers);
@@ -458,6 +461,7 @@ $scope.getData=function () {
 
 			$scope.cantidadMuestreos=kpis.cantidadMuestreos;
 			$scope.incidenciaPromedio=kpis.incidenciaPromedio;
+			$scope.numUnits=kpis.unidadesMuestreadas;
 
 
 
@@ -539,6 +543,14 @@ if (typeof $scope.layerMarkers!='undefined') {
 				if (typeof muestreos[i].incidencia!='undefined' && typeof muestreos[i].myunit[0]!='undefined') {
 					incidenciaPromedio=muestreos[i].incidencia+incidenciaPromedio;
 					muestreosvalidos++;
+
+					//Las siguientes instrucciones servirán para calcular elnúmero de unidades muestreadas
+					if($scope.units.indexOf(muestreos[i].myunit[0].nombre)==-1){
+						$scope.units.push(muestreos[i].myunit[0].nombre);
+
+					}
+
+
 				};
 
 
@@ -554,6 +566,7 @@ if (typeof $scope.layerMarkers!='undefined') {
 
 		kpis.cantidadMuestreos=muestreosvalidos;
 		kpis.incidenciaPromedio=incidenciaPromedio;
+		kpis.unidadesMuestreadas=$scope.units.length;
 
 		return kpis;
 
