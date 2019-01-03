@@ -52,6 +52,7 @@ app.controller('VulnerabilidadCtrl2', [
 		$scope.dataGrid=[];
     $scope.markers=[];
     $scope.ArrayCircles=[];
+    $scope.numUnidades=0;
 
 		encuestaunit.getAll().then(function (tests){
 			console.log(tests);
@@ -75,8 +76,11 @@ app.controller('VulnerabilidadCtrl2', [
 				//Calcula la incidencia Promedio
 				$scope.averageTests=kpis.promedio;;
 
+        //Calcula el numero de unidades Evaluadas
+        $scope.numUnidades=kpis.unidadesEvaluadas;
+
         //Se realizará gráfica scatterroyachart
-        $scope.graphicScatter();
+        //$scope.graphicScatter();
 
         //Agregará markadores al mapa
         $scope.addMarkersToMap(tests);
@@ -89,6 +93,7 @@ app.controller('VulnerabilidadCtrl2', [
 		$scope.calculateKPIs=function(tests){
 			var promedio=0;
 			var testsvalidos=0;
+      var units=[];
       console.log(tests.length);
       var kpis={};
 
@@ -105,6 +110,13 @@ app.controller('VulnerabilidadCtrl2', [
 					testsvalidos++;
 					console.log(testsvalidos+ " Valor: "+tests[i].resumenVulne[0].valor);
 				}
+
+        //Las siguientes instrucciones servirán para calcular el número de Unidades Evaluadas
+        if(units.indexOf(tests[i].myunit[0].nombre)==-1){
+          units.push(tests[i].myunit[0].nombre);
+
+        }
+
 
 				}
 			}
@@ -126,6 +138,7 @@ app.controller('VulnerabilidadCtrl2', [
       else{
 
         kpis.promedio=(promedio/testsvalidos).toFixed(3);
+        kpis.unidadesEvaluadas=units.length;
         return kpis;
       }
 
@@ -468,7 +481,7 @@ if (element.myunit.length!=0) {
 
         }
         else if(element.incidencia<=-2){
-          element.colorMarker="yellowe";
+          element.colorMarker="yellow";
 
         }else if(element.incidencia<=0){
           element.colorMarker="blue";
@@ -484,7 +497,7 @@ if (element.myunit.length!=0) {
 
         else{
 
-          element.colorMarker="red";
+          element.colorMarker="green";
         }
 
         if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
@@ -493,7 +506,7 @@ if (element.myunit.length!=0) {
           console.log(element);
 
          $scope.ArrayCircles.push(L.circle([element.latitud,element.longitud],{
-          color: element.color,
+          color: element.colorMarker,
           fillColor: element.colorMarker,
           fillOpacity: 0.5,
           radius: 500
