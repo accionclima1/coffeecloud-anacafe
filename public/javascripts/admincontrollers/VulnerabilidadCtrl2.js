@@ -398,7 +398,7 @@ app.controller('VulnerabilidadCtrl2', [
 $scope.crearMapa = function(){
 
 if(mymap==null){
-  mymap = L.map('vulnerabilidadmap').setView([14.973642, -90.450439], 8);
+  mymap = L.map('vulnerabilidadmap').setView([14.978279, -87.057559], 8);
 }else{
 
 }
