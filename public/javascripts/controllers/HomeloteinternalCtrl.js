@@ -150,25 +150,25 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
           var currentMonth = date.getMonth();
           if(currentMonth < 6 ){
                   var methodsAvail = {};
-                  methodsAvail.grade1 = methGallo.caseInidence10.abrilJunio;
-                  methodsAvail.grade2 = methGallo.caseInidence1120.abrilJunio;
-                  methodsAvail.grade3 = methGallo.caseInidence2150.abrilJunio;
-                  methodsAvail.grade4 = methGallo.caseInidence50.abrilJunio;
+                  methodsAvail.grade1 = "";
+                  methodsAvail.grade2 = "";
+                  methodsAvail.grade3 = "";
+                  methodsAvail.grade4 = "";
                   $scope.methodsMonthGallo = methodsAvail;
 
           } else if(currentMonth > 5 && currentMonth < 9) {
                   var methodsAvail = {};
-                  methodsAvail.grade1 = methGallo.caseInidence10.julioSetiembre;
-                  methodsAvail.grade2 = methGallo.caseInidence1120.julioSetiembre;
-                  methodsAvail.grade3 = methGallo.caseInidence2150.julioSetiembre;
-                  methodsAvail.grade4 = methGallo.caseInidence50.julioSetiembre;
+                  methodsAvail.grade1 = "";
+                  methodsAvail.grade2 = "";
+                  methodsAvail.grade3 = "";
+                  methodsAvail.grade4 = "";
                   $scope.methodsMonthGallo = methodsAvail;
           } else if(currentMonth > 8) {
                   var methodsAvail = {};
-                  methodsAvail.grade1 = methGallo.caseInidence10.octubreDiciembre;
-                  methodsAvail.grade2 = methGallo.caseInidence1120.octubreDiciembre;
-                  methodsAvail.grade3 = methGallo.caseInidence2150.octubreDiciembre;
-                  methodsAvail.grade4 = methGallo.caseInidence50.octubreDiciembre;
+                  methodsAvail.grade1 ="";
+                  methodsAvail.grade2 = "";
+                  methodsAvail.grade3 = "";
+                  methodsAvail.grade4 ="";
                   $scope.methodsMonthGallo = methodsAvail;
           }
         }
