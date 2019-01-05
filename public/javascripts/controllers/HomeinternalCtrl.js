@@ -107,11 +107,17 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
                                 vulnerabilidades.getUser(auth.userId()).then(function(userhistory){
                                    $scope.encuestaHistory = userhistory.data;
-                                    if($scope.encuestaHistory.length>0){
-                                        $scope.encuestaHistory.sort(function(a,b){
-                                            return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
-                                        });
-                                    }
+                                   if($scope.encuestaHistory.length>0){
+                                    $scope.encuestaHistory.sort(function(a,b){
+                                        var resta = 0;
+                                        if((a.resumenVulne.length>0)&&(b.resumenVulne.length>0)){
+                                            resta = new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                                        }  
+                                        return resta;
+                                    });
+                                    
+                                   }
+
                                    PouchDB.SaveVulnerabilityToPouchDB($scope.encuestaHistory);
                                    console.log("Data --- Vulnerabilidades Online - Servidor");
                                    console.log($scope.encuestaHistory);
@@ -139,7 +145,11 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                                console.log($scope.encuestaHistory);
 
                                $scope.encuestaHistory.sort(function(a,b){
-                                  return new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                                var resta = 0;
+                                if((a.resumenVulne.length>0)&&(b.resumenVulne.length>0)){
+                                    resta = new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                                }  
+                                return resta;
                                 });
 
                                if (userhistory.data.length == 0) {
@@ -171,11 +181,11 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                       console.log($scope.encuestaHistory);
 
                       $scope.encuestaHistory.sort(function(a,b){
-                            var resFecha=-1;
-                          if(a.resumenVulne.length>0){
-                              resFecha = new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
-                          }
-                         return resFecha;
+                        var resta = 0;
+                        if((a.resumenVulne.length>0)&&(b.resumenVulne.length>0)){
+                            resta = new Date(a.resumenVulne[0].fecha) - new Date(b.resumenVulne[0].fecha);
+                        }  
+                         return resta;
                        });
 
                       if (userhistory.data.length == 0) {
@@ -217,6 +227,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                    $scope.error = result.message;
                }
                else if (result.status == 'success') {
+                   if(result.data.rows.length>0){
                    var doc = result.data.rows[0].doc;
                    if (result.data.rows.length > 0) {
                        var encuestasArrayPouchDB = [];
@@ -247,6 +258,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                        $scope.graficarHitorial($scope.encuestaHistory);
                    }
                }
+                }
            }).catch(function(err) {
                console.log("error al obtener datos");
                console.log(err);

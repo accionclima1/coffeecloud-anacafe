@@ -11,6 +11,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
         $scope.royaHistoryByLoteOffline = [];
         $scope.galloHistoryByLote = [];
         $scope.galloHistoryByLoteOffline = [];
+        $scope.cargandoData=true;
         var map;
 
 
@@ -345,89 +346,19 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
               if (result.status == 'fail') {
                   $scope.error = result.message;
+                  $scope.cargandoData=false;
               }
               else if (result.status == 'success') {
                   if (result.data.rows.length > 0 && result.data.rows[0] != undefined) {
-                      var doc = result.data.rows[0].doc;
-                      var royasArrayPouchDB = [];
-                      for (var i = 0; i < doc.list.length; i++) {
-                         royasArrayPouchDB.push(doc.list[i]);
-
-
-                         // Valido si hay un
-                         if (doc.list[i]._id == null && doc.list[i].user != null) {
-                           console.log("Roya Actualización");
-                           $scope.nuevoMuestreoRoya = true;
-                           console.log(doc.list[i]);
-
-                           roya.create(doc.list[i]).then(function (result) {
-                             console.log("Entré a actualizar roya en el servidor");
-                             console.log(result.data);
-                             $scope.royaHistory = royasArrayPouchDB;
-
-                             roya.getUser(auth.userId()).then(function(userhistory){
-                               console.log("Entré Datos Roya");
-                               $scope.royaHistory = userhistory.data;
-
-                               // Ordenamos el Array por fecha
-                               // $scope.royaHistory.sort(function(a,b){
-                               //    return new Date(a.createdAt) - new Date(b.createdAt);
-                               //  });
-
-                                PouchDB.SaveRoyaToPouchDB($scope.royaHistory);
-                                console.log("Data --- Roya Online - Servidor");
-                                console.log($scope.royaHistory);
-                                $scope.royaHistoryByLote = [];
-
-
-                               // Muestreos filtrados por lote
-                               for (var i = 0; i < $scope.royaHistory.length; i++) {
-                                 if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
-                                   $scope.royaHistoryByLote.push($scope.royaHistory[i]);
-                                 }
-                               }
-
-                               console.log("Data Lote --- Roya Online - Servidor / Actualización");
-                               console.log($scope.royaHistoryByLote);
-                               $scope.graficarHitorial('roya', $scope.royaHistory);
-                             });
-                     			});
-
-                        }else if ($scope.nuevoMuestreoRoya == false && i == (doc.list.length - 1)) {
-                           console.log("Roya Online");
-
-                           roya.getUser(auth.userId()).then(function(userhistory){
-                             $scope.royaHistory = userhistory.data;
-
-                             // Ordenamos el Array por fecha
-                             $scope.royaHistory.sort(function(a,b){
-                                return new Date(a.createdAt) - new Date(b.createdAt);
-                              });
-
-                              if (userhistory.data.length == 0) {
-                                PouchDB.SaveRoyaToPouchDB([{}]);
-                              }
-                              else {
-                                PouchDB.SaveRoyaToPouchDB($scope.royaHistory);
-                              }
-
-                              console.log("Data --- Roya Online - Servidor");
-                              console.log($scope.royaHistory);
-                              $scope.royaHistoryByLote = [];
-
-                             // Muestreos filtrados por lote
-                             for (var i = 0; i < $scope.royaHistory.length; i++) {
-                               if (($scope.royaHistory[i].loteIndex == $scope.loteIndex)&&($scope.royaHistory[i].idunidad==$scope.unitId)) {
-                                 $scope.royaHistoryByLote.push($scope.royaHistory[i]);
-                               }
-                             }
-
-                             console.log("Data Lote --- Roya Online - Servidor");
-                             console.log($scope.royaHistoryByLote);
-                             $scope.graficarHitorial('roya', $scope.royaHistory);
-                           });
-                         }
+                      for (var i = 0; i < result.data.rows.length; i++) {
+                        var ob = result.data.rows[i].doc;
+                        if ((ob.loteIndex == $scope.loteIndex)&&(ob.idunidad==$scope.unitId)) {
+                          $scope.royaHistoryByLote.push(ob);
+                        }
                       }
+                      console.log("viene el array de roya");
+                      $scope.cargandoData=false;
+                      $scope.graficarHitorial('roya', $scope.royaHistoryByLote);
                   }else {
                     roya.getUser(auth.userId()).then(function(userhistory){
                       $scope.royaHistory = userhistory.data;
@@ -457,6 +388,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
 
                       console.log("Data Lote --- Roya Online - Servidor");
                       console.log($scope.royaHistoryByLote);
+                      $scope.cargandoData=false;
                       $scope.graficarHitorial('roya', $scope.royaHistory);
                     });
                   }
@@ -473,6 +405,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                 console.log("Respuesta: ");
                 console.log(result);
                 console.log("entramos a PouchDB");
+                $scope.cargandoData=false;
                 if (result.status == 'fail') {
 
                     $scope.error = result.message;
@@ -480,10 +413,9 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
                 }
                 else if (result.status == 'success') {
                     if (result.data.rows.length > 0) {
-                    var doc = result.data.rows[0].doc;
                         var royaArray = [];
-                        for (var i = 0; i < doc.list.length; i++) {
-                            royaArray.push(doc.list[i]);
+                        for(var xj=0;xj<result.data.rows.length;xj++){
+                          royaArray.push(result.data.rows[xj].doc);
                         }
                         $scope.royaHistory = royaArray;
                         console.log("Data -- Roya Offline - PouchDB ");
@@ -522,6 +454,7 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
             }).catch(function(err) {
                 console.log("error al obtener datos");
                 console.log(err);
+                $scope.cargandoData=false;
             });
 
           }

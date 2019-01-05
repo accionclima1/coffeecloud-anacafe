@@ -12,7 +12,7 @@ app.config(function ($httpProvider) {
 
 
 var _tmpUserId = null;
-app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$rootScope', '$window', 'localStorageService', function ($http, unit, vulnerabilidades, auth, $q, $rootScope, $window, localStorageService) {
+app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$rootScope', '$window', 'localStorageService','roya', function ($http, unit, vulnerabilidades, auth, $q, $rootScope, $window, localStorageService,roya) {
     var pouchDbFactory = {};
     var localPouchDB = undefined;
     pouchDbFactory.CreatePouchDB = function () {
@@ -168,6 +168,78 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         return deferred.promise;
     }
 
+    pouchDbFactory.SaveRoyasToPouchDB = function (royasData) {
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var deferred = $q.defer();
+        if (royasData != undefined && royasData.length > 0) {
+            
+            function mapFunctionTypeUnit(doc) {
+                if ((doc.EntityType == "Roya")) {
+                    emit(doc);
+                }
+            }
+            var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, {include_docs: true });
+             $q.when(pouchPromise).then(function (result) {
+                if (result.rows.length > 0) {
+                    for(var xi=0;xi<royasData.length;xi++){
+                        var encontrado = false;
+                        for(xj=0;xj<result.rows.length;xj++){
+                            var tmp = result.rows[xj].doc   
+                            if(tmp.PouchDBId==royasData[xi].PouchDBId){
+                                encontrado =true;
+                            }
+                        }
+                        if(!encontrado){
+                            var UpdatePouchPromise = localPouchDB.put(royasData[xi]);
+                            $q.when(UpdatePouchPromise).then(function (res) {
+                                if (res && res.ok == true) {
+                                    result.status = 'success';
+                                }
+                            },function(err){
+                                console.log(err);
+                                result.status = 'fail';
+                                result.message = err;
+                            }).catch(function (err) {
+                                console.log(err);
+                                result.status = 'fail';
+                                result.message = err;
+                            });
+                        }
+                    }
+                    deferred.resolve(result);
+                }
+                else {
+                    for(var xi=0;xi<royasData.length;xi++){
+                        var objDoc = royasData[xi];
+                        delete objDoc['__v'];
+                        var UpdatePouchPromise = localPouchDB.put(objDoc);
+                        $q.when(UpdatePouchPromise).then(function () {
+                            result.status = 'success';
+                        },function(err){
+                            result.status = 'fail';
+                            result.message = err;
+                        }).catch(function (err) {
+                            result.status = 'fail';
+                            result.message = err;
+                        });
+                    }
+                    deferred.resolve(result);
+                }
+
+            });
+        }
+        else {
+            result.status = 'success';
+            result.message = 'No royas to sync';
+            deferred.resolve(result);
+        }
+        return deferred.promise;
+    }
+
 
     //Get Fungicidas from PouchDb
     pouchDbFactory.GetFungicidesFromPouchDB = function () {
@@ -287,11 +359,13 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         };
         var deferred = $q.defer();
         function mapFunctionTypeUnit(doc) {
+            console.log("jeje");
+            console.log(doc);
             if ((doc.EntityType == "Roya")) {
                 emit(doc);
             }
         }
-        var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
+        var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { include_docs: true });
         $q.when(pouchPromise).then(function (doc) {
             result.status = 'success';
             result.data = doc;
@@ -312,79 +386,28 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
 
     //Save Roya to PouchDb
     pouchDbFactory.SaveRoyaToPouchDB = function (royaData) {
-        var result = {
-            status: '',
-            data: {},
-            message: ''
-        };
         var deferred = $q.defer();
-        if (royaData != undefined && royaData.length > 0) {
-            var roya = {
-                list: [],
-                EntityType: 'Roya',
-            };
-            for (var x = 0; x < royaData.length; x++) {
-                roya.list.push(royaData[x])
-            }
-            function mapFunctionTypeUnit(doc) {
-                if ((doc.EntityType == "Roya")) {
-                    emit(doc);
-                }
-            }
-            var pouchPromise = localPouchDB.query(mapFunctionTypeUnit, { limit: 1, include_docs: true });
-             $q.when(pouchPromise).then(function (result) {
-                if (result.rows.length > 0) {
-                    var tmp = result.rows[0].doc;
-                    doc = roya;
-                    doc._id = tmp._id;
-                    doc._rev = tmp._rev;
-                    var dt = new Date();
-                    doc.LastUpdatedDateTime = Number(dt);
-                    var UpdatePouchPromise = localPouchDB.put(doc);
-                    $q.when(UpdatePouchPromise).then(function (res) {
-                        if (res && res.ok == true) {
-                            console.log("Roya updated to local pouchDb");
-                            result.status = 'success';
-                            deferred.resolve(result);
-                        }
-                    },function(err){
-                        console.log(err);
-                        result.status = 'fail';
-                        result.message = err;
-                        deferred.resolve(result);
-                    }).catch(function (err) {
-                        console.log(err);
-                        result.status = 'fail';
-                        result.message = err;
-                        deferred.resolve(result);
-                    });
-                }
-                else {
-                    var dt = new Date();
-                    var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
-                    roya._id = documentId;
-                    return localPouchDB.put(roya).then(function () {
-                        console.log("Roya inserted in pouchDb");
-                        result.status = 'success';
-                        deferred.resolve(result);
-                    },function(err){
-                        result.status = 'fail';
-                        result.message = err;
-                        deferred.resolve(result);
-                    }).catch(function (err) {
-                        result.status = 'fail';
-                        result.message = err;
-                        deferred.resolve(result);
-                    });
-                }
-
-            });
-        }
-        else {
+        var dt = new Date();
+        var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+        royaData._id = documentId;
+        royaData.PouchDBId = documentId;
+        royaData.EntityType='Roya';
+        return localPouchDB.put(royaData).then(function () {
+            console.log("Roya inserted in pouchDb");
+            var result={"status":"","message":""};
             result.status = 'success';
-            result.message = 'No royaData to sync';
             deferred.resolve(result);
-        }
+        },function(err){
+            var result={"status":"","message":""};
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        }).catch(function (err) {
+            var result={"status":"","message":""};
+            result.status = 'fail';
+            result.message = err;
+            deferred.resolve(result);
+        });
         return deferred.promise;
     }
 
@@ -703,114 +726,119 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         if (auth.userId() != undefined)
         {
 
-        unit.SyncUserServerDataToLocalPouchDb(lastSynDateTimeSpan, auth.userId()).then(function (data) {
-            data = data.data;
-            console.log("Entre a SyncUserServerDataToLocalPouchDb");
-            if (data && data.dataList && data.dataList.length > 0) {
-                var totalElement = 0;
-                var totalElement = 0;
-                Promise.all(data.dataList.map(function (row) {
-                    console.log("inside foreach loop");
-                    var element = row;
-                    delete element["__v"];
-                    if (element.PouchDBId && element.PouchDBId != null && element.PouchDBId != undefined) {
-                        element._id = element.PouchDBId;
-                    }
-                    if (element._id == undefined) {
-                        var dt = new Date();
-                        var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
-                        element._id = documentId;
-                    }
-                    if (element.LastUpdatedDateTime == undefined || element.LastUpdatedDateTime == null) {
-                        var dt = new Date();
-                        element.LastUpdatedDateTime = Number(dt);
-                    }
-                    localPouchDB.get(element._id, function (err, doc) {
-                        if (err) {
-                            if (err.status = '404') { // if the document does not exist
-                                localPouchDB.put(element).then(function () {
-                                    console.log("Doc inserted to poch Db\n");
-                                }).catch(function (err) {
-                                    console.log("Error while inserting Data to poch Db\n");
-                                    console.log(err);
-                                });
-                            }
+            unit.SyncUserServerDataToLocalPouchDb(lastSynDateTimeSpan, auth.userId()).then(function (data) {
+                data = data.data;
+                console.log("Entre a SyncUserServerDataToLocalPouchDb");
+                if (data && data.dataList && data.dataList.length > 0) {
+                    var totalElement = 0;
+                    var totalElement = 0;
+                    Promise.all(data.dataList.map(function (row) {
+                        console.log("inside foreach loop");
+                        var element = row;
+                        delete element["__v"];
+                        if (element.PouchDBId && element.PouchDBId != null && element.PouchDBId != undefined) {
+                            element._id = element.PouchDBId;
                         }
-                        else {
-
-                            var existDocument = doc;
-                            if (doc.LastUpdatedDateTime < element.LastUpdatedDateTime) {
-                              doc = element;
-                              doc._rev = existDocument._rev;
-                              localPouchDB.put(doc).then(function () {
-                                  console.log("Doc updated in poch Db\n");
-                              }).catch(function (err) {
-                                  console.log("Error while updating Data to poch Db\n");
-                                  console.log(err);
-                              });
-                            }
-
+                        if (element._id == undefined) {
+                            var dt = new Date();
+                            var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
+                            element._id = documentId;
                         }
-                    }).catch(function (err) {
-                        console.log("Error while inserting Data to poch Db\n" + JSON.stringify(err));
-                    });
-                    totalElement++;
-                })).then(function () {
-                    if (totalElement == data.dataList.length) {
-                        var varitiesData = [];
-                        if (data != undefined && data.varieties != undefined && data.varieties.length > 0) {
-                            varitiesData = data.varieties;
+                        if (element.LastUpdatedDateTime == undefined || element.LastUpdatedDateTime == null) {
+                            var dt = new Date();
+                            element.LastUpdatedDateTime = Number(dt);
                         }
-                        pouchDbFactory.SaveVarietiesToPouchDB(varitiesData).then(function (result) {
-                            if (result.status == 'fail') {
-                                result.status = 'success';
-                                result.data = [];
-                                result.message = 'Data Sync Successfully...';
-                                deferred.resolve(result);
+                        localPouchDB.get(element._id, function (err, doc) {
+                            if (err) {
+                                if (err.status = '404') { // if the document does not exist
+                                    localPouchDB.put(element).then(function () {
+                                        console.log("Doc inserted to poch Db\n");
+                                    }).catch(function (err) {
+                                        console.log("Error while inserting Data to poch Db\n");
+                                        console.log(err);
+                                    });
+                                }
                             }
                             else {
-                                console.log("Varieties written to pouch Db")
-                                result.status = 'success';
-                                result.data = [];
-                                result.message = 'Data Sync Successfully...';
-                                deferred.resolve(result);
+
+                                var existDocument = doc;
+                                if (doc.LastUpdatedDateTime < element.LastUpdatedDateTime) {
+                                doc = element;
+                                doc._rev = existDocument._rev;
+                                localPouchDB.put(doc).then(function () {
+                                    console.log("Doc updated in poch Db\n");
+                                }).catch(function (err) {
+                                    console.log("Error while updating Data to poch Db\n");
+                                    console.log(err);
+                                });
+                                }
+
                             }
+                        }).catch(function (err) {
+                            console.log("Error while inserting Data to poch Db\n" + JSON.stringify(err));
                         });
-                    }
-                });
-            }
-            else {
-                var varitiesData = [];
-                if (data != undefined && data.varieties != undefined && data.varieties.length > 0) {
-                    varitiesData = data.varieties;
+                        totalElement++;
+                    })).then(function () {
+                        if (totalElement == data.dataList.length) {
+                            var varitiesData = [];
+                            if (data != undefined && data.varieties != undefined && data.varieties.length > 0) {
+                                varitiesData = data.varieties;
+                            }
+                            pouchDbFactory.SaveVarietiesToPouchDB(varitiesData).then(function (result) {
+                                pouchDbFactory.SaveRoyasToPouchDB(data.roya).then(function(result){
+                                    if (result.status == 'fail') {
+                                        result.status = 'success';
+                                        result.data = [];
+                                        result.message = 'Data Sync Successfully...';
+                                        deferred.resolve(result);
+                                    }
+                                    else {
+                                        console.log("Varieties written to pouch Db")
+                                        result.status = 'success';
+                                        result.data = [];
+                                        result.message = 'Data Sync Successfully...';
+                                        deferred.resolve(result);
+                                    }
+                                })
+                            });
+                        }
+                    });
                 }
-                pouchDbFactory.SaveVarietiesToPouchDB(varitiesData).then(function (result) {
-                    if (result.status == 'fail') {
-                        console.log("Varieties not written to pouch Db")
-                        result.status = 'success';
-                        result.data = [];
-                        result.message = 'Data Sync Successfully...';
-                        deferred.resolve(result);
+                else {
+                    var varitiesData = [];
+                    if (data != undefined && data.varieties != undefined && data.varieties.length > 0) {
+                        varitiesData = data.varieties;
                     }
-                    else {
-                        console.log("Varieties written to pouch Db")
-                        result.status = 'success';
-                        result.data = [];
-                        result.message = 'Data Sync Successfully...';
-                        deferred.resolve(result);
-                    }
-                });
-            }
-        }).catch(function (err) {
-            console.log("SynServerDataToLocalDb catch" + err);
-            console.log(err);
-            result.status = 'fail';
-            result.data = [];
-            result.message = 'Error while Sync' + JSON.stringify(err.Message);
-            deferred.resolve(result);
-        });
+                    pouchDbFactory.SaveVarietiesToPouchDB(varitiesData).then(function (result) {
+                        if (result.status == 'fail') {
+                            console.log("Varieties not written to pouch Db")
+                            result.status = 'success';
+                            result.data = [];
+                            result.message = 'Data Sync Successfully...';
+                            deferred.resolve(result);
+                        }
+                        else {
+                            console.log("Varieties written to pouch Db")
+                            result.status = 'success';
+                            result.data = [];
+                            result.message = 'Data Sync Successfully...';
+                            deferred.resolve(result);
+                        }
+                    });
+                }
+            }).catch(function (err) {
+                console.log("SynServerDataToLocalDb catch" + err);
+                console.log(err);
+                result.status = 'fail';
+                result.data = [];
+                result.message = 'Error while Sync' + JSON.stringify(err.Message);
+                deferred.resolve(result);
+            });
+            objResult=deferred.promise;
+        }else{
+            objResult=false;
         }
-        return deferred.promise;
+        return objResult;
     }
 
     //for syncing pouchDB data to server
@@ -854,11 +882,14 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                 }
                 unit.SyncUserLocalPouchDbToServer(dataList, auth.userId()).then(function () {
                     //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+                    console.log("unit.SyncUserLocalPouchDbToServer success");
                     result.status = 'success';
                     result.data = [];
                     result.message = 'Data Sync Successfully...';
                     deferred.resolve(result);
                 }).catch(function (err) {
+                    console.log("unit.SyncUserLocalPouchDbToServer catch");
+                    console.log(err);
                     result.status = 'fail';
                     result.data = [];
                     result.message = 'Error while Sync' + err.Message;
@@ -875,6 +906,8 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
             }
 
         }).catch(function (err) {
+            console.log("unit.SyncUserLocalPouchDbToServer catch");
+            console.log(err);
             result.status = 'fail';
             result.data = [];
             result.message = 'Error while Sync' + err.Message;
@@ -883,76 +916,82 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         return deferred.promise;
     }
 
-//for syncing pouchDB data to server
-pouchDbFactory.SynLocalDataToServerDbRoya = function () {
+    //for syncing pouchDB data to server
+    pouchDbFactory.SynLocalDataToServerDbRoya = function () {
 
-    _tmpUserId = auth.userId();
+        _tmpUserId = auth.currentUser();
 
-    var result = {
-        status: '',
-        data: {},
-        message: ''
-    };
-    var lastSynDateTimeSpan = 0;
-    lastSynDateTimeSpan = pouchDbFactory.GetLastSyncDateTime();
-
-
+        var result = {
+            status: '',
+            data: {},
+            message: ''
+        };
+        var lastSynDateTimeSpan = 0;
+        lastSynDateTimeSpan = pouchDbFactory.GetLastSyncDateTime();
 
 
-    function mapFunctionTypeRoya(doc) {
-        console.log(doc);
-        if ((doc.EntityType == "Roya")) {
-            emit([doc._id]);
-        }
-    }
 
-    var deferred = $q.defer();
-    var pouchPromise = localPouchDB.query(mapFunctionTypeRoya, { include_docs: true });
 
-    $q.when(pouchPromise).then(function (recordList) {
-
-        if (recordList && recordList.rows && recordList.rows.length > 0) {
-            var dataList = [];
-            for (i = 0; i < recordList.rows.length; i++) {
-                if (recordList.rows[i].doc.LastUpdatedDateTime && recordList.rows[i].doc.LastUpdatedDateTime > lastSynDateTimeSpan) {
-                    var element = recordList.rows[i].doc;
-                    var documentId = recordList.rows[i].doc._id;
-                    var documentRevKey = recordList.rows[i].doc._rev;
-                    delete element["_id"];
-                    delete element["type"];
-                    dataList.push(element);
-                }
+        function mapFunctionTypeRoya(doc) {
+            if (doc.EntityType == "Roya" && doc.user == _tmpUserId) {
+                emit([doc._id]);
             }
-            roya.SyncUserLocalPouchDbToServer(dataList, auth.userId()).then(function () {
+        }
+
+        var deferred = $q.defer();
+        var pouchPromise = localPouchDB.query(mapFunctionTypeRoya, { include_docs: true });
+
+        $q.when(pouchPromise).then(function (recordList) {
+
+            if (recordList && recordList.rows && recordList.rows.length > 0) {
+                var dataList = [];
+                for (i = 0; i < recordList.rows.length; i++) {
+                    if ((recordList.rows[i].doc.LastUpdatedDateTime && recordList.rows[i].doc.LastUpdatedDateTime > lastSynDateTimeSpan)||(!recordList.rows[i].doc.LastUpdatedDateTime)) {
+                        var element = recordList.rows[i].doc;
+                        var documentId = recordList.rows[i].doc._id;
+                        var documentRevKey = recordList.rows[i].doc._rev;
+                        delete element["_id"];
+                        delete element["type"];
+                        dataList.push(element);
+                    }
+                }
+                console.log("enviara a sync");
+                console.log(dataList);
+                roya.SyncUserLocalPouchDbToServer(dataList, auth.userId()).then(function () {
+                    //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+                    console.log("roya.SyncUserLocalPouchDbToServer success");
+                    result.status = 'success';
+                    result.data = [];
+                    result.message = 'Data Sync Successfully...';
+                    deferred.resolve(result);
+                }).catch(function (err) {
+                    console.log("roya.SyncUserLocalPouchDbToServer catch");
+                    console.log(err);
+                    result.status = 'fail';
+                    result.data = [];
+                    result.message = 'Error while Sync' + err.Message;
+                    deferred.resolve(result);
+                });
+
+            }
+            else {
                 //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
                 result.status = 'success';
                 result.data = [];
-                result.message = 'Data Sync Successfully...';
+                result.message = 'No data to sync...';
                 deferred.resolve(result);
-            }).catch(function (err) {
-                result.status = 'fail';
-                result.data = [];
-                result.message = 'Error while Sync' + err.Message;
-                deferred.resolve(result);
-            });
+            }
 
-        }
-        else {
-            //pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
-            result.status = 'success';
+        }).catch(function (err) {
+            console.log("roya.SyncUserLocalPouchDbToServer catch");
+            console.log(err);
+            result.status = 'fail';
             result.data = [];
-            result.message = 'No data to sync...';
-            deferred.resolve(result);
-        }
-
-    }).catch(function (err) {
-        result.status = 'fail';
-        result.data = [];
-        result.message = 'Error while Sync' + err.Message;
-        deferred.reject(err);
-    });
-    return deferred.promise;
-}
+            result.message = 'Error while Sync' + err.Message;
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    }
 
 
 
@@ -1064,37 +1103,44 @@ pouchDbFactory.SynLocalDataToServerDbRoya = function () {
         var deferred = $q.defer();
         var isServerToLocalSync = false;
         var isLocalToServerSync = false;
-        pouchDbFactory.SynServerDataToLocalDb().then(function (serverResult) {
-            if (serverResult.status == 'success') {
-                isServerToLocalSync = true;
-                pouchDbFactory.SynLocalDataToServerDb().then(function (localResult) {
-                    if (localResult.status == 'success') {
-                        pouchDbFactory.SynLocalDataToServerDbRoya().then(function (localResult) {
-                            if (localResult.status == 'success') {
-                                isLocalToServerSync = true;
-                                if (isLocalToServerSync && isServerToLocalSync) {
-                                    pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+        var promesa = pouchDbFactory.SynServerDataToLocalDb();
+        var objResult=false;
+        if(promesa!=false){
+            promesa.then(function (serverResult) {
+                if (serverResult.status == 'success') {
+                    isServerToLocalSync = true;
+                    pouchDbFactory.SynLocalDataToServerDb().then(function (localResult) {
+                        if (localResult.status == 'success') {
+                            pouchDbFactory.SynLocalDataToServerDbRoya().then(function (localResult) {
+                                if (localResult.status == 'success') {
+                                    isLocalToServerSync = true;
+                                    if (isLocalToServerSync && isServerToLocalSync) {
+                                        pouchDbFactory.SetLastSyncDateTime(Number(new Date()));
+                                        deferred.resolve(true);
+                                    }
+                                }
+                                else {
+                                    console.log("data not sync")
                                     deferred.resolve(true);
                                 }
-                            }
-                            else {
-                                console.log("data not sync")
-                                deferred.resolve(true);
-                            }
-                        });
-                    }
-                    else {
-                        console.log("data not sync")
-                        deferred.resolve(true);
-                    }
-                });
-                
-            }
-            else {
-                deferred.resolve(true);
-            }
-        });
-        return deferred.promise;
+                            });
+                        }
+                        else {
+                            console.log("data not sync")
+                            deferred.resolve(true);
+                        }
+                    });
+                    
+                }
+                else {
+                    deferred.resolve(true);
+                }
+            });
+            objResult = deferred.promise;
+        }else{
+            objResult=false;
+        }
+        return objResult;
     }
 
     //for getting user data from pouchDB
@@ -1745,11 +1791,13 @@ app.factory('onlineStatus', ["$window", "$rootScope", function ($window, $rootSc
 
     $window.addEventListener("online", function () {
         onlineStatus.onLine = true;
+        $rootScope.IsInternetOnline = true;
         $rootScope.$digest();
     }, true);
 
     $window.addEventListener("offline", function () {
         onlineStatus.onLine = false;
+        $rootScope.IsInternetOnline = false;
         $rootScope.$digest();
     }, true);
 
@@ -2354,6 +2402,24 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
             return data;
         });
     };
+    /* for sync data */
+    //sync local PouchDb Data to server
+    o.SyncUserLocalPouchDbToServer = function (dataList, id) {
+        var serviceURL = "http://coffeecloud.centroclima.org/SyncUserLocalDataRoya/";
+        return $http.post(serviceURL + id + '/datalist', dataList, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    //sync Server data to pouchDb;
+    o.SyncUserServerDataToLocalPouchDb = function (lastSyncDateTime, id) {
+        return $http.post('http://coffeecloud.centroclima.org/SyncUserServerDataRoya/' + id + "/"+ lastSyncDateTime, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
     return o;
 }]);
 
@@ -2508,7 +2574,9 @@ return o;
 }]);
 
 //pre loader animation controller
-app.run(function ($rootScope, $window) {
+app.run(function ($rootScope, $window,PouchDB) {
+    $rootScope.conexionStatus="";
+    $rootScope.appConectada=false;
     $rootScope.cantUnidades = 0;
 
     $rootScope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
@@ -2544,15 +2612,16 @@ app.run(function ($rootScope, $window) {
 
 
     Offline.check();
-       if (Offline.state === "up"){
-            $rootScope.IsInternetOnline = true;
-            console.log("Conectado a internet");
+    if (Offline.state === "up"){
+        $rootScope.IsInternetOnline = true;
+        console.log("Conectado a internet");
 
-       }else{
-            $rootScope.IsInternetOnline = false;
-            console.log("No conectado a internet");
-       }
-
+    }else{
+        $rootScope.IsInternetOnline = false;
+        console.log("No conectado a internet");
+    }
+    
+    $rootScope.appConectada = $rootScope.IsInternetOnline;
 
     $window.addEventListener("offline", function () {
         $rootScope.$apply(function () {
@@ -2564,6 +2633,38 @@ app.run(function ($rootScope, $window) {
             $rootScope.IsInternetOnline = true;
         });
     }, false);
+
+    $rootScope.$watch('IsInternetOnline', function (online) {
+        console.log("cambió el valor");
+        if($rootScope.appConectada==false){
+            console.log("aplicación no estaba conectada");
+            if($rootScope.IsInternetOnline){
+                console.log("aplicacion ya está conectada");
+                $rootScope.appConectada=true;
+                $rootScope.conexionStatus="Sincronizando datos";
+                var promesa = PouchDB.SynServerDataAndLocalData();
+                if(promesa!=false){
+                    promesa.then(function () {
+                        $rootScope.conexionStatus="";
+                    }).catch(function (err) {
+                        $rootScope.conexionStatus="";
+                        console.log("Not able to sync" + err);
+                        //$scope.ResetNewUnit();
+                    });
+                }else{
+                    $rootScope.conexionStatus="";
+                }
+            }
+        }else{
+            console.log("aplicacion ya está conectada");
+            $rootScope.appConectada = $rootScope.IsInternetOnline;
+            if($rootScope.appConectada==true){
+                $rootScope.conexionStatus="";
+            }else{
+                $rootScope.conexionStatus="Sin conexión";
+            }
+        }
+    });
 
 });
 
