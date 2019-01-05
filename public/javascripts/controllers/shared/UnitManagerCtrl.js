@@ -135,7 +135,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                         }
                     }
                 }else{
-                    // En caso no hayan variedades nuevas
+                    //NO hay variedades en pouch
                     varieties.getAll().then(function (varids) {
                         variedades = varids.data;
                         $scope.variedades = variedades;

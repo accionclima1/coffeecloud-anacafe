@@ -33,7 +33,7 @@ app.controller('RoyaCtrl', [
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
 		$scope.unitIndex = $stateParams.indexunidad;
-        $scope.unabandola50=50;
+        $scope.unabandola50=2;
 		$scope.arrOffline = [];
 		$scope.nombreUnidad = "";
 		$scope.nombreLote = "";
@@ -259,13 +259,14 @@ app.controller('RoyaCtrl', [
     	user : $scope.currentId,
     	plantas: [],
     	unidad: {"user":auth.userId()},
-      idunidad:"",
-      loteIndex:0,
+      	idunidad:"",
+      	loteIndex:0,
     	incidencia: 0,
     	avgplnt : "",
     	avgplntDmgPct : 0,
     	incidencia : 0,
-			date: new Date()
+		date: new Date(),
+		createdAt: new Date()
     };
 
 		$scope.test.user = $scope.currentId;
@@ -856,40 +857,9 @@ $scope.getHelp = function(currentUser) {
 			    socket.emit('get msg',data_server);
 			});
 	}else {
-		PouchDB.GetRoyaFromPouchDB().then(function (result) {
-				console.log("entramos a PouchDB");
-				console.log(result);
-
-				if (result.status == 'fail') {
-						$scope.error = result.message;
-				}
-				else if (result.status == 'success') {
-                    var doc={"list":[]};
-						if (result.data.rows.length > 0) {
-				            doc = result.data.rows[0].doc;
-                        }
-                        var royaArrayPouchDB = [];
-                        for (var i = 0; i < doc.list.length; i++) {
-                                royaArrayPouchDB.push(doc.list[i]);
-                        }
-                        $scope.royaLocalesPouchDB = royaArrayPouchDB;
-
-                        console.log("Historial de Roya - PouchDB: ");
-                        console.log($scope.royaLocalesPouchDB);
-                        console.log($scope.test);
-                        $scope.royaLocalesPouchDB.push($scope.test);
-
-                        console.log("Historial de Roya - PouchDB Actualizado: ");
-                        console.log($scope.royaLocalesPouchDB);
-
-                        //Mandamos el nuevo arreglo a pouchDB
-                        PouchDB.SaveRoyaToPouchDB($scope.royaLocalesPouchDB);
-                        $scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
-				}
-		}).catch(function(err) {
-				console.log("error al obtener datos");
-				console.log(err);
-		});
+		//Mandamos el nuevo arreglo a pouchDB
+		PouchDB.SaveRoyaToPouchDB($scope.test);
+		$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
 	}
 }
 

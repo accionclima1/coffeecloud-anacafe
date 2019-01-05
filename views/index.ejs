@@ -214,6 +214,7 @@ var teclaRetrocederActivada=true;		//Si se asigna "false", se puede desactivar l
 	<%- include partials/navigation.ejs %>
 
 	<div class="pushbox" snap-content snap-opt-disable="'right'" id="snapbox">
+		<div style="background-color:#00ABFF;color:#fff;text-align:center;">{{ conexionStatus }}</div>
 		<div class="nav-switch" ng-controller="NavCtrl"><button ng-show="isLoggedIn()" class="switch glyphicon glyphicon-menu-hamburger" type="button" snap-toggle></button></div>
 		<ui-view></ui-view>
 	</div>

@@ -829,11 +829,14 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
     });
 
     if ($rootScope.IsInternetOnline) {
-        PouchDB.SynServerDataAndLocalData().then(function () {
-            console.log("sync successfully.");
-        }).catch(function (err) {
-            console.log("Not able to sync" + error);
-        });
+        var promesa = PouchDB.SynServerDataAndLocalData();
+        if(promesa!=false){
+            promesa.then(function () {
+                console.log("sync successfully.");
+            }).catch(function (err) {
+                console.log("Not able to sync" + error);
+            });
+        }
     }
 
 
