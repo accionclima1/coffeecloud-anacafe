@@ -794,7 +794,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
         $scope.units.push(args.unit);
         if ($rootScope.IsInternetOnline) {
             PouchDB.SynServerDataAndLocalData().then(function () {
-                console.log('Unidad agregada exitosamente!');
+                console.log('Finca agregada exitosamente!');
                 console.log("sync successfully.");
                 $scope.unitopmessage = "Finca agregada exitosamente!";
 
