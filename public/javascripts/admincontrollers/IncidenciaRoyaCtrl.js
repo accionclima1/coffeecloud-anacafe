@@ -327,13 +327,13 @@ Highcharts.chart('barsroyachart', {
 	},
 
 	xAxis: {
-	  categories: ['Alta Verapaz', 'Zacapa', 'Huehuetenango', 'Baja Verapáz', 'Sololá', 'San Marcos', 'Quetzaltenango', 'Escuintla', 'Petén', 'Retauhleu', 'Sacatepequez', 'Suchitepequez']
+	  categories: ['Santa Ana', 'San Salvador', 'San Miguel', 'San Francisco Gotera']
 	},
 
 	series: [{
 	  type: 'column',
 	  colorByPoint: true,
-	  data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+	  data: [29.9, 71.5, 106.4, 129.2],
 	  showInLegend: false
 	}]
 
