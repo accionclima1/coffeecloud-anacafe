@@ -1323,7 +1323,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
                          $scope.editUnit = result.data;
                          var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
                          if (collapseLote == "Nuevo") {
-                           $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
+                           $scope.SweetAlert("¡Excelente!", "Tablón Guardado", "success");
                          }else if (collapseLote == "Editado") {
                            $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
                          }

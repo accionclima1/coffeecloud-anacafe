@@ -775,7 +775,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                     if(index>=0){
                        var collapseLote = $scope.collapseLote(index, $scope.nuevoLote);
                        if (collapseLote == "Nuevo") {
-                         $scope.SweetAlert("¡Excelente!", "Lote Guardado", "success");
+                         $scope.SweetAlert("¡Excelente!", "Tablón Guardado", "success");
                        }else if (collapseLote == "Editado") {
                          $scope.SweetAlert("¡Excelente!", "Lote Actualizado", "success");
                        }
