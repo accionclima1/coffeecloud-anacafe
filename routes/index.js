@@ -87,7 +87,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage }).single('userPhoto');
 
 function encrypt(text) {
-    var cipher = crypto.createCipher(algorithm, password)
+    var cipher = crypto.createCipheriv(algorithm, password)
     var crypted = cipher.update(text, 'utf8', 'hex')
     crypted += cipher.final('hex');
     return crypted;
@@ -605,9 +605,10 @@ router.post('/login', function (req, res, next) {
 });
 router.post('/requestpasswordchange', function (req, res, next) {
     if (!req.body.Email) {
+      console.log(req.body.Email);
         return res.status(400).json({ message: 'Proporcione correo electrónico' });
     }
-
+  console.log(req.body.Email);
     var query = User.findOne({ "email": req.body.Email });
     query.exec(function (err, user) {
         if (err) { console.log("err in forgot pasword"); return next(err); }
