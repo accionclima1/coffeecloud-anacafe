@@ -796,7 +796,7 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
             PouchDB.SynServerDataAndLocalData().then(function () {
                 console.log('Unidad agregada exitosamente!');
                 console.log("sync successfully.");
-                $scope.unitopmessage = "Unidad agregada exitosamente!";
+                $scope.unitopmessage = "Finca agregada exitosamente!";
 
 
             }).catch(function (err) {

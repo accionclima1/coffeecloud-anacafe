@@ -929,7 +929,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                         $scope.$emit('UNITADDED', { unit: result.data });
 
                         $scope.ResetNewUnit();
-                        $scope.SweetAlert("¡Excelente!", "Unidad Añadida", "success");
+                        $scope.SweetAlert("¡Excelente!", "Finca Añadida", "success");
 
                     }
                 });
