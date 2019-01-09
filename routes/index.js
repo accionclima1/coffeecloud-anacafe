@@ -301,7 +301,6 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/Anacafe-logo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
 
 
                                     </td>
@@ -313,7 +312,7 @@ router.post('/register', function (req, res, next) {
         </table></td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#f24934;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                                        <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#009900;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
             <tbody class="m_7597259537403923093mcnImageBlockOuter">
                     <tr>
                         <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
@@ -322,7 +321,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:0px;padding-left:0px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0"><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
+                                               <!-- <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0">--><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
 
 
                                     </td>
@@ -340,7 +339,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/pages-logo-light.png" width="54" style="max-width:108px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnRetinaImage CToWUd">
+
 
 
                                     </td>
@@ -362,10 +361,10 @@ router.post('/register', function (req, res, next) {
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                     &nbsp;
-        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud!</h1>
+        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud Honduras!</h1>
         &nbsp;
 
-        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff !important;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
+        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
         <br>
         Usuario: ${user.username} <br/>
         Contraseña: ${req.body.password}<br/>
@@ -385,7 +384,7 @@ router.post('/register', function (req, res, next) {
                                     </tr>
         							<tr>
         								<td align="center" valign="top">
-        									<img src="https://ci5.googleusercontent.com/proxy/kZjvwZILbs2VMWSZHIKzE1L7u86W3yDLoyxUdTkdaN7vh2UEcdIUyfmlHDT2BMRkMaDM2nr1JvZNEITBHtXFdqrnd4NdevRw_Te3RW-9GUuvrGUlPv7MO69mevbim1HQCdDkwX_BCndcbitZso6fLuxVbRMO6_YIxN1ZQgg=s0-d-e1-ft#https://gallery.mailchimp.com/87ce8f25ff95a7f203c76c0ab/images/8a7030a1-3d71-45ca-aa5d-e244b31efdf5.png" width="100%" height="auto" style="display:block;margin:0;padding:0;border:0;height:auto;outline:none;text-decoration:none" class="CToWUd">
+
         								</td>
         							</tr>
                                     <tr>
@@ -514,10 +513,10 @@ router.post('/register', function (req, res, next) {
 
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                    <em>Copyright © Centro Clima - Coffee Cloud, Todos los derechos reservados.</em><br>
+
         <br>
         <strong>Nuestro correo electrónico es:</strong><br>
-        <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
+        <a href="mailto:coffeecloudhon@gmail.com" target="_blank">coffeecloudhon@gmail.com</a>
                                 </td>
                             </tr>
                         </tbody></table>
@@ -654,7 +653,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                         <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/Anacafe-logo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
+
 
 
                                         </td>
@@ -666,7 +665,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
             </table></td>
                                         </tr>
                                         <tr>
-                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#f24934;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#009900;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
                 <tbody class="m_7597259537403923093mcnImageBlockOuter">
                         <tr>
                             <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
@@ -675,7 +674,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                         <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:0px;padding-left:0px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0"><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
+                                                  <div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
 
 
                                         </td>
@@ -693,7 +692,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                         <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/pages-logo-light.png" width="54" style="max-width:108px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnRetinaImage CToWUd">
+
 
 
                                         </td>
@@ -866,10 +865,10 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
                                     <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                        <em>Copyright © Centro Clima - Coffee Cloud, Todos los derechos reservados.</em><br>
+
             <br>
             <strong>Nuestro correo electrónico es:</strong><br>
-            <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
+            <a href="mailto:coffeecloudhon@gmail.com" target="_blank">coffeecloudhon@gmail.com</a>
                                     </td>
                                 </tr>
                             </tbody></table>
