@@ -110,7 +110,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 
 
 			//WebService
-			//http://51.15.220.133:8090/users/59262aee75a18b8e63074100
+			//http://capucas.coffeecloudapp.com/users/59262aee75a18b8e63074100
 
 		});
 
@@ -162,7 +162,7 @@ app.factory('mainInfo', ['$http', function($http) {
 
 	obj.getData = function(){
 
-		return $http.get('http://51.15.220.133:8090/users/59262aee75a18b8e63074100').success(function(data) {
+		return $http.get('http://capucas.coffeecloudapp.com/users/59262aee75a18b8e63074100').success(function(data) {
 			return data;
 		});
 	}
@@ -254,7 +254,7 @@ app.factory('socket', ['socketFactory',
 	function (socketFactory) {
 		return socketFactory({
 			prefix: '',
-			ioSocket: io.connect('http://51.15.220.133:8090')
+			ioSocket: io.connect('http://capucas.coffeecloudapp.com')
 		});
 	}
 	]);
