@@ -35,7 +35,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
 
     $scope.loadPerspectiva = function(){
         //http://www.insivumeh.gob.gt/?cat=13
-        //http://capucas.coffeecloudapp.com/insivume.html
+        //http://51.15.220.133:8090/insivume.html
         $http.get('http://www.insivumeh.gob.gt/?cat=13').then(function(data){
             var html = data.data;
             var pos1 = html.indexOf('<article');
@@ -47,7 +47,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
 
     $scope.loadElninio = function(){
         //http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml
-        //http://capucas.coffeecloudapp.com/enso.html
+        //http://51.15.220.133:8090/enso.html
  $http.get('http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml').then(function(data){
             var html = data.data;
             var pos1 = html.indexOf('<a name="contents"></a>');
@@ -67,7 +67,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
             $scope.error = "Imposible descargar información climática";
         });
         //
-        //http://capucas.coffeecloudapp.com/enso2.html
+        //http://51.15.220.133:8090/enso2.html
 $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/?enso_tab=enso-cpc_plume').then(function(data){
             var html = data.data;
             var pos1 = html.indexOf("IRI ENSO Forecast");
