@@ -645,6 +645,18 @@ app.config([
 				}
 			}]
 		})
+		//ruta clima admin
+		.state('climatest', {
+			url: '/climatest',
+			templateUrl: '/climaadmin.html',
+			controller: 'ClimaCtrl',
+			//controller: 'ClimaadminCtrl',
+			/*resolve: {
+			  postPromise: ['posts', function(posts){
+				return posts.getAll();
+			  }]
+			 }*/
+		})
 		.state('varieties', {
 			url: '/varieties',
 			templateUrl: '/varieties.html',

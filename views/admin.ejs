@@ -89,12 +89,6 @@
 <script src="javascripts/echart.min.js"></script>
 <script src="javascripts/ecStat.min.js"></script>
 
-
-
-
-
-
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesnt work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -266,6 +260,11 @@
                                 <a href="/admin#/adaptacionGallo"><i class="fa fa-fw fa-shield"></i> Adaptación Climática(Ojo de Gallo) </a>
                             </li>
 
+                            <!-- Nuevo objeto de lista  -->
+                            <li ng-class="{ active: isActive('/climatest') }">
+                                <a href="/admin#/climatest"><i class="fa fa-fw fa-file-image-o"></i> Reportes de Clima  </a>
+                            </li>
+
                         </ul>
                     </li>
                     <li ng-class="{ active: isActive('/technical-recommendation') }">
@@ -390,7 +389,9 @@
 
     <%- include adminpages/reportesdecampo.ejs %>
 
-	<%- include adminpages/varieties.ejs %>
+    <%- include adminpages/varieties.ejs %>
+    
+    <%- include adminpages/climaadmin.ejs %>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
