@@ -39,7 +39,8 @@
           </div>
         </div>
         <div class="panel-body">
-          <h6 ng-hide="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" style="color:#666666">¡No hay cálculos todavía!</h6>
+					<h6 ng-show="cargandoData" style="color:#666666">Cargando data</h6>
+          <h6 ng-hide="cargandoData || royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" style="color:#666666">¡No hay cálculos todavía!</h6>
           <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
           <div ng-show="royaHistoryByLote.length != 0 || royaHistoryByLoteOffline.length != 0" id="dataUnitRoya" class="ct-chart ct-chart-line" style="width: 100%; height: 250px;">
             <h4 class="modal-title" id="myModalLabel">Gráfica de Historal</h4><hr style="margin-top:15px!important;margin-bottom: 0px!important;">
