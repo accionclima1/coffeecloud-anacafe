@@ -645,17 +645,20 @@ app.config([
 				}
 			}]
 		})
-		//ruta clima admin
 		.state('climatest', {
 			url: '/climatest',
 			templateUrl: '/climaadmin.html',
-			controller: 'ClimaCtrl',
-			//controller: 'ClimaadminCtrl',
-			/*resolve: {
-			  postPromise: ['posts', function(posts){
-				return posts.getAll();
-			  }]
-			 }*/
+			controller: 'ClimaadminCtrl',
+			onEnter: ['$state', 'auth', function ($state, auth) {
+				var curUserRole = auth.currentUserRole();
+
+				if (!auth.isLoggedIn()) {
+					$state.go('login');
+				}
+				else if (curUserRole != 'admin' && curUserRole != 'Admin' && curUserRole != 'Extensionista' && curUserRole != 'Tecnico') {
+					window.location.href = '/';
+				}
+			}]
 		})
 		.state('varieties', {
 			url: '/varieties',
