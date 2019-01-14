@@ -1,17 +1,24 @@
-app.controller('ClimaadminCtrl', ['$http', '$scope', '$stateParams','auth', 'unit', 'varieties', 'user', '$rootScope','localStorageService', 'onlineStatus','$state',
-function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, localStorageService, onlineStatus,$state) {
+
+app.controller('ClimaadminCtrl', [
+	'$scope',
+	'auth',
+	'$location',
+	'roya',
+    '$window',
+    'user', 'Excel', '$timeout','royaunits','$rootScope','$state','$http',
+	function ($scope, auth, $location, roya, $window, user, Excel, $rootScope, $timeout,royaunits, $state,$http) {
     const urlClima ="https://us-central1-cdcf-898d2.cloudfunctions.net/wxData";
 
-    $('.switch').css("color", "#FFF");
     $scope.posicion = {};
     $scope.statusCargando = "Cargando ubicación GPS";
-    $scope.loadData = function(lat,lng){
-    $scope.statusCargando = "Cargando datos de clima";
-    $scope.actual = null;
-    $scope.pronosticodiario = null;
-    $scope.pronosticohorario = null;
-    $scope.error=null;
+    $state.current.name ='clima';
 
+    $scope.loadData = function(lat,lng){
+        $scope.statusCargando = "Cargando datos de clima";
+        $scope.actual = null;
+        $scope.pronosticodiario = null;
+        $scope.pronosticohorario = null;
+        $scope.error=null;
         if($rootScope.clima!=undefined){
             console.log("clima");
             console.log($rootScope.clima);
@@ -35,7 +42,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
 
     $scope.loadPerspectiva = function(){
         //http://www.insivumeh.gob.gt/?cat=13
-        //http://localhost:8090/insivume.html
+        //http://51.15.220.133:8090/insivume.html
         $http.get('http://www.insivumeh.gob.gt/?cat=13').then(function(data){
             var html = data.data;
             var pos1 = html.indexOf('<article');
@@ -47,7 +54,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
 
     $scope.loadElninio = function(){
         //http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml
-        //http://localhost:8090/enso.html
+        //http://51.15.220.133:8090/enso.html
  $http.get('http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml').then(function(data){
             var html = data.data;
             var pos1 = html.indexOf('<a name="contents"></a>');
@@ -67,7 +74,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
             $scope.error = "Imposible descargar información climática";
         });
         //
-        //http://localhost:8090/enso2.html
+        //http://51.15.220.133:8090/enso2.html
 $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/?enso_tab=enso-cpc_plume').then(function(data){
             var html = data.data;
             var pos1 = html.indexOf("IRI ENSO Forecast");
@@ -111,4 +118,5 @@ $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current
         $scope.loadElninio();
     }
 
-}]);
+
+	}]);
