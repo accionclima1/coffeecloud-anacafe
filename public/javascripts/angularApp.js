@@ -1647,13 +1647,13 @@ app.factory('onlineStatus', ["$window", "$rootScope", function ($window, $rootSc
 
     onlineStatus.onLine = $window.navigator.onLine;
 //onlineStatus.onLine = false;
-    
+
     Offline.on('confirmed-up',function(){
             onlineStatus.onLine = true;
             $rootScope.IsInternetOnline = true;
             console.log("Conectado a internet, confirmación by event");
     });
-    
+
     Offline.on('confirmed-down',function(){
             onlineStatus.onLine = false;
             $rootScope.IsInternetOnline = false;
@@ -2652,6 +2652,16 @@ function ($stateProvider, $urlRouterProvider) {
       .state('pronostico', {
           url: '/pronostico',
           templateUrl: '/pronostico.html',
+          controller: 'ClimaCtrl'
+          /*resolve: {
+            postPromise: ['posts', function(posts){
+              return posts.getAll();
+            }]
+           }*/
+      })
+      .state('pronmarn', {
+          url: '/pronmarn',
+          templateUrl: '/pronmarn.html',
           controller: 'ClimaCtrl'
           /*resolve: {
             postPromise: ['posts', function(posts){
