@@ -32,7 +32,7 @@ app.controller('CicohCtrl', ['$http','$scope','$stateParams','auth','$rootScope'
 //Funcion formateo de info
 
 function formatData(data){
-    console.log("Ordenado");
+    //console.log("Ordenado");
     var station_name;
     var latitude;
     var longitude;
@@ -53,7 +53,7 @@ function formatData(data){
                 orderData.push({element_id: element_id})
                 alert('iguales');
             }
-           
+
         }else{
             orderData.push({id: station_id, element_id: element_id , element_name: element_name})
         }
@@ -74,9 +74,11 @@ function formatData(data){
         station.vars.push(var1);
 
         $scope.stations.push(station);
-         
+
      } else {
+			 var count=0;
         for(var i=0;i<$scope.stations.length;i++) {
+					count++;
           var value2=$scope.stations[i];
             //Si la estacion a existe, agregamos la nueva variable
             console.log(value1.station_id+' == '+value2.station_id);
@@ -86,13 +88,16 @@ function formatData(data){
                 var1.name=value1.element_name;
                 var1.symbol=value1.symbol;
                 var1.value=value1.valor;
-    
+
                 value2.vars.push(var1);
                 console.log('si estamos');
-                
-    
+								break;
+
+
             //Si la estacion no existe, la creamos y agregamos la nueva variable
-            } else {
+            }
+
+						if(count==$scope.stations.length) {
               var station={};
               station.station_id=value1.station_id;
               station.station_name=value1.station_name;
@@ -101,25 +106,25 @@ function formatData(data){
               var1.name=value1.element_name;
               var1.symbol=value1.symbol;
               var1.value=value1.valor;
-      
+
               station.vars.push(var1);
-      
+
               $scope.stations.push(station);
               break;
-              
-    
-                
+
+
+
             }
 
-            
-             
+
+
          };
-         
+
      }
 
 
 
-    
+
 })
 console.log("Ordenado");
     console.log($scope.stations);
