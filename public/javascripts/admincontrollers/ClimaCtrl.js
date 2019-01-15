@@ -1,19 +1,10 @@
-
-app.controller('ClimaadminCtrl', [
-	'$scope',
-	'auth',
-	'$location',
-	'roya',
-    '$window',
-    'user', 'Excel', '$timeout','royaunits','$rootScope','$state','$http',
-	function ($scope, auth, $location, roya, $window, user, Excel, $rootScope, $timeout,royaunits, $state,$http) {
+app.controller('ClimaCtrl', ['$http', '$scope', '$stateParams','auth', 'unit', 'varieties', 'user', '$rootScope','localStorageService', 'onlineStatus','$state',
+function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, localStorageService, onlineStatus,$state) {
     const urlClima ="https://us-central1-cdcf-898d2.cloudfunctions.net/wxData";
 
     $scope.posicion = {};
     $scope.statusCargando = "Cargando ubicación GPS";
-    $state.current.name ='clima';
-
-    $scope.loadData = function(lat,lng){
+    $scope.loadData = function(lat,lng){  
         $scope.statusCargando = "Cargando datos de clima";
         $scope.actual = null;
         $scope.pronosticodiario = null;
@@ -39,7 +30,7 @@ app.controller('ClimaadminCtrl', [
             $scope.error = "Imposible descargar información climática";
         });
     }
-
+    
     $scope.loadPerspectiva = function(){
         //http://www.insivumeh.gob.gt/?cat=13
         //http://51.15.220.133:8090/insivume.html
@@ -51,7 +42,7 @@ app.controller('ClimaadminCtrl', [
             $scope.htmlPerspectiva = article;
         });
     }
-
+    
     $scope.loadElninio = function(){
         //http://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc_Sp.shtml
         //http://51.15.220.133:8090/enso.html
@@ -85,11 +76,11 @@ $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current
             console.log("article:"+article);
             $scope.imgElninio = article;
         },function error(){
-          $scope.error = "Imposible descargar información climática";
+          $scope.error = "Imposible descargar información climática";  
         });
-
+        
     }
-
+    
     $scope.posDefault=false;
     $scope.online = $rootScope.IsInternetOnline;
 
@@ -118,5 +109,4 @@ $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current
         $scope.loadElninio();
     }
 
-
-	}]);
+}]);
