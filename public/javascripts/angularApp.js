@@ -2757,7 +2757,23 @@ function ($stateProvider, $urlRouterProvider) {
 
 
           }]
-      }).state('news', {
+      })
+      //CICOH
+      .state('cicoh', {
+        url: '/cicoh',
+        templateUrl: '/cicoh.html',
+        controller: 'CicohCtrl',
+        // onEnter: ['$state', 'auth', function ($state, auth) {
+        //     var curUserRole = auth.currentUserRole();
+        //     if (!auth.isLoggedIn()) {
+        //         $state.go('login');
+        //     }
+        //     // else if (curUserRole != 'admin' && curUserRole != 'Admin' && curUserRole != 'Extensionista') {
+        //     //     window.location.href = '/';
+        //     // }
+        // }]
+
+    }).state('news', {
           url: '/news',
           templateUrl: '/news.html',
           controller: 'NewsCtrl',
