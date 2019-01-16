@@ -111,13 +111,7 @@ function formatData(data){
 
               $scope.stations.push(station);
               break;
-
-
-
             }
-
-
-
          };
 
      }
