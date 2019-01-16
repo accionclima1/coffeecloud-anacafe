@@ -3,6 +3,7 @@ app.controller('CicohCtrl', ['$http','$scope','$stateParams','auth','$rootScope'
 	function ($http, $scope, $stateParams, auth, $rootScope, $location,encuestaunit, $timeout) {
         const urlClima ="http://138.68.55.125:8080/api/v2/cicoh/_table/v_api_lasthour?include_count=true&api_key=74866bf219af9c58496bab86a3360fe071fd6cecd866d3f0721550dfdc69fbe5";
         var mymap=null;
+
         //$scope.data=data;
         // $scope.encuestas=[];
         // $scope.amountTests=0;
@@ -12,6 +13,7 @@ app.controller('CicohCtrl', ['$http','$scope','$stateParams','auth','$rootScope'
         $scope.markers=[];
         $scope.ArrayCircles=[];
         $scope.numUnidades=0;
+				$scope.layerMarkers={};
 
         $http({method:'get',url:urlClima}).then(function exitoso(data){
             //$scope.statusCargando='';
@@ -70,6 +72,8 @@ function formatData(data){
         var1.name=value1.element_name;
         var1.symbol=value1.symbol;
         var1.value=value1.valor;
+				station.latitude=value1.latitude;
+				station.longitude=value1.longitude;
 
         station.vars.push(var1);
 
@@ -108,6 +112,8 @@ function formatData(data){
               var1.value=value1.valor;
 
               station.vars.push(var1);
+							station.latitude=value1.latitude;
+							station.longitude=value1.longitude;
 
               $scope.stations.push(station);
               break;
