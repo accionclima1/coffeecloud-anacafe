@@ -22,6 +22,7 @@ app.controller('CicohCtrl', ['$http','$scope','$stateParams','auth','$rootScope'
              console.log(info);
             console.log('ESTA ES LA DATA..........');
             formatData(info);
+						$scope.addMarkersToMap($scope.markers);
             //$rootScope.clima = info;
             // $scope.actual = info['current_observation'];
             // $scope.almanac = info['almanac'];
@@ -161,6 +162,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 $scope.crearMapa();
 
+$scope.addMarkersToMap
+
 
 $scope.addMarkersToMap=function (stations){
 
@@ -185,7 +188,7 @@ if (element.myunit.length!=0) {
   element.station_name=element.myunit[0].nombre;
   element.latitude=element.myunit[0].latitude;
   element.longitude=element.myunit[0].longitude;
-  
+
   //element.departamento=element.myunit[0].departamento;
 
 
