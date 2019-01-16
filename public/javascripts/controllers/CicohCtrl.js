@@ -85,7 +85,7 @@ function formatData(data){
 					count++;
           var value2=$scope.stations[i];
             //Si la estacion a existe, agregamos la nueva variable
-            console.log(value1.station_id+' == '+value2.station_id);
+            // console.log(value1.station_id+' == '+value2.station_id);
             console.log();
             if (value1.station_id==value2.station_id) {
                 var var1={};
@@ -94,7 +94,7 @@ function formatData(data){
                 var1.value=value1.valor;
 
                 value2.vars.push(var1);
-                console.log('si estamos');
+                // console.log('si estamos');
 								break;
 
 
@@ -138,7 +138,7 @@ console.log("Ordenado");
 
 
 $scope.crearMapa = function(){
-
+console.log('SE CREO EL MAPA');
 if(mymap==null){
   mymap = L.map('cicohmap').setView([14.978279, -87.057559], 7);
 }else{
@@ -162,9 +162,9 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 $scope.crearMapa();
 
 
-$scope.addMarkersToMap=function (tests){
+$scope.addMarkersToMap=function (stations){
 
-
+console.log('DENTRO DEL MAPA');
   if (typeof $scope.layerMarkers!='undefined') {
   	mymap.removeLayer($scope.layerMarkers);
 
@@ -174,7 +174,7 @@ $scope.addMarkersToMap=function (tests){
 
 
 
-  tests.forEach(element => {
+  stations.forEach(element => {
 
     var marker={};
 
@@ -182,10 +182,11 @@ $scope.addMarkersToMap=function (tests){
 
 if (element.myunit.length!=0) {
 
-  element.nombreUnidad=element.myunit[0].nombre;
-  element.municipio=element.myunit[0].municipio;
-
-  element.departamento=element.myunit[0].departamento;
+  element.station_name=element.myunit[0].nombre;
+  element.latitude=element.myunit[0].latitude;
+  element.longitude=element.myunit[0].longitude;
+  
+  //element.departamento=element.myunit[0].departamento;
 
 
   if (typeof element.myunit[0].ubicacion!='undefined') {
@@ -196,10 +197,10 @@ if (element.myunit.length!=0) {
   }
 
   //Obtentremos el valor de la evaluaciónote
-  if (element.resumenVulne.length!=0) {
-    element.incidencia=element.resumenVulne[0].valor;
+  // if (element.resumenVulne.length!=0) {
+  //   element.incidencia=element.resumenVulne[0].valor;
 
-  }
+  // }
 
 
 
@@ -208,41 +209,41 @@ if (element.myunit.length!=0) {
   if(element.ubicacion && typeof element.incidencia!='undefined'){
     element.ubicacion =element.ubicacion.replace("(","");
     element.ubicacion = element.ubicacion.replace(")","");
-    var arrDatos = element.ubicacion.split(",");
-    if(arrDatos.length==2){
-        element.latitud=arrDatos[0];
-        element.longitud=arrDatos[1];
+    // var arrDatos = element.ubicacion.split(",");
+    // if(arrDatos.length==2){
+    //     element.latitude=arrDatos[0];
+    //     element.longitude=arrDatos[1];
 
         //Si se ha llegado hasta aquí se agregará el marcador al crearMapa
-        element.colorMarker='';
-        if (element.incidencia<=-10) {
-          element.colorMarker="red";
+        // element.colorMarker='';
+        // if (element.incidencia<=-10) {
+        //   element.colorMarker="red";
 
-        }else if(element.incidencia<=-7){
-          element.colorMarker="orange";
+        // }else if(element.incidencia<=-7){
+        //   element.colorMarker="orange";
 
-        }
-        else if(element.incidencia<=-2){
-          element.colorMarker="yellow";
+        // }
+        // else if(element.incidencia<=-2){
+        //   element.colorMarker="yellow";
 
-        }else if(element.incidencia<=0){
-          element.colorMarker="blue";
+        // }else if(element.incidencia<=0){
+        //   element.colorMarker="blue";
 
-        }else if(element.incidencia<=2){
-          element.colorMarker="green";
+        // }else if(element.incidencia<=2){
+        //   element.colorMarker="green";
 
-        }
-        else if(element.incidencia<=7){
-          element.colorMarker="green";
+        // }
+        // else if(element.incidencia<=7){
+        //   element.colorMarker="green";
 
-        }
+        // }
 
-        else{
+        // else{
 
-          element.colorMarker="green";
-        }
+        //   element.colorMarker="green";
+        // }
 
-        if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
+        if ((element.latitude>=0||element.latitude>=0)&&(element.longitude>=0||element.longitude<=0)) {
 
         //   console.log("Marcador");
         //   console.log(element);
@@ -252,11 +253,11 @@ if (element.myunit.length!=0) {
           fillColor: element.colorMarker,
           fillOpacity: 0.5,
           radius: 500
-      }).bindPopup("<strong>Depto: </strong>"+element.departamento+"<br> <Strong>Municipio: </strong>"+element.municipio+"<br><strong>Unidad: </strong>"+element.nombreUnidad+"<br><strong>Evaluación: </strong>"+element.incidencia.toFixed(3)));
+      }).bindPopup("<strong>Depto: </strong>"+element.station_name+"<br> <Strong>Municipio: </strong>"+element.latitude+"<br><strong>Unidad: </strong>"+element.longitude+"<br><strong>Evaluación: </strong>"+element.incidencia.toFixed(3)));
         }
 
 
-    }
+   // }
 }
 
 

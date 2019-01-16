@@ -421,8 +421,7 @@ $scope.crearMapa();
 
 
 $scope.addMarkersToMap=function (tests){
-
-
+ 
   if (typeof $scope.layerMarkers!='undefined') {
   	mymap.removeLayer($scope.layerMarkers);
 
