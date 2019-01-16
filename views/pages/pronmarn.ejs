@@ -1,0 +1,121 @@
+<script type="text/ng-template" id="/pronmarn.html">
+  <style>
+    h4 {
+      font-weight:normal;
+      color:#000;
+    }
+
+    .panel-body.climawidget.map{
+
+
+
+    position: relative;
+     overflow: hidden;
+     height:300px;
+    }
+
+    .crop-mapWeather {
+
+      position:absolute;
+      left:-200px;
+      width:1.5 rem;
+
+
+  //  top: -100%;
+  //  bottom: -100%;
+  //  margin: auto;
+  //  min-height: 100%;
+  //  min-width: 100%;
+}
+
+.rainMap{
+  width:100%;
+}
+    </style>
+<div class="home-wrap profile-wrap">
+    <div class="container">
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-xs-12">
+           <div class="page-header">
+             <h2>Pronóstico MARN</span></h2>
+           </div>
+         </div>
+       </div>
+        <div class="row">
+          <!-- Mapa imagenes satelitales -->
+            <div class="panel panel-default">
+              <div class="panel-heading">Imágenes Satelitales RAMSDIS</div>
+              <div class="panel-body climawidget map" align="center">
+                <a href="http://www.snet.gob.sv/meteorologia/ramsdis/ramsdisseq.php?type=12KMIR&tumb=1"><img class='crop-mapWeather'   align="left"  src="http://www.snet.gob.sv/meteorologia/ramsdis/ramsdisseq.php?type=12KMIR&amp;tumb=1" alt="Última Imagen Visible 1KM de resolución"></a>
+                <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+              </div>
+            </div>
+
+            <!-- Mapa imagenes vientoa -->
+              <div class="panel panel-default">
+                <div class="panel-heading">Dirección del Viento</div>
+                <div class="panel-body climawidget" align="center">
+                  <a href="http://www.snet.gob.sv/UserFiles/hidrologia"><iframe width="100%" height="400" frameborder="0" src="http://www.snet.gob.sv/googlemaps/vientos/Vientos.php" scrolling="yes" hspace="0" vspace="0" marginheight="0" marginwidth="0"></iframe></a>
+                  <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+
+                </div>
+              </div>
+
+              <!-- Mapa imagenes Temperatura -->
+                <div class="panel panel-default">
+                  <div class="panel-heading">Temperatura Máxima y Mínima</div>
+                  <div class="panel-body climawidget" align="center">
+                    <a href="http://www.snet.gob.sv/UserFiles/hidrologia"><iframe width="100%" height="400" frameborder="0" src="http://www.snet.gob.sv/googlemaps/temperaturas/temp_extremas.php" scrolling="yes" hspace="0" vspace="0" marginheight="0" marginwidth="0"></iframe></a>
+                    <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+
+                  </div>
+                </div>
+
+                <!-- Mapa imagenes Temperatura tiempo real -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Temperatura tiempo real</div>
+                    <div class="panel-body climawidget" align="center">
+                      <a href="http://www.snet.gob.sv/UserFiles/hidrologia"><iframe width="100%" height="400" frameborder="0" src="http://www.snet.gob.sv/googlemaps/Wind/wind3.php" scrolling="yes" hspace="0" vspace="0" marginheight="0" marginwidth="0"></iframe></a>
+                      <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+
+                    </div>
+                  </div>
+
+
+            <!-- Mapa imagenes lluvia -->
+              <div class="panel panel-default">
+                <div class="panel-heading">Imagen lluvia registrada 24 horas</div>
+                <div class="panel-body climawidget" align="center">
+                  <a href="http://www.snet.gob.sv/UserFiles/hidrologia"><img class='rainMap'   align="left"  src="http://www.snet.gob.sv/UserFiles/hidrologia/InternalLLuvia.jpg" alt="Última Imagen Visible 1KM de resolución"></a>
+                  <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+                </div>
+              </div>
+
+              <!-- Mapa imagenes lluvia -->
+                <div class="panel panel-default">
+                  <div class="panel-heading">Imagen lluvia registrada 10 horas</div>
+                  <div class="panel-body climawidget" align="center">
+                    <a href="http://www.snet.gob.sv/UserFiles/hidrologia"><img class='rainMap'   align="left"  src="http://www.snet.gob.sv/UserFiles/hidrologia/InternalLLuvia12h.jpg" alt="Última Imagen Visible 1KM de resolución"></a>
+                    <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+                  </div>
+                </div>
+
+                <!-- Mapa imagenes lluvia -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Imagen lluvia acumulada</div>
+                    <div class="panel-body climawidget" align="center">
+                      <a href="http://www.snet.gob.sv/UserFiles/hidrologia"><img class='rainMap'   align="left"  src="http://www.snet.gob.sv/UserFiles/hidrologia/acumulada.jpg" alt="Última Imagen Visible 1KM de resolución"></a>
+                      <span class="bg-warning" ng-show="!online">Necesita estar conectado a Internet</span>
+                      <p style='color:#000000;'>Todos los recursos fueron consumidos de la página oficial del Ministerio de Medio Ambiente y Recursos Narutales MARN: <a style='color:blue;' href="http://www.marn.gob.sv/">http://www.marn.gob.sv/</a></p>
+                    </div>
+                  </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+</script>
