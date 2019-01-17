@@ -449,6 +449,7 @@ $scope.getData=function () {
 					$scope.regressionValues.push($scope.regressionValue);
 					console.log("Los valores para el gráfico de regresión son: ");
 					console.log($scope.regressionValues);
+					$scope.graphCorrelationChart($scope.incidencesVsDate);
 
 
 
@@ -582,30 +583,98 @@ if (typeof $scope.layerMarkers!='undefined') {
 		};
 
 
-		// based on prepared DOM, initialize echarts instance
-		var myChart = echarts.init(document.getElementById('main'));
 
-		// specify chart configuration item and data
-		var option = {
-				title: {
-						text: 'ECharts entry example'
+
+
+	$scope.graphCorrelationChart=function(data){
+		// See https://github.com/ecomfe/echarts-stat
+		var myChart = echarts.init(document.getElementById('main'));
+		var myRegression = ecStat.regression('polynomial', data, 5);
+
+		myRegression.points.sort(function(a, b) {
+				return a[0] - b[0];
+		});
+
+		option = {
+
+				tooltip: {
+						trigger: 'axis',
+						axisPointer: {
+								type: 'cross'
+						}
 				},
-				tooltip: {},
-				legend: {
-						data:['Sales']
+				title: {
+						text: '18 companies net profit and main business income (million)',
+						subtext: 'By ecStat.regression',
+						sublink: 'https://github.com/ecomfe/echarts-stat',
+						left: 'center',
+						top: 16
 				},
 				xAxis: {
-						data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
+						type: 'time',
+						splitLine: {
+								lineStyle: {
+										type: 'dashed'
+								}
+						},
+						splitNumber: 20
 				},
-				yAxis: {},
+				yAxis: {
+						type: 'value'
+				},
+				grid: {
+						top: 90
+				},
 				series: [{
-						name: 'Sales',
-						type: 'bar',
-						data: [5, 20, 36, 10, 10, 20]
+						name: 'scatter',
+						type: 'scatter',
+						label: {
+								emphasis: {
+										show: true,
+										position: 'right',
+										textStyle: {
+												color: 'blue',
+												fontSize: 16
+										}
+								}
+						},
+						data: data
+				}, {
+						name: 'line',
+						type: 'line',
+						smooth: true,
+						showSymbol: false,
+						data: myRegression.points,
+						markPoint: {
+								itemStyle: {
+										normal: {
+												color: 'transparent'
+										}
+								},
+								label: {
+										normal: {
+												show: true,
+												position: 'left',
+												formatter: myRegression.expression,
+												textStyle: {
+														color: '#333',
+														fontSize: 14
+												}
+										}
+								},
+								data: [{
+										coord: myRegression.points[myRegression.points.length - 1]
+								}]
+						}
 				}]
 		};
 
 		// use configuration item and data specified to show chart
 		myChart.setOption(option);
+
+	};
+
+
+
 
 	}]);
