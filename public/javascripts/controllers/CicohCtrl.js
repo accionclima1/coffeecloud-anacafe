@@ -168,12 +168,12 @@ $scope.addMarkersToMap
 $scope.addMarkersToMap=function (stations){
 console.log('DENTRO DEL MAPA');
 stations = $scope.stations;
-variables = $scope.stations.vars; 
+variables = $scope.stations.vars;
 //console.log(stations.vars[0]);
 console.log(stations);
   if (typeof $scope.layerMarkers!='undefined') {
     mymap.removeLayer($scope.layerMarkers);
-    
+
   	//$scope.layerMarkers.remove();
   	 $scope.ArrayCircles=[];
   }
@@ -255,15 +255,21 @@ if (element.length!=0) {
 
           // console.log("Marcador");
           // console.log(element.latitude);
+
+					var tooltip="<div style='text-align:center;'><strong>Nombre: </strong>"+element.station_name+"<br><br>";
+
+					for (var i = 0; i < element.vars.length; i++) {
+					tooltip=tooltip+"<strong>"+element.vars[i].name+": </strong>"+element.vars[i].value+element.vars[i].symbol+"<br>";
+					}
+					tooltip+="</div>";
+
          element.colorMarker="green";
          $scope.ArrayCircles.push(L.circle([element.latitude,element.longitude],{
           color: element.colorMarker,
           fillColor: element.colorMarker,
           fillOpacity: 0.5,
           radius: 500
-      }).bindPopup("<strong>Nombre: </strong>"+element.station_name+"<br> <Strong>Latitude: </strong>"+element.latitude+"<br><strong>Longitude: </strong>"+element.longitude+
-                  "<br><strong>"+element.vars[0].name+": </strong>"+element.vars[0].value+element.vars[0].symbol+
-                  "<br><strong>"+element.vars[0].name+": </strong>"+element.vars[0].value+element.vars[0].symbol));
+      }).bindPopup(tooltip));
         }
 
 
