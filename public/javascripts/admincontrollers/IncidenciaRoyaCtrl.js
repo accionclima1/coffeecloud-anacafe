@@ -145,6 +145,7 @@ app.controller('IncidenciaRoyaCtrl', [
 		//console.log($scope.markers);
 		$scope.addMarkers($scope.markers);
 		$scope.graphicRoyaVsTime($scope.incidencesVsDate);
+		$scope.graphCorrelationChart($scope.incidencesVsDate);
 		$scope.loadGrid1($scope.allRoya);
 		$("#cntRoya").data("loadingIndicator").hide();
 	});
@@ -321,7 +322,7 @@ $scope.loadGrid1=function (data) {
 Highcharts.chart('barsroyachart', {
 
 	title: {
-	  text: 'Roya por Departamentos'
+	  text: 'Plaga por Departamentos'
 	},
 
 	subtitle: {
@@ -446,9 +447,8 @@ $scope.getData=function () {
 					$scope.allRoya.push(element);
 
 					$scope.incidencesVsDate.push(incidenceVsDate);
-					$scope.regressionValues.push($scope.regressionValue);
-					console.log("Los valores para el gráfico de regresión son: ");
-					console.log($scope.regressionValues);
+				//	$scope.regressionValues.push($scope.regressionValue);
+
 					$scope.graphCorrelationChart($scope.incidencesVsDate);
 
 
@@ -463,6 +463,7 @@ $scope.getData=function () {
 			//console.log($scope.markers);
 			$scope.addMarkers($scope.markers);
 			$scope.graphicRoyaVsTime($scope.incidencesVsDate);
+			$scope.graphCorrelationChart($scope.incidencesVsDate);
 			$scope.loadGrid1($scope.allRoya);
 
 			//Cargar KPIs a interfaz gráfica
@@ -604,7 +605,7 @@ if (typeof $scope.layerMarkers!='undefined') {
 						}
 				},
 				title: {
-						text: '18 companies net profit and main business income (million)',
+						text: 'Tendencia de la plaga',
 						subtext: 'By ecStat.regression',
 						sublink: 'https://github.com/ecomfe/echarts-stat',
 						left: 'center',
