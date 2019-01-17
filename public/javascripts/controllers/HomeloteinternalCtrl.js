@@ -87,27 +87,27 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
              var currentMonth = date.getMonth();
             if(currentMonth < 6 ){
                var methodsAvail = {};
-               methodsAvail.grade1 = meth.caseInidence10.abrilJunio;
-               methodsAvail.grade2 = meth.caseInidence1120.abrilJunio;
-               methodsAvail.grade3 = meth.caseInidence2150.abrilJunio;
-               methodsAvail.grade4 = meth.caseInidence50.abrilJunio;
+               methodsAvail.grade1 = "";
+               methodsAvail.grade2 = "";
+               methodsAvail.grade3 = "";
+               methodsAvail.grade4 = "";
                $scope.methodsMonthGallo = methodsAvail;
                console.log($scope.methodsMonth);
 
             } else if(currentMonth > 5 && currentMonth < 9) {
                var methodsAvail = {};
-               methodsAvail.grade1 = meth.caseInidence10.julioSetiembre;
-               methodsAvail.grade2 = meth.caseInidence1120.julioSetiembre;
-               methodsAvail.grade3 = meth.caseInidence2150.julioSetiembre;
-               methodsAvail.grade4 = meth.caseInidence50.julioSetiembre;
+               methodsAvail.grade1 = "";
+               methodsAvail.grade2 = "";
+               methodsAvail.grade3 = "";
+               methodsAvail.grade4 = "";
                $scope.methodsMonthGallo = methodsAvail;
                console.log($scope.methodsMonth);
             } else if(currentMonth > 8) {
                var methodsAvail = {};
-               methodsAvail.grade1 = meth.caseInidence10.octubreDiciembre;
-               methodsAvail.grade2 = meth.caseInidence1120.octubreDiciembre;
-               methodsAvail.grade3 = meth.caseInidence2150.octubreDiciembre;
-               methodsAvail.grade4 = meth.caseInidence50.octubreDiciembre;
+               methodsAvail.grade1 = "";
+               methodsAvail.grade2 = "";
+               methodsAvail.grade3 = "";
+               methodsAvail.grade4 = "";
                $scope.methodsMonthGallo = methodsAvail;
                console.log($scope.methodsMonthGallo);
             }
