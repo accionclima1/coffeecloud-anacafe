@@ -2659,6 +2659,16 @@ function ($stateProvider, $urlRouterProvider) {
             }]
            }*/
       })
+      .state('copeco', {
+          url: '/copeco',
+          templateUrl: '/copeco.html',
+          controller: 'ClimaCtrl'
+          /*resolve: {
+            postPromise: ['posts', function(posts){
+              return posts.getAll();
+            }]
+           }*/
+      })
       .state('vulnerability', {
           url: '/vulnerability/:idunidad/:indexunidad',
           templateUrl: '/vulnerability.html',
