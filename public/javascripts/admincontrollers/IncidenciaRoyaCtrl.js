@@ -606,8 +606,6 @@ if (typeof $scope.layerMarkers!='undefined') {
 				},
 				title: {
 						text: 'Tendencia de la plaga',
-						subtext: 'By ecStat.regression',
-						sublink: 'https://github.com/ecomfe/echarts-stat',
 						left: 'center',
 						top: 16
 				},
