@@ -67,6 +67,8 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.units=[];
 	$scope.numUnits=0;
 
+	$scope.regressionValues=[];
+
 
 	$('#cntRoya').loadingIndicator({showOnInit:false});
 	$("#cntRoya").data("loadingIndicator").show();
@@ -242,7 +244,7 @@ $scope.graphicRoyaVsTime=function (royas) {
 			zoomType: 'xy'
 		},
 		title: {
-			text: 'Incidencia de Roya en el tiempo.'
+			text: 'Incidencia de la plaga en el tiempo.'
 		},
 		subtitle: {
 			text: 'Source: Coffee Cloud'
@@ -396,6 +398,7 @@ $scope.getData=function () {
 		royaunits.get(parameters).then(function (result) {
 			$scope.allRoya=[];
 			$scope.incidencesVsDate=[];
+			$scope.regressionValue=[];
 
 			result.data.forEach(element => {
 						var marker={};
@@ -404,6 +407,7 @@ $scope.getData=function () {
 
 				if (element.myunit.length!=0) {
 					var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
+					$scope.regressionValue=[element.incidencia,Date.parse(element.createdAt)];
 					element.nombreUnidad=element.myunit[0].nombre;
 					element.municipio=element.myunit[0].municipio;
 
@@ -440,7 +444,11 @@ $scope.getData=function () {
 				}
 
 					$scope.allRoya.push(element);
+
 					$scope.incidencesVsDate.push(incidenceVsDate);
+					$scope.regressionValues.push($scope.regressionValue);
+					console.log("Los valores para el gráfico de regresión son: ");
+					console.log($scope.regressionValues);
 
 
 
@@ -573,5 +581,31 @@ if (typeof $scope.layerMarkers!='undefined') {
 
 		};
 
+
+		// based on prepared DOM, initialize echarts instance
+		var myChart = echarts.init(document.getElementById('main'));
+
+		// specify chart configuration item and data
+		var option = {
+				title: {
+						text: 'ECharts entry example'
+				},
+				tooltip: {},
+				legend: {
+						data:['Sales']
+				},
+				xAxis: {
+						data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
+				},
+				yAxis: {},
+				series: [{
+						name: 'Sales',
+						type: 'bar',
+						data: [5, 20, 36, 10, 10, 20]
+				}]
+		};
+
+		// use configuration item and data specified to show chart
+		myChart.setOption(option);
 
 	}]);
