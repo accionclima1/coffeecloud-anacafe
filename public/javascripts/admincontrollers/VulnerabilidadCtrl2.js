@@ -44,11 +44,15 @@ app.controller('VulnerabilidadCtrl2', [
 	'encuestaunit',
 	'encuesta','Excel', '$timeout',
 	function ($scope, auth, $location,encuestaunit, encuesta, Excel, $timeout) {
+    var mymap=null;
     $scope.deptos=muni14.data;
 		$scope.encuestas=[];
 		$scope.amountTests=0;
 		$scope.averageTests=0;
 		$scope.dataGrid=[];
+    $scope.markers=[];
+    $scope.ArrayCircles=[];
+    $scope.numUnidades=0;
 
 		encuestaunit.getAll().then(function (tests){
 			console.log(tests);
@@ -72,8 +76,14 @@ app.controller('VulnerabilidadCtrl2', [
 				//Calcula la incidencia Promedio
 				$scope.averageTests=kpis.promedio;;
 
+        //Calcula el numero de unidades Evaluadas
+        $scope.numUnidades=kpis.unidadesEvaluadas;
+
         //Se realizará gráfica scatterroyachart
-        $scope.graphicScatter();
+        //$scope.graphicScatter();
+
+        //Agregará markadores al mapa
+        $scope.addMarkersToMap(tests);
 
 
 				console.log(tests.length);
@@ -83,6 +93,7 @@ app.controller('VulnerabilidadCtrl2', [
 		$scope.calculateKPIs=function(tests){
 			var promedio=0;
 			var testsvalidos=0;
+      var units=[];
       console.log(tests.length);
       var kpis={};
 
@@ -99,6 +110,13 @@ app.controller('VulnerabilidadCtrl2', [
 					testsvalidos++;
 					console.log(testsvalidos+ " Valor: "+tests[i].resumenVulne[0].valor);
 				}
+
+        //Las siguientes instrucciones servirán para calcular el número de Unidades Evaluadas
+        if(units.indexOf(tests[i].myunit[0].nombre)==-1){
+          units.push(tests[i].myunit[0].nombre);
+
+        }
+
 
 				}
 			}
@@ -120,6 +138,7 @@ app.controller('VulnerabilidadCtrl2', [
       else{
 
         kpis.promedio=(promedio/testsvalidos).toFixed(3);
+        kpis.unidadesEvaluadas=units.length;
         return kpis;
       }
 
@@ -371,6 +390,151 @@ app.controller('VulnerabilidadCtrl2', [
 
 
 //Termina código
+
+
+//Código para crear mostrarMapa
+
+
+$scope.crearMapa = function(){
+
+if(mymap==null){
+  mymap = L.map('vulnerabilidadmap').setView([14.973642, -90.450439], 8);
+}else{
+
+}
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+  maxZoom: 18,
+  id: 'mapbox.streets',
+  accessToken: 'pk.eyJ1IjoiaWFvZ3QiLCJhIjoiY2o0dGN6cjlkMDcwODJ4bGF2dDFndGdvciJ9.ACiNe407LOOTTKtT-7-lLA'
+}).addTo(mymap);
+
+
+
+
+
+
+
+};
+
+$scope.crearMapa();
+
+
+$scope.addMarkersToMap=function (tests){
+
+
+  if (typeof $scope.layerMarkers!='undefined') {
+  	mymap.removeLayer($scope.layerMarkers);
+
+  	$scope.layerMarkers.remove();
+  	 $scope.ArrayCircles=[];
+  }
+
+
+
+  tests.forEach(element => {
+
+    var marker={};
+
+
+
+if (element.myunit.length!=0) {
+
+  element.nombreUnidad=element.myunit[0].nombre;
+  element.municipio=element.myunit[0].municipio;
+
+  element.departamento=element.myunit[0].departamento;
+
+
+  if (typeof element.myunit[0].ubicacion!='undefined') {
+
+    element.ubicacion=element.myunit[0].ubicacion;
+
+
+  }
+
+  //Obtentremos el valor de la evaluaciónote
+  if (element.resumenVulne.length!=0) {
+    element.incidencia=element.resumenVulne[0].valor;
+
+  }
+
+
+
+
+
+  if(element.ubicacion && typeof element.incidencia!='undefined'){
+    element.ubicacion =element.ubicacion.replace("(","");
+    element.ubicacion = element.ubicacion.replace(")","");
+    var arrDatos = element.ubicacion.split(",");
+    if(arrDatos.length==2){
+        element.latitud=arrDatos[0];
+        element.longitud=arrDatos[1];
+
+        //Si se ha llegado hasta aquí se agregará el marcador al crearMapa
+        element.colorMarker='';
+        if (element.incidencia<=-10) {
+          element.colorMarker="red";
+
+        }else if(element.incidencia<=-7){
+          element.colorMarker="orange";
+
+        }
+        else if(element.incidencia<=-2){
+          element.colorMarker="yellow";
+
+        }else if(element.incidencia<=0){
+          element.colorMarker="blue";
+
+        }else if(element.incidencia<=2){
+          element.colorMarker="green";
+
+        }
+        else if(element.incidencia<=7){
+          element.colorMarker="green";
+
+        }
+
+        else{
+
+          element.colorMarker="green";
+        }
+
+        if ((element.latitud>=0||element.latitud>=0)&&(element.longitud>=0||element.longitud<=0)) {
+
+          console.log("Marcador");
+          console.log(element);
+
+         $scope.ArrayCircles.push(L.circle([element.latitud,element.longitud],{
+          color: element.colorMarker,
+          fillColor: element.colorMarker,
+          fillOpacity: 0.5,
+          radius: 500
+      }).bindPopup("<strong>Depto: </strong>"+element.departamento+"<br> <Strong>Municipio: </strong>"+element.municipio+"<br><strong>Unidad: </strong>"+element.nombreUnidad+"<br><strong>Evaluación: </strong>"+element.incidencia.toFixed(3)));
+        }
+
+
+    }
+}
+
+
+
+
+
+
+}
+
+
+
+
+  });
+
+
+  //Añadiremos el grupo de ArrayCircles a la capa de marcadores
+	$scope.layerMarkers=L.layerGroup($scope.ArrayCircles).addTo(mymap);
+
+
+}
 
 
 
