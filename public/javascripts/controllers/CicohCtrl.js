@@ -22,7 +22,7 @@ app.controller('CicohCtrl', ['$http','$scope','$stateParams','auth','$rootScope'
              console.log(info);
             console.log('ESTA ES LA DATA..........');
             formatData(info);
-						$scope.addMarkersToMap($scope.markers);
+            $scope.addMarkersToMap($scope.markers);
             //$rootScope.clima = info;
             // $scope.actual = info['current_observation'];
             // $scope.almanac = info['almanac'];
@@ -141,7 +141,7 @@ console.log("Ordenado");
 $scope.crearMapa = function(){
 console.log('SE CREO EL MAPA');
 if(mymap==null){
-  mymap = L.map('cicohmap').setView([14.978279, -87.057559], 7);
+  mymap = L.map('cicohmap').setView([14.9612946, -88.2014775], 8);
 }else{
 
 }
@@ -166,12 +166,15 @@ $scope.addMarkersToMap
 
 
 $scope.addMarkersToMap=function (stations){
-
 console.log('DENTRO DEL MAPA');
+stations = $scope.stations;
+variables = $scope.stations.vars; 
+//console.log(stations.vars[0]);
+console.log(stations);
   if (typeof $scope.layerMarkers!='undefined') {
-  	mymap.removeLayer($scope.layerMarkers);
-
-  	$scope.layerMarkers.remove();
+    mymap.removeLayer($scope.layerMarkers);
+    
+  	//$scope.layerMarkers.remove();
   	 $scope.ArrayCircles=[];
   }
 
@@ -183,21 +186,23 @@ console.log('DENTRO DEL MAPA');
 
 
 
-if (element.myunit.length!=0) {
+if (element.length!=0) {
 
-  element.station_name=element.myunit[0].nombre;
-  element.latitude=element.myunit[0].latitude;
-  element.longitude=element.myunit[0].longitude;
+  element.station_name=element.station_name;
+  element.latitude=element.latitude;
+  element.longitude=element.longitude;
+  //element.vars[1]=element.vars[1];
+  console.log(element.vars[0].name);
 
   //element.departamento=element.myunit[0].departamento;
 
 
-  if (typeof element.myunit[0].ubicacion!='undefined') {
+  // if (typeof element.myunit[0].ubicacion!='undefined') {
 
-    element.ubicacion=element.myunit[0].ubicacion;
+  //   element.ubicacion=element.myunit[0].ubicacion;
 
 
-  }
+  // }
 
   //Obtentremos el valor de la evaluaciónote
   // if (element.resumenVulne.length!=0) {
@@ -209,9 +214,9 @@ if (element.myunit.length!=0) {
 
 
 
-  if(element.ubicacion && typeof element.incidencia!='undefined'){
-    element.ubicacion =element.ubicacion.replace("(","");
-    element.ubicacion = element.ubicacion.replace(")","");
+  //if(element.ubicacion && typeof element.incidencia!='undefined'){
+    //element.ubicacion =element.ubicacion.replace("(","");
+   // element.ubicacion = element.ubicacion.replace(")","");
     // var arrDatos = element.ubicacion.split(",");
     // if(arrDatos.length==2){
     //     element.latitude=arrDatos[0];
@@ -248,20 +253,22 @@ if (element.myunit.length!=0) {
 
         if ((element.latitude>=0||element.latitude>=0)&&(element.longitude>=0||element.longitude<=0)) {
 
-        //   console.log("Marcador");
-        //   console.log(element);
-
-         $scope.ArrayCircles.push(L.circle([element.latitud,element.longitud],{
+          // console.log("Marcador");
+          // console.log(element.latitude);
+         element.colorMarker="green";
+         $scope.ArrayCircles.push(L.circle([element.latitude,element.longitude],{
           color: element.colorMarker,
           fillColor: element.colorMarker,
           fillOpacity: 0.5,
           radius: 500
-      }).bindPopup("<strong>Depto: </strong>"+element.station_name+"<br> <Strong>Municipio: </strong>"+element.latitude+"<br><strong>Unidad: </strong>"+element.longitude+"<br><strong>Evaluación: </strong>"+element.incidencia.toFixed(3)));
+      }).bindPopup("<strong>Nombre: </strong>"+element.station_name+"<br> <Strong>Latitude: </strong>"+element.latitude+"<br><strong>Longitude: </strong>"+element.longitude+
+                  "<br><strong>"+element.vars[0].name+": </strong>"+element.vars[0].value+element.vars[0].symbol+
+                  "<br><strong>"+element.vars[0].name+": </strong>"+element.vars[0].value+element.vars[0].symbol));
         }
 
 
    // }
-}
+//}
 
 
 
