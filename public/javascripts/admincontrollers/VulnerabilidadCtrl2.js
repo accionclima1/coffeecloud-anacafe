@@ -565,7 +565,7 @@ $scope.graphCorrelationChart=function(tests){
           }
       },
       title: {
-          text: 'Tendencia de la plaga',
+          text: 'Vulnerabilidad de las fincas',
           left: 'center',
           top: 16
       },
