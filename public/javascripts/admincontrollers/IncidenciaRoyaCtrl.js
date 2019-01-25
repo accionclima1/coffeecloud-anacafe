@@ -67,6 +67,8 @@ app.controller('IncidenciaRoyaCtrl', [
 	$scope.units=[];
 	$scope.numUnits=0;
 
+	$scope.regressionValues=[];
+
 
 	$('#cntRoya').loadingIndicator({showOnInit:false});
 	$("#cntRoya").data("loadingIndicator").show();
@@ -143,6 +145,7 @@ app.controller('IncidenciaRoyaCtrl', [
 		//console.log($scope.markers);
 		$scope.addMarkers($scope.markers);
 		$scope.graphicRoyaVsTime($scope.incidencesVsDate);
+		$scope.graphCorrelationChart($scope.incidencesVsDate);
 		$scope.loadGrid1($scope.allRoya);
 		$("#cntRoya").data("loadingIndicator").hide();
 	});
@@ -242,7 +245,7 @@ $scope.graphicRoyaVsTime=function (royas) {
 			zoomType: 'xy'
 		},
 		title: {
-			text: 'Incidencia de Roya en el tiempo.'
+			text: 'Incidencia de la plaga en el tiempo.'
 		},
 		subtitle: {
 			text: 'Source: Coffee Cloud'
@@ -319,7 +322,7 @@ $scope.loadGrid1=function (data) {
 Highcharts.chart('barsroyachart', {
 
 	title: {
-	  text: 'Roya por Departamentos'
+	  text: 'Plaga por Departamentos'
 	},
 
 	subtitle: {
@@ -396,6 +399,7 @@ $scope.getData=function () {
 		royaunits.get(parameters).then(function (result) {
 			$scope.allRoya=[];
 			$scope.incidencesVsDate=[];
+			$scope.regressionValue=[];
 
 			result.data.forEach(element => {
 						var marker={};
@@ -404,6 +408,7 @@ $scope.getData=function () {
 
 				if (element.myunit.length!=0) {
 					var incidenceVsDate=[Date.parse(element.createdAt),element.incidencia];
+					$scope.regressionValue=[element.incidencia,Date.parse(element.createdAt)];
 					element.nombreUnidad=element.myunit[0].nombre;
 					element.municipio=element.myunit[0].municipio;
 
@@ -440,7 +445,11 @@ $scope.getData=function () {
 				}
 
 					$scope.allRoya.push(element);
+
 					$scope.incidencesVsDate.push(incidenceVsDate);
+				//	$scope.regressionValues.push($scope.regressionValue);
+
+					$scope.graphCorrelationChart($scope.incidencesVsDate);
 
 
 
@@ -454,6 +463,7 @@ $scope.getData=function () {
 			//console.log($scope.markers);
 			$scope.addMarkers($scope.markers);
 			$scope.graphicRoyaVsTime($scope.incidencesVsDate);
+			$scope.graphCorrelationChart($scope.incidencesVsDate);
 			$scope.loadGrid1($scope.allRoya);
 
 			//Cargar KPIs a interfaz gráfica
@@ -572,6 +582,98 @@ if (typeof $scope.layerMarkers!='undefined') {
 
 
 		};
+
+
+
+
+
+	$scope.graphCorrelationChart=function(data){
+		// See https://github.com/ecomfe/echarts-stat
+		var myChart = echarts.init(document.getElementById('main'));
+		var myRegression = ecStat.regression('polynomial', data, 5);
+
+		myRegression.points.sort(function(a, b) {
+				return a[0] - b[0];
+		});
+
+		option = {
+
+				tooltip: {
+						trigger: 'axis',
+						axisPointer: {
+								type: 'cross'
+						}
+				},
+				title: {
+						text: 'Tendencia de la plaga',
+						left: 'center',
+						top: 16
+				},
+				xAxis: {
+						type: 'time',
+						splitLine: {
+								lineStyle: {
+										type: 'dashed'
+								}
+						},
+						splitNumber: 20
+				},
+				yAxis: {
+						type: 'value'
+				},
+				grid: {
+						top: 90
+				},
+				series: [{
+						name: 'scatter',
+						type: 'scatter',
+						label: {
+								emphasis: {
+										show: true,
+										position: 'right',
+										textStyle: {
+												color: 'blue',
+												fontSize: 16
+										}
+								}
+						},
+						data: data
+				}, {
+						name: 'line',
+						type: 'line',
+						smooth: true,
+						showSymbol: false,
+						data: myRegression.points,
+						markPoint: {
+								itemStyle: {
+										normal: {
+												color: 'transparent'
+										}
+								},
+								label: {
+										normal: {
+												show: true,
+												position: 'left',
+												formatter: myRegression.expression,
+												textStyle: {
+														color: '#333',
+														fontSize: 14
+												}
+										}
+								},
+								data: [{
+										coord: myRegression.points[myRegression.points.length - 1]
+								}]
+						}
+				}]
+		};
+
+		// use configuration item and data specified to show chart
+		myChart.setOption(option);
+
+	};
+
+
 
 
 	}]);

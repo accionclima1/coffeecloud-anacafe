@@ -85,6 +85,9 @@ app.controller('VulnerabilidadCtrl2', [
         //Agregará markadores al mapa
         $scope.addMarkersToMap(tests);
 
+        //Cargar gráfica de Tendencia
+        $scope.graphCorrelationChart(tests);
+
 
 				console.log(tests.length);
 
@@ -535,6 +538,133 @@ if (element.myunit.length!=0) {
 
 
 }
+
+$scope.graphCorrelationChart=function(tests){
+
+
+  var data=$scope.createDataForGraphs(tests);
+
+
+
+
+
+  // See https://github.com/ecomfe/echarts-stat
+  var myChart = echarts.init(document.getElementById('vulGraph'));
+  var myRegression = ecStat.regression('polynomial', data, 5);
+
+  myRegression.points.sort(function(a, b) {
+      return a[0] - b[0];
+  });
+
+  option = {
+
+      tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+              type: 'cross'
+          }
+      },
+      title: {
+          text: 'Vulnerabilidad de las fincas',
+          left: 'center',
+          top: 16
+      },
+      xAxis: {
+          type: 'time',
+          splitLine: {
+              lineStyle: {
+                  type: 'dashed'
+              }
+          },
+          splitNumber: 20
+      },
+      yAxis: {
+          type: 'value'
+      },
+      grid: {
+          top: 90
+      },
+      series: [{
+          name: 'scatter',
+          type: 'scatter',
+          label: {
+              emphasis: {
+                  show: true,
+                  position: 'right',
+                  textStyle: {
+                      color: 'blue',
+                      fontSize: 16
+                  }
+              }
+          },
+          data: data
+      }, {
+          name: 'line',
+          type: 'line',
+          smooth: true,
+          showSymbol: false,
+          data: myRegression.points,
+          markPoint: {
+              itemStyle: {
+                  normal: {
+                      color: 'transparent'
+                  }
+              },
+              label: {
+                  normal: {
+                      show: true,
+                      position: 'left',
+                      formatter: myRegression.expression,
+                      textStyle: {
+                          color: '#333',
+                          fontSize: 14
+                      }
+                  }
+              },
+              data: [{
+                  coord: myRegression.points[myRegression.points.length - 1]
+              }]
+          }
+      }]
+  };
+
+  // use configuration item and data specified to show chart
+  myChart.setOption(option);
+
+};
+
+
+$scope.createDataForGraphs=function(tests){
+var encuestas=[];
+  angular.forEach(tests, function(value, key){
+
+
+
+
+
+    if (value.resumenVulne.length!=0 && value.myunit.length!=0) {
+    //	console.log("Valor: "+tests[i].resumenVulne[0].valor);
+
+    if (typeof value.resumenVulne[0].valor!='undefined') {
+
+      encuestas.push([Date.parse(value.resumenVulne[0].fecha),value.resumenVulne[0].valor]);
+
+
+
+    }
+
+    }
+
+
+
+
+
+
+});
+
+return encuestas;
+
+};
 
 
 
