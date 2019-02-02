@@ -741,7 +741,7 @@ app.controller('RoyaCtrl', [
 		    	  $scope.test.unidad = {"user":auth.userId()};
 		        $scope.test.idunidad = $scope.unitId;
 		        $scope.test.loteIndex = $scope.loteIndex;
-		        $scope.getHelp($scope.totalPlants,$scope.avgplnt,$scope.avgplntDmgPct,$scope.currentUser());
+		        $scope.getHelp($scope.currentUser());
 		        $('.test').hide();
 		        $('.results').show();
 						$scope.vistaInicio = false;
@@ -844,7 +844,20 @@ $scope.getHelp = function(currentUser) {
 					console.log(result.data);
 
 					console.log("Historial de Roya - Servidor: ",$scope.royaHistory);
-					$scope.royaHistory.push(result.data);
+					var promesa = PouchDB.SynServerDataAndLocalData();
+					$rootScope.conexionStatus="Sincronizando";
+					if(promesa!=false){
+						promesa.then(function () {
+							$rootScope.conexionStatus="";
+						}).catch(function (err) {
+							$rootScope.conexionStatus="Error de Sincronización";
+							console.log("Not able to sync" + err);
+							//$scope.ResetNewUnit();
+						});
+					}else{
+						$rootScope.conexionStatus="";
+					}
+					//$scope.royaHistory.push(result.data);
 					console.log("Historial de Roya Actualizado - Servidor: ",$scope.royaHistory);
 
 					var msg = 'Calculo De Roya Enviado: ID: ' + result.data._id + '-' + result.data.createdAt + '.';
@@ -854,7 +867,7 @@ $scope.getHelp = function(currentUser) {
 		        from_id:currentUser
 		    	};
 
-			    socket.emit('get msg',data_server);
+			    //socket.emit('get msg',data_server);
 			});
 	}else {
 		//Mandamos el nuevo arreglo a pouchDB
