@@ -350,12 +350,32 @@ function ($http,$scope, $stateParams, auth, gallo, roya, methods, methodsGallo, 
               }
               else if (result.status == 'success') {
                   if (result.data.rows.length > 0 && result.data.rows[0] != undefined) {
+                      var tmpArrayRoyaData = [];
                       for (var i = 0; i < result.data.rows.length; i++) {
                         var ob = result.data.rows[i].doc;
                         if ((ob.loteIndex == $scope.loteIndex)&&(ob.idunidad==$scope.unitId)) {
-                          $scope.royaHistoryByLote.push(ob);
+                          tmpArrayRoyaData.push(ob);
                         }
                       }
+
+                      var len = tmpArrayRoyaData.length;
+    
+                      for (var i = 0; i < len ; i++) {
+                        for(var j = 0 ; j < len - i - 1; j++){ // this was missing
+                          var _tmpA= tmpArrayRoyaData[j];
+                          var _tmpB = tmpArrayRoyaData[j + 1];
+                          var f1 = new Date(_tmpA.createdAt);
+                          var f2 = new Date(_tmpB.createdAt);
+                        if (  f1 > f2) {
+                          // swap
+                          var temp = tmpArrayRoyaData[j];
+                          tmpArrayRoyaData[j] = tmpArrayRoyaData[j+1];
+                          tmpArrayRoyaData[j + 1] = temp;
+                        }
+                       }
+                      }
+
+                      $scope.royaHistoryByLote =tmpArrayRoyaData;
                       console.log("viene el array de roya");
                       $scope.cargandoData=false;
                       $scope.graficarHitorial('roya', $scope.royaHistoryByLote);

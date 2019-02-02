@@ -194,7 +194,9 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                             }
                         }
                         if(!encontrado){
-                            var UpdatePouchPromise = localPouchDB.put(royasData[xi]);
+                            var objTmpRoya = royasData[xi];
+                            delete objTmpRoya['__v'];
+                            var UpdatePouchPromise = localPouchDB.put(objTmpRoya);
                             $q.when(UpdatePouchPromise).then(function (res) {
                                 if (res && res.ok == true) {
                                     result.status = 'success';

@@ -1585,12 +1585,14 @@ router.post('/roya', auth, function (req, res, next) {
     roya.createdAt=req.body.date;
     var dt = new Date();
     var documentId = dt.getFullYear().toString() + dt.getMonth().toString() + dt.getDate().toString() + dt.getHours().toString() + dt.getMinutes().toString() + dt.getSeconds().toString() + dt.getMilliseconds().toString();
-    roya._id = documentId;
     roya.PouchDBId = documentId;
     roya.EntityType = "Roya";
 
     roya.save(function (err, roya) {
-        if (err) { return next(err); }
+        if (err) { 
+            console.log(err);
+            return next(err); 
+        }
         console.log(roya);
         res.json(roya);
     });
