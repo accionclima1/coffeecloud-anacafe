@@ -2578,6 +2578,16 @@ function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/resetpassword.html',
           controller: 'AuthCtrl'
       })
+      .state('tutorial', {
+          url: '/tutorial',
+          templateUrl: '/tutorial.html',
+          controller: 'TutorialCtrl',
+          onEnter: ['$state', 'auth', function ($state, auth) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+          }],
+      })
       .state('register-profile', {
           url: '/register-profile',
           templateUrl: '/register-profile.html',
