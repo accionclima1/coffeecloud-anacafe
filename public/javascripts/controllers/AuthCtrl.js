@@ -8,7 +8,7 @@ app.controller('AuthCtrl', ['$rootScope',
 function ($rootScope,$scope, $state, auth, $window, $timeout, PouchDB) {
     $scope.user = {};
     $('.switch').css("color", "#666666");
-    
+
     // Funcion SweetAlert para mensajes Success y Error
     $scope.SweetAlert = function (title, text, type){
 
@@ -31,7 +31,7 @@ function ($rootScope,$scope, $state, auth, $window, $timeout, PouchDB) {
             $scope.user._id = auth.userId();
             PouchDB.SaveUserToPouchDB($scope.user, auth.userId()).then(function (result) {
                 console.log("user updated");
-                $state.go('home', {reload: true});
+                $state.go('tutorial', {reload: true});
             });
         });
     };

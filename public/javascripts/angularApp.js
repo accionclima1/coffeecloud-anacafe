@@ -2788,6 +2788,10 @@ function ($stateProvider, $urlRouterProvider) {
           url: '/perspectiva',
           templateUrl: '/perspectiva.html',
           controller: 'ClimaCtrl'
+      }).state('tutorial', {
+          url: '/tutorial',
+          templateUrl: '/tutorial.html',
+          controller: 'TutorialCtrl'
       }).state('climaelninio', {
           url: '/climaelninio',
           templateUrl: '/elninio.html',
