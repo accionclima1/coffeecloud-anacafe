@@ -95,9 +95,55 @@ app.controller('IncidenciaRoyaCtrl', [
 				element.municipio=element.myunit[0].municipio;
 				element.departamento=element.myunit[0].departamento;
 				element.ubicacion=element.myunit[0].ubicacion;
+				element.FinEpocalluviosa=element.myunit[0].FinEpocalluviosa;
+				element.enmiendasSuelo=element.myunit[0].enmiendasSuelo;
+				element.epocalluviosa=element.myunit[0].epocalluviosa;
+				element.fertilizaFollaje=element.myunit[0].fertilizaFollaje;
+				element.fertilizaSuelo=element.myunit[0].fertilizaSuelo;
+				element.finalCosecha=element.myunit[0].finalCosecha;
+				element.floracionPrincipal=element.myunit[0].floracionPrincipal;
+				element.inicioCosecha=element.myunit[0].inicioCosecha;
+				element.manejoTejido=element.myunit[0].manejoTejido;
+				element.realizapoda=element.myunit[0].realizapoda;
+				element.rendimiento=element.myunit[0].rendimiento;
+				element.verificaAgua=element.myunit[0].verificaAgua;
+				element.areaTotal=element.myunit[0].areaTotal;
+
+
+
+
 				if (element.myunit[0].lote[element.loteIndex]!=undefined) {
 					element.lote=element.myunit[0].lote[element.loteIndex].nombre;
-					element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion
+					element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion;
+					element.edad=element.myunit[0].lote[element.loteIndex].edad;
+					element.rendimientoAnterior=element.myunit[0].lote[element.loteIndex].rendimientoAnterior;
+					element.sombra=element.myunit[0].lote[element.loteIndex].sombra;
+					element.tamano=element.myunit[0].lote[element.loteIndex].tamano;
+					element.altitud=element.myunit[0].lote[element.loteIndex].altitud;
+
+
+					if (element.myunit[0].lote[element.loteIndex].variedad!=undefined) {
+
+							element.variedad=element.myunit[0].lote[element.loteIndex].variedad[0];
+
+
+					}
+
+					//La siguiente condición solo aplica para versiones anteriores de la app
+				//	console.log(element.myunit[0].lote[element.loteIndex].distanciamiento);
+					if (element.myunit[0].lote[element.loteIndex].distanciamiento==undefined) {
+
+						element.distanciamiento='';
+
+							element.distanciamiento=element.myunit[0].lote[element.loteIndex].distanciamientoAvenida+"x"+element.myunit[0].lote[element.loteIndex].distanciamientoCalle;
+							//console.log(element.distanciamiento);
+
+					}else{
+							element.distanciamiento=element.myunit[0].lote[element.loteIndex].distanciamiento;
+
+
+					}
+
 
 				}
 
@@ -351,10 +397,34 @@ Highcharts.chart('barsroyachart', {
 		{ field: 'lote' },
 		{ field: 'user' },
 		{ field: 'incidencia' },
-		{ field: 'createdAt',displayName:"Fecha Muestreo" }
+		{ field: 'createdAt',displayName:"Fecha Muestreo",type: 'date', cellFilter: 'date:\'yyyy-MM-dd\'' },
+		{ field: 'altitud' },
+		{ field: 'tamano' ,displayName:"Tamaño lote"},
+		{ field: 'areaTotal',displayName:"Área unidad", visible: false},
+
+		{ field: 'distanciamiento',displayName:"Distanciamiento", visible: true},
+		{ field: 'FinEpocalluviosa',displayName:"Fin Epoca lluviosa", visible: false},
+		{ field: 'enmiendasSuelo',displayName:"Enmienda de Suelo", visible: false},
+		{ field: 'epocalluviosa',displayName:"Época Lluviosa", visible: false},
+		{ field: 'fertilizaFollaje',displayName:"Fertiliza Follaje", visible: false},
+		{ field: 'fertilizaSuelo',displayName:"Fertiliza Suelo", visible: false},
+		{ field: 'finalCosecha',displayName:"Final de Cosecha", visible: false},
+		{ field: 'floracionPrincipal',displayName:"Fecha Floración Principal", visible: false},
+		{ field: 'inicioCosecha',displayName:"Fecha inicio Cosecha", visible: false},
+		{ field: 'edad',displayName:"Edad Lote", visible: false},
+		{ field: 'rendimientoAnterior',displayName:"Redimiento anterior lote", visible: false},
+		{ field: 'sombra',displayName:"Sombra", visible: false},
+
+		{ field: 'variedad'},
+		{ field: 'manejoTejido',displayName:"Manejo de tejido", visible: false},
+		{ field: 'realizapoda',displayName:"Realiza poda", visible: false},
+		{ field: 'rendimiento',displayName:"Rendimiento unidad", visible: false},
+		{ field: 'verificaAgua',displayName:"Verifica agua", visible: false}
+
 
 	],
 	enableGridMenu: true,
+
 	enableFiltering:true,
 	enableSelectAll: true,
 	exporterCsvFilename: 'Reporte de Enfermedad.csv',
@@ -414,10 +484,50 @@ $scope.getData=function () {
 
 					element.departamento=element.myunit[0].departamento;
 					element.ubicacion=element.myunit[0].ubicacion;
+					element.FinEpocalluviosa=element.myunit[0].FinEpocalluviosa;
+					element.enmiendasSuelo=element.myunit[0].enmiendasSuelo;
+					element.epocalluviosa=element.myunit[0].epocalluviosa;
+					element.fertilizaFollaje=element.myunit[0].fertilizaFollaje;
+					element.fertilizaSuelo=element.myunit[0].fertilizaSuelo;
+					element.finalCosecha=element.myunit[0].finalCosecha;
+					element.floracionPrincipal=element.myunit[0].floracionPrincipal;
+					element.inicioCosecha=element.myunit[0].inicioCosecha;
+					element.manejoTejido=element.myunit[0].manejoTejido;
+					element.realizapoda=element.myunit[0].realizapoda;
+					element.rendimiento=element.myunit[0].rendimiento;
+					element.verificaAgua=element.myunit[0].verificaAgua;
+					element.areaTotal=element.myunit[0].areaTotal;
 
 					if (element.myunit[0].lote[element.loteIndex]!=undefined) {
 						element.lote=element.myunit[0].lote[element.loteIndex].nombre;
 						element.ubicacion=element.myunit[0].lote[element.loteIndex].georeferenciacion
+						element.edad=element.myunit[0].lote[element.loteIndex].edad;
+						element.rendimientoAnterior=element.myunit[0].lote[element.loteIndex].rendimientoAnterior;
+						element.sombra=element.myunit[0].lote[element.loteIndex].sombra;
+						element.tamano=element.myunit[0].lote[element.loteIndex].tamano;
+						element.altitud=element.myunit[0].lote[element.loteIndex].altitud;
+
+						if (element.myunit[0].lote[element.loteIndex].variedad!=undefined) {
+
+								element.variedad=element.myunit[0].lote[element.loteIndex].variedad[0];
+
+
+						}
+
+						//La siguiente condición solo aplica para versiones anteriores de la app
+					//	console.log(element.myunit[0].lote[element.loteIndex].distanciamiento);
+						if (element.myunit[0].lote[element.loteIndex].distanciamiento==undefined) {
+
+							element.distanciamiento='';
+
+								element.distanciamiento=element.myunit[0].lote[element.loteIndex].distanciamientoAvenida+"x"+element.myunit[0].lote[element.loteIndex].distanciamientoCalle;
+								console.log(element.distanciamiento);
+
+						}else{
+								element.distanciamiento=element.myunit[0].lote[element.loteIndex].distanciamiento;
+
+
+						}
 
 
 					}
@@ -495,8 +605,8 @@ if (typeof $scope.layerMarkers!='undefined') {
 
 
 	markers.forEach(element => {
-		console.log("Marker");
-		console.log(element);
+		//console.log("Marker");
+		//console.log(element);
 
 		var colorMarker="";
 
@@ -672,6 +782,8 @@ if (typeof $scope.layerMarkers!='undefined') {
 		myChart.setOption(option);
 
 	};
+
+
 
 
 
