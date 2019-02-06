@@ -27,7 +27,7 @@ var upload = multer({ dest: './public/images/' })
  * Get port from environment and store in Express.
  */
 var portnumssl = 443
-var portnum = 8090
+var portnum = 8080
 var port = normalizePort(process.env.PORT || portnum);
 app.set('port', port);
 var https = require('https');
