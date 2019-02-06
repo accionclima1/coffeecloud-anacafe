@@ -1693,7 +1693,7 @@ app.factory('socket', ['socketFactory',
     function (socketFactory) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect('http://51.15.220.133:8090/')
+            ioSocket: io.connect('http://capucas.coffeecloudapp.com/')
         });
     }
 ]);
@@ -1758,7 +1758,7 @@ app.factory('widget', ['$http', function ($http) {
     var w = {};
     w.getAll = function () {
 
-        return $http.get('http://51.15.220.133:8090/getWidgets').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/getWidgets').success(function (data) {
             return data;
         });
     };
@@ -1793,13 +1793,13 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
         posts: []
     };
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/posts').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/posts').success(function (data) {
 
             angular.copy(data, o.posts);
         });
     };
     o.create = function (post) {
-        return $http.post('http://51.15.220.133:8090/posts', post, {
+        return $http.post('http://capucas.coffeecloudapp.com/posts', post, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -1807,7 +1807,7 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
         });
     };
     o.upvote = function (post) {
-        return $http.put('http://51.15.220.133:8090/posts/' + post._id + '/upvote', null, {
+        return $http.put('http://capucas.coffeecloudapp.com/posts/' + post._id + '/upvote', null, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         })
@@ -1816,17 +1816,17 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
           });
     };
     o.get = function (id) {
-        return $http.get('http://51.15.220.133:8090/posts/' + id).then(function (res) {
+        return $http.get('http://capucas.coffeecloudapp.com/posts/' + id).then(function (res) {
             return res.data;
         });
     };
     o.addComment = function (id, comment) {
-        return $http.post('http://51.15.220.133:8090/posts/' + id + '/comments', comment, {
+        return $http.post('http://capucas.coffeecloudapp.com/posts/' + id + '/comments', comment, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         });
     };
     o.upvoteComment = function (post, comment) {
-        return $http.put('http://51.15.220.133:8090/posts/' + post._id + '/comments/' + comment._id + '/upvote', null, {
+        return $http.put('http://capucas.coffeecloudapp.com/posts/' + post._id + '/comments/' + comment._id + '/upvote', null, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         })
           .success(function (data) {
@@ -1859,14 +1859,14 @@ app.factory('user', ['$http', 'auth', function ($http, auth) {
         });
       };*/
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/users', {
+        return $http.get('http://capucas.coffeecloudapp.com/users', {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).then(function (res) {
             return res.data;
         });
     };
     o.get = function (id) {
-        return $http.get('http://51.15.220.133:8090/users/' + id).then(function (res) {
+        return $http.get('http://capucas.coffeecloudapp.com/users/' + id).then(function (res) {
             return res.data;
         });
     };
@@ -1958,7 +1958,7 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
     };
 
     auth.logIn = function (user) {
-        return $http.post('http://51.15.220.133:8090/login', user).success(function (data) {
+        return $http.post('http://capucas.coffeecloudapp.com/login', user).success(function (data) {
             auth.saveToken(data.token);
         });
     };
@@ -1967,10 +1967,10 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
     // for GenOtp(), VerifyOtp(), ChangePassword()
 
     auth.GenOtp = function (user) {
-        /*return $http.post('http://51.15.220.133:8090/requestpasswordchange', user).success(function(data){
+        /*return $http.post('http://capucas.coffeecloudapp.com/requestpasswordchange', user).success(function(data){
           auth.saveToken(data.token);
         });*/
-        //return $http.post('http://51.15.220.133:8090/requestpasswordchange', user).success(function (data) {
+        //return $http.post('http://capucas.coffeecloudapp.com/requestpasswordchange', user).success(function (data) {
         //    return data;
         //});
         var serviceURL = global.setting.getServiceUrl() + "requestpasswordchange";
@@ -2015,19 +2015,19 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
 app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function (id) {
-        return $http.get('http://51.15.220.133:8090/users/' + id + '/units').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/users/' + id + '/units').success(function (data) {
             return data;
         });
     };
     o.get = function (userId, id) {
-        return $http.get('http://51.15.220.133:8090/users/' + userId + '/units/' + id).then(function (res) {
+        return $http.get('http://capucas.coffeecloudapp.com/users/' + userId + '/units/' + id).then(function (res) {
             return res.data;
         });
     };
 
     o.create = function (unit, id) {
         //localhost unit
-        return $http.post('http://51.15.220.133:8090/users/' + id + '/units', unit, {
+        return $http.post('http://capucas.coffeecloudapp.com/users/' + id + '/units', unit, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2036,7 +2036,7 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
 
     o.update = function (unit, id, unitData) {
         //localhost unit
-        return $http.put('http://51.15.220.133:8090/users/' + id + '/units/' + unit, unitData, {
+        return $http.put('http://capucas.coffeecloudapp.com/users/' + id + '/units/' + unit, unitData, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data
@@ -2044,7 +2044,7 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
     };
 
     o.deleteUnit = function (unitId, userId) {
-        return $http.delete('http://51.15.220.133:8090/users/' + userId + '/units/' + unitId, {
+        return $http.delete('http://capucas.coffeecloudapp.com/users/' + userId + '/units/' + unitId, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return unitId;
@@ -2063,7 +2063,7 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
     };
     //sync Server data to pouchDb;
     o.SyncUserServerDataToLocalPouchDb = function (lastSyncDateTime, id) {
-        return $http.post('http://51.15.220.133:8090/SyncUserServerData/' + id + "/"+ lastSyncDateTime, {
+        return $http.post('http://capucas.coffeecloudapp.com/SyncUserServerData/' + id + "/"+ lastSyncDateTime, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2076,13 +2076,13 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
 app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/varieties').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/varieties').success(function (data) {
             return data;
         });
     };
     o.create = function (varieties) {
         //localhost unit
-        return $http.post('http://51.15.220.133:8090/varieties', varieties, {
+        return $http.post('http://capucas.coffeecloudapp.com/varieties', varieties, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2090,7 +2090,7 @@ app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $wi
     };
 
     o.deleteVariety = function (Ided) {
-        return $http.delete('http://51.15.220.133:8090/varieties', {
+        return $http.delete('http://capucas.coffeecloudapp.com/varieties', {
             headers: { Authorization: 'Bearer ' + auth.getToken(), variid: Ided.varId }
         }).success(function (data) {
             return Ided;
@@ -2103,13 +2103,13 @@ app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $wi
 app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/fungicidas').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/fungicidas').success(function (data) {
             return data;
         });
     };
     o.create = function (fungicidas) {
         //localhost unit
-        return $http.post('http://51.15.220.133:8090/fungicidas', fungicidas, {
+        return $http.post('http://capucas.coffeecloudapp.com/fungicidas', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2118,7 +2118,7 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
 
     o.update = function (fungicidas) {
         //localhost unit
-        return $http.post('http://51.15.220.133:8090/fungicidas/update', fungicidas, {
+        return $http.post('http://capucas.coffeecloudapp.com/fungicidas/update', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2126,7 +2126,7 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
     };
 
     o.deleteFungicida = function (Ided) {
-        return $http.delete('http://51.15.220.133:8090/fungicidas', {
+        return $http.delete('http://capucas.coffeecloudapp.com/fungicidas', {
             headers: { Authorization: 'Bearer ' + auth.getToken(), fungiid: Ided.fungId }
         }).success(function (data) {
             return Ided;
@@ -2139,13 +2139,13 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
 app.factory('vulnerability', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/varieties').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/varieties').success(function (data) {
             return data;
         });
     };
     o.create = function (varieties) {
         //localhost unit
-        return $http.post('http://51.15.220.133:8090/varieties', varieties, {
+        return $http.post('http://capucas.coffeecloudapp.com/varieties', varieties, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2161,19 +2161,19 @@ app.factory('methods', ['$http', 'auth', function ($http, auth) {
         chats: []
     };
     o.get = function () {
-        return $http.get('http://51.15.220.133:8090/admin/methods/').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/admin/methods/').success(function (data) {
             return data;
         });
     };
     o.create = function (method) {
-        return $http.post('http://51.15.220.133:8090/admin/methods', method, {
+        return $http.post('http://capucas.coffeecloudapp.com/admin/methods', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.update = function (method) {
-        return $http.put('http://51.15.220.133:8090/admin/methods', method, {
+        return $http.put('http://capucas.coffeecloudapp.com/admin/methods', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2188,19 +2188,19 @@ app.factory('methodsGallo', ['$http', 'auth', function ($http, auth) {
         chats: []
     };
     o.get = function () {
-        return $http.get('http://51.15.220.133:8090/admin/methodsGallo/').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/admin/methodsGallo/').success(function (data) {
             return data;
         });
     };
     o.create = function (methodGallo) {
-        return $http.post('http://51.15.220.133:8090/admin/methodsGallo', methodGallo, {
+        return $http.post('http://capucas.coffeecloudapp.com/admin/methodsGallo', methodGallo, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.update = function (methodGallo) {
-        return $http.put('http://51.15.220.133:8090/admin/methodsGallo', methodGallo, {
+        return $http.put('http://capucas.coffeecloudapp.com/admin/methodsGallo', methodGallo, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2217,31 +2217,31 @@ app.factory('campoService', ['$http', 'auth', function ($http, auth) {
         chats: []
     };
     o.get = function () {
-        return $http.get('http://51.15.220.133:8090/admin/campo/').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/admin/campo/').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://51.15.220.133:8090/admin/campo/' + userID).success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/admin/campo/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (method) {
-        return $http.post('http://51.15.220.133:8090/admin/campo', method, {
+        return $http.post('http://capucas.coffeecloudapp.com/admin/campo', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.update = function (method) {
-        return $http.put('http://51.15.220.133:8090/admin/methods', method, {
+        return $http.put('http://capucas.coffeecloudapp.com/admin/methods', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.SaveCampoUnitTest = function (data) {
-        return $http.post('http://51.15.220.133:8090/admin/campo/addtests', data, {
+        return $http.post('http://capucas.coffeecloudapp.com/admin/campo/addtests', data, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2256,18 +2256,18 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/roya').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/roya').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://51.15.220.133:8090/roya/' + userID).success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/roya/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (roya) {
         console.log("Result Roya: ", roya);
-        return $http.post('http://51.15.220.133:8090/roya?tmp=' + (new Date()).getTime(), roya, {
+        return $http.post('http://capucas.coffeecloudapp.com/roya?tmp=' + (new Date()).getTime(), roya, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2282,17 +2282,17 @@ app.factory('gallo', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/gallo').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/gallo').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://51.15.220.133:8090/gallo/' + userID).success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/gallo/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (gallo) {
-        return $http.post('http://51.15.220.133:8090/gallo?tmp=' + (new Date()).getTime(), gallo, {
+        return $http.post('http://capucas.coffeecloudapp.com/gallo?tmp=' + (new Date()).getTime(), gallo, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2311,18 +2311,18 @@ app.factory('chats', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/chats').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/chats').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://51.15.220.133:8090/chats/' + userID).success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/chats/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (chats) {
         console.log("Result Chats: ", chats);
-        return $http.post('http://51.15.220.133:8090/chats?tmp=' + (new Date()).getTime(), chats, {
+        return $http.post('http://capucas.coffeecloudapp.com/chats?tmp=' + (new Date()).getTime(), chats, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2337,18 +2337,18 @@ app.factory('messages', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://51.15.220.133:8090/messages').success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/messages').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://51.15.220.133:8090/messages/' + userID).success(function (data) {
+        return $http.get('http://capucas.coffeecloudapp.com/messages/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (messages) {
         console.log("Result Messages: ", messages);
-        return $http.post('http://51.15.220.133:8090/messages?tmp=' + (new Date()).getTime(), messages, {
+        return $http.post('http://capucas.coffeecloudapp.com/messages?tmp=' + (new Date()).getTime(), messages, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2365,7 +2365,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.getAll = function (id) {
 
-        var serviceURL = "http://51.15.220.133:8090/users/";
+        var serviceURL = "http://capucas.coffeecloudapp.com/users/";
         /*ea0707*/
         // var serviceURL = "http://localhost/users/";
 
@@ -2377,7 +2377,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.create = function (encuesta, id) {
         //localhost unit
-        return $http.post('http://51.15.220.133:8090/users/' + id + '/encuesta', encuesta, {
+        return $http.post('http://capucas.coffeecloudapp.com/users/' + id + '/encuesta', encuesta, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
