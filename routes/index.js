@@ -274,7 +274,7 @@ router.post('/register', function (req, res, next) {
 
         // Contenedor del Email
         var mailcontent = {
-            FROM: '"Coffee Cloud" <centroclimaorg@gmail>', // sender address
+            FROM: '"Nube de Cafe Unex" <centroclimaorg@gmail>', // sender address
             TO: user.email, // list of receivers
             SUBJECT: 'Registro de Usuario', // Subject line
             HTML: `<div class=""><div class="aHl"></div><div id=":4p" tabindex="-1"></div><div id=":50" class="ii gt"><div id=":51" class="a3s aXjCH m1648148168d86fbc"><u></u>
@@ -362,7 +362,7 @@ router.post('/register', function (req, res, next) {
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                     &nbsp;
-        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud!</h1>
+        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Nube de Cafe Unex!</h1>
         &nbsp;
 
         <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff !important;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
@@ -514,7 +514,7 @@ router.post('/register', function (req, res, next) {
 
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                    <em>Copyright © Centro Clima - Coffee Cloud, Todos los derechos reservados.</em><br>
+                                    <em>Copyright © Centro Clima - Nube de Cafe Unex, Todos los derechos reservados.</em><br>
         <br>
         <strong>Nuestro correo electrónico es:</strong><br>
         <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
@@ -540,12 +540,12 @@ router.post('/register', function (req, res, next) {
 
         </div></div></div><div id=":4l" class="ii gt" style="display:none"><div id=":5p" class="a3s aXjCH undefined"></div></div><div class="hi"></div></div>`
             // HTML: `<p>Hola ${user.username} <p>
-            //                 <p>Bienvenido a Coffee Cloud.<br />
+            //                 <p>Bienvenido a Nube de Cafe Unex.<br />
             //                 Tus datos de registro son los siguientes:<br />
             //                 Nombre de usuario: ${user.username} <br />
             //                 Contraseña: ${req.body.password}<br />
             //                 Saludos,<br />
-            //                 Coffee Cloud</p>
+            //                 Nube de Cafe Unex</p>
             //                   ` // html body
         }
 
@@ -628,7 +628,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
             //config.environment().url_domain
             var mailcontent = {
-                FROM: '"Coffee Cloud" <centroclimaorg@gmail>', // sender address
+                FROM: '"Nube de Cafe Unex" <centroclimaorg@gmail>', // sender address
                 TO: req.body.Email, // list of receivers
                 SUBJECT: 'Contraseña Temporal', // Subject line
                 HTML: `<div class=""><div class="aHl"></div><div id=":4p" tabindex="-1"></div><div id=":50" class="ii gt"><div id=":51" class="a3s aXjCH m1648148168d86fbc"><u></u>
@@ -716,7 +716,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                     <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                         &nbsp;
-            <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Coffee Cloud!</h1>
+            <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Nube de Cafe Unex!</h1>
             &nbsp;
 
             <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tu código para restablecer tu contraseña:<br>
@@ -867,7 +867,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
                                     <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                        <em>Copyright © Centro Clima - Coffee Cloud, Todos los derechos reservados.</em><br>
+                                        <em>Copyright © Centro Clima - Nube de Cafe Unex, Todos los derechos reservados.</em><br>
             <br>
             <strong>Nuestro correo electrónico es:</strong><br>
             <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
@@ -899,7 +899,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                 //                     OTP: ${token},<br />
                 //
                 //                     Saludos,<br />
-                //                     Coffee Cloud</p>` // html body
+                //                     Nube de Cafe Unex</p>` // html body
             }
             Mail.sendEmail(mailcontent,function(){
               console.log("Contraseña código OTP envíado.");

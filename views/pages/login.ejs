@@ -1,4 +1,6 @@
+
 <script type="text/ng-template" id="/login.html">
+
 		<div class="login-wrap">
 		<div class="container">
 			<div class="row">
@@ -8,22 +10,22 @@
 				  </div>
 
 				  <form ng-submit="logIn()" name="loginForm">
-				    <img src="images/pages-logo-dark.png" alt="" class="login-img img-responsive"/>
-				    <img src="images/LOGOVERDE.png" alt="" class="ana-img img-responsive"/>
+				    <!--<img src="images/pages-logo-dark.png" alt="" class="login-img img-responsive"/>-->
+				    <img src="images/LOGOVERDE.png" alt="" class="ana-img img-responsive" style="margin-top:40px;"/>
 				    <div class="form-group">
-				       <label for="email">Usuario</label>
+				       <label for="email" style=" color: #008a00;font-size: 20px;">Usuario</label>
 				      <input style="font-size:30px;height:auto;" type="text" name="email"
 				      class="form-control"
 				      ng-model="user.username" ng-disabled="isFormSubmited" required></input>
 				    </div>
 				    <div class="form-group">
-				      <label for="password">Contraseña</label>
+				      <label for="password" style=" color: #008a00;font-size: 20px;">Contraseña</label>
 				      <input style="font-size:30px;height:auto;margin-bottom:15px;" type="password" name="password"
 				      class="form-control"
 				      ng-model="user.password" ng-disabled="isFormSubmited" required></input>
 				    </div>
 				    <h6 ng-show="isFormSubmited" class="text-center" style="position: absolute;width: 100%;margin-left: -15px;"><i class="fa fa-spinner fa-spin"></i></h6>
-				    <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$valid && isFormSubmited">Iniciar Sesión</button>
+				    <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$valid && isFormSubmited" style="background-color: #41800a;border-color: #008a00;">Iniciar Sesión</button>
                       <p align="center" style="font-size:9px">(v.2.3.7)</p>
 				    <a href="#/register"><strong>Usuario Nuevo</strong></a>
 				    <a href="#/forgotpassword">¿Olvidó su contraseña?</a>
