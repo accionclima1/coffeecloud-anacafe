@@ -1016,6 +1016,8 @@ function($scope, $http, posts, auth, unit, varieties,fungicidas, methods, method
           { name: 'Agua de lluvia', displayValue: 'Agua de lluvia' },
           { name: 'Lago', displayValue: 'Lago' },
           { name: 'Laguna', displayValue: 'Laguna' },
+          { name: 'Naciente', displayValue: 'Naciente' },
+          { name: 'Ninguna', displayValue: 'Ninguna' },
           { name: 'Nose', displayValue: 'No Sé' }];
 
 
