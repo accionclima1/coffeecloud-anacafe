@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-				  
+
 				  <h3>Datos de su propiedad (Unidad Productiva)</h3>
 				  <span class="glyphicon glyphicon-triangle-bottom"></span>
 				  <div ng-show="error" class="alert alert-danger row">
@@ -11,20 +11,20 @@
 				  </div>
 
           <manage-Unit></manage-Unit>
-          
+
           <!--<form name="newunitForm" novalidate class="form" role="form" ng-submit="saveUnit()" id="newunitForm" data-toggle="validator">
-						
+
 										    <div class="row">
 												<div class="col-xs-12">
 													<div class="form-group">
 														<input type="text"
 														      class="form-control"
 														      placeholder="Nombre"
-														      ng-model="newUnit.nombre"	
+														      ng-model="newUnit.nombre"
 														      data-error="Campo requerido"
 														      required>
 														      <div class="help-block with-errors"></div>
-														      
+
 													</div>
 												</div>
 												<div class="col-xs-12">
@@ -38,14 +38,14 @@
 												</div>
 												<div class="col-xs-12">
 													<div class="form-group">
-														<label for="departamentos">Departamento / Municipio: </label>	
+														<label for="departamentos">Departamento / Municipio: </label>
 													</div>
 												</div>
 												<div class="col-xs-12">
 													<div class="form-group munis">
 														<select ng-model="newUnit.departamentos" id="departamentos" class="form-control" data-error="Campo requerido" required>
 														</select>
-														
+
 														 <div class="help-block with-errors"></div>
 													</div>
 												</div>
@@ -55,7 +55,7 @@
 														      class="form-control"
 														      placeholder="Geo Referencia"
 														      ng-model="newUnit.ubicacion" id="latlongid" data-error="Campo requerido" required>
-														      <div class="help-block with-errors"></div></input> 
+														      <div class="help-block with-errors"></div></input>
 														      <span class="input-group-btn">
 														        <button class="btn btn-default" type="button" ng-click="toggle = !toggle; mapInit()">
 																        <i class="fa fa-map-marker" aria-hidden="true" ng-show="!toggle"></i>
@@ -90,12 +90,12 @@
 														      (Manzanas)
 													</div>
 												</div>
-												
+
 											--><!--<div class="col-xs-6">
 													<div class="form-group">
 														<input type="text"
 														      class="form-control"
-														      placeholder="Edad del lote"
+														      placeholder="Edad del lote (años)"
 														      ng-model="newUnit.edadLote"></input>
 														      (Años)
 													</div>
@@ -106,17 +106,17 @@
 														<label class="col-xs-12">Variedad</label>
 															<div class="col-xs-6" ng-repeat="variedad in variedades">
 													          <label ng-hide="variedad.name == 'cual?'">
-													            <input type="checkbox" ng-model="newUnit.variedad[variedad.name]" > {{variedad.name}} 
+													            <input type="checkbox" ng-model="newUnit.variedad[variedad.name]" > {{variedad.name}}
 													          </label>
-													          
+
 													          <input type="text"
 														      class="form-control"
 														      placeholder="¿cual?"
 														      ng-model="newUnit.variedad['cual?']" ng-show="newUnit.variedad['otro'] && variedad.name == 'cual?'"></input>
-													          
-													          
+
+
 													        </div>
-													        
+
 														</div>
 													</div>
 												</div>
@@ -282,8 +282,8 @@
 														</select>
 													</div>
 												</div>
-												
-												
+
+
 												<div class="col-xs-12">
 													<div class="form-group">
 														<p>¿Verifica la calidad del Agua?</p>
@@ -314,10 +314,10 @@
 													          <label>
 													            <input type="checkbox" ng-model="newUnit.verificaAguaTipo.dureza"> Dureza
 													          </label>
-													        </div>									
-													        
+													        </div>
+
 														</div>
-														
+
 													</div>
 												</div>
 												<div class="col-xs-12">
@@ -331,7 +331,7 @@
 												</div>
 												<div class="col-xs-12">
 													<div class="form-group">
-														
+
 														<input type="text"
 														      class="form-control date-field"
 														      placeholder="Floracion principal"
@@ -371,9 +371,9 @@
 													</div>
 												</div>
 											</div>
-											
-											--><!-- new questions --><!-- 
-												
+
+											--><!-- new questions --><!--
+
 												<div class="col-xs-12">
 													<div class="form-group">
 														<p>¿Aplica fungicidas para el control de roya?</p>
@@ -413,7 +413,7 @@
 														</div>
 													</div>
 												</div>
-												
+
 												<div class="col-xs-12" ng-show="newUnit.fungicidas.contacto" >
 													<div class="form-group">
 															<div class="row">
@@ -443,7 +443,7 @@
 													        </div>
 																	<div class="col-xs-6">
 													          <label>
-													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.caldobordeles')" value="Caldo Bordeles" ng-model="newUnit.fungicidas.contactoOptions.caldobordeles"> Caldo Bordeles 
+													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.caldobordeles')" value="Caldo Bordeles" ng-model="newUnit.fungicidas.contactoOptions.caldobordeles"> Caldo Bordeles
 													          </label>
 													           <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.caldobordeles" >
 																			<label>¿Cuando lo aplica?</label>
@@ -465,10 +465,10 @@
 													        </div>
 																		<div class="col-xs-6">
 													          <label>
-													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál 
+													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','contactoOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.contactoOptions.otrocual"> Otro ¿Cuál
 													          </label>
 													          <label>
-													            <input type="text" ng-show="newUnit.fungicidas.contactoOptions.otrocual" placeholder="¿Cuál?" ng-model="newUnit.fungicidas.contactoOptions.cual">   
+													            <input type="text" ng-show="newUnit.fungicidas.contactoOptions.otrocual" placeholder="¿Cuál?" ng-model="newUnit.fungicidas.contactoOptions.cual">
 													          </label>
 													           <div class="form-group" ng-if="newUnit.fungicidas.contactoOptions.otrocual">
 																			<label>¿Cuando lo aplica?</label>
@@ -571,7 +571,7 @@
 																			</div>
 													        </div>
 													        </div>
-													        
+
 																 <div class="col-xs-6">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.amistarxtra')" value="Amistar Xtra" ng-model="newUnit.fungicidas.sistemicoOptions.amistarxtra">Amistar Xtra
@@ -596,7 +596,7 @@
 																			</div>
 													        </div>
 													        </div>
-													        
+
 														 <div class="col-xs-6">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.alto10')" value="Alto 10" ng-model="newUnit.fungicidas.sistemicoOptions.alto10">Alto 10
@@ -621,8 +621,8 @@
 																			</div>
 													        </div>
 													        </div>
-													        
-															
+
+
 															<div class="col-xs-6">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.silvacur')" value="Silvacur" ng-model="newUnit.fungicidas.sistemicoOptions.silvacur">Silvacur
@@ -672,12 +672,12 @@
 																			</div>
 													        </div>
 													        </div>
-															
-															
-													        
-															
-												
-															
+
+
+
+
+
+
 															<div class="col-xs-6">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.caporal')" value="Caporal" ng-model="newUnit.fungicidas.sistemicoOptions.caporal"> Caporal
@@ -703,13 +703,13 @@
 													        </div>
 													        </div>
 
-															
-															
-														
-					
-											
-													        
-															
+
+
+
+
+
+
+
 															<div class="col-xs-6">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.estrobirulina')" value="Estrobirulina" ng-model="newUnit.fungicidas.sistemicoOptions.estrobirulina"> Estrobirulina
@@ -734,17 +734,17 @@
 																			</div>
 													        </div>
 													        </div>
-													        
-															
+
+
 															<div class="col-xs-6" ng-class="newUnit.fungicidas.sistemicoOptions.otro ? 'col-xs-6' : 'col-xs-12'">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','sistemicoOptions.otro')" value="Otro" ng-model="newUnit.fungicidas.sistemicoOptions.otro">Otro
 													          </label>
-													          
+
 													          <label>
 													            <input type="text"  placeholder="¿Otro?" ng-show="newUnit.fungicidas.sistemicoOptions.otro" ng-model="newUnit.fungicidas.sistemicoOptions.cual">
 													          </label>
-													          
+
 																		<div  ng-if="newUnit.fungicidas.sistemicoOptions.otro">
 													          <div class="form-group" >
 																			<label>¿Cuando lo aplica?</label>
@@ -768,7 +768,7 @@
 														 </div>
 														</div>
 											</div>
-												
+
 											 <div class="col-xs-12" ng-show="newUnit.fungicidas.biologico">
 													<div class="form-group">
 													  <div class="row">
@@ -798,8 +798,8 @@
 																			</div>
 													        </div>
 													        </div>
-													        
-															
+
+
 															<div class="col-xs-6">
 													          <label>
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','biologicalOptions.bacilussutillis')" value="Bacilus Sutillis" ng-model="newUnit.fungicidas.biologicalOptions.bacilussutillis"> Bacilus Sutillis
@@ -829,7 +829,7 @@
 													            <input type="checkbox" ng-change="CheckboxBasedMonthChange('newUnit','biologicalOptions.otrocual')" value="Otro" ng-model="newUnit.fungicidas.biologicalOptions.otrocual"> Otro
 													          </label>
 													           <label>
-													            <input type="text" placeholder="¿Cuál?" ng-show="newUnit.fungicidas.biologicalOptions.otrocual" ng-model="newUnit.fungicidas.biologicalOptions.cual"> 
+													            <input type="text" placeholder="¿Cuál?" ng-show="newUnit.fungicidas.biologicalOptions.otrocual" ng-model="newUnit.fungicidas.biologicalOptions.cual">
 													          </label>
 																		<div  ng-if="newUnit.fungicidas.biologicalOptions.otrocual">
 													          <div class="form-group" >
@@ -855,11 +855,11 @@
 													</div>
 										 	</div>
 										</div>
-										
-																								--><!-- new questions ends --><!-- 
+
+																								--><!-- new questions ends --><!--
 										  <input type="submit" class="btn btn-primary" submit="newunitForm" form="newunitForm" value="Guardar nueva"/>
 										  </form>-->
-				 
+
 				  </div>
 			</div>
 		</div>
