@@ -3,10 +3,10 @@ var smtpTransport =  require('nodemailer-smtp-transport');
 /**/
 var configuration = {
     smtp_host: "smtp.gmail.com",
-    smtp_user: "coffecloudgt@gmail.com", // your gmail id
-    smtp_password: "C0ff3Clou8G7", // your gmail password
-    mailadmin: 'coffecloudgt@gmail.com',
-    display_name: 'Coffe Cloud Team'
+    smtp_user: "coffeecloudslv@gmail.com", // your gmail id
+    smtp_password: "Secoelpinto123!", // your gmail password
+    mailadmin: 'coffecloudslv@gmail.com',
+    display_name: 'Nube de Café Unex Team'
   };
 var config = configuration
 
