@@ -1,4 +1,6 @@
+
 <script type="text/ng-template" id="/login.html">
+
 		<div class="login-wrap">
 		<div class="container">
 			<div class="row">
@@ -8,26 +10,26 @@
 				  </div>
 
 				  <form ng-submit="logIn()" name="loginForm">
-				    <img src="images/pages-logo-dark.png" alt="" class="login-img img-responsive"/>
+				   <!-- <img src="images/pages-logo-dark.png" alt="" class="login-img img-responsive"/>-->
 				    <img src="images/capucaslogo.png" alt="" class="ana-img img-responsive"/>
 				    <div class="form-group">
-				       <label for="email">Usuario</label>
+				       <label for="email" style="color:#ee3725;font-size:19px;font-weight:900;">Usuario</label>
 				      <input style="font-size:30px;height:auto;" type="text" name="email"
 				      class="form-control"
 				      ng-model="user.username" ng-disabled="isFormSubmited" required></input>
 				    </div>
 				    <div class="form-group">
-				      <label for="password">Contraseña</label>
+				      <label for="password" style="color: #ee3725;font-size: 19px;font-weight: 900;">Contraseña</label>
 				      <input style="font-size:30px;height:auto;margin-bottom:15px;" type="password" name="password"
 				      class="form-control"
 				      ng-model="user.password" ng-disabled="isFormSubmited" required></input>
 				    </div>
 				    <h6 ng-show="isFormSubmited" class="text-center" style="position: absolute;width: 100%;margin-left: -15px;"><i class="fa fa-spinner fa-spin"></i></h6>
-				    <button type="submit" class="btn btn-primary" ng-disabled="loginForm.$valid && isFormSubmited">Iniciar Sesión</button>
+				    <button type="submit" class="btn btn-primary" style="background-color:#ee3725;border-color: #ee3725; margin: 10px auto" ng-disabled="loginForm.$valid && isFormSubmited">Iniciar Sesión</button>
                       <p align="center" style="font-size:9px">(v.2.3.7)</p>
-				    <a href="#/register">¿Es usuario nuevo?<br><strong>Cree su usuario aquí</strong></a>
-				    <a href="#/forgotpassword">¿Olvidó su contraseña?</a>
-    				<small><a href="#/politicas">Política de uso y privacidad</a></small>
+				    <a href="#/register" style="color: #ee3725;font-weight: 900;">¿Es usuario nuevo?<br><strong>Cree su usuario aquí</strong></a>
+				    <a href="#/forgotpassword" style="color: #ee3725;font-weight: 900;">¿Olvidó su contraseña?</a>
+    				<small><a href="#/politicas" style="color: #ee3725;font-weight: 900;">Política de uso y privacidad</a></small>
 				    <div class="row signature">
 					    <div class="col-xs-6">
 						     <img src="images/USAIDLOGO.png" alt="" class="login-usaid img-responsive"/>
