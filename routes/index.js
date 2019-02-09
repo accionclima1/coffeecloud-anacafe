@@ -407,7 +407,7 @@ router.post('/register', function (req, res, next) {
 
 
 
-                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                <!--    <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
                                                         <tbody><tr>
                                                             <td valign="top" style="padding-right:10px;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
@@ -484,7 +484,7 @@ router.post('/register', function (req, res, next) {
                                                                 </tbody></table>
                                                             </td>
                                                         </tr>
-                                                    </tbody></table>
+                                                    </tbody></table>-->
 
 
 
@@ -766,7 +766,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
 
 
-                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                    <!--    <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
                                                             <tbody><tr>
                                                                 <td valign="top" style="padding-right:10px;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
@@ -843,7 +843,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                                                     </tbody></table>
                                                                 </td>
                                                             </tr>
-                                                        </tbody></table>
+                                                        </tbody></table>-->
 
 
 
