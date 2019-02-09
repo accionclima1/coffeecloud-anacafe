@@ -514,10 +514,10 @@ router.post('/register', function (req, res, next) {
 
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                    <em>Copyright © Centro Clima - Nube de Cafe Unex, Todos los derechos reservados.</em><br>
+                                    <em> Copyright © Nube de Cafe Unex, Todos los derechos reservados.</em><br>
         <br>
         <strong>Nuestro correo electrónico es:</strong><br>
-        <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
+        <a href="mailto:coffecloudslv@gmail.com" target="_blank">coffecloudslv@gmail.com</a>
                                 </td>
                             </tr>
                         </tbody></table>
@@ -873,10 +873,10 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
                                     <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#656565;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
 
-                                        <em>Copyright © Centro Clima - Nube de Cafe Unex, Todos los derechos reservados.</em><br>
+                                        <em> Copyright © Nube de Cafe Unex, Todos los derechos reservados.</em><br>
             <br>
             <strong>Nuestro correo electrónico es:</strong><br>
-            <a href="mailto:coffecloudgt@gmail.com" target="_blank">coffecloudgt@gmail.com</a>
+            <a href="mailto:coffecloudslv@gmail.com" target="_blank">coffecloudslv@gmail.com</a>
                                     </td>
                                 </tr>
                             </tbody></table>
