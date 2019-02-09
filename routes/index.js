@@ -301,7 +301,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/Anacafe-logo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
+                                                <img align="center" alt="" src="http://unex.coffeecloudapp.com/images/LOGOVERDE.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"  >
 
 
                                     </td>
@@ -313,7 +313,7 @@ router.post('/register', function (req, res, next) {
         </table></td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#f24934;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                                        <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#1e8046;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
             <tbody class="m_7597259537403923093mcnImageBlockOuter">
                     <tr>
                         <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
@@ -610,19 +610,25 @@ router.post('/requestpasswordchange', function (req, res, next) {
     }
   console.log(req.body.Email);
     var query = User.findOne({ "email": req.body.Email });
+    console.log("se corrió la instruccion");
     query.exec(function (err, user) {
         if (err) { console.log("err in forgot pasword"); return next(err); }
         if (!user) { console.log("user"); /*return next(new Error('can\'t find user'));*/; res.json({ "success": false, data: 0 }); }
         else {
+
             var secret = speakeasy.generateSecret({ length: 20 });
+
             var tfa = { secret: secret.base32 };
+
             var token = speakeasy.totp({
                 secret: tfa.secret,
                 encoding: 'base32',
                 step: 180
             });
-            var userIde = (user._id)
-            userIde = encrypt(req.body.Email);
+
+            var userIde = req.body.Email;
+            //userIde = encrypt(req.body.Email);
+            console.log("se encripta el user");
 
 
 
@@ -655,7 +661,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                         <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                                    <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/Anacafe-logo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd">
+                                                    <img align="center" alt="" src="http://unex.coffeecloudapp.com/images/LOGOVERDE.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"  >
 
 
                                         </td>
@@ -667,7 +673,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
             </table></td>
                                         </tr>
                                         <tr>
-                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#f24934;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#1e8046;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
                 <tbody class="m_7597259537403923093mcnImageBlockOuter">
                         <tr>
                             <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
@@ -719,7 +725,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
             <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Nube de Cafe Unex!</h1>
             &nbsp;
 
-            <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tu código para restablecer tu contraseña:<br>
+            <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tu código para restablecer tu contraseña:</h4><br>
             <br>
             Tu código OTP es: ${token} <br/>
             <br>
@@ -944,7 +950,9 @@ router.post('/passwordchange', function (req, res, next) {
     }
     else {
 
-        userIde = decrypt(req.body.user.use);
+        //userIde = decrypt(req.body.user.use);
+        userIde=req.body.user.use;
+
 
 
         var query = User.findOne({ "email": userIde });
