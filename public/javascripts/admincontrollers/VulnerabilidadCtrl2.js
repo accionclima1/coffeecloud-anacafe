@@ -53,14 +53,19 @@ app.controller('VulnerabilidadCtrl2', [
     $scope.markers=[];
     $scope.ArrayCircles=[];
     $scope.numUnidades=0;
+    $('#cntVulnerabilidad').loadingIndicator({showOnInit:false});
+    $("#cntVulnerabilidad").data("loadingIndicator").show();
 
 		encuestaunit.getAll().then(function (tests){
+
 			console.log(tests);
 			$scope.setTests(tests.data);
+      $("#cntVulnerabilidad").data("loadingIndicator").hide();
 
 		});;
     //EL siguiente método acualiza todas la vistas
 		$scope.setTests=function(tests){
+
 
 			$scope.dataGrid=$scope.setDataGrid(tests);
 
@@ -90,6 +95,7 @@ app.controller('VulnerabilidadCtrl2', [
 
 
 				console.log(tests.length);
+
 
 		};
 //La siguiente funcion calcula el valor promedio de tests
