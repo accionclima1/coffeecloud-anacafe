@@ -294,7 +294,7 @@ $scope.graphicRoyaVsTime=function (royas) {
 			text: 'Incidencia de la plaga en el tiempo.'
 		},
 		subtitle: {
-			text: 'Source: Coffee Cloud'
+			text: 'Source: Nube de Café Capucas'
 		},
 		xAxis: {
 			type: 'datetime',
@@ -372,7 +372,7 @@ Highcharts.chart('barsroyachart', {
 	},
 
 	subtitle: {
-	  text: 'Source: Coffee Cloud'
+	  text: 'Source: Nube de Café Capucas'
 	},
 
 	xAxis: {
