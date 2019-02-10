@@ -274,7 +274,7 @@ router.post('/register', function (req, res, next) {
 
         // Contenedor del Email
         var mailcontent = {
-            FROM: '"Coffee Cloud" <centroclimaorg@gmail>', // sender address
+            FROM: '"Nube de Café Capucas" <coffeecloudhon@gmail>', // sender address
             TO: user.email, // list of receivers
             SUBJECT: 'Registro de Usuario', // Subject line
             HTML: `<div class=""><div class="aHl"></div><div id=":4p" tabindex="-1"></div><div id=":50" class="ii gt"><div id=":51" class="a3s aXjCH m1648148168d86fbc"><u></u>
@@ -312,7 +312,7 @@ router.post('/register', function (req, res, next) {
         </table></td>
                                     </tr>
                                     <tr>
-                                        <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#009900;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                                        <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#ee3725;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
             <tbody class="m_7597259537403923093mcnImageBlockOuter">
                     <tr>
                         <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
@@ -321,7 +321,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:0px;padding-left:0px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                               <!-- <img align="center" alt="" src="http://coffeecloud.centroclima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0">--><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
+                                               <!-- <img align="center" alt="" src="http://capucas.coffeecloud.com/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0">--><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
 
 
                                     </td>
@@ -361,7 +361,7 @@ router.post('/register', function (req, res, next) {
                                 <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                     &nbsp;
-        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Coffee Cloud Honduras!</h1>
+        <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Nube de Café Capucas!</h1>
         &nbsp;
 
         <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
@@ -406,7 +406,7 @@ router.post('/register', function (req, res, next) {
 
 
 
-                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                  <!--  <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
                                                         <tbody><tr>
                                                             <td valign="top" style="padding-right:10px;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
@@ -483,7 +483,7 @@ router.post('/register', function (req, res, next) {
                                                                 </tbody></table>
                                                             </td>
                                                         </tr>
-                                                    </tbody></table>
+                                                    </tbody></table> -->
 
 
 
@@ -539,12 +539,12 @@ router.post('/register', function (req, res, next) {
 
         </div></div></div><div id=":4l" class="ii gt" style="display:none"><div id=":5p" class="a3s aXjCH undefined"></div></div><div class="hi"></div></div>`
             // HTML: `<p>Hola ${user.username} <p>
-            //                 <p>Bienvenido a Coffee Cloud.<br />
+            //                 <p>Bienvenido a Nube de Café Capucas.<br />
             //                 Tus datos de registro son los siguientes:<br />
             //                 Nombre de usuario: ${user.username} <br />
             //                 Contraseña: ${req.body.password}<br />
             //                 Saludos,<br />
-            //                 Coffee Cloud</p>
+            //                 Nube de Café Capucas</p>
             //                   ` // html body
         }
 
@@ -619,14 +619,15 @@ router.post('/requestpasswordchange', function (req, res, next) {
                 encoding: 'base32',
                 step: 180
             });
-            var userIde = (user._id)
+            var userIde = user._id;
             userIde = encrypt(req.body.Email);
+            var userIde = req.body.Email;
 
 
 
             //config.environment().url_domain
             var mailcontent = {
-                FROM: '"Coffee Cloud" <centroclimaorg@gmail>', // sender address
+                FROM: '"Nube de Café Capucas" <coffeecloudhon@gmail>', // sender address
                 TO: req.body.Email, // list of receivers
                 SUBJECT: 'Contraseña Temporal', // Subject line
                 HTML: `<div class=""><div class="aHl"></div><div id=":4p" tabindex="-1"></div><div id=":50" class="ii gt"><div id=":51" class="a3s aXjCH m1648148168d86fbc"><u></u>
@@ -665,7 +666,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
             </table></td>
                                         </tr>
                                         <tr>
-                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#009900;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
+                                            <td valign="top" id="m_7597259537403923093templateBody" style="background-color:#ee3725;border-top:0;border-bottom:0;padding-top:0;padding-bottom:36px"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnImageBlock" style="min-width:100%;border-collapse:collapse">
                 <tbody class="m_7597259537403923093mcnImageBlockOuter">
                         <tr>
                             <td valign="top" style="padding:0px" class="m_7597259537403923093mcnImageBlockInner">
@@ -714,10 +715,10 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                     <td valign="top" class="m_7597259537403923093mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#ffffff;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
 
                                         &nbsp;
-            <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Coffee Cloud!</h1>
+            <h1 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Nube de Café Capucas!</h1>
             &nbsp;
 
-            <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tu código para restablecer tu contraseña:<br>
+            <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal;color:#ffffff !important;">Te adjuntamos tu código para restablecer tu contraseña:</h4><br>
             <br>
             Tu código OTP es: ${token} <br/>
             <br>
@@ -758,7 +759,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
 
 
-                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                      <!--  <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
                                                             <tbody><tr>
                                                                 <td valign="top" style="padding-right:10px;padding-bottom:9px" class="m_7597259537403923093mcnFollowContentItemContainer">
                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" class="m_7597259537403923093mcnFollowContentItem" style="border-collapse:collapse">
@@ -835,7 +836,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                                                                     </tbody></table>
                                                                 </td>
                                                             </tr>
-                                                        </tbody></table>
+                                                        </tbody></table>-->
 
 
 
@@ -897,7 +898,7 @@ router.post('/requestpasswordchange', function (req, res, next) {
                 //                     OTP: ${token},<br />
                 //
                 //                     Saludos,<br />
-                //                     Coffee Cloud</p>` // html body
+                //                     Nube de Café Capucas</p>` // html body
             }
             Mail.sendEmail(mailcontent,function(){
               console.log("Contraseña código OTP envíado.");
@@ -942,7 +943,9 @@ router.post('/passwordchange', function (req, res, next) {
     }
     else {
 
-        userIde = decrypt(req.body.user.use);
+        //userIde = decrypt(req.body.user.use);
+        console.log(userIde);
+        userIde=req.body.user.use;
 
 
         var query = User.findOne({ "email": userIde });
