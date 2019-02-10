@@ -365,7 +365,7 @@ router.post('/register', function (req, res, next) {
         <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Nube de Cafe Unex!</h1>
         &nbsp;
 
-        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff !important;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
+        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff !important;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:</h4><br>
         <br>
         Usuario: ${user.username} <br/>
         Contraseña: ${req.body.password}<br/>
