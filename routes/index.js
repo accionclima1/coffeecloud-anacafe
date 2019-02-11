@@ -367,10 +367,10 @@ router.post('/register', function (req, res, next) {
 
         <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff !important;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:</h4><br>
         <br>
-        Usuario: ${user.username} <br/>
-        Contraseña: ${req.body.password}<br/>
+        <h4>Usuario: ${user.username} </h4><br/>
+        <h4>Contraseña: ${req.body.password}</h4><br/>
         <br>
-        Saludos.</h4>
+        <h4>Saludos.</h4>
 
                                 </td>
                             </tr>
@@ -727,9 +727,9 @@ router.post('/requestpasswordchange', function (req, res, next) {
 
             <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tu código para restablecer tu contraseña:</h4><br>
             <br>
-            Tu código OTP es: ${token} <br/>
+            <h4>Tu código OTP es: ${token}</h4> <br/>
             <br>
-            Saludos.</h4>
+            <h4>Saludos.</h4>
 
                                     </td>
                                 </tr>
