@@ -301,7 +301,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-
+                                    <!--  <img align="center" alt="" src="http://capucas.coffeecloudapp.com/images/capucaslogo.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"  >-->
 
                                     </td>
                                 </tr>
@@ -321,7 +321,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:0px;padding-left:0px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                               <!-- <img align="center" alt="" src="http://capucas.coffeecloud.com/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0">--><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
+                                               <!--<img align="center" alt="" src="http://coffeecloud.centroglima.org/images/cafe-banner.gif" width="600" style="max-width:1900px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="m_7597259537403923093mcnImage CToWUd a6T" tabindex="0">--><div class="a6S" dir="ltr" style="opacity: 0.01; left: 562px; top: 412.062px;"><div id=":os" class="T-I J-J5-Ji aQv T-I-ax7 L3 a5q" role="button" tabindex="0" aria-label="Descargar el archivo adjunto " data-tooltip-class="a1V" data-tooltip="Descargar"><div class="aSK J-J5-Ji aYr"></div></div></div>
 
 
                                     </td>
@@ -364,12 +364,12 @@ router.post('/register', function (req, res, next) {
         <h1 style="display:block;margin:0;padding:0;color:#ffffff !important;font-family:Georgia;font-size:28px;font-style:italic;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">¡Bienvenido a Nube de Café Capucas!</h1>
         &nbsp;
 
-        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:<br>
-        <br>
-        Usuario: ${user.username} <br/>
-        Contraseña: ${req.body.password}<br/>
-        <br>
-        Saludos.</h4>
+        <h4 style="text-align:left;display:block;margin:0;padding:0;color:#ffffff;font-family:Courier New;font-size:18px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:normal">Te adjuntamos tus credenciales para la plataforma:</h4><br>
+
+        <h4>Usuario: ${user.username} </h4>
+        <h4>Contraseña: ${req.body.password} </h4><br/>
+
+        <h4>Saludos.</h4>
 
                                 </td>
                             </tr>
@@ -934,18 +934,27 @@ router.post('/changeauthenticate', function (req, res, next) {
 
 });
 router.post('/passwordchange', function (req, res, next) {
+console.log("Body");
+console.log(req.body);
+console.log("Body");
+console.log(req.body.pasword);
 
     if (!req.body.pasword || !req.body.user) {
+        console.log("Parametros vacios");
         return res.status(400).json({ message: 'Solicitud no válida' });
     }
     if (req.body.pasword.password !== req.body.pasword.cpassword) {
+        console.log("Contraseñas no coinciden");
         return res.status(401).json({ message: 'La contraseña no coincide' });
     }
     else {
-
+console.log("Pasamos las validaciones");
         //userIde = decrypt(req.body.user.use);
+      //  console.log(userIde);
+        var userIde=req.body.user.use;
         console.log(userIde);
-        userIde=req.body.user.use;
+
+
 
 
         var query = User.findOne({ "email": userIde });
