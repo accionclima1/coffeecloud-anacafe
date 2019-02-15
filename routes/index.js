@@ -301,7 +301,7 @@ router.post('/register', function (req, res, next) {
                                     <td class="m_7597259537403923093mcnImageContent" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
 
 
-                                    <!--  <img align="center" alt="" src="http://capucas.coffeecloudapp.com/images/LOGOIHCAFEJPNG.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"  >-->
+                                    <!--  <img align="center" alt="" src="http://ihcafe.coffeecloudapp.com/images/LOGOIHCAFEJPNG.png" width="400" style="max-width:400px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"  >-->
 
                                     </td>
                                 </tr>
