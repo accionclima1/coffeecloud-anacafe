@@ -154,7 +154,7 @@ h5 {
 }
 
 .navbar-default.pull-left  .navbar-nav:before {
-  content:"Capucas";
+  content:"IHCAFE";
   font-family: 'Roboto', sans-serif;
   position:absolute;
   top: 16px;
@@ -207,7 +207,7 @@ h5 {
 /* login screen */
 
 .login-wrap{
-  background-image: url(../images/5.jpg);
+  background-image: url(../images/background.png);
   background-size: cover;
   background-position:center;
   height: 100%;
@@ -218,7 +218,7 @@ h5 {
 }
 
 .politicas-wrap {
-  background-image: url(../images/5.jpg);
+  background-image: url(../images/background.png);
   background-position: top;
   background-size: 2500px 18000px;
   display: table;
