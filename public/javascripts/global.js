@@ -1,7 +1,7 @@
 ﻿var global = {};
 global.setting = {
-    //service: "http://163.172.152.189:8091/",
-    service: "http://163.172.152.189:8091/",
+    //service: "http://capucas.coffeecloudapp.com/",
+    service: "http://capucas.coffeecloudapp.com/",
     getServiceUrl: function () {
         return this.service;
     }
