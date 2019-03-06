@@ -835,10 +835,14 @@ app.controller('RoyaCtrl', [
 
 $scope.getHelp = function(currentUser) {
 
+	//Mandamos el nuevo arreglo a pouchDB
+	PouchDB.SaveRoyaToPouchDB($scope.test);
+	$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+
 	if ($rootScope.IsInternetOnline) {
 
 			roya.create($scope.test).then(function (result) {
-					$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
+					//$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
 					console.log("Muestreo Roya realizado");
 					console.log(result);
 					console.log(result.data);
@@ -869,10 +873,6 @@ $scope.getHelp = function(currentUser) {
 
 			    //socket.emit('get msg',data_server);
 			});
-	}else {
-		//Mandamos el nuevo arreglo a pouchDB
-		PouchDB.SaveRoyaToPouchDB($scope.test);
-		$scope.SweetAlert("¡Excelente!", "Muestreo Realizado", "success");
 	}
 }
 
