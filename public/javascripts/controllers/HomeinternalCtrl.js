@@ -284,6 +284,8 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                   $(".cargandoAltitudLote").css("display", "none");
                   $('.collapse').collapse('hide');
                 });
+                //INFORMACION DE VARIEDADES DE CAFE DE LA UNIDAD
+                console.log($scope.unidadseleccionada.variedad);
                 console.log($scope.unidadseleccionada);
                 $('.collapse').collapse('hide');
                 console.log("Debería collapsar");

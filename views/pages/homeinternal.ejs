@@ -129,7 +129,7 @@
                            data-error="Campo requerido"
                            required>
                              <option disabled selected>0 variedades seleccionadas</option>
-                             <option ng-repeat="option in variedades" value="{{option.name}}" ng-selected="(lote.variedad.indexOf(option.name)>=0)">{{option.name}}</option>
+                             <option ng-repeat="option in unidadseleccionada.variedad" value="{{option}}" ng-selected="(lote.variedad.indexOf(option)>=0)">{{option}}</option>
                            </select>
                          </div>
                        </div>
