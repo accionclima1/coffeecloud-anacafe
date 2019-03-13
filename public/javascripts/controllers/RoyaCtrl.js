@@ -629,7 +629,7 @@ app.controller('RoyaCtrl', [
 			console.log($scope.sumaDeHojas);
 			console.log($scope.hojasPorPlanta);
 			if ($scope.sumaDeHojas !== $scope.numeroDeHojas) {
-				$scope.SweetAlert('¡Error!', 'Cantidad de hojas incorrecta', 'error');
+				$scope.SweetAlert('¡Error!', 'Cantidad de hojas incorrectas. La sumatoria debe dar un total de: '+$scope.modal.number+" hojas.", 'error');
 			}
 			else{
 				$scope.promedio = ($scope.hojasPorPlanta[0] * 0) + ($scope.hojasPorPlanta[1] * 1) + ($scope.hojasPorPlanta[2] * 2) + ($scope.hojasPorPlanta[3] * 3) + ($scope.hojasPorPlanta[4] * 4) + ($scope.hojasPorPlanta[5] * 5);
