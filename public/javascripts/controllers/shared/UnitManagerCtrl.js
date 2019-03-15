@@ -934,7 +934,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
                 });
             }
 
-            if(AdvancedGeolocation!=null)
+            if(device.platform === 'Android' && AdvancedGeolocation!=null)
             {
                 try {
                     AdvancedGeolocation.stop(function(success){
@@ -1485,7 +1485,7 @@ function ($http, $scope, auth, unit, varieties, fungicidas, user, PouchDB, local
             $('#menssageLocation').css("display", "inline");
             $('#menssageAltitud').css("display", "inline");
             var cAccuracy = null;
-            if(AdvancedGeolocation!=null) {
+            if(device.platform === 'Android' && AdvancedGeolocation!=null) {
                 AdvancedGeolocation.start(function(success){
 
                     try{

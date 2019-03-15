@@ -537,7 +537,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
 
               // $('#menssageLocationLote').css("display", "block");
               var cAccuracy = null;
-              if(AdvancedGeolocation!=null) {
+              if(device.platform === 'Android' && AdvancedGeolocation!=null) {
                 AdvancedGeolocation.start(function(success){
 
                   try{
@@ -973,7 +973,7 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                }
            });
 
-           if(AdvancedGeolocation!=null)
+           if(device.platform === 'Android' && AdvancedGeolocation!=null)
            {
             try {
               AdvancedGeolocation.stop(function(success){
