@@ -536,7 +536,152 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
              }
 
               // $('#menssageLocationLote').css("display", "block");
-             if (navigator.geolocation) {
+              var cAccuracy = null;
+              if(AdvancedGeolocation!=null) {
+                AdvancedGeolocation.start(function(success){
+
+                  try{
+                      var jsonObject = JSON.parse(success);
+                      
+                      switch(jsonObject.provider){
+                          case "gps":
+                              if(jsonObject.latitude != "0.0"){
+                                  
+                                  if(cAccuracy===null) cAccuracy = jsonObject.accuracy;
+                                  if(cAccuracy > jsonObject.accuracy) {
+                                      cAccuracy = jsonObject.accuracy;
+                                      
+                                      var pos = {
+                                          lat: jsonObject.bufferedLatitude,
+                                          lng: jsonObject.bufferedLongitude,
+                                          alt: jsonObject.altitude
+                                      };
+  
+                                      myLat = jsonObject.bufferedLatitude;
+                                      myLng = jsonObject.bufferedLongitude;
+                                      myAlt = jsonObject.altitude;
+                                      // myAlt = 1254.365;
+  
+                                      console.log(myAlt);
+                                      // console.log(elevator);
+  
+                                      coordenadas = '('+ myLat +','+ myLng+')';
+                                      console.log("Coordenadas", coordenadas);
+  
+                                      if (myAlt === null) {
+                                        $(altitudLote).val("");
+                                      }
+                                      else{
+                                        if(myAlt > 0) {
+                                          altitud = myAlt.toString();
+                                          $scope.unidadseleccionada.lote[$scope.unidadseleccionada.lote.length - 1].altitud = altitud;
+                                          console.log($scope.unidadseleccionada.lote);
+                                          $(altitudLote).val(altitud);
+                                        }
+                                      }
+                 
+                                      // Mostramos la Geolocalización
+                                      $scope.unidadseleccionada.lote[$scope.unidadseleccionada.lote.length - 1].georeferenciacion = coordenadas;
+                                      console.log($scope.unidadseleccionada.lote);
+                                      $(ubicacionLote).val(coordenadas);
+                                      $($scope.mensajeUbicacionLote).css("display", "none");
+                                      $($scope.mensajeAltitudLote).css("display", "none");
+                                      console.log($(ubicacionLote).val(), ubicacionLote);
+                                      console.log($(altitudLote).val(), altitudLote);
+                                  }
+                              }
+                          break;
+          
+                          case "network":
+                              if(jsonObject.latitude != "0.0"){
+                                  if(cAccuracy===null) cAccuracy = jsonObject.accuracy;
+                                  if(cAccuracy > jsonObject.accuracy) {
+                                      cAccuracy = jsonObject.accuracy;
+                                      var pos = {
+                                          lat: jsonObject.bufferedLatitude,
+                                          lng: jsonObject.bufferedLongitude,
+                                          alt: jsonObject.altitude
+                                      };
+                                  
+                                      myLat = jsonObject.bufferedLatitude;
+                                      myLng = jsonObject.bufferedLongitude;
+                                      myAlt = jsonObject.altitude;
+                                      // myAlt = 1254.365;
+                              
+                                      console.log(myAlt);
+                                      // console.log(elevator);
+                                  
+                                      coordenadas = '('+ myLat +','+ myLng+')';
+                                      console.log("Coordenadas", coordenadas);
+                                  
+                                      if (myAlt === null) {
+                                        $(altitudLote).val("");
+                                      }
+                                      else{
+                                        if(myAlt > 0) {
+                                          altitud = myAlt.toString();
+                                          $scope.unidadseleccionada.lote[$scope.unidadseleccionada.lote.length - 1].altitud = altitud;
+                                          console.log($scope.unidadseleccionada.lote);
+                                          $(altitudLote).val(altitud);
+                                        }
+                                      }
+                 
+                                      // Mostramos la Geolocalización
+                                      $scope.unidadseleccionada.lote[$scope.unidadseleccionada.lote.length - 1].georeferenciacion = coordenadas;
+                                      console.log($scope.unidadseleccionada.lote);
+                                      $(ubicacionLote).val(coordenadas);
+                                      $($scope.mensajeUbicacionLote).css("display", "none");
+                                      $($scope.mensajeAltitudLote).css("display", "none");
+                                      console.log($(ubicacionLote).val(), ubicacionLote);
+                                      console.log($(altitudLote).val(), altitudLote);
+                                  }
+                              }
+                          break;
+          
+                          case "satellite":
+                              //TODO
+                          break;
+                                      
+                          case "cell_info":
+                              //TODO
+                          break;
+                                      
+                          case "cell_location":
+                              //TODO
+                          break;  
+                                  
+                          case "signal_strength":
+                              //TODO
+                          break;              	
+                      }
+                  }
+                  catch(exc){
+                      console.log("Invalid JSON: " + exc);
+                  }   
+                },
+                function(error){
+                    console.log("ERROR! " + JSON.stringify(error));
+                },
+                  ////////////////////////////////////////////
+                  //
+                  // REQUIRED:
+                  // These are required Configuration options!
+                  // See API Reference for additional details.
+                  //
+                  ////////////////////////////////////////////
+                {
+                        "minTime":500,         // Min time interval between updates (ms)
+                        "minDistance":1,       // Min distance between updates (meters)
+                        "noWarn":true,         // Native location provider warnings
+                        "providers":"all",     // Return GPS, NETWORK and CELL locations
+                        "useCache":false,       // Return GPS and NETWORK cached locations
+                        "satelliteData":true, // Return of GPS satellite info
+                        "buffer":true,        // Buffer location data
+                        "bufferSize":10,        // Max elements in buffer
+                        "signalStrength":true // Return cell signal strength data
+                });
+              }
+              else if (navigator.geolocation) {
                 console.log($scope.mensajeUbicacionLote);
                  navigator.geolocation.getCurrentPosition(function (position) {
                      var pos = {
@@ -827,6 +972,19 @@ function ($http,$scope, $stateParams, auth, unit, varieties, user, PouchDB, $roo
                    $('#nuevoLote').prop('disabled', false);
                }
            });
+
+           if(AdvancedGeolocation!=null)
+           {
+            try {
+              AdvancedGeolocation.stop(function(success){
+                console.log(success);
+              },function(error){
+                console.log(error);
+              });
+            } catch(exc) {
+              console.log(exc);
+            }
+           }
        }
        else {
          $scope.SweetAlert("Error", "Complete los campos", "error");
