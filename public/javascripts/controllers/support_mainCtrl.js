@@ -22,7 +22,7 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
 		//support_head.getAll().then(function (msg) {
 		 support_head.getUser($scope.currentUserObj.username, $scope.n).then(function (msg) {
 	     $scope.cargado = true;
-	     $scope.chatsList = {};
+	     $scope.chatsList =[ {}];
 	     $scope.chatsUsers = [];
 
 			 if(msg.data.length<20){
@@ -30,18 +30,16 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
  			}
 
  			for (var i = 0; i < msg.data.length; i++) {
- 					var obj = msg.data[i];
- 					if($scope.chatsList[obj['msg']]==null){
- 							$scope.chatsList[obj['msg']]=obj;
- 					}
+				var obj = msg.data[i];
+				$scope.listChats.push(obj);
  			}
 
- 			for(var i in $scope.chatsList){
- 					$scope.chatsUsers.push($scope.chatsList[i]);
- 			}
-
- 			$scope.listChats = $scope.listChats.concat($scope.chatsUsers);
- 			console.log($scope.chatsList);
+ 			// for(var i in $scope.chatsList){
+ 			// 		$scope.chatsUsers.push($scope.chatsList[i]);
+ 			// }
+			//
+ 			// $scope.listChats = $scope.listChats.concat($scope.chatsUsers);
+ 			// console.log($scope.chatsList);
  			console.log($scope.listChats);
  			$scope.n=$scope.n+1;
 	    });

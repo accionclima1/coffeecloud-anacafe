@@ -238,14 +238,14 @@
               <div class="member_list">
                  <ul class="list-unstyled" ng-repeat="support in listChats" ng-controller="support_mainCtrl">
                     <li class="left clearfix">
-                      <a href="#/support_conversation/{{support._id}}/0">
+                      <a href="#/support_conversation/{{support._id}}/0" >
                        <span class="chat-img pull-left">
                        <img  ng-src="images/user_color.png" src="images/user_color.png" alt="User Avatar" class="img-circle">
                        </span>
-                       <div class="chat-body clearfix">
+                       <div class=" clearfix">
                           <div class="header_sec">
                              <strong class="primary-font">{{support.subject}}</strong> <strong class="pull-right">
-                             {{support.timestamp}}</strong>
+                             {{support.timestamp | date:'dd/MM/yyyy'}}</strong>
                           </div>
                           <div class="contact_sec">
                             <strong class="pull-right">Abierto</strong>
