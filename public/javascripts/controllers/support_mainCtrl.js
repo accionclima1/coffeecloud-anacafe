@@ -47,28 +47,6 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
 	    });
 		}
 
-	$scope.crearChat = function(){
-		user.getArea($scope.currentUserObj._id).then(function(data){
-						if(data.length>0){
-								var strData = data.join(",");
-								user.getUserInCharge(strData).then(function(data2){
-										if(data2){
-												console.log(data2);
-												var userReceiver = data2[0];
-												var dataMsg = {
-														to_user:userReceiver._id,
-														from_id:$scope.currentUserObj._id,
-														message:"Saludos"
-												}
-												socket.emit('get msg',dataMsg);
-										}
-								});
-						}else{
-
-						}
-				});
-		}
-
 	$scope.new_conversation = function(){
 			console.log("new_conversation");
 			$scope.classActive = "/support_conversation";

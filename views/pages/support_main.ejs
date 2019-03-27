@@ -238,6 +238,7 @@
               <div class="member_list">
                  <ul class="list-unstyled" ng-repeat="support in listChats" ng-controller="support_mainCtrl">
                     <li class="left clearfix">
+                      <a href="#/support_conversation/{{support._id}}/0">
                        <span class="chat-img pull-left">
                        <img  ng-src="images/user_color.png" src="images/user_color.png" alt="User Avatar" class="img-circle">
                        </span>
@@ -250,12 +251,13 @@
                             <strong class="pull-right">Abierto</strong>
                           </div>
                        </div>
+                       </a>
                     </li>
                  </ul>
               </div>
             </div>
         </div>
-        <div class="fab"> <a  href="#/support_conversation" style="color:#ffffff;" > + </a></div>
+        <div class="fab"> <a  href="#/support_conversation/0/0" style="color:#ffffff;" > + </a></div>
     </div>
     </div>
 </script>

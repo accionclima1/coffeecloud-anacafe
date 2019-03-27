@@ -2533,7 +2533,29 @@ app.factory('support_head', ['$http','auth', function ($http, auth) {
     return o;
 }]);
 
+app.factory('support_detail', ['$http','auth', function ($http, auth) {
+    var o = {};
+    o.getConversation = function (suportID,pagina) {
+        return $http.get('http://coffeecloud.centroclima.org/support_detail/'+suportID+"/"+pagina).success(function (data) {
+            return data;
+        });
+    };
+    o.getUser = function (userID, pagina) {
+        return $http.get('http://coffeecloud.centroclima.org/support_detail/?user'+userID+"/?pagina"+pagina).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (support_head) {
+        console.log("Result Messages: ", support_head);
+        return $http.post('http://coffeecloud.centroclima.org/support_head?tmp=' + (new Date()).getTime(), support_head, {
 
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
 app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
 
@@ -2967,11 +2989,12 @@ function ($stateProvider, $urlRouterProvider) {
               }
           }]
       })
+
       .state('support_conversation', {
-          url: '/support_conversation',
+          url: '/support_conversation/:supportID/:pagina',
           templateUrl: '/support_conversation.html',
           controller: 'support_conversationCtrl',
-          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
+          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket, support_detail) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');
               }

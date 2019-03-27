@@ -113,7 +113,7 @@ router.get('/support_head/:user/:pagina', function(req, res, next){
   var usuario = req.params.user;
   var pagina = parseInt(req.params.pagina);
   console.log("Buscar mensajes de: "+usuario);
-  Support_Head.find({"sender":usuario},null, {skip:(pagina*20), limit:20, sort:{_id:-1}}, function(err, msg){
+  Support_Head.find({"sender":usuario},null, {skip:(pagina*20), limit:20}, function(err, msg){
     if(err){return next(err)}
     res.json(msg);
   })
@@ -126,7 +126,16 @@ router.get('/support_head', function(req, res, next){
     res.json(support_head);
   })
 });
-
+//GET support detail
+router.get('/support_detail/:supportID/:pagina', function(req, res, next){
+  var supportID = req.params.supportID;
+  var pagina = parseInt(req.params.pagina);
+  console.log("Buscar mensajes de: "+supportID);
+  Support_Detail.find({"support_head_id":supportID},null, {skip:(pagina*20), limit:20, sort:{_id:-1}}, function(err, msg){
+    if(err){return next(err)}
+    res.json(msg);
+  })
+});
 /* GET posts page. */
 router.get('/posts', function (req, res, next) {
     Post.find(function (err, posts) {

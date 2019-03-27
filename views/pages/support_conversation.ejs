@@ -247,14 +247,18 @@
                     </div>
                  </li>
                  </ul>
-<ul class="list-unstyled" ng-repeat="msg in chatLog"  ng-controller="support_conversationCtrl">
+<ul class="list-unstyled" ng-repeat="msg in listChats" ng-controller="support_conversationCtrl">
                  <li class="left clearfix" >
                                  <span class="chat-img1 pull-left">
-                                 <img ng-src="images/user_color.png" src="images/user_color.png" alt="User Avatar" class="img-circle">
+                                 <img ng-src="images/user_color.png" src="images/user_color.png" alt="User Avatar" class="img-circle" ng-if="msg.sender!= currentUser()" >
                                  </span>
-                                 <div class="chat-body1 clearfix">
+                                 <div class="chat-body1 clearfix pull-right" ng-if="msg.sender == currentUser()" >
                                     <p>{{msg.message}}</p>
-                        <div class="chat_time pull-right">{{currentDate}}</div>
+                        <div class="chat_time pull-right">{{ msg.timestamp| date:'dd/MM/yyyy HH:mm' }}</div>
+                                 </div>
+                                 <div class="chat-body1 clearfix pull-left" ng-if="msg.sender != currentUser()" >
+                                    <p>{{msg.message}}</p>
+                        <div class="chat_time pull-right">{{ msg.timestamp| date:'dd/MM/yyyy HH:mm' }}</div>
                                  </div>
                               </li>
     </ul>
