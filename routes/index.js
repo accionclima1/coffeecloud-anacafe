@@ -24,6 +24,8 @@ var Variety = mongoose.model('Variety');
 var Fungicida = mongoose.model('Fungicida');
 var Vulnerability = mongoose.model('Vulnerability');
 var Encuesta = mongoose.model('Encuesta');
+var Support_Head = mongoose.model('Support_Head');
+var Support_Detail = mongoose.model('Support_Detail');
 // Load widget model
 var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
@@ -104,6 +106,25 @@ function decrypt(text) {
 router.get('/', function (req, res, next) {
     res.render('index', { title: 'Express' });
 
+});
+
+//GET support head
+router.get('/support_head/:user/:pagina', function(req, res, next){
+  var usuario = req.params.user;
+  var pagina = parseInt(req.params.pagina);
+  console.log("Buscar mensajes de: "+usuario);
+  Support_Head.find({"sender":usuario},null, {skip:(pagina*20), limit:20, sort:{_id:-1}}, function(err, msg){
+    if(err){return next(err)}
+    res.json(msg);
+  })
+});
+
+//GET support head
+router.get('/support_head', function(req, res, next){
+  Support_Head.find(function(err, support_head){
+    if(err){return next(err)}
+    res.json(support_head);
+  })
 });
 
 /* GET posts page. */
@@ -1589,9 +1610,9 @@ router.post('/roya', auth, function (req, res, next) {
     roya.EntityType = "Roya";
 
     roya.save(function (err, roya) {
-        if (err) { 
+        if (err) {
             console.log(err);
-            return next(err); 
+            return next(err);
         }
         console.log(roya);
         res.json(roya);
@@ -1944,7 +1965,7 @@ router.post('/SyncUserLocalDataRoya/:user/datalist', auth, function (req, res, n
                 roya.createdAt=item.createdAt;
                 roya.PouchDBId = item.PouchDBId;
                 roya.EntityType = 'Roya';
-            
+
                 roya.save(function (err, roya) {
                     if (err) { return next(err); }
                 });
@@ -2322,7 +2343,7 @@ router.get('/userArea/:ud',function(req,res,next){
         console.log(err);
         console.log(result);
         if (err) { return next(err); }
-        
+
         res.json(result);
     });
 })

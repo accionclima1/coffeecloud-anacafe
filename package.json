@@ -31,6 +31,7 @@
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
-    "grunt-ejs": "^0.3.0"
+    "grunt-ejs": "^0.3.0",
+    "nodemon": "^1.18.10"
   }
 }

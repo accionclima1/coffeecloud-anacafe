@@ -176,7 +176,7 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
         };
         var deferred = $q.defer();
         if (royasData != undefined && royasData.length > 0) {
-            
+
             function mapFunctionTypeUnit(doc) {
                 if ((doc.EntityType == "Roya")) {
                     emit(doc);
@@ -188,7 +188,7 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                     for(var xi=0;xi<royasData.length;xi++){
                         var encontrado = false;
                         for(xj=0;xj<result.rows.length;xj++){
-                            var tmp = result.rows[xj].doc   
+                            var tmp = result.rows[xj].doc
                             if(tmp.PouchDBId==royasData[xi].PouchDBId){
                                 encontrado =true;
                             }
@@ -1132,7 +1132,7 @@ app.factory('PouchDB', ['$http', 'unit', 'vulnerabilidades', 'auth', '$q', '$roo
                             deferred.resolve(true);
                         }
                     });
-                    
+
                 }
                 else {
                     deferred.resolve(true);
@@ -1763,13 +1763,13 @@ app.factory('onlineStatus', ["$window", "$rootScope", function ($window, $rootSc
 
     onlineStatus.onLine = $window.navigator.onLine;
 //onlineStatus.onLine = false;
-    
+
     Offline.on('confirmed-up',function(){
             onlineStatus.onLine = true;
             $rootScope.IsInternetOnline = true;
             console.log("Conectado a internet, confirmación by event");
     });
-    
+
     Offline.on('confirmed-down',function(){
             onlineStatus.onLine = false;
             $rootScope.IsInternetOnline = false;
@@ -1882,6 +1882,8 @@ app.factory('widget', ['$http', function ($http) {
     };
     return w;
 }]);
+
+
 
 app.filter('startFrom', function () {
     return function (input, start) {
@@ -2004,13 +2006,13 @@ app.factory('user', ['$http', 'auth', function ($http, auth) {
             return res.data;
         });
     };
-    
+
     o.getArea = function(userId){
         return $http.get('http://coffeecloud.centroclima.org/userArea/'+userId).then(function(res){
             return res.data;
         });
     }
-    
+
     o.getUserInCharge = function(areas){
         return $http.get('http://coffeecloud.centroclima.org/userInCharge/'+areas).then(function(res){
             return res.data;
@@ -2507,6 +2509,31 @@ app.factory('messages', ['$http', 'auth', function ($http, auth) {
     return o;
 }]);
 
+app.factory('support_head', ['$http','auth', function ($http, auth) {
+    var o = {};
+    o.getAll = function () {
+        return $http.get('http://coffeecloud.centroclima.org/support_head').success(function (data) {
+            return data;
+        });
+    };
+    o.getUser = function (userID, pagina) {
+        return $http.get('http://coffeecloud.centroclima.org/support_head/?user'+userID+"/?pagina"+pagina).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (support_head) {
+        console.log("Result Messages: ", support_head);
+        return $http.post('http://coffeecloud.centroclima.org/support_head?tmp=' + (new Date()).getTime(), support_head, {
+
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
+
 app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
 
@@ -2622,7 +2649,7 @@ app.run(function ($rootScope, $window,PouchDB) {
         $rootScope.IsInternetOnline = false;
         console.log("No conectado a internet");
     }
-    
+
     $rootScope.appConectada = $rootScope.IsInternetOnline;
 
     $window.addEventListener("offline", function () {
@@ -2808,7 +2835,7 @@ function ($stateProvider, $urlRouterProvider) {
           url: '/visita',
           templateUrl: '/visita.html',
           controller: 'VisitaCtrl',
-          onEnter: ['$state', 'auth', function ($state, auth) {
+          onEnter: ['$state', 'auth', function ($state, auth) {support_conversation
               if (!auth.isLoggedIn()) {
                   $state.go('login');
               }
@@ -2924,6 +2951,26 @@ function ($stateProvider, $urlRouterProvider) {
           url: '/supportextinterna/:idchat/:senderuser',
           templateUrl: '/supportExtInterna.html',
           controller: 'SupportExtInternaCtrl',
+          onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+          }]
+      })
+      .state('support_main', {
+          url: '/support_main',
+          templateUrl: '/support_main.html',
+          controller: 'support_mainCtrl',
+          onEnter: ['$state', 'auth', 'socket', 'support_head', function ($state, auth, socket, support_head) {
+              if (!auth.isLoggedIn()) {
+                  $state.go('login');
+              }
+          }]
+      })
+      .state('support_conversation', {
+          url: '/support_conversation',
+          templateUrl: '/support_conversation.html',
+          controller: 'support_conversationCtrl',
           onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket) {
               if (!auth.isLoggedIn()) {
                   $state.go('login');

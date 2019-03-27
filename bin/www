@@ -57,16 +57,13 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-// Attach Socket.io
-var io = socketio.listen(server);
-app.set('socketio', io);
-app.set('server', server);
 
-/*  initiate Socket connection  */
+var io = socketio.listen(server);
+
 io.on('connection',function(socket){
 	var mongoose = require('mongoose');
-	var Chat = mongoose.model('Chat');
-	var Message = mongoose.model('Message');
+	var Support_Head = mongoose.model('Support_Head');
+	var Support_Detail = mongoose.model('Support_Detail');
 
     socket.on('get msg',function(data){
       console.log('Socketazo Received');
@@ -76,9 +73,10 @@ io.on('connection',function(socket){
       });
 
     });
+
     socket.on('load msg',function(data){
 	  //console.log(data);
-	  Chat.findOne({_id: data.chat_id},function (err, chat){
+	  Support_Head.findOne({_id: data.support_id},function (err, chat){
 		  //console.log(chat);
 		  if(chat){
 			  chat.populate('messages', function(err, chat) {
@@ -90,43 +88,46 @@ io.on('connection',function(socket){
 	   	})
 
 	});
+
 	socket.on('dlt chat',function(data){
-		Chat.findOneAndRemove({chatid: data.chatid},function (err, chat){
+		Support_Head.findOneAndRemove({support_id: data.support_id},function (err, chat){
 		  //console.log(chat);
 		  pushChats();
 
 	   	})
 	});
 	var pushChats = function() {
-		Chat.find(function(err, chats){
+		Support_Head.find(function(err, chats){
 		    if(err){ return next(err); }
 				io.emit('push chats',JSON.stringify(chats));
 		});
 	}
 
 });
+
+
 var sendMsg = function (data,callback_result) {
 	var mongoose = require('mongoose');
-	var Chat = mongoose.model('Chat');
-	var Message = mongoose.model('Message');
+	var Support_Head = mongoose.model('Support_Head');
+	var Support_Detail = mongoose.model('Support_Detail');
 	var timestamp=new Date();
-	var from_id=(data.from_id!=null) ? new mongoose.mongo.ObjectId(data.from_id) : data.from_id;
-	var to_user=(data.to_user!=null) ? new mongoose.mongo.ObjectId(data.to_user) : data.to_user;
+	var from_id=(data.sender!=null) ? new mongoose.mongo.ObjectId(data.sender) : data.sender;
+	var to_user=(data.reciber!=null) ? new mongoose.mongo.ObjectId(data.reciber) : data.reciber;
     console.log(from_id);
     console.log(to_user);
-    console.log("jejeje");
-	var peers = [data.from_id,data.to_user];
+    console.log("Conversation Start");
+	var peers = [data.sender,data.reciber];
 	var peersort = peers.sort();
 	var peerbound = 'pre-'+peersort[0]+peersort[1];
-	var chatId = (data.chatid!=null) ? data.chatid : new Buffer(String(peerbound), 'ascii').toString('hex');
+	var chatId = (data.support_id!=null) ? data.support_id : new Buffer(String(peerbound), 'ascii').toString('hex');
 	//console.log(peerbound,chatId);
-	Chat.count({chatid: chatId}, function (err, count){
+	Support_Head.count({support_id: chatId}, function (err, count){
 	    if(!count>0){
-	          var chat = new Chat();
+	          var chat = new Support_Head();
 			  chat.timestamp = timestamp;
 			  chat.sender =  from_id;
 			  chat.reciber = to_user;
-			  chat.chatid = chatId;
+			  chat.support_id = chatId;
 			console.log("chat data if")
 						console.log(data)
 					 var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
@@ -141,9 +142,9 @@ var sendMsg = function (data,callback_result) {
 			  });
 
 	    } else {
-		    	Chat.findOne({chatid: chatId},function (err, chat){
+		    	Support_Head.findOne({support_id: chatId},function (err, chat){
 
-					 var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
+					 //var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
 
 					getMessages(data.message,attachment,chat,function(conversation){
 						callback_result(conversation)
@@ -157,35 +158,35 @@ var sendMsg = function (data,callback_result) {
 
 var getMessages = function(messageBody,attachment,chat,callback) {
 
-	 var message = new Message();
-	 message.chat = chat._id;
+	 var message = new Support_Detail();
+	 message.support_id = chat._id;
 	 message.timestamp = timestamp;
 	 message.sender = from_id;
 	 message.reciber = to_user;
-	 if(messageBody.bodyMsg == undefined) {
-	    message.bodyMsg = messageBody;
+	 if(messageBody.message == undefined) {
+	    message.message = messageBody;
 	 }
 	 else {
-	    message.bodyMsg = messageBody.bodyMsg;
-		message.sender_id = messageBody.sender_id;
+	    message.message = messageBody.message;
+		message.sender = messageBody.sender;
 	 }
 
 	 if(attachment == null) {
 
 	 }
 	 else {
-	    message.Msgattachement = attachment;
-		message.sender_id = messageBody.sender_id;
+	    //message.Msgattachement = attachment;
+		message.sender = messageBody.sender;
 		   /* upload(attachment, function (err) {
 		        if (err) {
 		            return res.end("Error uploading file.");
 		        }
 		        res.end("File is uploaded");
 		    });*/
-		   var datasasd = upload.single(attachment)
-		   //var datasasd = attachment.toString('base64')
-		    console.log("strinf")
-		    console.log(datasasd)
+		   // var datasasd = upload.single(attachment)
+		   // //var datasasd = attachment.toString('base64')
+		   //  console.log("strinf")
+		   //  console.log(datasasd)
 	 }
 
 
@@ -206,6 +207,157 @@ var getMessages = function(messageBody,attachment,chat,callback) {
 	   });
 	};
 }
+
+
+// Attach Socket.io
+/*var io = socketio.listen(server);
+app.set('socketio', io);
+app.set('server', server);*/
+
+/*  initiate Socket connection  */
+// io.on('connection',function(socket){
+// 	var mongoose = require('mongoose');
+// 	var Chat = mongoose.model('Chat');
+// 	var Message = mongoose.model('Message');
+//
+//     socket.on('get msg',function(data){
+//       console.log('Socketazo Received');
+//       sendMsg(data,function(result){
+//         	io.emit('set msg',JSON.stringify({chat:result,to_user:data.to_user,from_id:data.from_id,bodyattachement: data.bodyattachement}));
+//         	pushChats();
+//       });
+//
+//     });
+//     socket.on('load msg',function(data){
+// 	  //console.log(data);
+// 	  Chat.findOne({_id: data.chat_id},function (err, chat){
+// 		  //console.log(chat);
+// 		  if(chat){
+// 			  chat.populate('messages', function(err, chat) {
+// 	   	       if (err) { return next(err); }
+// 	   	       	io.emit('set msg only',JSON.stringify(chat));
+// 	   	     });
+// 		  }
+//
+// 	   	})
+//
+// 	});
+// 	socket.on('dlt chat',function(data){
+// 		Chat.findOneAndRemove({chatid: data.chatid},function (err, chat){
+// 		  //console.log(chat);
+// 		  pushChats();
+//
+// 	   	})
+// 	});
+// 	var pushChats = function() {
+// 		Chat.find(function(err, chats){
+// 		    if(err){ return next(err); }
+// 				io.emit('push chats',JSON.stringify(chats));
+// 		});
+// 	}
+//
+// });
+// var sendMsg = function (data,callback_result) {
+// 	var mongoose = require('mongoose');
+// 	var Chat = mongoose.model('Chat');
+// 	var Message = mongoose.model('Message');
+// 	var timestamp=new Date();
+// 	var from_id=(data.from_id!=null) ? new mongoose.mongo.ObjectId(data.from_id) : data.from_id;
+// 	var to_user=(data.to_user!=null) ? new mongoose.mongo.ObjectId(data.to_user) : data.to_user;
+//     console.log(from_id);
+//     console.log(to_user);
+//     console.log("jejeje");
+// 	var peers = [data.from_id,data.to_user];
+// 	var peersort = peers.sort();
+// 	var peerbound = 'pre-'+peersort[0]+peersort[1];
+// 	var chatId = (data.chatid!=null) ? data.chatid : new Buffer(String(peerbound), 'ascii').toString('hex');
+// 	//console.log(peerbound,chatId);
+// 	Chat.count({chatid: chatId}, function (err, count){
+// 	    if(!count>0){
+// 	          var chat = new Chat();
+// 			  chat.timestamp = timestamp;
+// 			  chat.sender =  from_id;
+// 			  chat.reciber = to_user;
+// 			  chat.chatid = chatId;
+// 			console.log("chat data if")
+// 						console.log(data)
+// 					 var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
+//
+//
+// 			  chat.save(function(err, chat){
+// 			    if(err){ return next(err); }
+//
+// 			    	getMessages(data.message,attachment,chat,function(conversation){
+// 						callback_result(conversation)
+// 					})
+// 			  });
+//
+// 	    } else {
+// 		    	Chat.findOne({chatid: chatId},function (err, chat){
+//
+// 					 var attachment = typeof(data.bodyattachement) == "undefined" ? null : data.bodyattachement;
+//
+// 					getMessages(data.message,attachment,chat,function(conversation){
+// 						callback_result(conversation)
+// 						//console.log(conversation);
+// 					})
+//
+// 				  });
+// 			};
+//
+// 	});
+//
+// var getMessages = function(messageBody,attachment,chat,callback) {
+//
+// 	 var message = new Message();
+// 	 message.chat = chat._id;
+// 	 message.timestamp = timestamp;
+// 	 message.sender = from_id;
+// 	 message.reciber = to_user;
+// 	 if(messageBody.bodyMsg == undefined) {
+// 	    message.bodyMsg = messageBody;
+// 	 }
+// 	 else {
+// 	    message.bodyMsg = messageBody.bodyMsg;
+// 		message.sender_id = messageBody.sender_id;
+// 	 }
+//
+// 	 if(attachment == null) {
+//
+// 	 }
+// 	 else {
+// 	    message.Msgattachement = attachment;
+// 		message.sender_id = messageBody.sender_id;
+// 		   /* upload(attachment, function (err) {
+// 		        if (err) {
+// 		            return res.end("Error uploading file.");
+// 		        }
+// 		        res.end("File is uploaded");
+// 		    });*/
+// 		   var datasasd = upload.single(attachment)
+// 		   //var datasasd = attachment.toString('base64')
+// 		    console.log("strinf")
+// 		    console.log(datasasd)
+// 	 }
+//
+//
+// 	 message.save(function(err, message){
+// 	   	if(err){
+// 				return console.log(err);
+// 			}
+//
+// 	   	chat.messages = chat.messages.concat([message]);
+// 	       chat.save(function(err, chat) {
+// 	         if(err){ console.log(err); }
+// 	         	chat.populate('messages', function(err, chat) {
+// 	   		    if (err) { console.log(err); }
+// 	   		    	callback(chat);
+// 	   		  });
+//
+// 	       });
+// 	   });
+// 	};
+// }
 
 /**
  * Normalize a port into a number, string, or false.

@@ -8,6 +8,7 @@ var User = mongoose.model('User');
 var Method = mongoose.model('Method');
 var MethodGallo = mongoose.model('MethodGallo');
 var Campo = mongoose.model('Campo');
+var Support_Head = mongoose.model('Support_Head');
 // Load widget model
 var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
@@ -23,10 +24,27 @@ router.get('/', function(req, res, next) {
 router.get('/chats', function(req, res, next) {
   Chat.find(function(err, chats){
     if(err){ return next(err); }
-	
+
     res.json(chats);
   });
 });
+
+//GET support head
+/*router.get('/support_head/:user', function(req, res, next){
+  var usuario = req.params.user;
+  Support_Head.find({"sender":usuario}, function(err, msg){
+    if(err){return next(err)}
+    res.json(msg);
+  })
+});*/
+router.get('/support_head/', function(req, res, next){
+
+  Support_Head.find(function(err, msg){
+    if(err){return next(err)}
+    res.json(msg);
+  })
+});
+
 
 router.param('user', function (req, res, next, id) {
     var query = User.findById(id);
@@ -44,8 +62,8 @@ router.param('user', function (req, res, next, id) {
 router.post('/methods', auth, function(req, res, next) {
   var method = new Method(req.body);
   method.caseInidence10.abrilJunio		   = req.body.caseInidence10.abrilJunio;
-  method.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre 
-  method.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre; 
+  method.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre
+  method.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre;
   method.caseInidence1120.abrilJunio	   = req.body.caseInidence1120.abrilJunio;
   method.caseInidence1120.julioSetiembre   = req.body.caseInidence1120.julioSetiembre;
   method.caseInidence1120.octubreDiciembre = req.body.caseInidence1120.octubreDiciembre;
@@ -58,7 +76,7 @@ router.post('/methods', auth, function(req, res, next) {
 
   method.save(function(err, method){
     if(err){ return next(err); }
-	
+
     res.json(method);
   });
 });
@@ -71,7 +89,7 @@ router.get('/methods', function(req, res, next) {
 });
 
 router.put('/methods', auth, function(req, res, next) {
-	
+
    var update = req.body;
   Method.findById(req.body._id, function(err, method ) {
   if (!method)
@@ -79,8 +97,8 @@ router.put('/methods', auth, function(req, res, next) {
   else {
     // do your updates here
       method.caseInidence10.abrilJunio		   = req.body.caseInidence10.abrilJunio;
-	  method.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre 
-	  method.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre; 
+	  method.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre
+	  method.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre;
 	  method.caseInidence1120.abrilJunio	   = req.body.caseInidence1120.abrilJunio;
 	  method.caseInidence1120.julioSetiembre   = req.body.caseInidence1120.julioSetiembre;
 	  method.caseInidence1120.octubreDiciembre = req.body.caseInidence1120.octubreDiciembre;
@@ -90,7 +108,7 @@ router.put('/methods', auth, function(req, res, next) {
 	  method.caseInidence50.abrilJunio		   = req.body.caseInidence50.abrilJunio;
 	  method.caseInidence50.julioSetiembre	   = req.body.caseInidence50.julioSetiembre;
 	  method.caseInidence50.octubreDiciembre   = req.body.caseInidence50.octubreDiciembre;
-	
+
     method.save(function(err) {
       if (err)
         console.log('error');
@@ -107,8 +125,8 @@ router.put('/methods', auth, function(req, res, next) {
 router.post('/methodsGallo', auth, function(req, res, next) {
   var methodGallo = new MethodGallo(req.body);
   methodGallo.caseInidence10.abrilJunio		   = req.body.caseInidence10.abrilJunio;
-  methodGallo.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre 
-  methodGallo.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre; 
+  methodGallo.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre
+  methodGallo.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre;
   methodGallo.caseInidence1120.abrilJunio	   = req.body.caseInidence1120.abrilJunio;
   methodGallo.caseInidence1120.julioSetiembre   = req.body.caseInidence1120.julioSetiembre;
   methodGallo.caseInidence1120.octubreDiciembre = req.body.caseInidence1120.octubreDiciembre;
@@ -121,7 +139,7 @@ router.post('/methodsGallo', auth, function(req, res, next) {
 
   methodGallo.save(function(err, methodGallo){
     if(err){ return next(err); }
-	
+
     res.json(methodGallo);
   });
 });
@@ -134,7 +152,7 @@ router.get('/methodsGallo', function(req, res, next) {
 });
 
 router.put('/methodsGallo', auth, function(req, res, next) {
-	
+
    var update = req.body;
   MethodGallo.findById(req.body._id, function(err, methodGallo ) {
   if (!methodGallo)
@@ -142,8 +160,8 @@ router.put('/methodsGallo', auth, function(req, res, next) {
   else {
     // do your updates here
       methodGallo.caseInidence10.abrilJunio		   = req.body.caseInidence10.abrilJunio;
-	  methodGallo.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre 
-	  methodGallo.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre; 
+	  methodGallo.caseInidence10.julioSetiembre	   = req.body.caseInidence10.julioSetiembre
+	  methodGallo.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre;
 	  methodGallo.caseInidence1120.abrilJunio	   = req.body.caseInidence1120.abrilJunio;
 	  methodGallo.caseInidence1120.julioSetiembre   = req.body.caseInidence1120.julioSetiembre;
 	  methodGallo.caseInidence1120.octubreDiciembre = req.body.caseInidence1120.octubreDiciembre;
@@ -153,7 +171,7 @@ router.put('/methodsGallo', auth, function(req, res, next) {
 	  methodGallo.caseInidence50.abrilJunio		   = req.body.caseInidence50.abrilJunio;
 	  methodGallo.caseInidence50.julioSetiembre	   = req.body.caseInidence50.julioSetiembre;
 	  methodGallo.caseInidence50.octubreDiciembre   = req.body.caseInidence50.octubreDiciembre;
-	
+
     methodGallo.save(function(err) {
       if (err)
         console.log('error');
@@ -185,14 +203,14 @@ router.post('/campo/addtests', function(req, res, next) {
 
   if(arr.length == 0 ){
         res.json(0);
-         
+
   }
   else{
 
-    
+
 
       for (var i = 0, len = arr.length; i < len; i++) {
-          
+
           if ( arr[i].length > 0 && arr[i][0] !== undefined ) {
             if(arr[i][0] != null) {
                 var campo = new Campo(arr[i][0]);
@@ -209,13 +227,13 @@ router.post('/campo/addtests', function(req, res, next) {
             } /*else {
               res.json(0);
             }*/
-              
+
           } else {
               res.json(0);
           }
       }
 
-       
+
   }
 
 
@@ -260,7 +278,7 @@ router.delete('/widget/:id', function(req, res)
 });
 /* End */
 router.put('/methods', auth, function(req, res, next) {
-  
+
    var update = req.body;
   Method.findById(req.body._id, function(err, method ) {
   if (!method)
@@ -268,8 +286,8 @@ router.put('/methods', auth, function(req, res, next) {
   else {
     // do your updates here
       method.caseInidence10.abrilJunio       = req.body.caseInidence10.abrilJunio;
-    method.caseInidence10.julioSetiembre     = req.body.caseInidence10.julioSetiembre 
-    method.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre; 
+    method.caseInidence10.julioSetiembre     = req.body.caseInidence10.julioSetiembre
+    method.caseInidence10.octubreDiciembre   = req.body.caseInidence10.octubreDiciembre;
     method.caseInidence1120.abrilJunio     = req.body.caseInidence1120.abrilJunio;
     method.caseInidence1120.julioSetiembre   = req.body.caseInidence1120.julioSetiembre;
     method.caseInidence1120.octubreDiciembre = req.body.caseInidence1120.octubreDiciembre;
@@ -279,7 +297,7 @@ router.put('/methods', auth, function(req, res, next) {
     method.caseInidence50.abrilJunio       = req.body.caseInidence50.abrilJunio;
     method.caseInidence50.julioSetiembre     = req.body.caseInidence50.julioSetiembre;
     method.caseInidence50.octubreDiciembre   = req.body.caseInidence50.octubreDiciembre;
-  
+
     method.save(function(err) {
       if (err)
         console.log('error');
@@ -292,11 +310,3 @@ router.put('/methods', auth, function(req, res, next) {
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-

@@ -17,7 +17,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	$scope.chatUser = [];
 	//$scope.UserName = 'User';
 	$scope.UserImage = '/images/ChatUser.png';
-	$scope.UserImageBottom = '/images/ChatUser.png';
+	$scope.UserImageBottom = '/images/attach.png';
 	// $scope.UserNameDisplay = 'User';
 	$scope.IsCall = false;
 	console.log($scope.loggedUser);
@@ -30,7 +30,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	// $('.listadoChats').hide();
     $scope.listChats=[];
     $scope.cargado = false;
-    
+
     $scope.unidades = ($rootScope.cantUnidades>0) ? true : false;
 
 
@@ -39,7 +39,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
             $scope.cargado = true;
             $scope.chatsList = {};
             $scope.chatsUsers = [];
-            
+
             if(chat.data.length<20){
                 $scope.fin=true;
             }
@@ -299,7 +299,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 					}
 	    });
 	}
-    
+
     $scope.crearChat = function(){
         user.getArea($scope.currentUserObj._id).then(function(data){
             if(data.length>0){
@@ -317,7 +317,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
                     }
                 });
             }else{
-                
+
             }
         });
     }

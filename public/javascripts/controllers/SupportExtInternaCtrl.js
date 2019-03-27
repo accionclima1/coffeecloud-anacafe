@@ -17,7 +17,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	$scope.chatUser = [];
 	//$scope.UserName = 'User';
 	$scope.UserImage = 'images/ChatUser.png';
-	$scope.UserImageBottom = 'images/ChatUser.png';
+	$scope.UserImageBottom = 'images/attach.png';
 	// $scope.UserNameDisplay = 'User';
 	$scope.IsCall = false;
 	console.log($scope.loggedUser);
@@ -56,6 +56,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	    reader.onload = $scope.saveImage;
 	    reader.readAsDataURL(file);
 	});
+
 
 
 	$scope.saveImage = function (e) {
@@ -147,13 +148,13 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 
 					console.log("Mensaje: ", msg);
 					console.log("from_id: ", from_id);
-					console.log("to_user: ", $scope.senderUser);
+					console.log("to_user: ", toUser);
 
 
 			var data_server={
           message:msg,
           bodyattachement:from_chatattchment,
-          to_user: $scope.senderUser,
+          to_user: toUser,
           from_id:from_id
       };
 
@@ -182,7 +183,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 	            bodyattachement:from_chatattchment,
 	            to_user: $scope.toId,
 	            from_id: $scope.senderUser,
-                chatid:$scope.chatId
+              chatid:$scope.chatId
 	        };
 
 					$scope.chatLog.push(data_server);
@@ -225,7 +226,7 @@ function ($scope, auth, socket, user,Upload,$base64, chats, $state, $stateParams
 					{
 						$scope.UserName = userObj.nickname || userObj.username;
 						//$scope.UserImage = userObj.imageurl || '../images/ChatUser.png';
-						$scope.UserImageBottom = userObj.image || 'images/ChatUser.png';
+						$scope.UserImageBottom = userObj.image || 'images/attach.png';
 					}
 	    });
 	}

@@ -11,7 +11,7 @@ function ($scope, auth, socket, user,Upload,$base64) {
 	$scope.adminName='';
 	//$scope.UserName = 'User';
 	$scope.UserImage = '/images/ChatUser.png';
-	$scope.UserImageBottom = '/images/ChatUser.png';
+	$scope.UserImageBottom = '/images/attach.png';
 	// $scope.UserNameDisplay = 'User';
 	$scope.IsCall = false;
 

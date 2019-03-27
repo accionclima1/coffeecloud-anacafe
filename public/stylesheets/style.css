@@ -1356,17 +1356,6 @@ a.unidad {
   font-weight:bold;
   /*width:20%;*/
 }
-.chat-Body {
-  margin: 7px 0 0 5px;
-  float:left;
-  width:55%;
-}
-
-.chat-Body-Client{
-  margin: 15px 0 0 5px;
-  float:left;
-  width:60%;
-}
 
 .message-wrap{
   overflow: hidden;
