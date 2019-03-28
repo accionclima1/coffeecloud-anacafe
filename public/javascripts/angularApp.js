@@ -1914,7 +1914,6 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
     };
     o.getAll = function () {
         return $http.get('http://coffeecloud.centroclima.org/posts').success(function (data) {
-
             angular.copy(data, o.posts);
         });
     };
@@ -2521,10 +2520,9 @@ app.factory('support_head', ['$http','auth', function ($http, auth) {
             return data;
         });
     };
-    o.create = function (support_head) {
-        console.log("Result Messages: ", support_head);
-        return $http.post('http://coffeecloud.centroclima.org/support_head?tmp=' + (new Date()).getTime(), support_head, {
-
+    o.create = function (userID,msg) {
+        console.log("Result Messages: ", msg,userID);
+        return $http.post('http://coffeecloud.centroclima.org/support_heads',userID, msg, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2545,9 +2543,9 @@ app.factory('support_detail', ['$http','auth', function ($http, auth) {
             return data;
         });
     };
-    o.create = function (support_head) {
-        console.log("Result Messages: ", support_head);
-        return $http.post('http://coffeecloud.centroclima.org/support_head?tmp=' + (new Date()).getTime(), support_head, {
+    o.create = function (userID) {
+        console.log("Result Messages: ", userID);
+        return $http.post('http://coffeecloud.centroclima.org/support_head/user?'+userID, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2556,6 +2554,7 @@ app.factory('support_detail', ['$http','auth', function ($http, auth) {
     };
     return o;
 }]);
+
 app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
 

@@ -119,6 +119,16 @@ router.get('/support_head/:user/:pagina', function(req, res, next){
   })
 });
 
+router.post('/support_heads', auth, function (req, res, next) {
+    var user = req.user;
+    var message = new Support_Head(req.msg);
+
+    console.log('desde serer' user, message);
+    message.save(function (err, message) {
+        if (err) { return next(err); }
+        res.json(message);
+    });
+});
 //GET support head
 router.get('/support_head', function(req, res, next){
   Support_Head.find(function(err, support_head){
@@ -131,7 +141,7 @@ router.get('/support_detail/:supportID/:pagina', function(req, res, next){
   var supportID = req.params.supportID;
   var pagina = parseInt(req.params.pagina);
   console.log("Buscar mensajes de: "+supportID);
-  Support_Detail.find({"support_head_id":supportID},null, {skip:(pagina*20), limit:20, sort:{_id:-1}}, function(err, msg){
+  Support_Detail.find({"support_head_id":supportID},null, {skip:(pagina*20), limit:20}, function(err, msg){
     if(err){return next(err)}
     res.json(msg);
   })

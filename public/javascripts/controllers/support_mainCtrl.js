@@ -17,6 +17,11 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
 	$scope.listChats=[];
 	$scope.fin=false;
 	//Load messages
+	var currentDT=new Date();
+	var twoDigitMonth = ((currentDT.getMonth().length+1) === 1)? (currentDT.getMonth()+1) : '0' + (currentDT.getMonth()+1);
+
+	$scope.currentDate = currentDT.getDate() + "/" + twoDigitMonth + "/" + currentDT.getFullYear()+" "+ currentDT.getHours()+":"+currentDT.getMinutes();
+
 	$scope.cargarChats = function(){
 		console.log($scope.currentUserObj.username);
 		//support_head.getAll().then(function (msg) {
@@ -34,21 +39,26 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
 				$scope.listChats.push(obj);
  			}
 
- 			// for(var i in $scope.chatsList){
- 			// 		$scope.chatsUsers.push($scope.chatsList[i]);
- 			// }
-			//
- 			// $scope.listChats = $scope.listChats.concat($scope.chatsUsers);
- 			// console.log($scope.chatsList);
  			console.log($scope.listChats);
  			$scope.n=$scope.n+1;
 	    });
 		}
 
 	$scope.new_conversation = function(){
-			console.log("new_conversation");
-			$scope.classActive = "/support_conversation";
-			$state.go("support_conversation", {}, {reload: true});
+			var chat = {
+				timestamp:$scope.currentDate,
+				sender:$scope.currentUserObj.username,
+				reciber:"",
+				subject:"Soporte",
+				solved:false
+			}
+
+			support_head.create($scope.currentUserObj.username, chat);
+
+			console.log("new_conversation created");
+
+			//$scope.classActive = "/support_conversation";
+			//$state.go("support_conversation", {}, {reload: true});
 	}
 
 	$scope.cargarChats();
