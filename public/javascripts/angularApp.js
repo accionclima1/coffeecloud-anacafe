@@ -2423,6 +2423,14 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
             return data;
         });
     };
+    o.createsupport = function (msg) {
+        console.log("Result Messages: ", msg);
+        return $http.post('http://coffeecloud.centroclima.org/support_heads',msg, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
     return o;
 }]);
 
@@ -2514,7 +2522,7 @@ app.factory('support_head', ['$http','auth', function ($http, auth) {
         return $http.get('http://coffeecloud.centroclima.org/support_head').success(function (data) {
             return data;
         });
-    };
+    };  
     o.getUser = function (userID, pagina) {
         return $http.get('http://coffeecloud.centroclima.org/support_head/?user'+userID+"/?pagina"+pagina).success(function (data) {
             return data;
@@ -2522,7 +2530,7 @@ app.factory('support_head', ['$http','auth', function ($http, auth) {
     };
     o.create = function (userID,msg) {
         console.log("Result Messages: ", msg,userID);
-        return $http.post('http://coffeecloud.centroclima.org/support_heads',userID, msg, {
+        return $http.post('http://coffeecloud.centroclima.org/support_heads',msg, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2543,9 +2551,9 @@ app.factory('support_detail', ['$http','auth', function ($http, auth) {
             return data;
         });
     };
-    o.create = function (userID) {
-        console.log("Result Messages: ", userID);
-        return $http.post('http://coffeecloud.centroclima.org/support_head/user?'+userID, {
+    o.create = function ( msg) {
+        console.log("Result Messages: ", msg);
+        return $http.post('http://coffeecloud.centroclima.org/support_details', msg ,{
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {

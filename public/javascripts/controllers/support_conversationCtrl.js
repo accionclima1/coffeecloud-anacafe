@@ -36,23 +36,7 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 
 
 			}
-			//$scope.listChats.push(msg.data.);
 
- 			// for (var i = 0; i < msg.data.length; i++) {
- 			// 		var obj = msg.data[i];
-			//
-			//
-			// 		if($scope.chatsList[obj['msg']]==null){
- 			// 				$scope.chatsList.concat([obj]);
- 			// 		}
- 			// }
-			//
- 			// for(var i in $scope.chatsList){
- 			// 		$scope.chatsUsers.push($scope.chatsList[i]);
- 			// }
-
- 			// $scope.listChats = $scope.chatsList;
- 			// console.log($scope.chatsList);
  			console.log($scope.listChats);
  			$scope.n=$scope.n+1;
 	    });
@@ -60,7 +44,7 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 
 
 	$scope.sendMessage = function() {
-		console.log($scope.chatId, $scope.senderUser);
+		console.log($scope.idSupport, $scope.senderUser);
 		var f = $('.message_write');
 		var msg = f.find('[name=messagetxt]').val();
 	  var from_id = f.find('[name=fromId]').val();
@@ -68,18 +52,21 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 					console.log("Mensaje: ", msg);
 					console.log("from_id: ", from_id);
 					console.log("to_user: ", $scope.senderUser);
-		var data_server={
+		$scope.chat={
 				message:msg,
-				to_user: $scope.toId,
-				from_id: $scope.senderUser,
-				chatid:$scope.chatId
+				receiver: $scope.toId,
+				sender: from_id,
+				support_head_id:$scope.idSupport,
+				timestamp:currentDT
 					};
 
-		$scope.chatLog.push(data_server);
-		socket.emit('get msg',data_server);
-		$('#messagetxt').val("");
-		$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" ><p>' + msg + '</p><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
-		$scope.cargarConversacion();
+		$scope.chatLog.push($scope.chat);
+		support_detail.create($scope.chat).then(function (){
+			$('#messagetxt').val("");
+			$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" ><p>' + msg + '</p><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
+			$scope.cargarConversacion();
+		});
+		//socket.emit('get msg',data_server);
 }
 
 $scope.formattedDate=function(date) {

@@ -44,7 +44,7 @@ app.controller('RoyaCtrl', [
 		$scope.vistaCalculo = false;
 		$scope.vistaResultado = false;
 		$scope.royaLocalesPouchDB = [];
-
+		var currentDT=new Date();
 		console.log($scope.idUser, $scope.unitId, $scope.loteIndex);
 
 
@@ -152,7 +152,19 @@ app.controller('RoyaCtrl', [
 		$scope.IsTotalPlantaAdded=false;
 		$scope.IsHideCloseAndAddPlantaButtonInPopup=false;
 		localStorageService.remove('localTest');
-		$state.go("supportclient", {}, {reload: true});
+		var resutadoRoya= ($scope.test.incidencia).toFixed(2);
+		$scope.chat = {
+			timestamp:currentDT,
+			subject:"Incidencia: "+ resutadoRoya + " ,Plantas: " + $scope.totalPlantis,
+			sender:$scope.currentUser,
+			receiver:"",
+			solved:false
+		}
+		roya.createsupport($scope.chat).then(function (result){
+			$scope.idsuport= result.data._id;
+			console.log("new_conversation created", $scope.idsuport);
+			$state.go("support_conversation", {'supportID':$scope.idsuport ,'pagina':0}, {reload: true});
+		});
 	}
 
 		var plantEditor = function(plant) {

@@ -22,6 +22,14 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
 
 	$scope.currentDate = currentDT.getDate() + "/" + twoDigitMonth + "/" + currentDT.getFullYear()+" "+ currentDT.getHours()+":"+currentDT.getMinutes();
 
+	$scope.chat = {
+		timestamp:currentDT,
+		subject:"Solicitud de Soporte "+$scope.currentDate,
+		sender:$scope.currentUserObj.username,
+		receiver:"",
+		solved:false
+	}
+
 	$scope.cargarChats = function(){
 		console.log($scope.currentUserObj.username);
 		//support_head.getAll().then(function (msg) {
@@ -45,20 +53,11 @@ function ($scope, auth, socket, user,Upload,$base64, support_head, $state, $stat
 		}
 
 	$scope.new_conversation = function(){
-			var chat = {
-				timestamp:$scope.currentDate,
-				sender:$scope.currentUserObj.username,
-				reciber:"",
-				subject:"Soporte",
-				solved:false
-			}
-
-			support_head.create($scope.currentUserObj.username, chat);
-
-			console.log("new_conversation created");
-
-			//$scope.classActive = "/support_conversation";
-			//$state.go("support_conversation", {}, {reload: true});
+		support_head.create($scope.currentUserObj.username, $scope.chat).then(function (result){
+			$scope.idsuport= result.data._id;
+			console.log("new_conversation created", $scope.idsuport);
+			$state.go("support_conversation", {'supportID':$scope.idsuport ,'pagina':0}, {reload: true});
+		});
 	}
 
 	$scope.cargarChats();

@@ -120,10 +120,8 @@ router.get('/support_head/:user/:pagina', function(req, res, next){
 });
 
 router.post('/support_heads', auth, function (req, res, next) {
-    var user = req.user;
-    var message = new Support_Head(req.msg);
-
-    console.log('desde server', user, message);
+    console.log('desde server ', req);
+    var message = new Support_Head(req.body);
     message.save(function (err, message) {
         if (err) { return next(err); }
         res.json(message);
@@ -136,6 +134,7 @@ router.get('/support_head', function(req, res, next){
     res.json(support_head);
   })
 });
+
 //GET support detail
 router.get('/support_detail/:supportID/:pagina', function(req, res, next){
   var supportID = req.params.supportID;
@@ -145,6 +144,15 @@ router.get('/support_detail/:supportID/:pagina', function(req, res, next){
     if(err){return next(err)}
     res.json(msg);
   })
+});
+
+router.post('/support_details', auth, function (req, res, next) {
+    console.log('desde server ', req);
+    var message = new Support_Detail(req.body);
+    message.save(function (err, message) {
+        if (err) { return next(err); }
+        res.json(message);
+    });
 });
 /* GET posts page. */
 router.get('/posts', function (req, res, next) {
