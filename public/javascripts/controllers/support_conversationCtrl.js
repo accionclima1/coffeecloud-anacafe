@@ -78,11 +78,13 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 		$scope.chatLog.push(data_server);
 		socket.emit('get msg',data_server);
 		$('#messagetxt').val("");
+		$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" ><p>' + msg + '</p><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
 		$scope.cargarConversacion();
 }
 
 $scope.formattedDate=function(date) {
 	    return new Date(date);
 }
+
 $scope.cargarConversacion();
 }]);

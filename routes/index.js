@@ -123,7 +123,7 @@ router.post('/support_heads', auth, function (req, res, next) {
     var user = req.user;
     var message = new Support_Head(req.msg);
 
-    console.log('desde serer' user, message);
+    console.log('desde server', user, message);
     message.save(function (err, message) {
         if (err) { return next(err); }
         res.json(message);
