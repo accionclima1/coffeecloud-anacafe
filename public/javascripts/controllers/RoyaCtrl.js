@@ -14,9 +14,10 @@ app.controller('RoyaCtrl', [
 	'onlineStatus',
 	function($rootScope, $scope, $state, $stateParams, auth, localStorageService, socket, unit, user, methods, roya, PouchDB, onlineStatus){
 		$scope.currentUser = auth.currentUser;
-		console.log($scope.currentUser);
 		$scope.currentId = auth.currentUser();
-		console.log("Nombre de Usuario: ", $scope.currentId);
+		$scope.currentUserObj = auth.currentUserObject();
+		$scope.senderUser = $scope.currentUserObj.username;
+		console.log("Nombre de Usuario royas: ", $scope.currentId);
 		var testInStore = localStorageService.get('localTest');
 
 		$scope.IsErrorInfrmRoyaAddPlanta=false;
@@ -156,10 +157,12 @@ app.controller('RoyaCtrl', [
 		$scope.chat = {
 			timestamp:currentDT,
 			subject:"Incidencia: "+ resutadoRoya + " ,Plantas: " + $scope.totalPlantis,
-			sender:$scope.currentUser,
+			sender:$scope.senderUser,
 			receiver:"",
 			solved:false
 		}
+	
+		console.log($scope.currentUser);
 		roya.createsupport($scope.chat).then(function (result){
 			$scope.idsuport= result.data._id;
 			console.log("new_conversation created", $scope.idsuport);

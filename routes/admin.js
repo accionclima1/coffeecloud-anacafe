@@ -9,6 +9,8 @@ var Method = mongoose.model('Method');
 var MethodGallo = mongoose.model('MethodGallo');
 var Campo = mongoose.model('Campo');
 var Support_Head = mongoose.model('Support_Head');
+var Support_Detail = mongoose.model('Support_Detail');
+
 // Load widget model
 var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');

@@ -21,8 +21,8 @@ function($scope, auth, $location, $state, $rootScope, PouchDB, localStorageServi
     $scope.currentRole = auth.currentUserRole();
 
     if ($scope.currentRole == "client") {
-      $scope.classActive = "/supportclient";
-      $state.go("supportclient", {}, {reload: true});
+      $scope.classActive = "/support_main";
+      $state.go("support_main", {}, {reload: true});
     }
     else if ($scope.currentRole == "Extensionista" || $scope.currentRole == "Admin") {
       $scope.classActive = "/support_main";
