@@ -79,6 +79,8 @@
     <script src="javascripts/admincontrollers/VulnerabilidadCtrl.js"></script>
     <script src="javascripts/admincontrollers/VulnerabilidadCtrl2.js"></script>
     <script src="javascripts/admincontrollers/IncidenciaRoyaCtrl.js"></script>
+    <script src="javascripts/admincontrollers/support_mainCtrl.js"></script>
+    <script src="javascripts/admincontrollers/support_conversationCtrl.js"></script>
 
 <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
 <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
@@ -120,13 +122,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/admin#/"> <!-- <img src="http://centroclima.org/images/SICA-logo.png" alt="" class="login-img"> --> Coffee Cloud <small>Admin</small></a>
+                <a class="navbar-brand" href="/admin#/">  <img src="/images/Anacafe-logo.png" alt="" class="login-img"> Coffee Cloud <small>Admin</small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav" >
 	            <li>
 	            	<div class="right-logo">
-				   <!--  <img src="http://centroclima.org/images/CRRH.png" alt="CRRH" class="img-responsive"> -->
+				    <!-- <img src="http://centroclima.org/images/CRRH.png" alt="CRRH" class="img-responsive"> -->
 			    </div>
 	            </li>
                <!-- <li class="dropdown">
@@ -288,8 +290,8 @@
                     <li ng-class="{ active: isActive('/noticias') }">
                         <a href="/admin#/noticias"><i class="fa fa-fw fa-newspaper-o"></i> Noticias</a>
                     </li>
-                    <li ng-class="{ active: isActive('/messenger') }">
-                        <a href="/admin#/messenger"><i class="fa fa-fw fa-comment"></i>  Consultas</a>
+                    <li ng-class="{ active: isActive('/support_main') }">
+                        <a href="/admin#/support_main"><i class="fa fa-fw fa-comment"></i>  Consultas</a>
                     </li>
 
                 </ul>
@@ -320,30 +322,32 @@
 		<div class="row text-center">
 			<div class="site-footer-inner col-md-9">
 
-			<h2>CENTRO CLIMA CUENTA CON EL APOYO TÉCNICO Y FINANCIERO DE:</h2>
+			<!--<h2>CENTRO CLIMA CUENTA CON EL APOYO TÉCNICO Y FINANCIERO DE:</h2>
 
-			<img src="images/USAIDLOGO_new.png" alt="logo">
-			<img src="http://centroclima.org/wp-content/uploads/2016/06/xCATIE.png.pagespeed.ic.L70wLDKZif.png" alt="logo">
+			<img src="http://climapesca.org/wp-content/uploads/2018/04/usaid-logo-opt.svg" alt="logo">
+			 <img src="http://centroclima.org/wp-content/uploads/2016/06/xCATIE.png.pagespeed.ic.L70wLDKZif.png" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/06/UICN.svg" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLogo-CARE.png.pagespeed.ic.dbZiYO5x3e.png" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-TERRA.png.pagespeed.ic.dE9zG_baAD.png" alt="logo">
 			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLogo-DAI.jpg.pagespeed.ic.kT4r0zPv_X.webp" alt="logo">
-			<img src="http://centroclima.org/wp-content/uploads/2016/06/xepa_seal_large_trim.png.pagespeed.ic.pR7AfJfuIv.png" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/06/xepa_seal_large_trim.png.pagespeed.ic.pR7AfJfuIv.png" alt="logo"> -->
 
 			</div>
 			<div class="site-footer-inner col-md-3">
 
-			<h2>EN COORDINACIÓN CON:</h2>
+			<!-- <h2>EN COORDINACIÓN CON:</h2>
 
-			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-CCAD-HORIZONTAL-CON-SICA.png.pagespeed.ic.mlGYZrodRq.png" alt="logo">
+			<img src="http://centroclima.org/wp-content/uploads/2016/07/xLOGO-CCAD-HORIZONTAL-CON-SICA.png.pagespeed.ic.mlGYZrodRq.png" alt="logo"> -->
 
 
 			</div>
 		</div>
 	</div><!-- close .container -->
 	<div class="copyright">
+            <img class="right" src="/images/USAIDLOGO_new.png" width="120" alt="logo" style="margin-right:10px; margin-bottom: 20px;">
 		<div class="right">
-			<p>Todos los derechos reservados. Centro Clima 2016</p>
+			<p>The information provided on this website is not official U.S. government information and does not represent the views or</br> positions of the U.S. Agency for International Development or the U.S. Government.
+            </p>
 		</div>
 		<div class="left"><ul id="foot-menu" class="nav navbar-nav"><li id="menu-item-114" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-114"><a title="Politicas" href="#">Politicas</a></li>
 <li id="menu-item-151" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-151"><a title="Condiciones" href="#">Condiciones</a></li>
@@ -378,19 +382,23 @@
 
 	<%- include adminpages/noticias.ejs %>
 
-   <%- include adminpages/tech_recom.ejs %>
+    <%- include adminpages/tech_recom.ejs %>
 
 	<%- include adminpages/roya2.ejs %>
 
     <%- include adminpages/vulnerabilidad.ejs %>
 
-  <%- include adminpages/vulnerabilidad2.ejs %>
+    <%- include adminpages/vulnerabilidad2.ejs %>
 
 	<%- include adminpages/campo.ejs %>
 
     <%- include adminpages/reportesdecampo.ejs %>
 
-	<%- include adminpages/varieties.ejs %>
+    <%- include adminpages/varieties.ejs %>
+    
+    <%- include adminpages/support_main.ejs %>
+
+    <%- include adminpages/support_conversation.ejs %>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

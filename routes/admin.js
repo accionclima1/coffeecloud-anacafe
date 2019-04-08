@@ -39,14 +39,52 @@ router.get('/chats', function(req, res, next) {
     res.json(msg);
   })
 });*/
-router.get('/support_head/', function(req, res, next){
-
-  Support_Head.find(function(err, msg){
+//GET support head
+router.get('/support_head/:user/:pagina', function(req, res, next){
+  var usuario = req.params.user;
+  var pagina = parseInt(req.params.pagina);
+  console.log("Buscar mensajes de: "+usuario);
+  Support_Head.find({"sender":usuario},null, {skip:(pagina*20), limit:20}, function(err, msg){
     if(err){return next(err)}
     res.json(msg);
   })
 });
 
+router.post('/support_heads', auth, function (req, res, next) {
+    console.log('desde server ', req);
+    var message = new Support_Head(req.body);
+    message.save(function (err, message) {
+        if (err) { return next(err); }
+        res.json(message);
+    });
+});
+//GET support head
+router.get('/support_head', function(req, res, next){
+  Support_Head.find(function(err, support_head){
+    if(err){return next(err)}
+    res.json(support_head);
+  })
+});
+
+//GET support detail
+router.get('/support_detail/:supportID/:pagina', function(req, res, next){
+  var supportID = req.params.supportID;
+  var pagina = parseInt(req.params.pagina);
+  console.log("Buscar mensajes de: "+supportID);
+  Support_Detail.find({"support_head_id":supportID},null, {skip:(pagina*20), limit:20}, function(err, msg){
+    if(err){return next(err)}
+    res.json(msg);
+  })
+});
+
+router.post('/support_details', auth, function (req, res, next) {
+    console.log('desde server ', req);
+    var message = new Support_Detail(req.body);
+    message.save(function (err, message) {
+        if (err) { return next(err); }
+        res.json(message);
+    });
+});
 
 router.param('user', function (req, res, next, id) {
     var query = User.findById(id);

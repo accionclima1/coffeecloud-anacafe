@@ -327,6 +327,53 @@ app.factory('fileupload', ['$http', 'auth', function ($http, auth) {
 	return o;
 }]);
 
+app.factory('support_head', ['$http','auth', function ($http, auth) {
+    var o = {};
+    o.getAll = function () {
+        return $http.get('/admin/support_head').success(function (data) {
+            return data;
+        });
+    };  
+    o.getUser = function (userID, pagina) {
+        return $http.get('/admin/support_head/?user'+userID+"/?pagina"+pagina).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function (userID,msg) {
+        console.log("Result Messages: ", msg,userID);
+        return $http.post('/admin/support_heads',msg, {
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
+app.factory('support_detail', ['$http','auth', function ($http, auth) {
+    var o = {};
+    o.getConversation = function (suportID,pagina) {
+        return $http.get('/admin/support_detail/'+suportID+"/"+pagina).success(function (data) {
+            return data;
+        });
+    };
+    o.getUser = function (userID, pagina) {
+        return $http.get('/admin/support_detail/?user'+userID+"/?pagina"+pagina).success(function (data) {
+            return data;
+        });
+    };
+    o.create = function ( msg) {
+        console.log("Result Messages: ", msg);
+        return $http.post('/admin/support_details', msg ,{
+
+            headers: { Authorization: 'Bearer ' + auth.getToken() }
+        }).success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
 app.factory('methods', ['$http', 'auth', function ($http, auth) {
 	var o = {
 		chats: []
@@ -449,24 +496,26 @@ app.config([
 				}
 			}]
 		})
-		.state('messenger', {
-			url: '/messenger',
-			templateUrl: '/messenger.html',
-			controller: 'MessengerCtrl',
-			onEnter: ['$state', 'auth', function ($state, auth) {
-				var curUserRole = auth.currentUserRole();
+		.state('support_main', {
+			url: '/support_main',
+			templateUrl: '/support_main.html',
+			controller: 'support_mainCtrl',
+			onEnter: ['$state', 'auth', 'socket', 'support_head', function ($state, auth, socket, support_head) {
 				if (!auth.isLoggedIn()) {
 					$state.go('login');
 				}
-				else if (curUserRole != 'admin' && curUserRole != 'Admin' && curUserRole != 'Extensionista') {
-					window.location.href = '/';
+			}]
+		})
+  
+		.state('support_conversation', {
+			url: '/support_conversation/:supportID/:pagina',
+			templateUrl: '/support_conversation.html',
+			controller: 'support_conversationCtrl',
+			onEnter: ['$state', 'auth', 'socket', function ($state, auth, socket, support_detail) {
+				if (!auth.isLoggedIn()) {
+					$state.go('login');
 				}
-			}],
-			resolve: {
-				chatPromise: ['chats', function (chats) {
-					return chats.getAll();
-				}]
-			}
+			}]
 		})
 		.state('adaptacion', {
 			url: '/adaptacion',
