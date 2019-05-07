@@ -38,7 +38,11 @@ var hskey = fs.readFileSync(keyPath);
 var hscert = fs.readFileSync(certPath);
 var options = {
     key: hskey,
-    cert: hscert
+		cert: hscert,
+		ca: [
+			fs.readFileSync('./ssl/SectigoRSADomainValidationSecureServerCA.crt'),
+			fs.readFileSync('./ssl/USERTrustRSAAddTrustCA.crt') 
+	 ]
 };
 var ssl = {};
 ssl.options = options;
