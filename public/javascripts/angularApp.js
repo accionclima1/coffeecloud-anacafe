@@ -1811,7 +1811,7 @@ app.factory('socket', ['socketFactory',
     function (socketFactory) {
         return socketFactory({
             prefix: '',
-            ioSocket: io.connect('http://anacafe.coffeecloudapp.com/')
+            ioSocket: io.connect('https://anacafe.coffeecloudapp.com/')
         });
     }
 ]);
@@ -1876,7 +1876,7 @@ app.factory('widget', ['$http', function ($http) {
     var w = {};
     w.getAll = function () {
 
-        return $http.get('http://anacafe.coffeecloudapp.com/getWidgets').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/getWidgets').success(function (data) {
             return data;
         });
     };
@@ -1913,12 +1913,12 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
         posts: []
     };
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/posts').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/posts').success(function (data) {
             angular.copy(data, o.posts);
         });
     };
     o.create = function (post) {
-        return $http.post('http://anacafe.coffeecloudapp.com/posts', post, {
+        return $http.post('https://anacafe.coffeecloudapp.com/posts', post, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -1926,7 +1926,7 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
         });
     };
     o.upvote = function (post) {
-        return $http.put('http://anacafe.coffeecloudapp.com/posts/' + post._id + '/upvote', null, {
+        return $http.put('https://anacafe.coffeecloudapp.com/posts/' + post._id + '/upvote', null, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         })
@@ -1935,17 +1935,17 @@ app.factory('posts', ['$http', 'auth', function ($http, auth) {
           });
     };
     o.get = function (id) {
-        return $http.get('http://anacafe.coffeecloudapp.com/posts/' + id).then(function (res) {
+        return $http.get('https://anacafe.coffeecloudapp.com/posts/' + id).then(function (res) {
             return res.data;
         });
     };
     o.addComment = function (id, comment) {
-        return $http.post('http://anacafe.coffeecloudapp.com/posts/' + id + '/comments', comment, {
+        return $http.post('https://anacafe.coffeecloudapp.com/posts/' + id + '/comments', comment, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         });
     };
     o.upvoteComment = function (post, comment) {
-        return $http.put('http://anacafe.coffeecloudapp.com/posts/' + post._id + '/comments/' + comment._id + '/upvote', null, {
+        return $http.put('https://anacafe.coffeecloudapp.com/posts/' + post._id + '/comments/' + comment._id + '/upvote', null, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         })
           .success(function (data) {
@@ -1978,14 +1978,14 @@ app.factory('user', ['$http', 'auth', function ($http, auth) {
         });
       };*/
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/users', {
+        return $http.get('https://anacafe.coffeecloudapp.com/users', {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).then(function (res) {
             return res.data;
         });
     };
     o.get = function (id) {
-        return $http.get('http://anacafe.coffeecloudapp.com/users/' + id).then(function (res) {
+        return $http.get('https://anacafe.coffeecloudapp.com/users/' + id).then(function (res) {
             return res.data;
         });
     };
@@ -2007,13 +2007,13 @@ app.factory('user', ['$http', 'auth', function ($http, auth) {
     };
 
     o.getArea = function(userId){
-        return $http.get('http://anacafe.coffeecloudapp.com/userArea/'+userId).then(function(res){
+        return $http.get('https://anacafe.coffeecloudapp.com/userArea/'+userId).then(function(res){
             return res.data;
         });
     }
 
     o.getUserInCharge = function(areas){
-        return $http.get('http://anacafe.coffeecloudapp.com/userInCharge/'+areas).then(function(res){
+        return $http.get('https://anacafe.coffeecloudapp.com/userInCharge/'+areas).then(function(res){
             return res.data;
         });
     }
@@ -2089,7 +2089,7 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
     };
 
     auth.logIn = function (user) {
-        return $http.post('http://anacafe.coffeecloudapp.com/login', user).success(function (data) {
+        return $http.post('https://anacafe.coffeecloudapp.com/login', user).success(function (data) {
             auth.saveToken(data.token);
         });
     };
@@ -2098,10 +2098,10 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
     // for GenOtp(), VerifyOtp(), ChangePassword()
 
     auth.GenOtp = function (user) {
-        /*return $http.post('http://anacafe.coffeecloudapp.com/requestpasswordchange', user).success(function(data){
+        /*return $http.post('https://anacafe.coffeecloudapp.com/requestpasswordchange', user).success(function(data){
           auth.saveToken(data.token);
         });*/
-        //return $http.post('http://anacafe.coffeecloudapp.com/requestpasswordchange', user).success(function (data) {
+        //return $http.post('https://anacafe.coffeecloudapp.com/requestpasswordchange', user).success(function (data) {
         //    return data;
         //});
         var serviceURL = global.setting.getServiceUrl() + "requestpasswordchange";
@@ -2146,19 +2146,19 @@ app.factory('auth', ['$http', '$state', '$window', function ($http, $state, $win
 app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function (id) {
-        return $http.get('http://anacafe.coffeecloudapp.com/users/' + id + '/units').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/users/' + id + '/units').success(function (data) {
             return data;
         });
     };
     o.get = function (userId, id) {
-        return $http.get('http://anacafe.coffeecloudapp.com/users/' + userId + '/units/' + id).then(function (res) {
+        return $http.get('https://anacafe.coffeecloudapp.com/users/' + userId + '/units/' + id).then(function (res) {
             return res.data;
         });
     };
 
     o.create = function (unit, id) {
         //localhost unit
-        return $http.post('http://anacafe.coffeecloudapp.com/users/' + id + '/units', unit, {
+        return $http.post('https://anacafe.coffeecloudapp.com/users/' + id + '/units', unit, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2167,7 +2167,7 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
 
     o.update = function (unit, id, unitData) {
         //localhost unit
-        return $http.put('http://anacafe.coffeecloudapp.com/users/' + id + '/units/' + unit, unitData, {
+        return $http.put('https://anacafe.coffeecloudapp.com/users/' + id + '/units/' + unit, unitData, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data
@@ -2175,7 +2175,7 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
     };
 
     o.deleteUnit = function (unitId, userId) {
-        return $http.delete('http://anacafe.coffeecloudapp.com/users/' + userId + '/units/' + unitId, {
+        return $http.delete('https://anacafe.coffeecloudapp.com/users/' + userId + '/units/' + unitId, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return unitId;
@@ -2194,7 +2194,7 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
     };
     //sync Server data to pouchDb;
     o.SyncUserServerDataToLocalPouchDb = function (lastSyncDateTime, id) {
-        return $http.post('http://anacafe.coffeecloudapp.com/SyncUserServerData/' + id + "/"+ lastSyncDateTime, {
+        return $http.post('https://anacafe.coffeecloudapp.com/SyncUserServerData/' + id + "/"+ lastSyncDateTime, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2207,13 +2207,13 @@ app.factory('unit', ['$http', 'auth', '$window', function ($http, auth, $window)
 app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/varieties').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/varieties').success(function (data) {
             return data;
         });
     };
     o.create = function (varieties) {
         //localhost unit
-        return $http.post('http://anacafe.coffeecloudapp.com/varieties', varieties, {
+        return $http.post('https://anacafe.coffeecloudapp.com/varieties', varieties, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2221,7 +2221,7 @@ app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $wi
     };
 
     o.deleteVariety = function (Ided) {
-        return $http.delete('http://anacafe.coffeecloudapp.com/varieties', {
+        return $http.delete('https://anacafe.coffeecloudapp.com/varieties', {
             headers: { Authorization: 'Bearer ' + auth.getToken(), variid: Ided.varId }
         }).success(function (data) {
             return Ided;
@@ -2234,13 +2234,13 @@ app.factory('varieties', ['$http', 'auth', '$window', function ($http, auth, $wi
 app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/fungicidas').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/fungicidas').success(function (data) {
             return data;
         });
     };
     o.create = function (fungicidas) {
         //localhost unit
-        return $http.post('http://anacafe.coffeecloudapp.com/fungicidas', fungicidas, {
+        return $http.post('https://anacafe.coffeecloudapp.com/fungicidas', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2249,7 +2249,7 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
 
     o.update = function (fungicidas) {
         //localhost unit
-        return $http.post('http://anacafe.coffeecloudapp.com/fungicidas/update', fungicidas, {
+        return $http.post('https://anacafe.coffeecloudapp.com/fungicidas/update', fungicidas, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2257,7 +2257,7 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
     };
 
     o.deleteFungicida = function (Ided) {
-        return $http.delete('http://anacafe.coffeecloudapp.com/fungicidas', {
+        return $http.delete('https://anacafe.coffeecloudapp.com/fungicidas', {
             headers: { Authorization: 'Bearer ' + auth.getToken(), fungiid: Ided.fungId }
         }).success(function (data) {
             return Ided;
@@ -2270,13 +2270,13 @@ app.factory('fungicidas', ['$http', 'auth', '$window', function ($http, auth, $w
 app.factory('vulnerability', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/varieties').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/varieties').success(function (data) {
             return data;
         });
     };
     o.create = function (varieties) {
         //localhost unit
-        return $http.post('http://anacafe.coffeecloudapp.com/varieties', varieties, {
+        return $http.post('https://anacafe.coffeecloudapp.com/varieties', varieties, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2292,19 +2292,19 @@ app.factory('methods', ['$http', 'auth', function ($http, auth) {
         chats: []
     };
     o.get = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/admin/methods/').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/admin/methods/').success(function (data) {
             return data;
         });
     };
     o.create = function (method) {
-        return $http.post('http://anacafe.coffeecloudapp.com/admin/methods', method, {
+        return $http.post('https://anacafe.coffeecloudapp.com/admin/methods', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.update = function (method) {
-        return $http.put('http://anacafe.coffeecloudapp.com/admin/methods', method, {
+        return $http.put('https://anacafe.coffeecloudapp.com/admin/methods', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2319,19 +2319,19 @@ app.factory('methodsGallo', ['$http', 'auth', function ($http, auth) {
         chats: []
     };
     o.get = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/admin/methodsGallo/').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/admin/methodsGallo/').success(function (data) {
             return data;
         });
     };
     o.create = function (methodGallo) {
-        return $http.post('http://anacafe.coffeecloudapp.com/admin/methodsGallo', methodGallo, {
+        return $http.post('https://anacafe.coffeecloudapp.com/admin/methodsGallo', methodGallo, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.update = function (methodGallo) {
-        return $http.put('http://anacafe.coffeecloudapp.com/admin/methodsGallo', methodGallo, {
+        return $http.put('https://anacafe.coffeecloudapp.com/admin/methodsGallo', methodGallo, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2348,31 +2348,31 @@ app.factory('campoService', ['$http', 'auth', function ($http, auth) {
         chats: []
     };
     o.get = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/admin/campo/').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/admin/campo/').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://anacafe.coffeecloudapp.com/admin/campo/' + userID).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/admin/campo/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (method) {
-        return $http.post('http://anacafe.coffeecloudapp.com/admin/campo', method, {
+        return $http.post('https://anacafe.coffeecloudapp.com/admin/campo', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.update = function (method) {
-        return $http.put('http://anacafe.coffeecloudapp.com/admin/methods', method, {
+        return $http.put('https://anacafe.coffeecloudapp.com/admin/methods', method, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
         });
     };
     o.SaveCampoUnitTest = function (data) {
-        return $http.post('http://anacafe.coffeecloudapp.com/admin/campo/addtests', data, {
+        return $http.post('https://anacafe.coffeecloudapp.com/admin/campo/addtests', data, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2387,18 +2387,18 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/roya').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/roya').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://anacafe.coffeecloudapp.com/roya/' + userID).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/roya/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (roya) {
         console.log("Result Roya: ", roya);
-        return $http.post('http://anacafe.coffeecloudapp.com/roya?tmp=' + (new Date()).getTime(), roya, {
+        return $http.post('https://anacafe.coffeecloudapp.com/roya?tmp=' + (new Date()).getTime(), roya, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2408,7 +2408,7 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
     /* for sync data */
     //sync local PouchDb Data to server
     o.SyncUserLocalPouchDbToServer = function (dataList, id) {
-        var serviceURL = "http://anacafe.coffeecloudapp.com/SyncUserLocalDataRoya/";
+        var serviceURL = "https://anacafe.coffeecloudapp.com/SyncUserLocalDataRoya/";
         return $http.post(serviceURL + id + '/datalist', dataList, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2417,7 +2417,7 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
     };
     //sync Server data to pouchDb;
     o.SyncUserServerDataToLocalPouchDb = function (lastSyncDateTime, id) {
-        return $http.post('http://anacafe.coffeecloudapp.com/SyncUserServerDataRoya/' + id + "/"+ lastSyncDateTime, {
+        return $http.post('https://anacafe.coffeecloudapp.com/SyncUserServerDataRoya/' + id + "/"+ lastSyncDateTime, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2425,7 +2425,7 @@ app.factory('roya', ['$http', 'auth', function ($http, auth) {
     };
     o.createsupport = function (msg) {
         console.log("Result Messages: ", msg);
-        return $http.post('http://anacafe.coffeecloudapp.com/support_heads',msg, {
+        return $http.post('https://anacafe.coffeecloudapp.com/support_heads',msg, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2439,17 +2439,17 @@ app.factory('gallo', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/gallo').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/gallo').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://anacafe.coffeecloudapp.com/gallo/' + userID).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/gallo/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (gallo) {
-        return $http.post('http://anacafe.coffeecloudapp.com/gallo?tmp=' + (new Date()).getTime(), gallo, {
+        return $http.post('https://anacafe.coffeecloudapp.com/gallo?tmp=' + (new Date()).getTime(), gallo, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2468,19 +2468,19 @@ app.factory('chats', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/chats').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/chats').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID,pagina) {
         var pagina = parseInt(pagina);
-        return $http.get('http://anacafe.coffeecloudapp.com/uchats/' + userID+"/"+pagina).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/uchats/' + userID+"/"+pagina).success(function (data) {
             return data;
         });
     };
     o.create = function (chats) {
         console.log("Result Chats: ", chats);
-        return $http.post('http://anacafe.coffeecloudapp.com/chats?tmp=' + (new Date()).getTime(), chats, {
+        return $http.post('https://anacafe.coffeecloudapp.com/chats?tmp=' + (new Date()).getTime(), chats, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2495,18 +2495,18 @@ app.factory('messages', ['$http', 'auth', function ($http, auth) {
 
     };
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/messages').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/messages').success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID) {
-        return $http.get('http://anacafe.coffeecloudapp.com/messages/' + userID).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/messages/' + userID).success(function (data) {
             return data;
         });
     };
     o.create = function (messages) {
         console.log("Result Messages: ", messages);
-        return $http.post('http://anacafe.coffeecloudapp.com/messages?tmp=' + (new Date()).getTime(), messages, {
+        return $http.post('https://anacafe.coffeecloudapp.com/messages?tmp=' + (new Date()).getTime(), messages, {
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2519,18 +2519,18 @@ app.factory('messages', ['$http', 'auth', function ($http, auth) {
 app.factory('support_head', ['$http','auth', function ($http, auth) {
     var o = {};
     o.getAll = function () {
-        return $http.get('http://anacafe.coffeecloudapp.com/support_head').success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/support_head').success(function (data) {
             return data;
         });
     };  
     o.getUser = function (userID, pagina) {
-        return $http.get('http://anacafe.coffeecloudapp.com/support_head/?user'+userID+"/?pagina"+pagina).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/support_head/?user'+userID+"/?pagina"+pagina).success(function (data) {
             return data;
         });
     };
     o.create = function (userID,msg) {
         console.log("Result Messages: ", msg,userID);
-        return $http.post('http://anacafe.coffeecloudapp.com/support_heads',msg, {
+        return $http.post('https://anacafe.coffeecloudapp.com/support_heads',msg, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;
@@ -2542,18 +2542,18 @@ app.factory('support_head', ['$http','auth', function ($http, auth) {
 app.factory('support_detail', ['$http','auth', function ($http, auth) {
     var o = {};
     o.getConversation = function (suportID,pagina) {
-        return $http.get('http://anacafe.coffeecloudapp.com/support_detail/'+suportID+"/"+pagina).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/support_detail/'+suportID+"/"+pagina).success(function (data) {
             return data;
         });
     };
     o.getUser = function (userID, pagina) {
-        return $http.get('http://anacafe.coffeecloudapp.com/support_detail/?user'+userID+"/?pagina"+pagina).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/support_detail/?user'+userID+"/?pagina"+pagina).success(function (data) {
             return data;
         });
     };
     o.create = function ( msg) {
         console.log("Result Messages: ", msg);
-        return $http.post('http://anacafe.coffeecloudapp.com/support_details', msg ,{
+        return $http.post('https://anacafe.coffeecloudapp.com/support_details', msg ,{
 
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
@@ -2570,7 +2570,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.getAll = function (id) {
 
-        var serviceURL = "http://anacafe.coffeecloudapp.com/users/";
+        var serviceURL = "https://anacafe.coffeecloudapp.com/users/";
         /*ea0707*/
         // var serviceURL = "https://localhost/users/";
 
@@ -2582,7 +2582,7 @@ app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, au
 
     o.create = function (encuesta, id) {
         //localhost unit
-        return $http.post('http://anacafe.coffeecloudapp.com/users/' + id + '/encuesta', encuesta, {
+        return $http.post('https://anacafe.coffeecloudapp.com/users/' + id + '/encuesta', encuesta, {
             headers: { Authorization: 'Bearer ' + auth.getToken() }
         }).success(function (data) {
             return data;

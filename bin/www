@@ -32,8 +32,8 @@ var port = normalizePort(process.env.PORT || portnum);
 app.set('port', port);
 var https = require('https');
 
-var keyPath = './ssl/key.pem';
-var certPath = './ssl/cert.pem';
+var keyPath = './ssl/anacafe.coffeecloudapp.com.key';
+var certPath = './ssl/anacafe_coffeecloudapp_com.crt';
 var hskey = fs.readFileSync(keyPath);
 var hscert = fs.readFileSync(certPath);
 var options = {

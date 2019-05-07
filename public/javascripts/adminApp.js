@@ -110,7 +110,7 @@ app.controller('MainCtrl', ['$scope', 'auth', 'roya', 'chats', 'user', 'widget',
 
 
 			//WebService
-			//http://anacafe.coffeecloudapp.com//users/59262aee75a18b8e63074100
+			//https://anacafe.coffeecloudapp.com//users/59262aee75a18b8e63074100
 
 		});
 
@@ -162,7 +162,7 @@ app.factory('mainInfo', ['$http', function($http) {
 
 	obj.getData = function(){
 
-		return $http.get('http://anacafe.coffeecloudapp.com//users/59262aee75a18b8e63074100').success(function(data) {
+		return $http.get('https://anacafe.coffeecloudapp.com//users/59262aee75a18b8e63074100').success(function(data) {
 			return data;
 		});
 	}
@@ -254,7 +254,7 @@ app.factory('socket', ['socketFactory',
 	function (socketFactory) {
 		return socketFactory({
 			prefix: '',
-			ioSocket: io.connect('http://anacafe.coffeecloudapp.com/')
+			ioSocket: io.connect('https://anacafe.coffeecloudapp.com/')
 		});
 	}
 	]);
