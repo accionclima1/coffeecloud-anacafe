@@ -109,8 +109,8 @@ router.get('/', function (req, res, next) {
 });
 
 //GET support head
-router.get('/support_head/:user/:pagina', function(req, res, next){
-  var usuario = req.params.user;
+router.get('/support_head/:userID/:pagina', function(req, res, next){
+  var usuario = req.params.userID;
   var pagina = parseInt(req.params.pagina);
   console.log("Buscar mensajes de: "+usuario);
   Support_Head.find({"sender":usuario},null, {skip:(pagina*20), limit:20}, function(err, msg){
