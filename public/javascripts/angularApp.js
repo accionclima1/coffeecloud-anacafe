@@ -2524,7 +2524,7 @@ app.factory('support_head', ['$http','auth', function ($http, auth) {
         });
     };  
     o.getUser = function (userID, pagina) {
-        return $http.get('https://anacafe.coffeecloudapp.com/support_head/?user'+userID+"/?pagina"+pagina).success(function (data) {
+        return $http.get('https://anacafe.coffeecloudapp.com/support_head/'+userID+"/"+pagina).success(function (data) {
             return data;
         });
     };

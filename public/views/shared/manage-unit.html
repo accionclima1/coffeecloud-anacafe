@@ -104,22 +104,26 @@
         <div class="clearfix"></div>
         <div class="col-md-6 col-xs-6">
             <div class="form-group">
-                <input type="text"
+                <input type="number"
                        class="form-control"
                        placeholder="Area total"
                        ng-model="newUnit.areaTotal"
                        data-error="Campo requerido"
+                       ngMinlength="0"
+                        
+                       step='0.01'
                        required></input>
                 (manzanas)
             </div>
         </div>
         <div class="col-md-6 col-xs-6">
             <div class="form-group">
-                <input type="text"
+                <input type="number"
                        class="form-control"
                        placeholder="Area con café"
                        ng-model="newUnit.areaCafe"
                        data-error="Campo requerido"
+                       step='0.01'
                        required></input>
                 (manzanas)
             </div>
@@ -215,11 +219,12 @@
             <div style="padding-right: 0px;" class="col-xs-5">
                 <div class="form-group">
 
-                      <input type="text"
+                      <input type="number"
                              class="form-control"
                              placeholder="Surco"
                              ng-model="newUnit.distanciamientoAvenida"
                              data-error="Campo requerido"
+                             step='0.01'
                              required></input>
                       (Metros)
                   </div>
@@ -232,11 +237,12 @@
             <div style="padding-left: 0px;" class="col-xs-5">
                     <div class="form-group">
 
-                              <input type="text"
+                              <input type="number"
                                      class="form-control"
                                      placeholder="Planta"
                                      ng-model="newUnit.distanciamientoCalle"
                                      data-error="Campo requerido"
+                                     step='0.01'
                                      required></input>
                               (Metros)
                           </div>
@@ -426,20 +432,22 @@
         </div>
         <div class="col-xs-12">
             <div class="form-group">
-                <input type="text"
+                <input type="number"
                        class="form-control"
                        placeholder="Producción estimada año actual"
                        ng-model="newUnit.rendimiento"
                        data-error="Campo requerido"
+                       step='0.01'
  +                     required/>
                 (Quintales de café maduro/manzana)
             </div>
         </div>
         <div class="col-xs-12">
             <div class="form-group">
-                <input type="text"
+                <input type="number"
                        class="form-control"
                        placeholder="Producción año anterior"
+                       step='0.01'
                        ng-model="newUnit.rendimientoAnterior"/>
                 (Quintales de café maduro/manzana)
             </div>

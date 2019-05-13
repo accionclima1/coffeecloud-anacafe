@@ -34,7 +34,7 @@ app.controller('RoyaCtrl', [
 		$scope.unitId = $stateParams.idunidad;
 		$scope.loteIndex = $stateParams.indexlote;
 		$scope.unitIndex = $stateParams.indexunidad;
-        $scope.unabandola50=2;
+    $scope.unabandola50=2;
 		$scope.arrOffline = [];
 		$scope.nombreUnidad = "";
 		$scope.nombreLote = "";
@@ -161,13 +161,19 @@ app.controller('RoyaCtrl', [
 			receiver:"",
 			solved:false
 		}
-	
-		console.log($scope.currentUser);
-		roya.createsupport($scope.chat).then(function (result){
-			$scope.idsuport= result.data._id;
-			console.log("new_conversation created", $scope.idsuport);
-			$state.go("support_conversation", {'supportID':$scope.idsuport ,'pagina':0}, {reload: true});
-		});
+		if($rootScope.IsInternetOnline==true){
+			console.log('En linea para mensajes...');
+			console.log($scope.currentUser);
+			roya.createsupport($scope.chat).then(function (result){
+				$scope.idsuport= result.data._id;
+				console.log("new_conversation created", $scope.idsuport);
+				$state.go("support_conversation", {'supportID':$scope.idsuport ,'pagina':0}, {reload: true});
+			});
+		}else{
+			console.log('No internet para mensajes...');
+			$scope.SweetAlert('¡Error!', 'Require Internet para contactar a un técnico', 'error');
+		}
+		
 	}
 
 		var plantEditor = function(plant) {
