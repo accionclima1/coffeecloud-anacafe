@@ -26,6 +26,7 @@ var Vulnerability = mongoose.model('Vulnerability');
 var Encuesta = mongoose.model('Encuesta');
 var Support_Head = mongoose.model('Support_Head');
 var Support_Detail = mongoose.model('Support_Detail');
+var Enso = mongoose.model('Enso');
 // Load widget model
 var Widget = mongoose.model('Widget');
 var jwt = require('express-jwt');
@@ -154,6 +155,15 @@ router.post('/support_details', auth, function (req, res, next) {
         res.json(message);
     });
 });
+
+//GET Enso
+router.get('/enso', function(req, res, next){
+    Enso.find(function(err, enso){
+      if(err){return next(err)}
+      res.json(enso);
+    })
+  });
+  
 /* GET posts page. */
 router.get('/posts', function (req, res, next) {
     Post.find(function (err, posts) {

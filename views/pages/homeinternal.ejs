@@ -103,19 +103,21 @@
                        </div>
                        <div class="col-xs-12">
                          <div class="form-group">
-                           <input type="text"
+                           <input type="number"
                            class="form-control"
                            placeholder="Tamaño del lote (manzanas)"
                            ng-model="lote.tamano"
+                           only-num
                            required></input>
                          </div>
                        </div>
                        <div class="col-xs-12">
                          <div class="form-group">
-                           <input type="text"
+                           <input type="number"
                            class="form-control"
                            placeholder="Edad del lote"
                            ng-model="lote.edad"
+                           only-num
                            required></input>
                          </div>
                        </div>
@@ -145,6 +147,7 @@
                                             ng-model="lote.distanciamientoAvenida"
                                             data-error="Campo requerido"
                                             step="0.1"
+                                            only-num
                                             >
                                             
                                           </input>
@@ -164,7 +167,9 @@
                                                     placeholder="Planta"
                                                     ng-model="lote.distanciamientoCalle"
                                                     data-error="Campo requerido"
-                                                    step="0.1">
+                                                    step="0.1"
+                                                    only-num>
+                                                    
                                                   </input>
                                              (Metros)
                                          </div>
@@ -179,7 +184,7 @@
                            name="rendimientoAnterior"
                            class="form-control"
                            placeholder="Producción año anterior "
-                           ng-model="lote.rendimientoAnterior"></input>
+                           ng-model="lote.rendimientoAnterior" only-num></input>
                            (Quintales de café maduro/manzana)
                          </div>
 
@@ -208,7 +213,7 @@
                              class="form-control {{ 'porcentajeSombraId' + $index }}"
                              placeholder="Porcentaje 0-100%"
                              ng-model="lote.porcentajeDeSombra"
-                             min="0" max="100"
+                             min="0" max="100" only-num
                              required></input>
                          </div>
                        </div>

@@ -1,5 +1,5 @@
-app.controller('ClimaCtrl', ['$http', '$scope', '$stateParams','auth', 'unit', 'varieties', 'user', '$rootScope','localStorageService', 'onlineStatus','$state',
-function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, localStorageService, onlineStatus,$state) {
+app.controller('ClimaCtrl', ['$http', '$scope', '$stateParams','auth','enso', '$base64','$rootScope','localStorageService', 'onlineStatus','$state',
+function ($http,$scope, $stateParams, auth, enso, $base64, $rootScope, localStorageService, onlineStatus,$state) {
     const urlClima ="https://us-central1-cdcf-898d2.cloudfunctions.net/wxData";
 
     $('.switch').css("color", "#FFF");
@@ -11,6 +11,7 @@ function ($http,$scope, $stateParams,auth, unit, varieties, user, $rootScope, lo
     $scope.pronosticodiario = null;
     $scope.pronosticohorario = null;
     $scope.error=null;
+    $scope.ensodata={};
 
         if($rootScope.clima!=undefined){
             console.log("clima");
@@ -83,6 +84,15 @@ $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current
 
     }
 
+    $scope.cargarEnso = function(){
+		 enso.get().then(function (infoenso) {
+            var obj = infoenso.data[0];
+            $scope.ensodata=obj;
+            console.log(infoenso.data)
+            console.log("repetir?");
+	    });
+    }
+        
     $scope.posDefault=false;
     $scope.online = $rootScope.IsInternetOnline;
 
@@ -108,7 +118,7 @@ $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current
         $scope.loadPerspectiva();
     }
     if($state.current.name=='climaelninio'){
-        $scope.loadElninio();
+        $scope.cargarEnso();
     }
-
+    //$scope.cargarEnso();
 }]);

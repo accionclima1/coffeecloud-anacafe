@@ -171,7 +171,7 @@ app.controller('RoyaCtrl', [
 			});
 		}else{
 			console.log('No internet para mensajes...');
-			$scope.SweetAlert('¡Error!', 'Require Internet para contactar a un técnico', 'error');
+			$scope.SweetAlert('¡Error!', 'Requiere Internet para contactar a un técnico', 'error');
 		}
 		
 	}

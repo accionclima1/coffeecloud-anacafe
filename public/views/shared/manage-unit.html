@@ -110,7 +110,7 @@
                        ng-model="newUnit.areaTotal"
                        data-error="Campo requerido"
                        ngMinlength="0"
-                        
+                       only-num
                        step='0.01'
                        required></input>
                 (manzanas)
@@ -124,6 +124,7 @@
                        ng-model="newUnit.areaCafe"
                        data-error="Campo requerido"
                        step='0.01'
+                       only-num
                        required></input>
                 (manzanas)
             </div>
@@ -225,6 +226,7 @@
                              ng-model="newUnit.distanciamientoAvenida"
                              data-error="Campo requerido"
                              step='0.01'
+                             only-num
                              required></input>
                       (Metros)
                   </div>
@@ -243,6 +245,7 @@
                                      ng-model="newUnit.distanciamientoCalle"
                                      data-error="Campo requerido"
                                      step='0.01'
+                                     only-num
                                      required></input>
                               (Metros)
                           </div>
@@ -438,6 +441,7 @@
                        ng-model="newUnit.rendimiento"
                        data-error="Campo requerido"
                        step='0.01'
+                       only-num
  +                     required/>
                 (Quintales de café maduro/manzana)
             </div>
@@ -448,6 +452,7 @@
                        class="form-control"
                        placeholder="Producción año anterior"
                        step='0.01'
+                       only-num
                        ng-model="newUnit.rendimientoAnterior"/>
                 (Quintales de café maduro/manzana)
             </div>

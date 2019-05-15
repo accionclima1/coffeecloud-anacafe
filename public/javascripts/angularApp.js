@@ -1966,6 +1966,7 @@ app.factory('mailer', ['$http', 'auth', function ($http, auth) {
     return o;
 }]);
 
+
 // User profile service
 app.factory('user', ['$http', 'auth', function ($http, auth) {
     var o = {
@@ -2563,6 +2564,16 @@ app.factory('support_detail', ['$http','auth', function ($http, auth) {
     return o;
 }]);
 
+app.factory('enso', ['$http','auth', function ($http, auth) {
+    var o = {};
+    o.get = function (suportID,pagina) {
+        return $http.get('https://anacafe.coffeecloudapp.com/enso').success(function (data) {
+            return data;
+        });
+    };
+    return o;
+}]);
+
 app.factory('vulnerabilidades', ['$http', 'auth', '$window', function ($http, auth, $window) {
     var o = {};
 
@@ -3041,7 +3052,7 @@ function ($stateProvider, $urlRouterProvider) {
           templateUrl: '/perspectiva.html',
           controller: 'ClimaCtrl'
       }).state('climaelninio', {
-          url: '/climaelninio',
+          url: '/enso',
           templateUrl: '/elninio.html',
           controller: 'ClimaCtrl'
       });

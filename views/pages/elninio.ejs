@@ -15,7 +15,7 @@
     }
     </style>
 <div class="home-wrap profile-wrap">
-    <div class="container">
+    <div class="container" >
       <div class="row">
          <div class="col-lg-12 col-md-12 col-xs-12">
            <div class="page-header">
@@ -23,16 +23,20 @@
            </div>
          </div>
        </div>
-        <span ng-show="error">Error, imposible cargar información</span>
-        <div align="center" ng-show="!htmlElninio || !online">
-       <p ng-show="!error">Cargando información</p>
-       </div>
-       <div align="center" ng-show="!online">
-       <p>Necesita internet para descargar información</p>
-       </div>
-        <div class="well"  align="justify">
-            <div ng-bind-html="imgElninio" align="center"></div>
-            <div ng-bind-html="htmlElninio"></div>
+        <div class="well"  align="justify" ng-controller="ClimaCtrl">  
+           <!--  <ul ng-repeat="ensoinfo in ensodata"  >
+              <div>
+                  <h2>{{ensoinfo.title}}</h2>
+                  <h3>{{ensoinfo.subtitle}}</h2>
+                    <p>{{ensoinfo.content}}</p>
+              </div>
+          
+            </ul> -->
+            <div>
+                <h2>{{ensodata.title}}</h2>
+                <h3>{{ensodata.subtitle}}</h2>
+                  <p>{{ensodata.content}}</p>
+            </div>  
         </div>
     </div>
 </div>
