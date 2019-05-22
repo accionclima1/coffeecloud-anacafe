@@ -90,7 +90,20 @@ $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current
             $scope.ensodata=obj;
             console.log(infoenso.data)
             console.log("repetir?");
-	    });
+            
+            
+        });
+        
+        $http.get('https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/?enso_tab=enso-cpc_plume').then(function(data){
+            var html = data.data;
+            var pos1 = html.indexOf("IRI ENSO Forecast");
+            pos1 = html.indexOf("<img",pos1);
+            var pos2 = html.indexOf(">",pos1);
+            article = html.substr(pos1,(pos2-pos1)+1);
+            article = article.replace(">",'class="img-responsive">');
+            console.log("article:"+article);
+            $scope.imgElninio = article;
+        });
     }
         
     $scope.posDefault=false;

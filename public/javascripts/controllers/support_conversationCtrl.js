@@ -13,6 +13,9 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
   $scope.data_server = {};
 	$scope.listChats=[];
 	$scope.chatLog=[];
+	$scope.attachment;
+	var isBase64 = require('is-base64');
+
 	var currentDT=new Date();
 	var twoDigitMonth = ((currentDT.getMonth().length+1) === 1)? (currentDT.getMonth()+1) : '0' + (currentDT.getMonth()+1);
 
@@ -42,17 +45,55 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 	    });
 		}
 
+		$scope.detectbase64 =  function(str) {
+			return isBase64(str);
+	}
+	// Check for the File API support.
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+  	document.getElementById('file').addEventListener('change', handleFileSelect, false);
+	} else {
+  	alert('The File APIs are not fully supported in this browser.');
+	}
+
+	function handleFileSelect(evt) {
+		var f = evt.target.files[0]; // FileList object
+		var reader = new FileReader();
+		// Closure to capture the file information.
+		reader.onload = (function(theFile) {
+			return function(e) {
+				var binaryData = e.target.result;
+				//Converting Binary Data to base 64
+				var base64String = window.btoa(binaryData);
+				//showing file converted to base64
+				$scope.attachment= base64String;
+		//document.getElementById('messagetxt').value = base64String;
+				//alert('File converted to base64 successfuly!\nCheck in Textarea');
+			};
+		})(f);
+		// Read in the image file as a data URL.
+		reader.readAsBinaryString(f);
+	}	
 
 	$scope.sendMessage = function() {
 		console.log($scope.idSupport, $scope.senderUser);
 		var f = $('.message_write');
 		var msg = f.find('[name=messagetxt]').val();
-	  var from_id = f.find('[name=fromId]').val();
+		var from_id = f.find('[name=fromId]').val();
+		var imagebin = $scope.attachment;
+		var imagex = new Image();
+		//Just getting the source from the span. It was messy in JS.
+		imagex.src =  $scope.attachment;
+		if(imagebin.length>3){
+			msg= imagebin;
+		}
 
+		
 					console.log("Mensaje: ", msg);
 					console.log("from_id: ", from_id);
 					console.log("to_user: ", $scope.senderUser);
-		$scope.chat={
+					console.log("image: " , imagebin);
+		
+					$scope.chat={
 				message:msg,
 				receiver: $scope.toId,
 				sender: from_id,
@@ -63,7 +104,13 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 		$scope.chatLog.push($scope.chat);
 		support_detail.create($scope.chat).then(function (){
 			$('#messagetxt').val("");
-			$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" ><p>' + msg + '</p><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
+			if(imagebin.length>3){
+				$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" > <img src=\"data:image/png;base64,' + imagebin + '\" width=\"300\"></img><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
+				$scope.attachment="";
+			}else{
+				$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" ><p>' + msg + '</p><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
+			}
+			
 			$scope.cargarConversacion();
 		});
 		//socket.emit('get msg',data_server);

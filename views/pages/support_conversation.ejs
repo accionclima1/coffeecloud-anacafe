@@ -1,4 +1,29 @@
 <style>
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: #00ABFF;
+    display: inline-block;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer; /* "hand" cursor */
+
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #00ABFF;
+}
   #custom-search-input {
  background: #e8e6e7 none repeat scroll 0 0;
  margin: 0;
@@ -253,7 +278,8 @@
                                  <img ng-src="images/user_color.png" src="images/user_color.png" alt="User Avatar" class="img-circle" ng-if="msg.sender!= currentUser()" >
                                  </span>
                                  <div class="chat-body1 clearfix pull-right" ng-if="msg.sender == currentUser()" >
-                                    <p>{{msg.message}}</p>
+                                    <p ng-if="detectbase64(msg.message)==true" >{{msg.message}}</p>
+                                    <img ng-if="detectbase64(msg.message)==false" src="data:image/png;base64, msg.message" width="100">
                         <div class="chat_time pull-right">{{ msg.timestamp| date:'dd/MM/yyyy HH:mm' }}</div>
                                  </div>
                                  <div class="chat-body1 clearfix pull-left" ng-if="msg.sender != currentUser()" >
@@ -263,14 +289,16 @@
                               </li>
     </ul>
     </div>
-<form ng-submit="sendMessage()" ng-controller="support_conversationCtrl">
+<form ng-submit="sendMessage()" ng-controller="support_conversationCtrl" enctype="multipart/form-data">
          <div class="message_write">
       <textarea class="form-control" placeholder="Mensaje..." name="messagetxt" id="messagetxt"></textarea>
       <input type="hidden" name="fromId" value="{{ currentUser() }}">
       <input class="chatUser" type="hidden" name="toId" value="{{ toId }}">
     <div class="clearfix"></div>
-    <div class="chat_bottom"><a href="#" class="pull-left upload_btn"><i class="fa fa-cloud-upload" aria-hidden="true"></i>
-Adjuntar</a>
+    <div class="chat_bottom"> <!--<a  ng-click="openImagePopup()" class="pull-left upload_btn"><i class="fa fa-cloud-upload" aria-hidden="true"></i>
+Adjuntar</a>-->
+<input type="file" name="file" id="file" class="inputfile" />
+      <label for="file" class="pull-left upload_btn"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Adjuntar</label>
 <input type="submit" value="Enviar" class="pull-right btn btn-success"></div>
     </div>
     </form>

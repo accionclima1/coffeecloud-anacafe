@@ -55,7 +55,8 @@
         </div>
         <div class="col-xs-12">
             <div class="form-group munis">
-                <select id="departamentos" class="form-control" required>
+                <select id="departamentos" class="form-control" data-error="Campo requerido"
+                 required>
                 <option class="optionVacio" value=""></option>
                 </select>
 
@@ -442,7 +443,7 @@
                        data-error="Campo requerido"
                        step='0.01'
                        only-num
- +                     required/>
+                     required/>
                 (Quintales de café maduro/manzana)
             </div>
         </div>
@@ -453,7 +454,8 @@
                        placeholder="Producción año anterior"
                        step='0.01'
                        only-num
-                       ng-model="newUnit.rendimientoAnterior"/>
+                       ng-model="newUnit.rendimientoAnterior" data-error="Campo requerido"
+                       required/>
                 (Quintales de café maduro/manzana)
             </div>
         </div>
@@ -466,7 +468,7 @@
                        placeholder="Floracion principal año anterior"
                        ng-model="newUnit.floracionPrincipal"
                        data-error="Campo requerido"
- +                     required>
+                    required>
             </div>
         </div>
 
@@ -475,7 +477,9 @@
                 <input type="text"
                        class="form-control date-field"
                        placeholder="Inicio de la cosecha año anterior"
-                       ng-model="newUnit.inicioCosecha"></input>
+                       ng-model="newUnit.inicioCosecha"
+                       data-error="Campo requerido"
+                     required></input>
             </div>
         </div>
         <div class="col-xs-12">
@@ -483,7 +487,9 @@
                 <input type="text"
                        class="form-control date-field"
                        placeholder="Final de la cosecha año anterior"
-                       ng-model="newUnit.finalCosecha"></input>
+                       ng-model="newUnit.finalCosecha"
+                       data-error="Campo requerido"
+                      required></input>
             </div>
         </div>
         <div class="col-xs-12">
@@ -491,7 +497,9 @@
                 <input type="text"
                        class="form-control date-field"
                        placeholder="Inicio epoca lluviosa año anterior"
-                       ng-model="newUnit.epocalluviosa"></input>
+                       ng-model="newUnit.epocalluviosa"
+                       data-error="Campo requerido"
+                      required></input>
             </div>
         </div>
         <div class="col-xs-12">
@@ -499,7 +507,9 @@
                 <input type="text"
                        class="form-control date-field"
                        placeholder="Fin epoca lluviosa año anterior"
-                       ng-model="newUnit.FinEpocalluviosa"></input>
+                       ng-model="newUnit.FinEpocalluviosa"
+                       data-error="Campo requerido"
+                      required></input>
             </div>
         </div>
     </div>

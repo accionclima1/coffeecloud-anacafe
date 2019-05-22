@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var https = require('https');
 var speakeasy = require('speakeasy');
+var multer = require('multer');
+
 var crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
     password = 'd6F3Efeq';
@@ -87,6 +89,7 @@ var storage = multer.diskStorage({
         callback(null, file.fieldname + '-' + Date.now());
     }
 });
+
 var upload = multer({ storage: storage }).single('userPhoto');
 
 function encrypt(text) {
