@@ -1,6 +1,6 @@
 // Support Chat Controller
-app.controller('support_conversationCtrl',['$scope','auth', 'socket', 'user', 'Upload','support_detail', '$base64', '$state', '$stateParams',
-function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $stateParams) {
+app.controller('support_conversationCtrl',['$scope','auth', 'socket', 'user', 'Upload','support_detail','$base64', '$state', '$stateParams',
+function ($scope, auth, socket, user, Upload, support_detail ,$base64, $state, $stateParams) {
 
 	$('.switch').css("color", "#FFF");
 	$scope.isLoggedIn = auth.isLoggedIn;
@@ -13,8 +13,8 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
   $scope.data_server = {};
 	$scope.listChats=[];
 	$scope.chatLog=[];
-	$scope.attachment;
-	var isBase64 = require('is-base64');
+	$scope.attachment="";
+	
 
 	var currentDT=new Date();
 	var twoDigitMonth = ((currentDT.getMonth().length+1) === 1)? (currentDT.getMonth()+1) : '0' + (currentDT.getMonth()+1);
@@ -46,7 +46,12 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 		}
 
 		$scope.detectbase64 =  function(str) {
-			return isBase64(str);
+			if (str ==='' || str.trim() ===''){ return false; }
+    try {
+        return btoa(atob(str)) == str;
+    } catch (err) {
+        return false;
+    }
 	}
 	// Check for the File API support.
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -82,37 +87,38 @@ function ($scope, auth, socket, user, Upload, support_detail, $base64, $state, $
 		var imagebin = $scope.attachment;
 		var imagex = new Image();
 		//Just getting the source from the span. It was messy in JS.
+		msg= '<p>'+ msg +'</p>';
 		imagex.src =  $scope.attachment;
 		if(imagebin.length>3){
-			msg= imagebin;
+			msg= '<img src=\"data:image/png;base64,'+imagebin+'\" width=\"300\"></img>';
 		}
 
-		
-					console.log("Mensaje: ", msg);
-					console.log("from_id: ", from_id);
-					console.log("to_user: ", $scope.senderUser);
-					console.log("image: " , imagebin);
-		
-					$scope.chat={
+		if(msg.length>3){
+			console.log("Mensaje: ", msg);
+			console.log("from_id: ", from_id);
+			console.log("to_user: ", $scope.senderUser);
+			console.log("image: " , imagebin);
+
+			$scope.chat={
 				message:msg,
 				receiver: $scope.toId,
 				sender: from_id,
 				support_head_id:$scope.idSupport,
 				timestamp:currentDT
-					};
+			};
 
-		$scope.chatLog.push($scope.chat);
-		support_detail.create($scope.chat).then(function (){
-			$('#messagetxt').val("");
-			if(imagebin.length>3){
-				$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" > <img src=\"data:image/png;base64,' + imagebin + '\" width=\"300\"></img><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
-				$scope.attachment="";
-			}else{
-				$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" ><p>' + msg + '</p><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
-			}
-			
-			$scope.cargarConversacion();
-		});
+			$scope.chatLog.push($scope.chat);
+			support_detail.create($scope.chat).then(function (){
+				$('#messagetxt').val("");
+				if(imagebin.length>3){
+					$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" > <img src=\"data:image/png;base64,' + imagebin + '\" width=\"300\"></img><div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
+					$scope.attachment="";
+				}else{
+					$('#chat').append('<ul class=\"list-unstyled\" ng-repeat=\"msg in listChats\" ng-controller=\"support_conversationCtrl\"><li class=\"left clearfix\" ><div class=\"chat-body1 clearfix pull-right\" >' + msg + '<div class=\"chat_time pull-right\">'+$scope.currentDate+'</div></div></li></ul>');
+				}
+				$scope.cargarConversacion();
+			});
+		}
 		//socket.emit('get msg',data_server);
 }
 

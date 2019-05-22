@@ -272,18 +272,17 @@
                     </div>
                  </li>
                  </ul>
-<ul class="list-unstyled" ng-repeat="msg in listChats" ng-controller="support_conversationCtrl">
+<ul class="list-unstyled" ng-repeat="msg in listChats" ng-controller="support_conversationCtrl" ng-bind-html-unsafe="msg.message" >
                  <li class="left clearfix" >
                                  <span class="chat-img1 pull-left">
                                  <img ng-src="images/user_color.png" src="images/user_color.png" alt="User Avatar" class="img-circle" ng-if="msg.sender!= currentUser()" >
                                  </span>
                                  <div class="chat-body1 clearfix pull-right" ng-if="msg.sender == currentUser()" >
-                                    <p ng-if="detectbase64(msg.message)==true" >{{msg.message}}</p>
-                                    <img ng-if="detectbase64(msg.message)==false" src="data:image/png;base64, msg.message" width="100">
+                                    <div ng-bind-html="msg.message"></div> 
                         <div class="chat_time pull-right">{{ msg.timestamp| date:'dd/MM/yyyy HH:mm' }}</div>
                                  </div>
                                  <div class="chat-body1 clearfix pull-left" ng-if="msg.sender != currentUser()" >
-                                    <p>{{msg.message}}</p>
+                                    <div ng-bind-html="msg.message"></div>    
                         <div class="chat_time pull-right">{{ msg.timestamp| date:'dd/MM/yyyy HH:mm' }}</div>
                                  </div>
                               </li>
