@@ -18,7 +18,7 @@
     "grunt": "^1.0.1",
     "https": "^1.0.0",
     "jsonwebtoken": "^5.5.4",
-    "mongoose": "^4.3.7",
+    "mongoose": "^5.7.7",
     "morgan": "~1.6.1",
     "multer": "^1.1.0",
     "nodemailer": "^2.7.0",
